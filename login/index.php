@@ -129,6 +129,19 @@ if ($anchor && isset($SESSION->wantsurl) && strpos($SESSION->wantsurl, '#') === 
     $SESSION->wantsurl = $wantsurl->out();
 }
 
+//TODO  start anhnn change login link to sso
+ if(isset($CFG->sso)&&$CFG->sso){
+     $authplugin = get_auth_plugin("oauth2");
+
+    $identityproviders =  $authplugin->loginpage_idp_list($SESSION->wantsurl);
+    foreach($identityproviders as $provider){
+        if($provider["name"]=="sso-server"){
+            $loginurl = $provider['url'];
+        }
+    }
+     redirect($loginurl);
+ }
+//end
 /// Check if the user has actually submitted login data to us
 
 if ($frm and isset($frm->username)) {                             // Login WITH cookies

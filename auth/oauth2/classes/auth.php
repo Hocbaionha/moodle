@@ -584,25 +584,31 @@ class auth extends \auth_plugin_base {
                     $client->log_out();
                     redirect(new moodle_url('/login/index.php'));
                 }
-
-                if ($issuer->get('requireconfirmation')) {
-                    $PAGE->set_url('/auth/oauth2/confirm-account.php');
-                    $PAGE->set_context(context_system::instance());
+//begin - add hainh
+//                if ($issuer->get('requireconfirmation')) {
+//                    $PAGE->set_url('/auth/oauth2/confirm-account.php');
+//                    $PAGE->set_context(context_system::instance());
 
                     // Create a new (unconfirmed account) and send an email to confirm it.
-                    $user = \auth_oauth2\api::send_confirm_account_email($userinfo, $issuer);
+//                    $user = \auth_oauth2\api::send_confirm_account_email($userinfo, $issuer);
 
-                    $this->update_picture($user);
-                    $emailconfirm = get_string('emailconfirm');
-                    $message = get_string('emailconfirmsent', '', $userinfo['email']);
-                    $this->print_confirm_required($emailconfirm, $message);
-                    exit();
-                } else {
-                    // Create a new confirmed account.
-                    $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
-                    $userinfo = get_complete_user_data('id', $newuser->id);
+//                    $this->update_picture($user);
+//                    $emailconfirm = get_string('emailconfirm');
+//                    $message = get_string('emailconfirmsent', '', $userinfo['email']);
+//                    $this->print_confirm_required($emailconfirm, $message);
+//                    exit();
+//                } else {
+//                    // Create a new confirmed account.
+//                    $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
+//                    $userinfo = get_complete_user_data('id', $newuser->id);
                     // No redirect, we will complete this login.
-                }
+//                }
+		// Create a new confirmed account.
+                $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
+                $userinfo = get_complete_user_data('id', $newuser->id);
+                global $DB;
+                $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
+                // end - add hainh
             }
         }
 

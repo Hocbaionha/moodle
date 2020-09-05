@@ -38,7 +38,36 @@ if (!empty($CFG->defaulthomepage) && ($CFG->defaulthomepage == HOMEPAGE_MY) && o
     $urlparams['redirect'] = 0;
 }
 $PAGE->set_url('/', $urlparams);
-$PAGE->set_pagelayout('frontpage');
+//anhnn insert param to landing page
+$detail = optional_param('course_detail', "", PARAM_TEXT);
+$courses = optional_param('courses', 0, PARAM_INT);
+$page = optional_param('page', "", PARAM_TEXT);
+if ($courses == 1) {
+    $PAGE->set_pagelayout('courses');
+} else {
+    if ($detail === "") {
+        $PAGE->set_pagelayout('frontpage');
+    } else {
+        $PAGE->set_pagelayout('course_detail');
+    }
+}
+if($page==="about"){
+    $PAGE->set_pagelayout('about');
+} else if($page==="condition"){
+    $PAGE->set_pagelayout('condition');
+} else if($page==="privacy"){
+    $PAGE->set_pagelayout('privacy');
+} else if($page==="video"){
+    $PAGE->set_pagelayout('video');
+} else if($page==="shop"){
+    $PAGE->set_pagelayout('shop');
+} else if($page==="help"){
+    $PAGE->set_pagelayout('help');
+} else if($page==="team"){
+    $PAGE->set_pagelayout('team');
+}
+
+//anhnn comment $PAGE->set_pagelayout('frontpage');
 $PAGE->set_other_editing_capability('moodle/course:update');
 $PAGE->set_other_editing_capability('moodle/course:manageactivities');
 $PAGE->set_other_editing_capability('moodle/course:activityvisibility');
