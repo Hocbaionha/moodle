@@ -1,0 +1,336 @@
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <meta charset="UTF-8"/>
+    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico" />
+    
+    {{!--//ios_homescreen_icons (theme class function)--}}
+    {{{ output.ios_homescreen_icons}}}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    {{{ output.standard_head_html }}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/mmenu.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/animate.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/chosen.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/jquery.scrollbar.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/lightbox.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/magnific-popup.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/fonts/flaticon.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/megamenu.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/dreaming-attribute.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/icons.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css"/>
+</head>
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+{{> theme_classon/classon_hp_header }}
+
+{{> theme_classon/classon_hp_body }}
+
+
+
+{{> theme_classon/classon_hp_footer }}
+
+<a uk-toggle class="" href="tel: 0983228086" uk-scroll="">
+    <div class="pulse uk-margin-auto uk-text-center">
+      <span uk-icon="icon: receiver;ratio:2" class="uk-icon">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+      </span>
+    </div>
+</a>
+<div style="display:none;">
+{{{ a }}}
+</div>
+<script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+{{{ output.standard_end_of_body_html }}}
+<div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Đăng ký</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Đăng ký ngay hôm nay để truy cập đầy đủ các nội dung tuyệt vời của Khóa học.
+      </div>
+      <div class="modal-footer">
+      <a href="https://hocbaionha.com/login/signup.php?" class="button">Đăng ký</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player1', {
+                
+                height: '390',
+                width: '640',
+                videoId: 'E5KYVFKgbVw',
+                events: {
+                    'onReady': onPlayerReady,
+                     "onStateChange": onPlayerStateChange,
+                }
+            });
+            player2 = new YT.Player('player2', {
+                
+                height: '390',
+                width: '640',
+                videoId: 'n2ljz23jOJs',
+                events: {
+                    'onReady': onPlayerReady2,
+                     "onStateChange": onPlayerStateChange,
+                }
+            });
+            player3 = new YT.Player('player3', {
+                
+                height: '390',
+                width: '640',
+                videoId: 'AMyPY-r0qDk',
+                events: {
+                    'onReady': onPlayerReady3,
+                     "onStateChange": onPlayerStateChange,
+                }
+            });
+            player4 = new YT.Player('player4', {
+                
+                height: '390',
+                width: '640',
+                videoId: 'd7oZIHX3bbE',
+                events: {
+                    'onReady': onPlayerReady4,
+                     "onStateChange": onPlayerStateChange,
+                }
+            });
+            player5 = new YT.Player('player5', {
+                
+                height: '390',
+                width: '640',
+                videoId: 'znO93udBcqQ',
+                events: {
+                    'onReady': onPlayerReady5,
+                     "onStateChange": onPlayerStateChange,
+                }
+            });
+            player6 = new YT.Player('player6', {
+                
+                height: '390',
+                width: '640',
+                videoId: 'D9YcTpPubo8',
+                events: {
+                    'onReady': onPlayerReady6,
+                     "onStateChange": onPlayerStateChange,
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            $('#play_vid1').click(function() {
+                event.target.playVideo();
+            });
+        }
+        function onPlayerReady2(event) {
+            $('#play_vid2').click(function() {
+                event.target.playVideo();
+            });
+        }
+        function onPlayerReady3(event) {
+            $('#play_vid3').click(function() {
+                event.target.playVideo();
+            });
+        }
+        function onPlayerReady4(event) {
+            $('#play_vid4').click(function() {
+                event.target.playVideo();
+            });
+        }
+        function onPlayerReady5(event) {
+            $('#play_vid5').click(function() {
+                event.target.playVideo();
+            });
+        }
+        function onPlayerReady6(event) {
+            $('#play_vid6').click(function() {
+                event.target.playVideo();
+            });
+        }
+        function onPlayerStateChange(event) {
+            {{^isloggedin}}
+               setTimeout(function() {
+                if ( event.target.getPlayerState() == 2 ) {
+                    $('#videoModal').modal('show');
+                }
+                }, 1000)
+            
+            {{/isloggedin}}
+        }
+        $(document).ready(function() {
+            $('#player1').hide();
+            $('#play_vid1').click(function() {
+                $('#player1').show();
+                $('#play_vid1').hide();
+                $('#iplayer1').hide();
+                $('#ovplayer1').hide();
+            });
+            $('#player2').hide();
+            $('#play_vid2').click(function() {
+                $('#player2').show();
+                $('#play_vid2').hide();
+                $('#iplayer2').hide();
+                $('#ovplayer2').hide();
+            });
+            $('#player3').hide();
+            $('#play_vid3').click(function() {
+                $('#player3').show();
+                $('#play_vid3').hide();
+                $('#iplayer3').hide();
+                $('#ovplayer3').hide();
+            });
+            $('#player4').hide();
+            $('#play_vid4').click(function() {
+                $('#player4').show();
+                $('#play_vid4').hide();
+                $('#iplayer4').hide();
+                $('#ovplayer4').hide();
+            });
+            $('#player5').hide();
+            $('#play_vid5').click(function() {
+                $('#player5').show();
+                $('#play_vid5').hide();
+                $('#iplayer5').hide();
+                $('#ovplayer5').hide();
+            });
+            $('#player6').hide();
+            $('#play_vid6').click(function() {
+                $('#player6').show();
+                $('#play_vid6').hide();
+                $('#iplayer6').hide();
+                $('#ovplayer6').hide();
+            });
+        });
+    </script>
+</body>
+
+</html>
+{{#js}}
+    M.util.js_pending('theme_boost/loader');
+    require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+    });
+    M.util.js_pending('theme_boost/drawer');
+    require(['theme_boost/drawer'], function(mod) {
+    mod.init();
+    M.util.js_complete('theme_boost/drawer');
+    });
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId      : 1677426979215816,
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v3.1'
+    });
+    // FB.AppEvents.logPageView();
+    // FB.CustomerChat.showDialog();
+};
+new Mmenu(document.querySelector('#menu'), {
+      "extensions": [
+        "pagedim-black"
+      ]
+  });
+
+  document.addEventListener('click', function (evnt) {
+      var anchor = evnt.target.closest('a[href^="#/"]');
+      if (anchor) {
+          evnt.preventDefault();
+      }
+});
+$('.login-banner').click(function(){
+    if("{{{isloggedin}}}"!=1){
+        var url = "{{{loginurl}}}".replace(/amp;/g, '');
+        window.location.href = url;
+    }
+});
+$('.signup-banner').click(function(){
+    if("{{{isloggedin}}}"!=1){
+        var url = "{{{signupurl}}}".replace(/amp;/g, '');
+        window.location.href = url;
+    }
+});
+$('#hbonmath-land').click(function(){
+    var url = "https://hocbaionha.com/hbon-math";
+    window.location.href = url;
+});
+$('#hbonmath-payment').click(function(){
+    var url = "https://hocbaionha.com/local/hbon_payment/index.php?product_id=9";
+    window.location.href = url;
+});
+$('#ltv10-land').click(function(){
+    var url = "https://hocbaionha.com/luyen-thi-vao-10";
+    window.location.href = url;
+});
+       
+
+{{/js}}

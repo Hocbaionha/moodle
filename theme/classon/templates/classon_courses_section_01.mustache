@@ -1,0 +1,153 @@
+    <div class="row" id="course-tab">
+        <div class="sidebar-title1">
+
+            <!-- Lined tabs-->
+            <ul role="tablist"
+                class="nav nav-tabs nav-pills with-arrow lined flex-sm-row text-center">
+                <li class="nav-item flex-sm-fill col-4">
+                    <a id="thcs-tab" data-toggle="tab" href="#courses" role="tab"
+                        class="nav-link text-uppercase active">THCS</a>
+                </li>
+                <li class="nav-item flex-sm-fill col-4">
+                    <a id="ltv10-tab" data-toggle="tab" href="#ltv10" role="tab" class="nav-link text-uppercase">Luyện
+                        thi vào
+                        10</a>
+                </li>
+                 <li class="nav-item flex-sm-fill col-4" id="membership">
+                    <a id="ltv10-tab" data-toggle="tab" href="#thcs-sidebar" role="tab" class="nav-link text-uppercase">Thẻ thành viên</a>
+                </li>
+            </ul>
+            <!-- End lined tabs -->
+        </div>
+    </div>
+
+
+<div class="container" id="courses">
+    <div class="row">
+        <div class="main-content col-xl-9 col-lg-9 col-md-9 col-sm-12 has-sidebar">
+            {{#course_categories}}
+            <div class="course-group {{{css_class}}}" style="padding-top:50px" id="{{{id}}}">
+                <div>
+                    <div class="furgan-heading style-01">
+                        <div class="heading-inner">
+
+                            <h3 id={{{id}}} class="title">{{{title}}}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-group-slick">
+                    {{#courses}}
+                    <div class="course-item">
+                        <!--course-style-02-->
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="img">
+                                        <img
+                                            src="{{{ config.wwwroot }}}/local/school/image.php?filename={{{thumb_img}}}" />
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>
+                                        {{{thumb_desc}}}
+                                    </p>
+                                    <a href="/?course_detail={{{shortname}}}"
+                                        class="button btn-submit submit-course-view ripple-effect">
+                                        <span class="text">Xem khóa học</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/?course_detail={{{shortname}}}">
+                        <div style="text-align:center;margin-top:5px;">{{{title}}}</div>
+                        
+                        </a>
+                    </div>
+                    {{/courses}}
+                </div>
+            </div>
+            {{/course_categories}}
+        </div>
+
+        <div class="sidebar col-xl-3 col-lg-3 col-md-3 col-sm-12" id="thcs-sidebar">
+            <div class="card-thcs">
+            <div class="text-uppercase" style="font-weight:bold;margin-bottom:10px;">Thẻ thành viên</div>
+                <div class="card-desc">Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha</div>
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=8" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-TVA.png" with="100%"></p>
+                    <span class="card-title">Thẻ HBON Toán - Văn _ Anh</span>
+                    </a>
+                </div>
+                <hr>
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=10" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-TV.png" with="100%"></p>
+                    <span class="card-title">Thẻ HBON Toán - Văn</span>
+                    </a>
+                </div>
+                <hr>
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=12" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-Anh.png" with="100%"></p>
+                    <span class="card-title">Thẻ HBON Anh</span>
+                    </a>
+                </div>
+                <hr>
+                
+                <div class="card-content">
+                <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=11" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBONmath-Live.png" with="100%"></p>
+                    <span class="card-title">Thẻ HBON Math live</span>
+                    </a>
+                </div>
+                <hr>
+                <div class="card-content">
+                <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=9" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBONmath.png" with="100%"></p>
+                    <span class="card-title">Thẻ HBON Math</span>
+                    </a>
+                </div>
+            <div class="text-uppercase" style="font-weight:bold;margin-top:30px;margin-bottom:10px;" id="ltv10-card">Luyện thi vào 10</div>
+            
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=7" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-TVA.png" with="100%"></p>
+                    <span class="card-title">Combo Toán - Văn - Anh</span>
+                    </a>
+                </div>
+                <hr>
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=4" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-TV.png" with="100%"></p>
+                    <span class="card-title">Combo Văn - Toán</span>
+                    </a>
+                </div>
+                <hr>
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=5" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-TA.png" with="100%"></p>
+                    <span class="card-title">Combo Toán - Anh</span>
+                    </a>
+                </div>
+                <hr>
+                <div class="card-content">
+                    <a href="{{{ config.wwwroot }}}/local/hbon_payment/index.php?product_id=6" 
+                    data-tippy-content="Đăng ký mua thẻ thành viên để trải nghiệm đầy đủ nội dung của Hocbaionha">
+                    <p><img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-VA.png" with="100%"></p>
+                    <span class="card-title">Combo Văn - Anh</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

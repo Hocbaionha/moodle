@@ -1,0 +1,109 @@
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico" />
+
+    
+    {{!--//ios_homescreen_icons (theme class function)--}}
+	{{{ output.ios_homescreen_icons}}}
+    
+
+    
+    
+    {{{ output.standard_head_html }}}
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+
+
+    
+</head>
+
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+    {{> theme_classon/navbar }}
+    {{> theme_classon/nav-drawer }}
+
+
+<div id="page-wrapper" class="page-wrapper">
+
+
+
+    <div id="page" class="container-fluid">
+
+
+
+
+    <h1> Hi all </h1>
+    <h1>
+    {{{ setting}}}
+    </h1>
+
+    <span id="clock"></span>
+
+    <a href="#" data-tippy-placement = "top" title="Test OK"> Test </a>
+
+
+      {{{ output.main_content }}}
+
+    </div>
+
+
+    </div>
+
+
+    {{>theme_boost/footer}}
+
+
+</body>
+</html>
+
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+M.util.js_complete('theme_boost/loader');
+});
+M.util.js_pending('theme_boost/drawer');
+require(['theme_boost/drawer'], function(mod) {
+mod.init();
+M.util.js_complete('theme_boost/drawer');
+});
+{{/js}}
+

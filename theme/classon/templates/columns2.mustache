@@ -1,0 +1,477 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+<style>
+i.fa{
+    top:14px;
+}
+.furgan-socials .socials-list {
+    padding-left: 0;
+    list-style: none;
+}
+.furgan-socials.style-01 .social-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    position: relative;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-left: 45px;
+}
+.furgan-socials.style-01 .socials-list li {
+    display: inline-block;
+    height: 46px;
+    margin-right: 10px;
+    margin-top: 8px;
+}
+.furgan-socials.style-01 .socials-list li a {
+    display: block;
+    height: 46px;
+    width: 46px;
+    font-size: 17px;
+    line-height: 48px;
+    color: #fff;
+    background-color: #1e1e1e;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.furgan-socials.style-01 .socials-list li a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    -webkit-transition: top 0.25s ease 0s;
+    -moz-transition: top 0.25s ease 0s;
+    -o-transition: top 0.25s ease 0s;
+    transition: top 0.25s ease 0s;
+    background-color: #9cc25d;
+}
+.furgan-socials.style-01 .socials-list li a i {
+    position: relative;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.fa-facebook-f:before, .fa-facebook:before {
+    content: "";
+}
+.furgan-listitem.style-01 .title, .furgan-listitem.style-02 .title {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 700;
+    position: relative;
+    padding-left: 10px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+footer .furgan-listitem.style-01 li, footer .furgan-listitem.style-02 li {
+    margin-bottom: 5px;
+}
+.furgan-listitem.style-01 li, .furgan-listitem.style-02 li {
+    line-height: 34px;
+}
+.furgan-listitem a:not(:hover) {
+    color: inherit;
+}
+.furgan-listitem li a {
+    position: relative;
+    display: inline-block;
+}
+.section-0281 {
+    padding-top: 65px;
+    padding-bottom: 55px;
+    background-color: #f4f4f4;
+    color: #868686;
+}
+.section-010 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #f4f4f4;
+    border-top: 1px solid #ebebeb;
+}
+</style>
+
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="d-print-block">
+
+    {{{ output.standard_top_of_body_html }}}
+
+    {{> theme_classon/navbar }}
+    {{> theme_classon/nav-drawer }}
+
+    <div id="page" class="container-fluid d-print-block">
+
+        {{#should_get_user_phone }}{{> theme_classon/banner_accquire }}{{/should_get_user_phone}}
+        {{#should_get_user_email }}{{> theme_classon/banner_accquire }}{{/should_get_user_email}}
+
+        {{{ output.full_header }}}
+        <div id="page-content" class="row pb-3 d-print-block">
+            <div id="region-main-box" class="col-12">
+                {{#hasregionmainsettingsmenu}}
+                <div id="region-main-settings-menu" class="d-print-none {{#hasblocks}}has-blocks{{/hasblocks}}">
+                    <div> {{{ output.region_main_settings_menu }}} </div>
+                </div>
+                {{/hasregionmainsettingsmenu}}
+                <section id="region-main" {{#hasblocks}}class="has-blocks mb-3"{{/hasblocks}} aria-label="{{#str}}content{{/str}}">
+
+                    {{#hasregionmainsettingsmenu}}
+                        <div class="region_main_settings_menu_proxy"></div>
+                    {{/hasregionmainsettingsmenu}}
+                    {{{ output.course_content_header }}}
+                    {{{ output.main_content }}}
+                    {{{ output.activity_navigation }}}
+                    {{{ output.course_content_footer }}}
+
+                </section>
+                {{#hasblocks}}
+                <section data-region="blocks-column" class="d-print-none" aria-label="{{#str}}blocks{{/str}}">
+                    {{{ sidepreblocks }}}
+                </section>
+                {{/hasblocks}}
+            </div>
+        </div>
+    </div>
+    {{{ output.standard_after_main_region_html }}}
+
+    {{> theme_classon/classon_hp_footer_inside }}
+</div>
+
+{{#js}}
+console.log ("Run Hbon JS addon...");
+$('body').on('click', '#submit_phone_or_email', function() {
+var mail_input = $('#phoneoremail').val();
+var signup_method = $('#signup_method').val();
+if (mail_input ==''){
+alert ("Bạn cần nhập email hoặc số điện thoại!!");
+$('#phoneoremail').focus();
+return false;
+}
+
+$('#submit_phone_or_email').hide();
+$('#loading_img').show();
+$('#phoneoremail').attr('readonly','readonly');
+$.ajax({
+url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_01.php",
+type: 'POST',
+data:{
+emailorphone: mail_input,
+signup_method: signup_method,
+},
+success: function(result){
+var json_result = JSON.parse(result);
+if (json_result.status != 'OK'){
+$('#phoneoremail').focus();
+alert (json_result.content);
+$('#submit_phone_or_email').show();
+$('#loading_img').hide();
+
+}
+else {
+
+$('#loading_img').hide();
+$('#otpsubmit').show();
+$('#otpcode').focus();
+$('#notice_otp_confirm').html(json_result.content);
+$('#phoneoremail').attr('readonly','readonly');
+$('#re_submit_phone_or_email').show();
+//---
+$('#resend_otp').html('Gửi lại OTP');
+var text_002 = $('#resend_otp').html();
+var second_after = 300;
+setInterval(function(){
+
+if(!$('#resend_otp').length){
+return false;
+}
+
+if ($('#resend_otp').html() == 'Gửi lại OTP '){
+return false;
+}
+if ($('#resend_otp').html() == text_002){
+var second_after_1 = second_after - 1;
+}
+else{
+var abccc= $('#resend_otp').html().replace(text_002+' sau ', '');
+var second_after_1 = parseInt(abccc) - 1;
+}
+console.log ("Run Hbon JS addon..."+ second_after_1);
+if (second_after_1 > 1){
+$('#resend_otp').html(text_002 + ' sau '+ second_after_1 +' giây');
+}
+else {
+$('#resend_otp').html('Gửi lại OTP ');
+$('#resend_otp').removeAttr ('disabled');
+}
+
+},1000);
+//---
+}
+}
+});
+
+
+});
+
+
+$('body').on('click', '#otp_confirm', function() {
+var otp_input = $('#otpcode').val();
+var signup_method = $('#signup_method').val();
+if (otp_input.length !== 6){
+alert ("Bạn cần nhập mã xác thực OTP có 6 chữ số!");
+$('#otpcode').focus();
+return false;
+}
+$.ajax({
+url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_02.php",
+type: 'POST',
+data:{
+otp_input: otp_input,
+signup_method: signup_method,
+},
+success: function(result){
+var json_result = JSON.parse(result);
+if (json_result.status == 'OK'){
+$('#otpsubmit').hide();
+$('#notice_otp_confirm').html(json_result.content);
+setInterval(function(){
+$('#have_to_check_accquire_info').html('0');
+$('#banner_accquire_info').remove();
+},5000);
+}
+else {
+$('#notice_otp_confirm').html(json_result.content);
+}
+}
+});
+
+});
+
+
+//resend_otp
+$('body').on('click', '#resend_otp', function() {
+var resend_otp_html = $('#resend_otp').html();
+if (resend_otp_html ==! 'Gửi lại OTP '){
+return false;
+}
+var mail_input = $('#phoneoremail').val();
+var signup_method = $('#signup_method').val();
+if (mail_input ==''){
+alert ("Bạn cần nhập email hoặc số điện thoại!!");
+$('#phoneoremail').focus();
+return false;
+}
+$('#resend_otp').html('Gửi lại OTP');
+$('#resend_otp').attr ('disabled','disabled');
+$('#loading_img').show();
+$.ajax({
+url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_01.php",
+type: 'POST',
+data:{
+emailorphone: mail_input,
+signup_method: signup_method,
+},
+success: function(result){
+var json_result = JSON.parse(result);
+if (json_result.status != 'OK'){
+$('#phoneoremail').focus();
+alert (json_result.content);
+$('#submit_phone_or_email').show();
+$('#loading_img').hide();
+}
+else {
+$('#loading_img').hide();
+$('#otpsubmit').show();
+$('#otpcode').focus();
+$('#notice_otp_confirm').html(json_result.content);
+$('#phoneoremail').attr('readonly','readonly');
+$('#re_submit_phone_or_email').show();
+$('#resend_otp').html('Gửi lại OTP');
+var text_002 = $('#resend_otp').html();
+var second_after = 240;
+setInterval(function(){
+if(!$('#resend_otp').length){
+return false;
+}
+if ($('#resend_otp').html() == 'Gửi lại OTP '){
+return false;
+}
+if ($('#resend_otp').html() == text_002){
+var second_after_1 = second_after - 1;
+}
+else{
+var abccc= $('#resend_otp').html().replace(text_002+' sau ', '');
+var second_after_1 = parseInt(abccc) - 1;
+}
+//console.log ("Run Hbon JS addon..."+ second_after_1);
+if (second_after_1 > 1){
+$('#resend_otp').html(text_002 + ' sau '+ second_after_1 +' giây');
+}
+else {
+$('#resend_otp').html('Gửi lại OTP ');
+$('#resend_otp').removeAttr ('disabled');
+}
+},1000);
+}
+}
+});
+
+});
+
+//resend_otp
+$('body').on('click', '#re_submit_phone_or_email', function() {
+$('#re_submit_phone_or_email').hide();
+$('#resend_otp').html('Gửi lại OTP');
+$('#resend_otp').attr ('disabled','disabled');
+$('#otpsubmit').hide();
+$('#phoneoremail').removeAttr ('readonly');
+setTimeout(function(){
+$('#submit_phone_or_email').show();
+}, 5000);
+});
+
+
+$('body').on('click', '#close_accquire_info', function() {
+$('#banner_accquire_info').slideUp('500');
+$('#state_of_have_to_check_block').html('close');
+});
+
+function Run_popup_accquire_info() {
+var check = $('#resend_otp').attr('state');
+if (check == 'verifying'){
+$('#resend_otp').removeAttr ('disabled');
+$('#re_submit_phone_or_email').show();
+}
+
+}
+setTimeout(Run_popup_accquire_info, 10000);
+
+
+//---- setInterval to remove disabled resend OTP first
+//-Tạm bỏ
+/*
+var text_003 = $('#resend_otp').html();
+var second_after_s = 120;
+setInterval(function(){
+if($('#resend_otp').length){
+if ($('#resend_otp').attr('disabled') == 'undefined'){
+
+return false;
+}
+else{
+if ($('#resend_otp').html() == 'Gửi lại OTP '){
+return false;
+}
+
+if ($('#resend_otp').html() == text_003){
+var second_after_1 = second_after_s - 1;
+}
+else{
+var abccc= $('#resend_otp').html().replace(text_003+' sau ', '');
+var second_after_1 = parseInt(abccc) - 1;
+}
+
+if (second_after_1 > 1){
+$('#resend_otp').html(text_003 + ' sau '+ second_after_1 +' giây');
+}
+else {
+$('#resend_otp').html('Gửi lại OTP ');
+$('#resend_otp').removeAttr ('disabled');
+}
+}
+}
+else {
+return false;
+}
+}, 1000);
+//-\--- setInterval to remove disabled resend OTP first
+*/
+
+
+setInterval(function(){
+var have_to_check =  $('#have_to_check_accquire_info').html();
+if (have_to_check != 'undefined'){
+if (have_to_check == '1'){
+if ($('#state_of_have_to_check_block').html() == 'close'){
+$(window).scrollTop(0);
+$('#banner_accquire_info').slideDown('500');
+$('#state_of_have_to_check_block').html('opening');
+}
+
+}
+}
+}, 30000);
+{{/js}}
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+  M.util.js_complete('theme_boost/loader');
+});
+M.util.js_pending('theme_boost/drawer');
+require(['theme_boost/drawer'], function(mod) {
+    mod.init();
+  M.util.js_complete('theme_boost/drawer');
+});
+{{/js}}

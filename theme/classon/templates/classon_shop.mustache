@@ -1,0 +1,398 @@
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+    
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico" />
+    <link href="{{{ config.wwwroot }}}/theme/classon/style/all.css" rel="stylesheet">
+    {{!--//ios_homescreen_icons (theme class function)--}}
+    {{{ output.ios_homescreen_icons}}}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    {{{ output.standard_head_html }}}
+
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/animate.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/mmenu.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/chosen.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/jquery.scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/lightbox.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/magnific-popup.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/fonts/flaticon.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/megamenu.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/dreaming-attribute.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/icons.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css" />
+
+    <style>
+        .tooltip-inner {
+            /* background-color:#42BCED; */
+        }
+    </style>
+</head>
+
+<body {{{ bodyattributes }}}>
+    {{{ output.standard_top_of_body_html }}}
+
+    {{> theme_classon/classon_hp_header }}
+
+    <div role="main"><span id="maincontent"></span>
+
+        <div class="container my-4">
+            <h4 class="mt-2"><b>THẺ THÀNH VIÊN</b></h4>
+            <div class="row">
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-TVA.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                            <span class="label label-hot">HOT</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Toán- Văn - Anh</h5>
+                            <ul class="card-text">
+                                <li>Truy cập trọn bộ 3 môn Toán, Ngữ Văn, Tiếng Anh THCS</li>
+                                <li>Thời gian học: <b>12 tháng</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">790.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=8" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-TV.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Toán - Văn</h5>
+                            <ul class="card-text">
+                                <li>Truy cập trọn bộ 2 môn Toán, Ngữ Văn THCS</li>
+                                <li>Thời gian học: <b>12 tháng</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">490.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=10" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-TVA-6thang.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                            <span class="label label-hot">HOT</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Toán- Văn - Anh</h5>
+                            <ul class="card-text">
+                                <li>Truy cập trọn bộ 3 môn Toán, Ngữ Văn, Tiếng Anh THCS</li>
+                                <li>Thời gian học: <b>6 tháng</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">450.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=13" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-TV-6thang.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Toán - Văn</h5>
+                            <ul class="card-text">
+                                <li>Truy cập trọn bộ 2 môn Toán, Ngữ Văn THCS</li>
+                                <li>Thời gian học: <b>6 tháng</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">250.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=14" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBON-Anh.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                            <span class="label label-hot">HOT</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Tiếng anh</h5>
+                            <ul class="card-text">
+                                <li>Truy cập toàn bộ nội dung môn Tiếng Anh THCS</li>
+                                <li>Thời gian học: <b>12 tháng</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">400.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=12" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBONmath.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                            <span class="label label-hot">HOT</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Math</h5>
+                            <ul class="card-text">
+                                <li>Truy cập toàn bộ các khóa học Toán của HBON Math</li>
+                                <li>Thời gian học: <b>12 tháng</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">580.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=9" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/HBONmath-Live.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">TTV</span>
+                            <span class="label label-hot">HOT</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name">Thẻ thành viên HBON Math Live</h5>
+                            <ul class="card-text">
+                                <li>Học Livestream chương trình HBON Math </li>
+                                <li>1 lớp 30 học sinh</li>
+                                <li>Thời gian: <b>2 tháng, 2 buổi/tuần</b></li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.500.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=11" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 style="margin-top:50px;"><b>KHÓA HỌC LUYỆN THI VÀO 10</b></h4>
+            <div class="row">
+                
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="/local/hbon_payment/pix/ltv10-toan.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/?course_detail=LTT10N" data-toggle="tooltip"
+                                    title="Xem thêm">Khóa luyện thi vào 10 môn Toán</a></h5>
+                            <ul class="card-text">
+                                <li>Khóa luyện thi chuẩn bị cho kì thi vào lớp 10</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.000.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=1" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="/local/hbon_payment/pix/ltv10-van.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/?course_detail=LTV10N" data-toggle="tooltip"
+                                    title="Xem thêm">Khóa luyện thi vào 10 môn Ngữ Văn</a></h5>
+                            <ul class="card-text">
+                                <li>Khóa luyện thi chuẩn bị cho kì thi vào lớp 10</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.000.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=2" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="/local/hbon_payment/pix/ltv10-anh.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/?course_detail=LTA10" data-toggle="tooltip"
+                                    title="Xem thêm">Khóa luyện thi vào 10 môn Tiếng Anh</a></h5>
+                            <ul class="card-text">
+                                <li>Khóa luyện thi chuẩn bị cho kì thi vào lớp 10</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.000.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=3" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-TVA.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                            <span class="label label-hot">HOT</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/luyen-thi-vao-10" data-toggle="tooltip"
+                                    title="Xem thêm">Trọn bộ 3 khóa luyện thi Toán, Văn, Anh</a></h5>
+                            <ul class="card-text">
+                                <li>Học trọn bộ 3 khóa luyện thi Toán, Văn, Anh</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">2.500.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=7" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-TV.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/luyen-thi-vao-10" data-toggle="tooltip"
+                                    title="Xem thêm">Combo 2 khóa luyện thi Toán, Văn</a></h5>
+                            <ul class="card-text">
+                                <li>Học trọn bộ 2 khóa luyện thi Toán, Văn</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.800.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=4" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-VA.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/luyen-thi-vao-10" data-toggle="tooltip"
+                                    title="Xem thêm">Combo 2 khóa luyện thi Văn, Anh</a></h5>
+                            <ul class="card-text">
+                                <li>Học trọn bộ 2 khóa luyện thi Văn, Anh</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.800.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=6" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-md-4 col-lg-3 col-xs-12 col-sm-6">
+                    <div class="card product-card shadow-sm mb-3">
+                        <img src="{{{ config.wwwroot }}}/theme/classon/pix/membership/LTV10-TA.png" class="card-img-top" alt="">
+                        <div class="p-2">
+                            <span class="label label-success">LTV10</span>
+                        </div>
+                        <div class="card-body p-2 product-info ">
+                            <h5 class="card-title product-name"><a href="/luyen-thi-vao-10" data-toggle="tooltip"
+                                    title="Xem thêm">Combo 2 khóa luyện thi Toán, Anh</a></h5>
+                            <ul class="card-text">
+                                <li>Học trọn bộ 2 khóa luyện thi Toán, Anh</li>
+                                <li>Học qua video tương tác, được chấm bài tập về nhà</li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                            <span class="product-price">1.800.000 đ </span>
+                            <a href="/local/hbon_payment/index.php?product_id=5" class="btn" role="button">ĐĂNG KÝ</a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+    </div>
+
+    {{> theme_classon/classon_hp_footer }}
+
+    <div style="display:none;">
+        {{{ a }}}
+    </div>
+    {{{ output.standard_end_of_body_html }}}
+</body>
+
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+M.util.js_complete('theme_boost/loader');
+});
+M.util.js_pending('theme_boost/drawer');
+require(['theme_boost/drawer'], function(mod) {
+mod.init();
+M.util.js_complete('theme_boost/drawer');
+});
+$(document).ready(function(){
+// When user clicks on tab, this code will be executed
+$("[role=tab]").click(function() {
+// First remove class "active" from currently active tab
+$("[role=tab]").removeClass('active');
+
+// Now add class "active" to the selected/clicked tab
+$(this).addClass("active");
+
+// Hide all tab content
+$("[role=tabpanel]").hide();
+
+// Here we get the href value of the selected tab
+var selected_tab = $(this).find("a").attr("href");
+
+// Show the selected tab content
+$(selected_tab).fadeIn();
+
+// At the end, we add return false so that the click on the link is not executed
+return false;
+});
+});
+new Mmenu(document.querySelector('#menu'), {
+"extensions": [
+"pagedim-black"
+]
+});
+
+document.addEventListener('click', function (evnt) {
+var anchor = evnt.target.closest('a[href^="#/"]');
+if (anchor) {
+evnt.preventDefault();
+}
+});
+{{/js}}

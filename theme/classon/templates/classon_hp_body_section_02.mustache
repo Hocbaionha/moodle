@@ -1,0 +1,102 @@
+<div class="section-002">
+    <div class="container">
+        <div class="furgan-heading style-01">
+            <div class="heading-inner">
+                <h3 class="title">Khoá học</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+
+                <div class="course-style-01">
+                    <h4 class="title">Chương trình trung học cơ sở</h4>
+                    <div class="row large-course" style="overflow-y: scroll;">
+                        {{#course_categories}}
+                        {{#courses}}
+                        <div class="col-md-6 ">
+                            <div class="course-iconbox style-01">
+                                <div class="iconbox-inner">
+                                    <div class="img">
+                                        <img alt="Hocbaionha" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{{thumb_img}}}">
+                                    </div>
+                                    <div class="content">
+                                        <div class="desc">{{{title}}}</div>
+                                    </div>
+                                    <div class="overlay default">
+                                        <a class="btn btn-link" href="/?course_detail={{{shortname}}}">
+                                            Xem thêm
+                                            <i class="fa fa-angle-double-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/courses}}
+                        {{/course_categories}}
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-4 ">
+                <a href="/?courses=1#6">
+                <div class="col-md-12 course-style-02">
+                    <h4 class="title">Chương trình luyện thi</h4>
+                    <div class="row">
+                        <div class="col-md-6 inner">
+                            
+                                <img alt="Hocbaionha"
+                                    src="{{{ config.wwwroot }}}/theme/classon/pix/luyenthi/icon-3-toan.png">
+                            
+                            <div class="content">
+                                <div class="desc">Luyện thi Toán</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            
+                                <img alt="Hocbaionha"
+                                    src="{{{ config.wwwroot }}}/theme/classon/pix/luyenthi/icon-1-van.png">
+                            
+                            <div class="content">
+                                <div class="desc">Luyện thi Văn</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </a>
+                <br />
+
+                <a href="https://math.hocbaionha.com/#course-v1:HBON+HH1+11.2019">
+                <div class="col-md-12 course-style-02">
+                    <h4 class="title">Chương trình HBON math</h4>
+                    <div class="row">
+                        <div class="col-md-6 inner">
+                            
+                                <img alt="Hocbaionha"
+                                    src="{{{ config.wwwroot }}}/theme/classon/pix/HBON-Math/icon-hbon-math-1.png">
+                            
+                            <div class="content">
+                                <div class="desc">Toán cơ bản</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            
+                                <img alt="Hocbaionha"
+                                    src="{{{ config.wwwroot }}}/theme/classon/pix/HBON-Math/icon-hbon-math-2.png">
+                            
+                            <div class="content">
+                                <div class="desc">Đại số 1</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

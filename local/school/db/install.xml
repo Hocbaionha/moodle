@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/school/db" VERSION="20160919" COMMENT="XMLDB file for Moodle local/school"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="school" COMMENT="school in province district">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="code" TYPE="char" LENGTH="50" NOTNULL="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="districtid" TYPE="char" LENGTH="20" NOTNULL="false"/>
+        <FIELD NAME="last_student" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="last_teacher" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="approve" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="0: chua duyet, 1: da duyet" />
+        <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="cohort_code" TYPE="char" LENGTH="100" NOTNULL="true"/>
+        <FIELD NAME="group_code" TYPE="char" LENGTH="100" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="code_unique" TYPE="unique" FIELDS="code"/>
+        <KEY NAME="cohort_unique" TYPE="unique" FIELDS="cohort_code"/>
+        <KEY NAME="group_unique" TYPE="unique" FIELDS="group_code"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="class" COMMENT="class">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="code" TYPE="char" LENGTH="50" NOTNULL="true" COMMENT="6a"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="6a doan thi diem 20192020"/>
+        <FIELD NAME="schoolid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="temp_teacher" COMMENT="teacher for import">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="schoolid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" COMMENT="nguyen ngoc anh"/>
+        <FIELD NAME="department" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="bgh toan van tienganh"/>
+        <FIELD NAME="phone" TYPE="char" LENGTH="15" NOTNULL="false"/>
+        <FIELD NAME="username" TYPE="char" LENGTH="100" NOTNULL="false" />
+        <FIELD NAME="password" TYPE="char" LENGTH="100" NOTNULL="false" />
+        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="false" />
+        <FIELD NAME="approve" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="0: chua duyet, 1: da duyet" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="temp_student" COMMENT="student for import">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="schoolid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="classid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" COMMENT="nguyen van a"/>
+        <FIELD NAME="gender" TYPE="int" LENGTH="1" NOTNULL="false" COMMENT="1:nam 0: nu"/>
+        <FIELD NAME="birth_date" TYPE="datetime" NOTNULL="false"/>
+        <FIELD NAME="parent" TYPE="char" NOTNULL="false"/>
+        <FIELD NAME="parent_phone" TYPE="char" LENGTH="15" NOTNULL="false"/>
+        <FIELD NAME="username" TYPE="char" LENGTH="100" NOTNULL="false" />
+        <FIELD NAME="password" TYPE="char" LENGTH="100" NOTNULL="false" />
+        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="false" />
+        <FIELD NAME="approve" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="0: chua duyet, 1: da duyet" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="temp_teacher_class" COMMENT="mapping teacher to class">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="classid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="teacher_id" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="1"/>
+        <FIELD NAME="type" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="1: gvcn, 2: algebra,3:geometry,4: english, 5:literature" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="teacher_class" COMMENT="mapping teacher to class">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="classid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" />
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="1"/>
+        <FIELD NAME="type" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="1: gvcn, 2: algebra,3:geometry,4: english, 5:literature" />
+        
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="teacher_class_unique" TYPE="unique" FIELDS="groupid,userid,type"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="departments" COMMENT="department">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="code" TYPE="char" LENGTH="50" NOTNULL="true" COMMENT="math"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="Toán"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="department_code" TYPE="unique" FIELDS="code"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

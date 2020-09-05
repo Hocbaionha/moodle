@@ -1,0 +1,757 @@
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+    
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <meta charset="UTF-8"/>
+    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico" />
+<link href="{{{ config.wwwroot }}}/theme/classon/style/all.css" rel="stylesheet">
+    {{!--//ios_homescreen_icons (theme class function)--}}
+    {{{ output.ios_homescreen_icons}}}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    {{{ output.standard_head_html }}}
+
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/animate.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/chosen.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/jquery.scrollbar.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/lightbox.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/magnific-popup.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/fonts/flaticon.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/megamenu.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/dreaming-attribute.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/icons.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/my-style.css"/>
+<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/mmenu.css"/>
+<style>
+        body {
+            font-family: Roboto, sans-serif;
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+        }
+
+        p {
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        @media only screen and (max-width: 1199.98px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            h4 {
+                font-size: 1rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        .page .header {
+            /* height: 12rem; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #f5f5f5;
+            color: #00b6ff;
+            padding: 4rem;
+        }
+
+        #faq-tab {
+            padding: 36px 0 0 0;
+            list-style: none;
+            border: 1px solid transparent;
+            color: #000000;
+        }
+
+        #faq-tab li a {
+            border-color: #ccc;
+            background-color: #f4f7f9;
+
+            color: #000000;
+            height: 10rem;
+            padding: 24px 16px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items:center;
+        }
+
+        #faq-tab li a h4 {
+            margin: 12px 0px;
+            font-size: 16px;
+        }
+
+        #faq-tab li a.active {
+            cursor: default;
+            color: #fff;
+            background-color: #00b6ff;
+            border: 1px solid #00b6ff;
+        }
+
+        #faq-tab li a:hover {
+            border: 1px solid #ddd;
+        }
+
+        #faq-tab-content {
+            margin: 36px 0 0 0;
+        }
+
+        #faq-tab-content .panel {
+            border: 0;
+            box-shadow: none;
+        }
+
+        #faq-tab-content .panel-group .panel+.panel {
+            margin-top: 16px;
+        }
+
+        #faq-tab-content .item-question {
+            display: block;
+            line-height: 24px;
+            padding: 8px 64px 8px 16px;
+            font-weight: bold;
+            font-size: 16px;
+            position: relative;
+            color: #000000;
+
+            background-color: #f5f5f5;
+            border: 1px solid transparent;
+        }
+
+        #faq-tab-content .item-question:hover {
+            border: 1px solid #ccc;
+        }
+
+        #faq-tab-content .item-question[aria-expanded="true"] {
+
+        }
+
+        #faq-tab-content .panel-body {
+            text-align: justify;
+            padding: 20px;
+            line-height: 24px;
+
+        }
+
+
+        #faq-tab li a {
+            line-height: 1.42857143;
+            padding: 36px 8px;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            background-color: #f4f7f9;
+            text-align: left;
+        }
+
+        #faq-tab li h4 {
+            margin: 8px 0px;
+        }
+
+        #faq-tab li.active a {
+            cursor: default;
+            color: #fff;
+            background-color: #00b6ff;
+            border: 0px solid #ddd;
+            border-bottom-color: transparent;
+        }
+
+
+        @media only screen and (max-width: 767.98px) {
+            #faq-tab li {width: 100%; padding:0;}
+            #faq-tab { padding: 1rem 1rem;}
+        }
+    </style>
+</head>
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+{{> theme_classon/classon_hp_header }}
+
+<div role="main">
+<div class="container mb-5">
+        <div class="row">
+            <ul class="nav nav-tabs col-12" id="faq-tab" role="tablist">
+                <li class="col-6 col-md-3">
+                    <a class="nav-link active" id="faq-tab1" data-toggle="tab" href="#faq1" role="tab" aria-controls="faq1" aria-selected="true">
+                        <img src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/faq.svg" width="42px" height="42px">
+                        <h4>Câu hỏi chung</h4>
+                    </a>
+                </li>
+                <li class="col-6 col-md-3">
+                    <a class="nav-link" id="faq-tab2" data-toggle="tab" href="#faq2" role="tab" aria-controls="faq2" aria-selected="false">
+                        <img src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/faq.svg" width="42px" height="42px">
+                        <h4>Học bài trên HBON</h4>
+                    </a>
+                </li>
+                <li class="col-6 col-md-3">
+                    <a class="nav-link" id="faq-tab3" data-toggle="tab" href="#faq3" role="tab" aria-controls="faq3" aria-selected="false">
+                        <img src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/faq.svg" width="42px" height="42px">
+                        <h4>Xem điểm học tập</h4>
+                    </a>
+                </li>
+                <li class="col-6 col-md-3">
+                    <a class="nav-link" id="faq-tab4" data-toggle="tab" href="#faq4" role="tab" aria-controls="faq4" aria-selected="false">
+                        <img src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/faq.svg" width="42px" height="42px">
+                        <h4>Chức năng dành cho Giáo Viên</h4>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="row">
+            <div class="tab-content col-12" id="faq-tab-content">
+                <div class="tab-pane fade show active" id="faq1" role="tabpanel" aria-labelledby="faq-tab1">
+                    <div class="panel-group" id="faq-tab-accordion1" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <a role="button" class="item-question" data-toggle="collapse" data-parent="#faq-tab-accordion1" href="#collapse1at1" aria-expanded="true" aria-controls="collapse1at1">
+                                <span>1. Phương pháp học tập với Hocbaionha.com là gì ?</span>
+                            </a>
+                            <div id="collapse1at1" class="panel-collapse collapse show" role="tabpanel">
+                                <div class="panel-body">
+                                    Hocbaionha.com được thiết kế hướng đến sự tự học của học sinh thông qua hình thức
+                                    trắc nghiệm có định hướng, áp dụng phương pháp học tập thông qua giải quyết vấn đề
+                                    để học sinh nắm được kiến thức một cách chủ động, hiểu bài học và phát triển khả
+                                    năng với từng môn học.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion1" href="#collapse2at1" aria-expanded="false" aria-controls="collapse2at1">
+                                <span>2. Cần thiết bị gì để học tập trên Hocbaionha.com ?</span>
+                            </a>
+                            <div id="collapse2at1" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    Để học tập trên Hocbaionha.com, các bạn chỉ cần có máy tính để bàn, laptop hoặc là
+                                    máy tính bảng và có kết nối internet.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion1" href="#collapse3at1" aria-expanded="false" aria-controls="collapse3at1">
+                                <span>3. Học sinh có nhận được sự hỗ trợ trong suốt quá trình học hay không ?</span>
+                            </a>
+                            <div id="collapse3at1" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    Đội ngũ thầy cô giáo của Hocbaionha.com sẽ hỗ trợ học sinh trong suốt quá trình học.
+                                    Các em có thể chat trực tiếp với các thầy cô khi bấm chuột vào biểu tượng chat trên
+                                    trang web.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion1" href="#collapse4at1" aria-expanded="false" aria-controls="collapse4at1">
+                                <span>4. Làm thế nào để đăng kí tài khoản trên Hocbaionha.com ?</span>
+                            </a>
+                            <div id="collapse4at1" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+
+                                    <p class="mt-2"><strong>- Bước 1:</strong> Để đăng kí tài khoản mới hoặc đăng nhập,
+                                        bạn
+                                        bấm
+                                        vào
+                                        Đăng nhập ở góc trên phải màn hình:
+                                    </p>
+                                    <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/login.png">
+
+                                    <p class="mt-2"><strong>- Bước 2:</strong> Chọn hình thức đăng kí</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>+ Cách 1:</strong> Đăng kí sử dụng tài khoản Facebook: <br> Bấm
+                                                chọn
+                                                nút đăng nhập với
+                                                Facbook
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/register1.png">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>+ Cách 2:</strong> Đăng kí tài khoản mới:<br> Bấm chọn nút
+                                                <strong>Tạo
+                                                    tài khoản
+                                                    mới</strong></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/register2.png">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <p><strong>- Bước 3: Điền thông tin cá nhân để hoàn tất đăng kí:</strong>
+                                            </p>
+                                            <ul style="list-style:none;">
+                                                <li>+ Kí danh: Tên đăng nhập</li>
+                                                <li>+ Mật khẩu: Mật khẩu đăng nhập</li>
+                                                <li>+ Thư điện thử: hộp thư email của bạn. Nếu bạn chưa có email có thể
+                                                    sử dụng email của bố mẹ.</li>
+                                                <li>+ Số mobile: số điện thoại của bạn hoặc của bố mẹ (ưu tiên số điện
+                                                    thoại của bố mẹ)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/register-form.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion1" href="#collapse5at1" aria-expanded="false" aria-controls="collapse5at1">
+                                <span>5. Làm thế nào để chỉnh sửa thông tin cá nhân</span>
+                            </a>
+                            <div id="collapse5at1" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Bước 1: </strong>Bấm chuột vào tên tài khoản, chọn Hồ sơ
+                                            </p>
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/profile1.png">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Bước 2: </strong>Chọn Sửa hồ sơ cá nhân
+                                            </p>
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/profile2.png">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <p><strong>Bước 3: </strong> Bấm chọn các thông tin cần chỉnh sửa sau đó
+                                                chọn Cập nhật hồ sơ
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/profile3.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="faq2" role="tabpanel" aria-labelledby="faq-tab2">
+                    <div class="panel-group" id="faq-tab-accordion2" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse1at2" aria-expanded="true" aria-controls="collapse1at2">
+                                <span>1. Học trên Hocbaionha.com có tốn phí không ?</span>
+                            </a>
+                            <div id="collapse1at2" class="panel-collapse collapse show" role="tabpanel">
+                                <div class="panel-body">
+                                    <p><strong>- Chương trình miễn phí:</strong> Hocbaionha.com hiện có đầy đủ các
+                                        khóa
+                                        học miễn phí với các môn học Toán và Ngữ văn từ lớp 6 đến lớp 9.
+                                    </p>
+                                    <p><strong>- Chương trình trả phí:</strong> Hiện tại các khóa học Tiếng Anh cho
+                                        các
+                                        lớp 6, 7, 8, 9 và các khóa học Luyện thi vào 10 các môn Toán, Ngữ Văn, Tiếng
+                                        An
+                                        là có phí.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse2at2" aria-expanded="false" aria-controls="collapse2at2">
+                                <span>2. Làm thế nào để tìm một khóa học trên HBON ?</span>
+                            </a>
+                            <div id="collapse2at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Để tìm một khóa học hiện có trên HBON, các bạn bấm chọn vào chữ Khóa học
+                                                ở bên trên màn hình, khi đó cửa sổ sẽ xuất hiện các khóa học đang có
+                                                trên HBON.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/course1.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse3at2" aria-expanded="false" aria-controls="collapse3at2">
+                                <span>3. Làm thế nào để tìm một bài học trên HBON?</span>
+                            </a>
+                            <div id="collapse3at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <p>Để tìm một bài học trên HBON, các bạn chọn vào Khóa học tương ứng, sau đó tìm đến
+                                        bài học trong danh sách hiện ra.
+                                    </p>
+                                    <p>Ví dụ: Bạn muốn tìm bài học về Số nguyên tố, thì bạn vào <strong>Khóa
+                                            học</strong>, chọn khóa<strong> Số
+                                            học 6</strong>, sau đó tìm đến bài <strong>1.14 Số nguyên tố. Hợp
+                                            số</strong>
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/course2.png">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/course3.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse4at2" aria-expanded="false" aria-controls="collapse4at2">
+                                <span>4. Đọc lý thuyết bài học ở đâu ?</span>
+                            </a>
+                            <div id="collapse4at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <p>Để tìm đọc Lý thuyết của một bài, ví dụ bài Số nguyên tố. Hợp số, bạn đi đến bài
+                                        học, sau đó chọn vào phần Lý thuyết: Số nguyên tố. Hợp số
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/wiki1.png">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/wiki2.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse5at2" aria-expanded="false" aria-controls="collapse5at2">
+                                <span>5. Làm sao để làm bài tập trên HBON ?</span>
+                            </a>
+                            <div id="collapse5at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <p>Để làm bài tập trên HBON, các bạn tìm đến bài học cần luyện tập, sau đó chọn vào
+                                        phần Luyện tập. Với môn Tiếng Anh chúng ta có thêm các phần Practice task
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/quiz1.png">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/quiz2.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse6at2" aria-expanded="false" aria-controls="collapse6at2">
+                                <span>6. Làm thế nào để chọn đáp án cho câu hỏi ?</span>
+                            </a>
+                            <div id="collapse6at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Để trả lời một câu hỏi, bạn làm theo 3 bước sau: <br>
+                                                Bước 1: Chọn đáp án đúng <br>
+                                                Bước 2: Nhấn vào nút Chọn để xác nhận nộp đáp án <br>
+                                                Bước 3: Sau khi hoàn thành bấm vào Trang tiếp theo để làm câu hỏi tiếp.
+                                                <br>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/question1.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse7at2" aria-expanded="false" aria-controls="collapse7at2">
+                                <span>7. Làm xong bài có xem được điểm số và đáp án không ?</span>
+                            </a>
+                            <div id="collapse7at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <p>Sau khi làm xong mỗi câu hỏi đều có đáp án và giải thích chi tiết hiện ra,
+                                            giúp học sinh nắm được lời giải và đối chiếu với cách làm của mình.
+                                        </p>
+                                        <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/question2.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion2" href="#collapse8at2" aria-expanded="false" aria-controls="collapse8at2">
+                                <span>8. Em đã làm bài nhưng vào kiểm tra chưa thấy điểm ?</span>
+                            </a>
+                            <div id="collapse8at2" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <p>Sau khi làm hết các câu hỏi, các em bấm vào Hoàn thành và Xác nhận để xác
+                                            nhận nộp kết quả cho HBON chấm điểm toàn bài. Nếu không thực hiện bước này
+                                            em sẽ không được ghi điểm của bài học vào hệ thống.
+                                        </p>
+                                        <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/question3.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="faq3" role="tabpanel" aria-labelledby="faq-tab3">
+                    <div class="panel-group" id="faq-tab-accordion3" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion3" href="#collapse1at3" aria-expanded="true" aria-controls="collapse1at3">
+                                <span>1. Xem điểm tổng quan các khóa học.</span>
+                            </a>
+                            <div id="collapse1at3" class="panel-collapse collapse show" role="tabpanel">
+                                <div class="panel-body">
+                                    <p>Để xem điểm tổng các khóa học bạn đã học, bạn bấm vào tên người dùng, sau đó chọn
+                                        vào Điểm
+                                    </p>
+                                    <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade1.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion3" href="#collapse2at3" aria-expanded="false" aria-controls="collapse2at3">
+                                <span>2. Xem điểm các bài học trong một khóa học</span>
+                            </a>
+                            <div id="collapse2at3" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <p>Để xem điểm các bài học của một khóa học nào đó, từ giao diện Điểm, bạn bấm chọn
+                                        vào tên khóa học muốn xem
+                                    </p>
+                                    <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade2.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion3" href="#collapse3at3" aria-expanded="false" aria-controls="collapse3at3">
+                                <span>3. Xem điểm cụ thể một bài học đã làm</span>
+                            </a>
+                            <div id="collapse3at3" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Để xem điểm cụ thể một bài đã làm, từ giao diện điểm số của khóa học, bạn
+                                                bấm chọn vào bài học muốn xem
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade3a.png">
+                                        </div>
+                                    </div>
+
+                                    <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade3b.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion3" href="#collapse4at3" aria-expanded="false" aria-controls="collapse4at3">
+                                <span>4. Tại sao em đã làm bài và có điểm nhưng GV báo là vẫn chưa làm và chưa có điểm
+                                    ?</span>
+                            </a>
+                            <div id="collapse4at3" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <p>Trường hợp HS có tài khoản được HBON cấp, có thể xảy ra một trong hai lý do sau:
+                                    </p>
+                                    <p>- HS đã làm nhưng chưa nhấn nút Hoàn thành và Xác nhận nộp bài, do đó sẽ chưa ghi
+                                        điểm vào hệ thống (Một số phần Practice của Tiếng Anh thì không cần Nộp)
+                                    </p>
+                                    <p>- HS không sử dụng tài khoản do HBON cung cấp mà sử dụng một tài khoản tự tạo, do
+                                        đó sẽ không có trong quản lí điểm số và quản lí lớp học của GV.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="faq4" role="tabpanel" aria-labelledby="faq-tab4">
+                    <div class="panel-group" id="faq-tab-accordion4" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion4" href="#collapse1at4" aria-expanded="false" aria-controls="collapse1at4">
+                                <span>1. Xem danh sách HS của một lớp học</span>
+                            </a>
+                            <div id="collapse1at4" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Bước 1: Để xem danh sách HS của một lớp do mình phụ trách, GV bấm vào biểu
+                                            tượng để cho hiện thanh điều hướng, sau đó chọn vào Danh sách thành
+                                            viên<br>(Lưu ý: GV chỉ xem được thành viên của khóa học do mình quản lí)
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/participant1.png">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Bước 2: Chọn lớp muốn xem danh sách
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/participant2.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion4" href="#collapse2at4" aria-expanded="false" aria-controls="collapse2at4">
+                                <span>2. Trang quản lí điểm số của GV</span>
+                            </a>
+                            <div id="collapse2at4" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Để vào trang điểm số của khóa học mình quản lí, GV chọn vào mục Điểm số
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade4.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion4" href="#collapse3at4" aria-expanded="false" aria-controls="collapse3at4">
+                                <span>3. Xem điểm số của một bài học</span>
+                            </a>
+                            <div id="collapse3at4" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Từ trang quản lí điểm số, sử dụng thanh kéo ở dưới để tìm đến bài cần xem
+                                            điểm của lớp
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade5.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion4" href="#collapse4at4" aria-expanded="false" aria-controls="collapse4at4">
+                                <span>4. Xem điểm số của một bài làm</span>
+                            </a>
+                            <div id="collapse4at4" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Từ giao diện xem điểm số bài học, GV bấm chọn vào biểu tượng kính lúp bên
+                                            cạnh số điểm để xem
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade6.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion4" href="#collapse5at4" aria-expanded="false" aria-controls="collapse5at4">
+                                <span>5. Xuất điểm số bài học ra file excel</span>
+                            </a>
+                            <div id="collapse5at4" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Từ giao diện quản lí điểm số, để xuất điểm của một lớp học GV làm như
+                                            sau:<br>
+                                            - Bước 1: Chọn vào nút Xuất <br>
+                                            - Bước 2: Chọn định dạng Excel <br>
+                                            - Bước 3: Chọn lớp cần xuất điểm <br>
+                                            - Bước 4: Chọn bài cần xuất điểm <br>
+                                            - Bước 5: Nhấn Tải xuống để tải file báo điểm <br>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid  mx-auto d-block" src="https://hbon-alb-requests.s3-ap-southeast-1.amazonaws.com/assets/images/faq/grade7.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <a class="item-question collapsed" role="button" data-toggle="collapse" data-parent="#faq-tab-accordion4" href="#collapse6at4" aria-expanded="false" aria-controls="collapse6at4">
+                                <span>6. Tại sao HS báo đã làm và nộp bài nhưng GV kiểm tra không có điểm ?</span>
+                            </a>
+                            <div id="collapse6at4" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    Trường hợp này có 2 lý do: <br>
+                                    - HS đã làm từng câu hỏi, nhưng chưa nhấn vào Hoàn thành
+                                    và Xác nhận nộp bài, do đó sẽ chưa ghi điểm vào hệ thống (Một số phần Practice của
+                                    Tiếng Anh thì không cần Nộp) <br>
+                                    - HS không sử dụng tài khoản do HBON cung cấp mà sử dụng một tài khoản tự tạo, do đó
+                                    sẽ không có trong quản lí điểm số và quản lí lớp học của GV.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> theme_classon/classon_hp_footer }}
+
+<div style="display:none;">
+{{{ a }}}
+</div>
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>
+{{#js}}
+    M.util.js_pending('theme_boost/loader');
+    require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+    });
+    M.util.js_pending('theme_boost/drawer');
+    require(['theme_boost/drawer'], function(mod) {
+    mod.init();
+    M.util.js_complete('theme_boost/drawer');
+    });
+
+new Mmenu(document.querySelector('#menu'), {
+      "extensions": [
+        "pagedim-black"
+      ]
+  });
+
+  document.addEventListener('click', function (evnt) {
+      var anchor = evnt.target.closest('a[href^="#/"]');
+      if (anchor) {
+          evnt.preventDefault();
+      }
+});
+{{/js}}

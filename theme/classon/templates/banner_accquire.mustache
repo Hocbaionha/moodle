@@ -1,0 +1,202 @@
+
+<span id="state_of_have_to_check_block" style = "display:none;">opening</span>
+<span id="have_to_check_accquire_info" style = "display:none;">1</span>
+<div id="banner_accquire_info" class="row">
+    <div class="col-12 pt-3">
+        <div class="alert alert-info">
+            <button class="close" id="close_accquire_info" title="Đóng lại"><i class="icon fa fa-times "></i></button>
+            <p>Một vài thông tin của bạn còn thiếu, hãy bổ sung ngay để nhận được những ưu đãi cực chất từ HBON</p>
+            {{#should_get_user_phone}}
+            <div class="row">
+                <div class="col-12 pt-3">
+                    <div class="form-inline">
+                        <div class="form-inline">
+                            <label for="phoneoremail" class="mr-sm-2">Số điện thoại:</label>
+                            <input type="text" class="form-control mr-sm-2"
+                                    {{#user_phone}} value = "{{user_phone}}" readonly = "readonly"{{/user_phone}}
+                                    name = "phoneoremail"
+                                    id="phoneoremail"
+                                    autocomplete="off">
+                            <input hidden type="text" name = "signup_method" id="signup_method" value="phone" />
+                        </div>
+
+                        <div class="form-inline">
+
+                            <div class="input-group-append mr-sm-2">
+                                {{#user_phone}}
+                                    <button class="btn btn-primary" id="submit_phone_or_email" style="display:none;">Cập nhật</button>
+                                    {{#verifying}}<button  style = "display:none;" class="btn btn-primary" id="re_submit_phone_or_email">Nhập lại</button> {{/verifying}}
+                                    {{^verifying}}<button  class="btn btn-primary" id="re_submit_phone_or_email">Nhập lại</button> {{/verifying}}
+
+                                {{/user_phone}}
+                                {{^user_phone}}
+                                    <button class="btn btn-primary" id="submit_phone_or_email">Cập nhật</button>
+                                    <button class="btn btn-primary" id="re_submit_phone_or_email" style="display:none;">Nhập lại</button>
+                                {{/user_phone}}
+
+                                <img style = "display: none;" id = "loading_img" src=" {{{ config.wwwroot }}}/theme/hbon/pix/bars_loading.svg"/>
+
+
+                            </div>
+
+
+                            <div class="input-group-prepend ">
+                                <a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover" data-placement="right"
+                                    data-content="<div class=&quot;no-overflow&quot;><p>Bước 1: nhập số điện thoại hoặc email của bạn sau đó nhập vào nút [Cập nhập] bên cạnh</p>
+                                    <p>Bước 2: Nhập mã OPT mà chúng tôi gửi bạn qua số điện thoại hoặc email và bấm nút [Xác thực] </p>
+                                    <p>Trường hợp không nhận được mã OTP bạn có thể bấm nút [Gửi lại OTP]</p>
+                                    <p>Chúc các bạn có những giây phút tuyệt vời cùng với Hocbaionha.com trong những tháng ngày đặc biệt này</p>
+                                    </div> " data-html="true" tabindex="0" data-trigger="focus" data-original-title="" title="" >
+                                    <i class="icon fa fa-question-circle text-info fa-fw " title="Bấm để xem hướng dẫn cập nhập thông tin" aria-label="Bấm để xem hướng dẫn cập nhập thông tin" ></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-inline"
+                                id = "otpsubmit"
+                            {{^user_phone}} style="display:none;"{{/user_phone}}>
+                            <label for = "otpcode" class="mr-sm-2">Mã OTP: </label>
+                            <input id="otpcode" name="otpcode" id="otpcode" type="text" class="form-control mr-sm-2" autocomplete="off">
+
+                            <button class="btn btn-primary" id="otp_confirm" >Xác thực</button>
+                            {{#verifying}} <button class="btn btn-secondary" id="resend_otp" disabled = "disabled" state = "verifying">Gửi lại OTP</button> {{/verifying}}
+                            {{^verifying}} <button class="btn btn-secondary" id="resend_otp" disabled = "disabled" >Gửi lại OTP</button> {{/verifying}}
+                        </div>
+                    </div>
+
+                    <br/>
+                    <span id="notice_otp_confirm"> </span>
+
+                </div>
+            </div>
+            {{/should_get_user_phone}}
+
+            {{#should_get_user_email}}
+            <div class="row">
+                <div class="col-12 pt-3">
+                    <div class="form-inline">
+                        <div class="form-inline">
+                            <label for="phoneoremail" class="mr-sm-2">Địa chỉ Email:</label>
+                            <input type="text" class="form-control mr-sm-2"
+                                    {{#user_email}} value = "{{user_email}}" readonly = "readonly"{{/user_email}}
+                                    name = "phoneoremail"
+                                    id="phoneoremail"
+                                    autocomplete="off">
+                             <input hidden type="text" name = "signup_method" id="signup_method" value="email" />
+                        </div>
+
+                        <div class="form-inline">
+
+                            <div class="input-group-append mr-sm-2">
+                                {{#user_email}}
+                                    <button class="btn btn-primary" id="submit_phone_or_email" style="display:none;">Cập nhật</button>
+                                    {{#verifying}}<button  style = "display:none;" class="btn btn-primary" id="re_submit_phone_or_email">Nhập lại</button> {{/verifying}}
+                                    {{^verifying}}<button  class="btn btn-primary" id="re_submit_phone_or_email">Nhập lại</button> {{/verifying}}
+
+                                {{/user_email}}
+                                {{^user_email}}
+                                    <button class="btn btn-primary" id="submit_phone_or_email">Cập nhật</button>
+                                    <button class="btn btn-primary" id="re_submit_phone_or_email" style="display:none;">Nhập lại</button>
+                                {{/user_email}}
+
+                                <img style = "display: none;" id = "loading_img" src=" {{{ config.wwwroot }}}/theme/hbon/pix/bars_loading.svg"/>
+
+
+                            </div>
+
+
+                            <div class="input-group-prepend ">
+                                <a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover" data-placement="right"
+                                    data-content="<div class=&quot;no-overflow&quot;><p>Bước 1: nhập số điện thoại hoặc email của bạn sau đó nhập vào nút [Cập nhập] bên cạnh</p>
+                                    <p>Bước 2: Nhập mã OPT mà chúng tôi gửi bạn qua số điện thoại hoặc email và bấm nút [Xác thực] </p>
+                                    <p>Trường hợp không nhận được mã OTP bạn có thể bấm nút [Gửi lại OTP]</p>
+                                    <p>Chúc các bạn có những giây phút tuyệt vời cùng với Hocbaionha.com trong những tháng ngày đặc biệt này</p>
+                                    </div> " data-html="true" tabindex="0" data-trigger="focus" data-original-title="" title="" >
+                                    <i class="icon fa fa-question-circle text-info fa-fw " title="Bấm để xem hướng dẫn cập nhập thông tin" aria-label="Bấm để xem hướng dẫn cập nhập thông tin" ></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-inline"
+                                id = "otpsubmit"
+                            {{^user_email}} style="display:none;"{{/user_email}}>
+                            <label for = "otpcode" class="mr-sm-2">Mã OTP: </label>
+                            <input id="otpcode" name="otpcode" id="otpcode" type="text" class="form-control mr-sm-2" autocomplete="off">
+
+                            <button class="btn btn-primary" id="otp_confirm" >Xác thực</button>
+                            {{#verifying}} <button class="btn btn-secondary" id="resend_otp" disabled = "disabled" state = "verifying">Gửi lại OTP</button> {{/verifying}}
+                            {{^verifying}} <button class="btn btn-secondary" id="resend_otp" disabled = "disabled" >Gửi lại OTP</button> {{/verifying}}
+                        </div>
+                    </div>
+
+                    <br/>
+                    <span id="notice_otp_confirm"> </span>
+
+                </div>
+            </div>
+            {{/should_get_user_email}}
+            <!--
+            <div class="row">
+                <div class="col-12 pt-3">
+                    <div class="form-inline">
+                        <div class="form-inline">
+                            <label for="phoneoremail" class="mr-sm-2">Địa chỉ Email hoặc điện thoại:</label>
+                            <input type="text" class="form-control mr-sm-2"
+                                    {{#emailandphone}} value = "{{emailandphone}}" readonly = "readonly"{{/emailandphone}}
+                                    name = "phoneoremail"
+                                    id="phoneoremail"
+                                    autocomplete="off">
+                        </div>
+
+                        <div class="form-inline">
+
+                            <div class="input-group-append mr-sm-2">
+                                {{#emailandphone}}
+                                    <button class="btn btn-primary" id="submit_phone_or_email" style="display:none;">Cập nhật</button>
+                                    {{#verifying}}<button  style = "display:none;" class="btn btn-primary" id="re_submit_phone_or_email">Nhập lại</button> {{/verifying}}
+                                    {{^verifying}}<button  class="btn btn-primary" id="re_submit_phone_or_email">Nhập lại</button> {{/verifying}}
+
+                                {{/emailandphone}}
+                                {{^emailandphone}}
+                                    <button class="btn btn-primary" id="submit_phone_or_email">Cập nhật</button>
+                                    <button class="btn btn-primary" id="re_submit_phone_or_email" style="display:none;">Nhập lại</button>
+                                {{/emailandphone}}
+
+                                <img style = "display: none;" id = "loading_img" src=" {{{ config.wwwroot }}}/theme/hbon/pix/bars_loading.svg"/>
+
+
+                            </div>
+
+
+                            <div class="input-group-prepend ">
+                                <a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover" data-placement="right"
+                                    data-content="<div class=&quot;no-overflow&quot;><p>Bước 1: nhập số điện thoại hoặc email của bạn sau đó nhập vào nút [Cập nhập] bên cạnh</p>
+                                    <p>Bước 2: Nhập mã OPT mà chúng tôi gửi bạn qua số điện thoại hoặc email và bấm nút [Xác thực] </p>
+                                    <p>Trường hợp không nhận được mã OTP bạn có thể bấm nút [Gửi lại OTP]</p>
+                                    <p>Chúc các bạn có những giây phút tuyệt vời cùng với Hocbaionha.com trong những tháng ngày đặc biệt này</p>
+                                    </div> " data-html="true" tabindex="0" data-trigger="focus" data-original-title="" title="" >
+                                    <i class="icon fa fa-question-circle text-info fa-fw " title="Bấm để xem hướng dẫn cập nhập thông tin" aria-label="Bấm để xem hướng dẫn cập nhập thông tin" ></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-inline"
+                                id = "otpsubmit"
+                            {{^emailandphone}} style="display:none;"{{/emailandphone}}>
+                            <label for = "otpcode" class="mr-sm-2">Mã OTP: </label>
+                            <input id="otpcode" name="otpcode" id="otpcode" type="text" class="form-control mr-sm-2" autocomplete="off">
+
+                            <button class="btn btn-primary" id="otp_confirm" >Xác thực</button>
+                            {{#verifying}} <button class="btn btn-secondary" id="resend_otp" disabled = "disabled" state = "verifying">Gửi lại OTP</button> {{/verifying}}
+                            {{^verifying}} <button class="btn btn-secondary" id="resend_otp" disabled = "disabled" >Gửi lại OTP</button> {{/verifying}}
+
+                        </div>
+
+                    </div>
+
+                    <br/>
+                    <span id="notice_otp_confirm"> </span>
+
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
