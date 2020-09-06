@@ -912,6 +912,7 @@ div.az_separator .az_sep_holder .az_sep_line {
 }
 
 
+
 /*----------------------------
 1.3 WORDPRESS DATA SAMPLE
 --------------------------------*/
@@ -2005,6 +2006,7 @@ td {
 }
 
 
+
 /* ==========================================================================
 2.3 CONTAINER THEME
 ============================================================================ */
@@ -2608,6 +2610,7 @@ td {
         display: inline-block;
     }
 }
+
 
 
 /*main menu*/
@@ -3400,7 +3403,7 @@ td {
     -moz-transition: color 0.25s ease 0s;
     -o-transition: color 0.25s ease 0s;
     transition: color 0.25s ease 0s;
-    ;
+;
 }
 
 .category .chosen-container li.level-1::before {
@@ -3802,6 +3805,7 @@ td {
         padding: 10px 0;
     }
 }
+
 
 .header-position.fixed {
     padding: 0 !important;
@@ -4599,6 +4603,7 @@ a.backtotop:hover::before {
         display: none;
     }
 }
+
 
 
 /* ==========================================================================
@@ -5526,6 +5531,7 @@ body.single .main-container {
 }
 
 
+
 /* ==========================================================================
 6.2 BREADCRUMBS THEME
 ========================================================================== */
@@ -5601,6 +5607,7 @@ body.single-product .furgan-breadcrumb {
 }
 
 
+
 /* ==========================================================================
 6.3 WIDGET THEME
 ========================================================================== */
@@ -5619,6 +5626,7 @@ body.single-product .furgan-breadcrumb {
         order: 2;
     }
 }
+
 
 #widget-area .widget:not(:last-child) {
     margin-bottom: 50px;
@@ -6280,6 +6288,7 @@ body #widget-area .select2-container--default .select2-selection--single {
 }
 
 
+
 /* ==========================================================================
 6.4 PAGINATION THEME
 ========================================================================== */
@@ -6442,6 +6451,7 @@ body #widget-area .select2-container--default .select2-selection--single {
         padding-bottom: 0;
     }
 }
+
 
 
 /* ==========================================================================
@@ -6774,6 +6784,7 @@ ul.products li.product-category a .furgan-loop-category__title mark {
         width: 100%;
     }
 }
+
 
 
 /*quickview*/
@@ -8565,6 +8576,7 @@ body.admin-bar #yith-quick-view-modal {
 }
 
 
+
 /* ==========================================================================
 7.3 SINGLE PRODUCT
 ========================================================================== */
@@ -9691,6 +9703,7 @@ div.quantity .btn-number.quantity-minus::before {
 }
 
 
+
 /*furgan-tabs-wrapper*/
 
 .furgan-tabs-wrapper {
@@ -9799,6 +9812,7 @@ div.quantity .btn-number.quantity-minus::before {
         padding: 25px 15px;
     }
 }
+
 
 
 /*comment star*/
@@ -9952,7 +9966,7 @@ p.stars.selected:not(:hover) a.active~a:before {
     -ms-transform: scale(1.05);
     -o-transform: scale(1.05);
     transform: scale(1.05);
-    ;
+;
 }
 
 .categories-product-dreaming .subcat span {
@@ -10077,6 +10091,7 @@ p.stars.selected:not(:hover) a.active~a:before {
         right: -15px;
     }
 }
+
 
 
 /* ==========================================================================
@@ -13378,13 +13393,13 @@ body.error404 .header {
 
 .furgan-categories.style-01 .categories-thumb img {
     -webkit-transition: transform 1s cubic-bezier(0, 0, .44, 1.18);
-    ;
+;
     -moz-transition: transform 1s cubic-bezier(0, 0, .44, 1.18);
-    ;
+;
     -o-transition: transform 1s cubic-bezier(0, 0, .44, 1.18);
-    ;
+;
     transition: transform 1s cubic-bezier(0, 0, .44, 1.18);
-    ;
+;
 }
 
 .furgan-categories.style-01 .categories-inner:hover .categories-thumb img {
@@ -13741,6 +13756,7 @@ body.error404 .header {
 }
 
 
+
 /*===============================================================
 9.7 FURGAN INSTAGRAM
 ===============================================================*/
@@ -13983,6 +13999,7 @@ footer .furgan-listitem.style-04 li {
 }
 
 
+
 /*===============================================================
 9.9 FURGAN MAP + CONTACT FORM 7
 ===============================================================*/
@@ -14188,7 +14205,7 @@ footer .furgan-listitem.style-04 li {
         -ms-transform: none;
         -o-transform: none;
         transform: none;
-        ;
+    ;
     }
     .furgan-team .list-social a {
         display: inline-block;
@@ -14784,7 +14801,7 @@ footer .furgan-listitem.style-04 li {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    ;
+;
     z-index: 1;
     width: 70px;
     height: 70px;
@@ -15063,6 +15080,7 @@ ul.products {
         margin-top: 10px;
     }
 }
+
 
 
 /*===============================================================
@@ -15650,6 +15668,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
 }
 
 
+
 /*===============================================================
 9.22 FURGAN PRICING
 ===============================================================*/
@@ -15799,6 +15818,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
 }
 
 
+
 /*===============================================================
 10.0 CUSTOM CLASS
 ===============================================================*/
@@ -15808,6 +15828,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
         background-attachment: fixed;
     }
 }
+
 
 .bg-right-center {
     background-position: right center;
@@ -15824,6 +15845,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
         display: none !important;
     }
 }
+
 
 
 /*=========================================================*/
@@ -15846,6 +15868,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
 
 .slide-wrap {
     position: relative;
+    display: none;
 }
 
 .slide-info {
@@ -16001,7 +16024,8 @@ body .az_toggle_default .az_toggle_content p:last-child {
 }
 
 .slide-home-02 .slide-wrap:nth-child(1) .slide-inner {
-    
+
+
 }
 
 .slide-home-02 .slide-wrap:nth-child(2) .slide-info h5 {
@@ -16414,7 +16438,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
         min-width: 135px !important;
         line-height: 48px !important;
     }
-    
+
     .slide-home-01 .slide-wrap:nth-child(1) .slide-inner,
     .slide-home-01 .slide-wrap:nth-child(2) .slide-inner{
         margin-left:30%;
@@ -16424,7 +16448,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
         margin: 0;
         margin-bottom: 12px ;
     }
-    
+
     .slide-home-01 .slide-wrap:nth-child(3) .slide-info h2 {
         font-size: 2.5vw;
         margin: 0 0 20px 0;
@@ -16566,8 +16590,8 @@ body .az_toggle_default .az_toggle_content p:last-child {
 
 @media (max-width: 768px) {
     #silde01{
-    	background-image: url(theme/classon/pix/slide/HBON-Math-Banner.png);
-    } 
+        background-image: url(theme/classon/pix/slide/HBON-Math-Banner.png);
+    }
     .slide-home-01 .slick-dots,
     .slide-home-02 .slick-dots,
     .slide-home-03 .slick-dots,
@@ -16606,7 +16630,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
         margin: 0;
         margin-bottom: 12px ;
     }
-    
+
     .slide-home-01 .slide-wrap:nth-child(3) .slide-info h2 {
         font-size: 3vw ;
         margin: 0 0 20px 0;
@@ -16757,6 +16781,7 @@ body .az_toggle_default .az_toggle_content p:last-child {
         padding-bottom: 30px;
     }
 }
+
 
 .megamenu .furgan-listitem:not(:last-child) {
     padding-bottom: 25px;
@@ -18412,6 +18437,7 @@ body .furgan-mapper .text__area {
     }
 }
 
+
 .container-video {
     position: relative;
     width: 100%;
@@ -18426,3 +18452,4 @@ body .furgan-mapper .text__area {
     width: 100%;
     height: 100%;
 }
+

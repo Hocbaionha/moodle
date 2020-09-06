@@ -38,12 +38,12 @@
     <title>{{{ output.page_title }}}</title>
     <meta charset="UTF-8"/>
     <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico" />
-    
+
     {{!--//ios_homescreen_icons (theme class function)--}}
     {{{ output.ios_homescreen_icons}}}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
 
     {{{ output.standard_head_html }}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
@@ -63,7 +63,6 @@
 </head>
 <body {{{ bodyattributes }}}>
 {{{ output.standard_top_of_body_html }}}
-
 {{> theme_classon/classon_hp_header }}
 
 {{> theme_classon/classon_hp_body }}
@@ -100,9 +99,9 @@
         Đăng ký ngay hôm nay để truy cập đầy đủ các nội dung tuyệt vời của Khóa học.
       </div>
       <div class="modal-footer">
-      <a href="https://hocbaionha.com/login/signup.php?" class="button">Đăng ký</a>
+      <a href="{{{signupurl}}}" class="button">Đăng ký</a>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        
+
       </div>
     </div>
   </div>
@@ -113,100 +112,6 @@
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player1', {
-                
-                height: '390',
-                width: '640',
-                videoId: 'E5KYVFKgbVw',
-                events: {
-                    'onReady': onPlayerReady,
-                     "onStateChange": onPlayerStateChange,
-                }
-            });
-            player2 = new YT.Player('player2', {
-                
-                height: '390',
-                width: '640',
-                videoId: 'n2ljz23jOJs',
-                events: {
-                    'onReady': onPlayerReady2,
-                     "onStateChange": onPlayerStateChange,
-                }
-            });
-            player3 = new YT.Player('player3', {
-                
-                height: '390',
-                width: '640',
-                videoId: 'AMyPY-r0qDk',
-                events: {
-                    'onReady': onPlayerReady3,
-                     "onStateChange": onPlayerStateChange,
-                }
-            });
-            player4 = new YT.Player('player4', {
-                
-                height: '390',
-                width: '640',
-                videoId: 'd7oZIHX3bbE',
-                events: {
-                    'onReady': onPlayerReady4,
-                     "onStateChange": onPlayerStateChange,
-                }
-            });
-            player5 = new YT.Player('player5', {
-                
-                height: '390',
-                width: '640',
-                videoId: 'znO93udBcqQ',
-                events: {
-                    'onReady': onPlayerReady5,
-                     "onStateChange": onPlayerStateChange,
-                }
-            });
-            player6 = new YT.Player('player6', {
-                
-                height: '390',
-                width: '640',
-                videoId: 'D9YcTpPubo8',
-                events: {
-                    'onReady': onPlayerReady6,
-                     "onStateChange": onPlayerStateChange,
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            $('#play_vid1').click(function() {
-                event.target.playVideo();
-            });
-        }
-        function onPlayerReady2(event) {
-            $('#play_vid2').click(function() {
-                event.target.playVideo();
-            });
-        }
-        function onPlayerReady3(event) {
-            $('#play_vid3').click(function() {
-                event.target.playVideo();
-            });
-        }
-        function onPlayerReady4(event) {
-            $('#play_vid4').click(function() {
-                event.target.playVideo();
-            });
-        }
-        function onPlayerReady5(event) {
-            $('#play_vid5').click(function() {
-                event.target.playVideo();
-            });
-        }
-        function onPlayerReady6(event) {
-            $('#play_vid6').click(function() {
-                event.target.playVideo();
-            });
-        }
         function onPlayerStateChange(event) {
             {{^isloggedin}}
                setTimeout(function() {
@@ -214,12 +119,22 @@
                     $('#videoModal').modal('show');
                 }
                 }, 1000)
-            
+
             {{/isloggedin}}
         }
         $(document).ready(function() {
             $('#player1').hide();
             $('#play_vid1').click(function() {
+                player = new YT.Player('player1', {
+
+                    height: '390',
+                    width: '640',
+                    videoId: 'E5KYVFKgbVw',
+                    events: {
+                        'onReady': (event)=>{event.target.playVideo();},
+                        "onStateChange": onPlayerStateChange,
+                    }
+                });
                 $('#player1').show();
                 $('#play_vid1').hide();
                 $('#iplayer1').hide();
@@ -227,6 +142,15 @@
             });
             $('#player2').hide();
             $('#play_vid2').click(function() {
+                player2 = new YT.Player('player2', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'n2ljz23jOJs',
+                    events: {
+                        'onReady': (event)=>{event.target.playVideo();},
+                        "onStateChange": onPlayerStateChange,
+                    }
+                });
                 $('#player2').show();
                 $('#play_vid2').hide();
                 $('#iplayer2').hide();
@@ -234,6 +158,15 @@
             });
             $('#player3').hide();
             $('#play_vid3').click(function() {
+                 player3 = new YT.Player('player3', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'AMyPY-r0qDk',
+                    events: {
+                        'onReady': (event)=>{event.target.playVideo();},
+                        "onStateChange": onPlayerStateChange,
+                    }
+                });
                 $('#player3').show();
                 $('#play_vid3').hide();
                 $('#iplayer3').hide();
@@ -241,6 +174,15 @@
             });
             $('#player4').hide();
             $('#play_vid4').click(function() {
+                player4 = new YT.Player('player4', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'd7oZIHX3bbE',
+                    events: {
+                        'onReady': (event)=>{event.target.playVideo();},
+                        "onStateChange": onPlayerStateChange,
+                    }
+                });
                 $('#player4').show();
                 $('#play_vid4').hide();
                 $('#iplayer4').hide();
@@ -248,6 +190,15 @@
             });
             $('#player5').hide();
             $('#play_vid5').click(function() {
+                player5 = new YT.Player('player5', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'znO93udBcqQ',
+                    events: {
+                        'onReady': (event)=>{event.target.playVideo();},
+                        "onStateChange": onPlayerStateChange,
+                    }
+                });
                 $('#player5').show();
                 $('#play_vid5').hide();
                 $('#iplayer5').hide();
@@ -255,6 +206,15 @@
             });
             $('#player6').hide();
             $('#play_vid6').click(function() {
+                player6 = new YT.Player('player6', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'D9YcTpPubo8',
+                    events: {
+                        'onReady': (event)=>{event.target.playVideo();},
+                        "onStateChange": onPlayerStateChange,
+                    }
+                });
                 $('#player6').show();
                 $('#play_vid6').hide();
                 $('#iplayer6').hide();
@@ -331,6 +291,7 @@ $('#ltv10-land').click(function(){
     var url = "https://hocbaionha.com/luyen-thi-vao-10";
     window.location.href = url;
 });
-       
+
+
 
 {{/js}}

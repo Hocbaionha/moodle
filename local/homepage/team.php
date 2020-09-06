@@ -1,0 +1,948 @@
+<?php include 'header.php'; ?>
+<?php include 'menuheader.php'; ?>
+	<style>
+		.url a{
+			color: #000;
+		}
+		.url{
+			margin-bottom: 34px;
+		}
+		.bn-text-team p{
+			margin-bottom:20px;
+		}
+		.team-item .avatar{
+			margin-bottom: 14px;
+		}
+		.team-item .name{
+			margin-bottom: 0px;
+			font-weight: bold;
+		}
+		.team-item .position{
+			margin-bottom: 30px;
+		}
+		.team-item .description{
+			margin-bottom: 30px;
+		}
+		.team-item .read-more{
+			border:2px #0DAEC8 solid;
+			color: #0DAEC8;
+			background:unset;
+		}
+		 .item{
+			background: unset !important;
+		}
+		
+		 .item img{
+			width: 150px !important; 
+			height: auto;
+		}
+    .banner-img{
+      height:415px;
+    }
+    .owl-nav.disabled{
+      display: none !important;
+    }
+    .grr{
+      background:#fff;
+      border-bottom: 2px solid #818181;
+    }
+    .coop{
+      max-width: 85%;
+    padding-top: 50%;
+    transform: translateY(-50%);
+    }
+    .boss{
+      padding-bottom: 0px;
+    }
+    #bslider_team4 div[class="disabled"],#bslider_team5 div[class="disabled"]{
+      display: inline-block;
+      margin-left: 50%;
+      transform: translateX(-50%);
+    }
+    canvas{
+      width:100%;
+      height:100%;
+    }
+    .modal-body p{
+      font-size:14px;
+      color:#818181;
+      margin-bottom:10px;
+    }
+    @media screen and (max-width: 800px) {
+  .desktop{
+    display:none;
+  }
+  .te{
+    margin-top:20px;
+  }
+}
+	</style>
+
+<div class="banner-img" style="background-image: url('local/homepage/upload/img/pattern_bluedot.png');"> 
+  <div class="container"> 
+    <div class="url" style="color: #000"><a href="index.php">Trang chủ</a> / <a href="team.php">Đội ngũ </a> </div>
+    <div class="bn-text-team">
+        <!-- <h2 class="title" style="color: #fff !important;padding: 16px 0px;" >Hocbaionha.com là gì?</h2> -->
+        <p class="te"> Học bài ở nhà là công trình tâm huyết của một đội ngũ các thầy cô giáo và các chuyên gia CNTT tài năng và có chung niềm đam mê với sự nghiệp giáo dục, mong muốn đem đến cho các em học sinh Việt Nam một công cụ học tập tiên tiến, có chất lượng ở đẳng cấp quốc tế và thực sự hữu ích cho các em trong việc xây dựng kiến thức.</p>
+
+    		<p class="desktop">Chúng tôi có niềm tin sâu sắc rằng vững vàng kiến thức cơ bản và làm chủ kĩ năng giải quyết vấn đề là chìa khóa mở cánh cửa tự tin cho học sinh để các em chủ động xác định mục tiêu học tập và sáng tạo và dám khám phá năng lực của bản thân.</p>
+
+    		<p class="desktop">Câu hỏi “Làm gì để giúp học sinh vững vàng, tự tin và chủ động trong học tập?” là nhiệm vụ và cũng là kim chỉ nam cho công việc nghiên cứu, thiết kế, xây dựng và hoàn thiện chương trình. Đội ngũ hocbaionha là các thầy cô giáo giỏi, kinh nghiệm với việc giảng dạy và nghiên cứu, đã làm việc với tinh thần khắt khe nhất, không khoan nhượng với thử thách và khó khăn và từ bỏ dù chỉ một chi tiết nhỏ.</p>
+      </div>
+  </div>
+</div>
+<div class="gr grr boss">
+  <div class="container">
+    <div class="text-center title-block pd-tb-48">
+      <h2 class="title">BAN LÃNH ĐẠO</h2>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 text-center" data-toggle="modal" data-target="#persion1">
+        <img src="local/homepage/upload/img/team_01.png" alt="">
+        <h5 class="text-center mrtop-20 bold" >PHAN KHÁNH HƯNG</h5>
+        <p  class="text-center mrtop-10" >CEO - Giám đốc điều hành</p>
+      </div>
+      <div class="col-sm-4 text-center _coop">
+        <img src="local/homepage/upload/img/team/coop.png" alt="" class="coop">
+      </div>
+      <div class="col-sm-4 text-center" data-toggle="modal" data-target="#persion2">
+        <img src="local/homepage/upload/img/team/team_00.png" alt="">
+        <h5 class="text-center mrtop-20 bold" >NGUYỄN LÊ LINH GIANG</h5>
+        <p  class="text-center mrtop-10" >CMO - Giám đốc marketing</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gr grr">
+  <div class="container">
+    <div class="text-center title-block pd-tb-48">
+      <h2 class="title" style="color: #E26F8A !important  ">BỘ MÔN NGỮ VĂN</h2>
+    </div>
+    <!-- slide -->
+    <div id="bslider_team1" class="owl-carousel b-content__slider slide-multi"> 
+      <div class="item"  data-toggle="modal" data-target="#persion3">
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team_02.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold">HÀ SONG HẢI LIÊN</h5>
+            <p  class="text-center mrtop-10" >Giám đốc bộ môn Ngữ Văn</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion4">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_03.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >NGUYỄN KHÁNH HÀ</h5>
+            <p  class="text-center mrtop-10" >Chủ nhiệm bộ môn Văn</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion5">
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team_04.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >VŨ THỊ HẢI VÂN</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Văn</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion6">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_05.png" class="img-customer " />
+            <h5 class="text-center mrtop-20 bold">NGUYỄN THỊ XUYẾN</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Văn</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion7">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_06.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >PHAN THỊ HUYỀN</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Văn</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion8">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_15.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >BÙI THỊ NGUYỆT</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Văn</p>
+          </div>
+      </div> 
+    </div>
+    <!-- endslide  -->
+  </div>
+</div>
+
+<div class="gr grr" >
+  <div class="container">
+    <div class="text-center title-block pd-tb-48">
+      <h2 class="title" style="color: #6B84C2 !important">BỘ MÔN TOÁN</h2>
+    </div>
+    <!-- slide -->
+    <div id="bslider_team2" class="owl-carousel b-content__slider slide-multi"> 
+      <div class="item"  data-toggle="modal" data-target="#persion9">
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team_07.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold">PHẠM XUÂN THẾ</h5>
+            <p  class="text-center mrtop-10" >Chủ nhiệm bộ môn Toán</p>
+          </div>
+      </div> 
+      <!-- <div class="item" data-toggle="modal" data-target="#persion10">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_08.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >TÔ HOÀNG HIỆP</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Toán</p>
+          </div>
+      </div>  -->
+      <div class="item" data-toggle="modal" data-target="#persion11">
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team_09.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >NGUYỄN THỊ BÍCH HỒNG</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Toán</p>
+          </div>
+      </div> 
+    </div>
+    <!-- endslide  -->
+  </div>
+</div>
+
+
+<div class="gr grr">
+  <div class="container">
+    <div class="text-center title-block pd-tb-48">
+      <h2 class="title" style="color: #EFA145 !important">BỘ MÔN TIẾNG ANH</h2>
+    </div>
+    <!-- slide -->
+    <div id="bslider_team3" class="owl-carousel b-content__slider slide-multi"> 
+      <div class="item" data-toggle="modal" data-target="#persion12" >
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team_13.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold">TRẦN THỊ LAN ANH</h5>
+            <p  class="text-center mrtop-10" >Giám đốc bộ môn Tiếng Anh</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion13">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_12.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >NGUYỄN NGỌC ANH</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Anh</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion14">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_11.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >NGUYỄN THỊ THU</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Anh</p>
+          </div>
+      </div> 
+       <div class="item" data-toggle="modal" data-target="#persion15">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team_10.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >TRỊNH MINH NGỌC LINH</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Anh</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion16">
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team_14.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >HỒ PHƯƠNG ANH</h5>
+            <p  class="text-center mrtop-10" >Giáo viên bộ môn Anh</p>
+          </div>
+      </div> 
+    </div>
+    <!-- endslide  -->
+  </div>
+</div>
+
+<div class="gr grr">
+  <div class="container">
+    <div class="text-center title-block pd-tb-48">
+      <h2 class="title" style="color: #56BD83 !important">ĐỘI NGŨ CÔNG NGHỆ</h2>
+    </div>
+    <!-- slide -->
+    <div id="bslider_team4" class="owl-carousel b-content__slider slide-multi"> 
+      <div class="item"  data-toggle="modal" data-target="#persion17">
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team/team_17.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold">NGUYỄN HOÀNG HẢI</h5>
+            <p  class="text-center mrtop-10" >Giám đốc kĩ thuật</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion18">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team/team_18.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >DŨNG VIRGO</h5>
+            <p  class="text-center mrtop-10" >Developer</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion19">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team/team_19.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >CẢNH DOMINICH</h5>
+            <p  class="text-center mrtop-10" >Developer</p>
+          </div>
+      </div> 
+    </div>
+    <!-- endslide  -->
+  </div>
+</div>
+
+<div class="gr grr">
+  <div class="container">
+    <div class="text-center title-block pd-tb-48">
+      <h2 class="title" style="color: #E45757 !important">ĐỘI NGŨ PHÁT TRIỂN SẢN PHẨM</h2>
+    </div>
+    <!-- slide -->
+    <div id="bslider_team5" class="owl-carousel b-content__slider slide-multi"> 
+      <div class="item" data-toggle="modal" data-target="#persion20" >
+          <div class="b-thumbs__img ">
+            <img src="local/homepage/upload/img/team/team_20.png"  class="img-customer" />
+            <h5 class="text-center mrtop-20 bold">LÂM VŨ</h5>
+            <p  class="text-center mrtop-10" >Video editor</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion21">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team/team_21.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >GIANG HJ</h5>
+            <p  class="text-center mrtop-10" >Graphic designer</p>
+          </div>
+      </div> 
+      <div class="item" data-toggle="modal" data-target="#persion22">
+          <div class="b-thumbs__img">
+            <img src="local/homepage/upload/img/team/team_22.png" class="img-customer" />
+            <h5 class="text-center mrtop-20 bold" >HÙNG VŨ</h5>
+            <p  class="text-center mrtop-10" >Nhân viên marketing</p>
+          </div>
+      </div> 
+    </div>
+    <!-- endslide  -->
+  </div>
+</div>
+<!-- ============description================== -->
+<!-- 1 -->
+<div class="modal fade" id="persion1" role="dialog">
+    <div class="modal-dialog modal-lg ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_01.png" alt="" style="display: block;">
+          <h4 class="text-center">PHAN KHANH HƯNG</h4>
+          <p class="text-center">CEO - Giám đốc điều hành</p>
+        </div>
+        <div class="modal-body">
+          <p class="" style="text-align: justify;">“Ông Phan Khánh Hưng là Giám đốc điều hành 
+          công ty và cũng là người xây dựng Công ty bắt đầu từ ý tưởng ban 
+          đầu đến việc xây dựng một tập thể các thầy cô giáo và các chuyên 
+          gia xuất sắc để hiện thực hóa ý tưởng. Bản thân ông trực tiếp đảm 
+          nhiệm việc thiết kế và phát triển nền tảng công nghệ ứng dụng. 
+          </p><p>Ông Hưng mang đến cho Dự án kinh nghiệm và chuyên môn của một chuyên 
+          gia công nghệ 25 năm kinh nghiệm. Ông đã từng công tác tại nhiều công 
+          ty công nghệ tiên phong của Việt Nam như FPT-Software, DTT, NextTech 
+          group... Ông Hưng có bằng Cử nhân Khoa học máy tính của Đại học Phoenix, 
+          USA.</p><p>Xây dựng hocbaionha.com, ông Hưng mong muốn sẽ mang tới cho học 
+          sinh các phương tiện học tập đầy đủ có chất lượng ở đẳng cấp Quốc tế giúp
+           học sinh học tập một cách hiệu quả cao nhất để nắm vững kiến thức cơ bản 
+           và toàn diện để tự tin và sẵn sàng cho việc học tập, nghiên cứu chuyên sâu
+            và tham gia vào lực lượng lao động cạnh tranh khi trưởng thành. </p><p>Về công nghệ,
+             ông Hưng định hướng sẽ đầu tư để sớm phát triển hocbaionha.com thành một nền
+              tảng social gamification với sự hỗ trợ của công nghệ AI và tích hợp các tinh
+               hoa công nghệ mô phỏng nhằm đem lại một trải nghiệm học tập chủ động và hiện
+                đại cho học sinh Việt nam.”</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 1 -->
+  <!-- 2 -->
+  <div class="modal fade" id="persion2" role="dialog">
+    <div class="modal-dialog modal-lg ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team/team_00.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN LÊ LINH GIANG</h4>
+          <p class="text-center">CMO - Giám đốc marketing</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;">“Bà Nguyễn Lê Linh Giang là người đồng sáng lập hocbaionha.com, 
+          chịu trách nhiệm chính về nghiên cứu sản phẩm và marketing, chiến lược phát triển doanh 
+          nghiệp và điều hành kinh doanh. </p><p>Bà Giang có bằng Cử Nhân Tài Chính, Đại học Adelaide, 
+          Australia và bằng Thạc sĩ Kế toán, Đại học Công nghệ Swinburne, Australia. Trước khi 
+          sáng lập và thực hiện dự án hocbaionha.com, bà Giang đã có hơn 20 năm kinh nghiệm làm 
+          việc ở các vị trí lãnh đạo quan trọng tại các tập đoàn tài chính và đầu tư Quốc tế uy 
+          tín như Ernst & Young, Indochina Capital và Country Garden. </p><p>Với hocbaionha.com, bà Giang 
+          mong muốn sẽ sớm mang đến cho học sinh, thầy cô giáo và nhà trường một nền tảng học tập 
+          trực tuyến đẳng cấp Quốc tế về phương tiện công nghệ và quan trọng hơn là chất lượng nội 
+          dung giáo dục cập nhật với các chuẩn mực cấp tiến của thế giới. Trong khi đặt một tham 
+          vọng lớn lên cho chính bản thân và đội ngũ trong định hướng phát triển sản phẩm và đòi 
+          hỏi về chất lượng, bà Giang lại đặt nhiệm vụ đáp ứng các nhu cầu cụ thể của người sử dụng 
+          là học sinh và giáo viên là ưu tiên số một trong việc thiết kế và sản xuất các khóa học 
+          và dịch vụ trên nền tảng để làm sao trở nên gần gũi và hữu ích nhất với các thầy cô giáo 
+          và giúp cho việc học tập của học sinh đạt hiệu quả tốt nhất.”</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 2 -->
+  <!-- 3 -->
+  <div class="modal fade" id="persion3" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_02.png" alt="" style="display: block;">
+          <h4 class="text-center">HÀ SONG HẢI LIÊN</h4>
+          <p class="text-center">Giám đốc bộ môn ngữ văn</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>“Học văn không khó nếu các em có phương pháp và kỹ năng”.</b> 
+          Vào ngành năm 1993, cô giáo Hà Song Hải Liên đã gắn bó với nghề giáo hơn 26 năm và là giáo viên Giỏi thành phố Hà Nội ở bộ môn Ngữ văn. 
+          Từng là học sinh Giỏi Văn cấp Quốc gia, tốt nghiệp xuất sắc trường Đại học Sư phạm Hà Nội và với chuyên môn vững vàng, cô Hải Liên luôn được tin tưởng giao nhiệm vụ quan trọng và là trụ cột về chuyên môn tại các trường cô đã từng công tác.</p>
+          <p style="text-align: justify"> Tại Hocbaionha, cô Liên đảm nhiệm giám đốc của bộ môn Văn, chịu trách nhiệm thiết kế nội dung và chương trình học, hướng dẫn đội ngũ và kiểm soát chất lượng nội dung.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 3 -->
+  <!-- 4 -->
+  <div class="modal fade" id="persion4" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_03.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN KHÁNH HÀ</h4>
+          <p class="text-center">Chủ nhiệm bộ môn ngữ văn</p>
+        </div>
+        <div class="modal-body">
+          <p  style="text-align: justify;"><b>“Môn Ngữ Văn đóng vai trò xương sống trong 
+          nền tảng kiến thức cơ bản.”</b> Với niềm yêu thích đặc biệt dành cho văn 
+          học, cô giáo Nguyễn Khánh Hà đã theo đuổi ngành Văn học bậc đại học và
+           cao học tại trường Đại học Khoa học Xã hội & Nhân văn, Đại học Quốc gia
+            Hà Nội. Hiện nay, cô Hà đang là giáo viên môn Ngữ Văn của trường THPT 
+            Chuyên Khoa học Tự Nhiên, Đại học Khoa học Tự Nhiên. Qua nhiều năm giảng
+             dạy và với những nghiên cứu về phương pháp giảng dạy môn Ngữ Văn, cô Hà 
+             có niềm tin chắc chắn rằng bất cứ học sinh nào cũng có thể học giỏi tiếng Việt,
+              thành thạo kĩ năng viết và yêu thích môn Văn</p>
+            <p style="text-align: justify;">Hiện cô Hà là chủ nhiệm bộ môn Ngữ Văn của Hocbaionha, tham gia vào nghiên cứu, thiết kế nội dung chương trình, thực hiện biên soạn và giám sát chất lượng nội dung.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 4 -->
+  <!-- 5 -->
+  <div class="modal fade" id="persion5" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_04.png" alt="" style="display: block;">
+          <h4 class="text-center">VŨ THỊ HẢI VÂN</h4>
+          <p class="text-center">Giáo viên bộ môn văn</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"Văn học không phải một thế giới mộng tưởng". </b>
+          Bảng đen phấn trắng, những vần thơ dập dìu và những lời văn chan chứa 
+          chính là niềm đam mê từ thuở nhỏ của cô Hải Vân. Chính điều đó đã 
+          thôi thúc cô theo học cử nhân tại Khoa Văn học và hiện cô là Thạc 
+          sĩ Văn học – Trường Đại học Khoa học Xã hội & Nhân văn – Đại học 
+          Quốc gia Hà Nội. Bằng những kinh nghiệm nghiên cứu văn học từ góc 
+          nhìn văn hóa, cô Vân tin rằng học văn không phải là học những điều 
+          viển vông, sáo rỗng. Và trong việc giảng dạy, cô Vân luôn mong muốn 
+          mang đến cho các em học sinh niềm đam mê và cái nhìn gần gũi hơn đối 
+          với văn học.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 5 -->
+  <!-- 6 -->
+  <div class="modal fade" id="persion6" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_05.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN THỊ XUYẾN</h4>
+          <p class="text-center">Giáo viên bộ môn văn</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"Học tập là một hành trình hạnh phúc". </b>
+          Bắt đầu bằng những lời ru ngọt ngào của mẹ và cả những câu 
+          chuyện cổ tích của bà, tình yêu văn học đã dẫn lối cô giáo 
+          Nguyễn Thị Xuyến theo đuổi ngành Sư phạm Ngữ văn tại trường
+           Đại học Sư phạm Hà Nội. Cô Xuyến đã có hơn 2 năm nghiên cứu 
+           và biên soạn chương trình ôn luyện Tiếng Việt Tiểu học theo hướng 
+           đổi mới giáo dục. Trong việc giảng dạy, cô Xuyến mong muốn mỗi một 
+           ngày trôi qua các em học sinh sẽ được khám phá thêm một chân trời kiến 
+           thức mới, biết thêm nhiều điều bổ ích và lí thú. Hãy để những giây phút 
+           học tập tại Hocbaionha.com là một trong những trải nghiệm đáng quý nhất!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 6 -->
+  <!-- 7 -->
+  <div class="modal fade" id="persion7" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_06.png" alt="" style="display: block;">
+          <h4 class="text-center">PHAN THỊ HUYỀN</h4>
+          <p class="text-center">Giáo viên bộ môn văn</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;">Cô Phan Huyền tốt nghiệp khoa Văn học, 
+          Đại học Khoa học Xã hội và Nhân văn - Đại học Quốc gia Hà Nội. 
+          Cô quan niệm rằng, một cái cây muốn phát triển, tỏa tán rộng để 
+          chống chọi với bão gió bên ngoài thì cần phải chăm sóc thật tốt 
+          bộ rễ để nó lan rộng, bám sâu vào lòng đất... Và việc học cũng vậy, 
+          nếu không có kiến thức nền căn bản vững chắc thì chúng ta khó có thể 
+          sử dụng những kiến thức hữu ích vào đời sống thực tế; thành thạo các
+           kĩ năng, phát triển bản thân...</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 7 -->
+  <!-- 8 -->
+  <div class="modal fade" id="persion8" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_15.png" alt="" style="display: block;">
+          <h4 class="text-center">BÙI THỊ NGUYỆT</h4>
+          <p class="text-center">Giáo viên bộ môn văn</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>“Học tập là hạt giống của kiến thức. 
+          Kiến thức là hạt giống của hạnh phúc”.</b> Nhờ niềm say mê nghệ 
+          thuật ngôn từ cùng với tình yêu dành cho con trẻ, cô giáo Bùi 
+          Thị Nguyệt đã theo học ngành Sư phạm Ngữ văn – Khoa Ngữ văn - 
+          Trường Đại học Sư phạm Hà Nội. Sau những trải nghiệm giảng dạy 
+          và nghiên cứu, cô Nguyệt nhận thấy Tiếng Việt bậc Tiểu học là hành 
+          trang quyết định đối với khả năng sử dụng ngôn ngữ của học sinh ở 
+          những cấp học sau này. Chính vì vậy, trong giảng dạy, cô Nguyệt luôn 
+          muốn truyền cảm hứng cho học sinh để các con có niềm say mê tiếng mẹ 
+          đẻ nói riêng và ngôn từ nghệ thuật nói chung.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 8 -->
+  <!-- 9 -->
+  <div class="modal fade" id="persion9" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_07.png" alt="" style="display: block;">
+          <h4 class="text-center">PHẠM XUÂN THẾ</h4>
+          <p class="text-center">Chủ nhiệm bộ môn toán</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>“Toán học bắt đầu từ những điều đơn giản nhất 
+          và gần gũi nhất”.</b> Thầy giáo Phạm Xuân Thế sinh ra và lớn lên ở vùng 
+          đất hiếu học miền Trung. Sớm được tiếp xúc và có niềm đam mê với 
+          Toán học, thầy Thế theo học khoa Toán, trường Đại học Sư phạm Huế 
+          và sau đó học tiếp chương trình cao học và nhận bằng Thạc sĩ, 
+          chuyên ngành Phương pháp sư phạm cho môn Toán năm 2015. Với việc 
+          giảng dạy, thầy Thế mong muốn các em học sinh được tiếp xúc với Toán 
+          học một cách khoa học nhưng rất tự nhiên, thoải mái, để từ đó, gieo 
+          mầm cho niềm đam mê, hứng thú với Toán học, xây dựng sự tự tin trong 
+          mỗi em học sinh khi giải quyết các vấn đề Toán học.</p>
+          <p style="text-align: justify">Hiện nay thầy Thế đang là chủ nhiệm bộ môn Toán của Hocbaionha, tham gia vào nghiên cứu, thiết kế nội dung chương trình, thực hiện biên soạn và giám sát chất lượng nội dung bài học.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 9 -->
+  <!-- 10 -->
+  <div class="modal fade" id="persion10" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_08.png" alt="" style="display: block;">
+          <h4 class="text-center">TÔ HOÀNG HIỆP</h4>
+          <p class="text-center">Giáo viên bộ môn toán</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>“Giáo dục là giúp mọi người cùng tiến bộ”.</b>
+           Thầy giáo Tô Hoàng Hiệp sinh ra và lớn lên ở Hải Dương, sớm được tiếp 
+           xúc và có niềm đam mê Toán học. Thầy Hiệp theo học khoa Sư phạm Toán
+            học của trường Đại học Sư phạm Hà Nội, tốt nghiệp với tấm bằng loại ưu. 
+            Với việc giảng dạy, thầy Hiệp luôn mong muốn cung cấp cho các em những 
+            kiến thức cần thiết để các em tự tin trong việc học môn Toán cũng như 
+            áp dụng những kiến thức được học nhà trường vào thực tế.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 10 -->
+  <!-- 11 -->
+  <div class="modal fade" id="persion11" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_09.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN THỊ BÍCH HỒNG</h4>
+          <p class="text-center">Giáo viên bộ môn toán</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"Rễ của sự học tập thì đắng, quả của sự học tập thì ngọt". </b>
+          Cô giáo Nguyễn Thị Bích Hồng là người con của miền đất quan họ Bắc Ninh, có niềm yêu 
+          thích với Toán học từ nhỏ. Cô Hồng đã tốt nghiệp loại Giỏi khoa Sư phạm Toán học của 
+          trường Đại học Sư phạm Hà Nội. Với Toán học, cô Hồng luôn mong muốn cung cấp cho học 
+          sinh những kiến thức, phương pháp cần thiết để các em có thêm niềm đam mê trong học 
+          tập môn Toán cũng như các môn khoa học khác, giúp học sinh hoạt động có hiệu quả trong 
+          mọi lĩnh vực.  </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 11 -->
+    <!-- 12 -->
+    <div class="modal fade" id="persion12" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_13.png" alt="" style="display: block;">
+          <h4 class="text-center">TRẦN THỊ LAN ANH</h4>
+          <p class="text-center">Giám đốc bộ môn Tiếng Anh</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>“Luyện tập giúp các em thành thạo các kỹ năng ngoại ngữ.”</b> 
+          Cô giáo Trần Thị Lan Anh có 15 năm kinh nghiệm giảng dạy và nghiên cứu, tiến sĩ 
+          giáo dục Đại học New South Wales, Australia. Với niềm yêu thích đặc biệt 
+          dành cho ngoại ngữ nói chung và bộ môn tiếng Anh nói riêng, cô Lan Anh có niềm 
+          tin chắc chắn rằng bất cứ học sinh nào cũng có thể học giỏi và sử dụng thành thạo 
+          các kỹ năng tiếng Anh.</p>
+          <p style="text-align: justify;">Tại Hocbaionha, cô Lan Anh là giám đốc của bộ môn Tiếng Anh, chịu trách nhiệm thiết kế nội dung và chương trình học, hướng dẫn đội ngũ và kiểm soát chất lượng nội dung.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 12 -->
+  <!-- 13 -->
+  <div class="modal fade" id="persion13" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_12.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN NGỌC ANH</h4>
+          <p class="text-center">Giáo viên bộ môn Tiếng Anh</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"Keep moving forward- Walt Disney"- "Cứ tiếp tục
+           tiến về phía trước- Walt Disney".</b> Với niềm đam mê ngoại ngữ từ nhỏ, cô Ngọc
+            Anh đã theo học chuyên ngành tiếng Anh và tốt nghiệp loại giỏi chuyên 
+            ngành Sư phạm Tiếng Anh- trường Đại học Ngoại Ngữ- Đại học Quốc Gia Hà Nội.
+             Kinh nghiệm bản thân và kinh nghiệm dạy học của cô đã chứng minh rằng chỉ 
+             cần có nỗ lực bước đi, dù nhanh hay chậm, ai cũng có thể về đích. Cô Ngọc 
+             Anh luôn tin rằng sự kiên trì sẽ giúp mọi người mở được cánh cửa của sự thành công. </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 13 -->
+  <!-- 14 -->
+  <div class="modal fade" id="persion14" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_11.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN THỊ THU</h4>
+          <p class="text-center">Giáo viên bộ môn Tiếng Anh</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"Learning is a treasure that will follow its owner everywhere 
+          -Chinese proverb" -"Học tập là một kho báu sẽ dẫn chủ nhân của nó đến 
+          bất cứ đâu – Ngạn ngữ Trung Quốc". </b>Với niềm đam mê với ngoại ngữ và mong muốn
+           khám phá các nền văn hóa khác nhau, cô giáo Nguyễn Thị Thu đã theo học tại trường Đại 
+           học Ngoại Ngữ - ĐHQGHN và tốt nghiệp loại Giỏi. Thông qua quá trình giảng dạy tại một 
+           số trung tâm tiếng Anh cũng như dịch thuật sách và tài liệu liên quan đến giáo dục, cô 
+           Thu tin rằng bất cứ học sinh nào cũng có thể học tốt tiếng Anh nếu các em tìm được phương
+            pháp phù hợp với bản thân.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 14 -->
+  <!--  15 -->
+  <div class="modal fade" id="persion15" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_10.png" alt="" style="display: block;">
+          <h4 class="text-center">TRỊNH MING NGỌC LINH</h4>
+          <p class="text-center">Giáo viên bộ môn Tiếng Anh</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>“With languages, you are at home anywhere” 
+          [Edmund de Waal] - “Với hành trang ngôn ngữ, nơi đâu cũng là nhà.”. </b>
+          Cùng với tình yêu dành cho văn hoá và ngôn ngữ, cô giáo Trịnh Minh
+           Ngọc Linh đã tham gia học tập và tốt nghiệp ngành Sư phạm Tiếng Anh 
+           tại trường Đại học Ngoại ngữ - ĐHQGHN. Tham gia giảng dạy và nghiên 
+           cứu về ngôn ngữ nói chung và bộ môn tiếng Anh nói riêng, cô Linh tin 
+           rằng tiếng Anh không chỉ mở ra cánh cửa giúp các em học sinh đi tới 
+           những chân trời mới mà còn là hành trang thiết yếu giúp các em có thể 
+           sống tự tin và hoà nhập với mọi người xung quanh tại bất cứ nơi nào các 
+           em đặt chân đến. </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 15 -->
+    <!--  16 -->
+    <div class="modal fade" id="persion16" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team_14.png" alt="" style="display: block;">
+          <h4 class="text-center">HỒ PHƯƠNG ANH</h4>
+          <p class="text-center">Giáo viên bộ môn Tiếng Anh</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"When there's a will, there's a way" - 
+          "Có chí thì nên".</b> Cô Phương Anh đã theo học và tốt nghiệp loại 
+          xuất sắc ngành Sư phạm Tiếng Anh tại trường Đại học Ngoại Ngữ - 
+          ĐHQGHN. Từ những kinh nghiệm thu được trong quá trình học và dạy 
+          tiếng Anh, cô Phương Anh tin rằng một khi các em có cố gắng và quyết 
+          tâm trong việc học tiếng Anh thì không một kĩ năng hay một dạng bài 
+          tập nào có thể làm khó các em được. </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 16 -->
+      <!--  17 -->
+      <div class="modal fade" id="persion17" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team/team_17.png" alt="" style="display: block;">
+          <h4 class="text-center">NGUYỄN HOÀNG HẢI</h4>
+          <p class="text-center">Giám đốc công nghệ</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;"><b>"Học trò vui sướng và đầy hứng thú khi khám phá thêm một 
+          kiến thức mới mẻ. Còn hạnh phúc của người thầy là khi học trò ngày một
+           trưởng thành về kiến thức và tư duy."</b> Quả ngọt ở cuối hành trình học tập, 
+           giảng dạy luôn là động lực tuyệt vời cho thầy và trò hay bất kỳ ai tham gia 
+           vào lĩnh vực giáo dục. Hy vọng nền tảng học tập trực tuyến của Hocbaionha sẽ 
+           luôn là người bạn tin cậy đồng hành cùng thầy trò trên con đường chinh phục đỉnh tri thức.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 17 -->
+<!--  18 -->
+<div class="modal fade" id="persion18" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+      <!-- <img src="https://giffiles.alphacoders.com/247/24755.gif" alt="" style="position:absolute;"> -->
+          <div class="modal-header fix1">
+            <img src="local/homepage/upload/img/team/team_18.png" alt="" style="display: block;">
+            <h4 class="text-center">DŨNG VIRGO</h4>
+            <p class="text-center">Developer</p>
+          </div>
+          <div class="modal-body fix1">
+            <p class="text-center" style="border-left: 4px solid #0DAEC8; font-size:17px; color:#000">“Sai thì sửa, <b>bug</b> 
+            thì fix, Quan trọng là phải tìm ra 
+            <b>bug</b> trong chính con người của bạn!”</p>
+            <br>
+            <p style="text-align:right;padding-right:20px;"><span style="border-bottom: 2px solid #8888; padding-bottom:4px;"> <i>( Dũng Virgo - 1999 )</i></span></p>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 18 -->
+  <!--  19 -->
+  <div class="modal fade" id="persion19" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team/team_19.png" alt="" style="display: block;">
+          <h4 class="text-center">CANH DOMINICH</h4>
+          <p class="text-center">Developer</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;">
+          Điều chúng ta biết chỉ là một giọt nước, điều không biết mênh mông như đại dương. 
+          Hi vọng hocbaionha.com
+           sẽ là con tàu lớn giúp các em vững vàng, sẵn sàng vươn ra chinh phục đại dương.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 19 -->
+  <!--  20 -->
+  <div class="modal fade" id="persion20" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team/team_20.png" alt="" style="display: block;">
+          <h4 class="text-center">LÂM VŨ</h4>
+          <p class="text-center">Video Editor</p>
+        </div>
+        <div class="modal-body">
+          <p class="text-center">
+          <b>Học! Học nữa! Học mãi!</b>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 20 -->
+  <!--  21 -->
+  <div class="modal fade" id="persion21" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team/team_21.png" alt="" style="display: block;">
+          <h4 class="text-center">GIANG HJ</h4>
+          <p class="text-center">Graphic Designer</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;">
+          "Yêu cái đẹp là thưởng thức. Tạo ra cái đẹp là nghệ thuật."
+           Sự sáng tạo và tính nghệ thuật luôn luôn hiện hữu xung quanh 
+           mỗi chúng ta. Hi vọng rằng bằng những hình thù và màu sắc nghệ
+            thuật phong phú từ trong mỗi bài học của Hocbaionha sẽ giúp 
+            cho việc học tập của các em học sinh trở nên gần gũi và hấp dẫn hơn.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 21 -->
+  <!-- 22 -->
+  <div class="modal fade" id="persion22" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="local/homepage/upload/img/team/team_22.png" alt="" style="display: block;">
+          <h4 class="text-center">HÙNG VŨ</h4>
+          <p class="text-center">Chuyên viên Marketing</p>
+        </div>
+        <div class="modal-body">
+          <p style="text-align: justify;">
+          Hùng theo học và tốt nghiệp trường đại học Bradford UK chuyên ngành kinh tế. 
+          Hùng có một niềm đam mê lớn với ngôn ngữ và giáo dục, và tin rằng sự đổi mới 
+          trong phương pháp giáo dục đối với các em học sinh sẽ giúp cho việc học trở nên
+           thú vị và dễ dàng hơn rất nhiều.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    <!-- end model content -->
+    </div>
+  </div>
+  <!-- end 22 -->
+  <script>
+  if(!Xteam)var Xteam={}; Xteam.fireworkShow=function(a,c){function e(){a=j(a).eq(0);a.css("position")=="static"&&a.css("position","relative");h=j("<canvas></canvas>");if(!h[0].getContext)return false;h.attr({height:a.height(),width:a.width()}).css({position:"absolute",display:"block",top:0,left:0,zIndex:99999}).appendTo(a);n=Xteam.Canvas.scene(h[0]);l=setInterval(function(){Math.random()>0.75||Xteam.firework(n)},1.5*c);k=true}var d={},j=jQuery,l,n,h,k=false;c=c||900;e();d.remove=function(){if(k){clearInterval(l);n.destroy(); n=null;h.remove();a=h=null}};return d};Xteam||(Xteam={}); Xteam.firework=function(a){function c(){k=360*Math.random();f=Xteam.Color.hslToRgb([k,Math.random(),0.2+0.8*Math.random()]);i=(a.getCanvas().width-h*2)*Math.random()+h;m=(a.getCanvas().height/2-h)*Math.random()+h;o=a.getCanvas().height;a.register(j)}function e(){if(o>m){o-=10;l.fillStyle="rgb("+f[0]+","+f[1]+","+f[2]+")";l.beginPath();l.arc(Math.round(i),Math.round(o),2,0,2*Math.PI,true);l.fill()}else{a.remove(j);d()}}function d(){for(var p=40+Math.floor(50*Math.random());p--;){var q=Xteam.Color.hslToRgb([k, Math.random(),0.2+0.8*Math.random()]);new n(a,q,i,m,10)}}var j={draw:e},l=a.getContext(),n=Xteam.FireworkParticle,h=70,k,i,m,o,f;c();return j};Xteam.FireworkParticle=function(a,c,e,d){this.scene=a;this.color=c;this.x=Math.round(e);this.y=Math.round(d);this.rotate=2*Math.PI*Math.random();this.opacity=100;this.f=0;this.max=40+10*Math.random();this.size=0;this.speed=4*Math.random();a.register(this)}; Xteam.FireworkParticle.prototype={getStyle:function(){return"rgba("+this.color[0]+","+this.color[1]+","+this.color[2]+","+this.opacity/100+")"},draw:function(a,c){if(this.f<this.max){this.f++;this.size+=this.speed;this.speed*=0.95;if(this.f>0.8*this.max)this.opacity-=6;c.lineWidth=1;c.save();c.translate(this.x,this.y);c.rotate(this.rotate);c.strokeStyle=this.getStyle();c.beginPath();c.moveTo(Math.round(0.85*this.size),0);c.lineTo(Math.round(this.size),0);c.stroke();c.restore()}else this.scene.remove(this)}}; Xteam||(Xteam={});if(!Xteam.Canvas)Xteam.Canvas={}; Xteam.Canvas.scene=function(a){function c(f){i.push(f)}function e(){for(var f=m.length;f--;)i[m[f]]=null;m=[];for(f=i.length;f--;)i[f]||i.splice(m[f],1)}function d(f){for(var p=i.length;p--;)if(f===i[p]){m.push(p);break}}function j(){clearInterval(o)}function l(){return k}function n(){return a}var h={register:c,remove:d,getContext:l,getCanvas:n,destroy:j},k=a.getContext("2d"),i=[],m=[],o=setInterval(function(){k.clearRect(0,0,a.width,a.height);for(var f=i.length;f--;)typeof i[f].draw=="function"&& i[f].draw(h,k);e()},30);return h};Xteam||(Xteam={});if(!Xteam.Color)Xteam.Color={};Xteam.Color.hslToRgb=function(a){var c=a[0],e=a[1];a=a[2];if(e==0)r=g=b=a;e=a<0.5?a*(1+e):a+e-a*e;a=2*a-e;c/=360;var d=[];d[0]=c+1/3;d[1]=c;d[2]=c-1/3;for(c=3;c--;){d[c]%=1;d[c]=d[c]<1/6?a+(e-a)*6*d[c]:d[c]<0.5?e:d[c]<2/3?a+(e-a)*6*(2/3-d[c]):a;d[c]*=255;d[c]=Math.floor(d[c]);if(d[c]<0)d[c]=0}return d}; Xteam.Color.hslToRgb.test=function(){function a(e,d){for(var j=e.lenght;j--;)if(e[j]!==d[j])throw Error("Got "+e+", expected "+d);console.log("success")}var c=Xteam.Color.hslToRgb;a(c([0,1,1]),[1,0,0]);a(c([120,0.5,1]),[0.5,1,0.5]);a(c([240,1,0.5]),[0,0,0.5]);c([104.15549071384422,0.9040453462245244,0.2855993456480115])};
+  </script>
+  <script>
+         jQuery(function($){
+            var firework = Xteam.fireworkShow('.fix1', 400);
+         }
+         );
+</script>
+<?php include 'footer.php'; ?>

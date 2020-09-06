@@ -82,8 +82,6 @@ if(false){// alway redirect to homepage
 require_once($CFG->libdir . '/behat/lib.php');
 
     $navdraweropen = false;
-
-   
     $extraclasses = [];
 	if ($navdraweropen) {
 	    $extraclasses[] = 'drawer-open-left';
@@ -128,7 +126,6 @@ require_once($CFG->libdir . '/behat/lib.php');
 		'loginurl'=>$loginurl,
 		'signupurl'=>$signupurl
 	];
-
 
 	$PAGE->requires->js_call_amd('theme_classon/classon_homepage', 'classon_homepage');
 	$PAGE->requires->js('/theme/classon/amd/src/mmenu.js');

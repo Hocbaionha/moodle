@@ -1,0 +1,76 @@
+/*---------- header css ----------*/
+.b-header{
+  border-bottom: 1px solid #ddd;
+  .nav-link {
+    font-size: 18px;
+  }
+}
+.c-logo{
+  float: left;
+  img{
+
+  }
+}
+.c-search{
+  .c-search__inner{
+    position: relative;
+    z-index: 1;
+  }
+  .form-control{
+    background-color: transparent;
+    border: none;
+  }
+  .c-search__btn{
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    text-align: center;
+    border: none;
+    &:focus{
+      outline: none;
+    }
+  }
+}
+//header responsive css
+@media (max-width: $screen-xxs-max){ 
+  .b-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: #fff;
+    z-index: 9999;
+  }
+  .b-header {
+    .navbar {
+      padding: 10px 0;
+    }
+  }
+}
+@media (min-width: $screen-xs-min){
+  .b-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: #fff;
+    z-index: 9999;
+  } 
+}
+@media (min-width: $screen-sm-min){
+
+}
+@media (min-width: $screen-md-min){
+  .b-header {
+    position: static;
+    width: 100%;
+    top: 0;
+    background: #fff;
+    z-index: 9999;
+  } 
+}
+@media (min-width: $screen-lg-min){
+
+}
+//header responsive css
+/*---------- end header css ----------*/

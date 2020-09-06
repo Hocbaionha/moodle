@@ -183,6 +183,18 @@ $THEME->layouts = [
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
     ),
+    'skillbuilder' => array(
+        'file' => 'skillbuilder.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,),
+    ),
+    'en_speak' => array(
+        'file' => 'en_speak.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,),
+    ),
     ];
 
 

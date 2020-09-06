@@ -1,0 +1,223 @@
+/*---------- bootstrap css rewrite css ----------*/
+//bootstrap common css
+.container{
+  @media (min-width: $screen-sm-min) {
+    max-width: $container-sm;
+    width: $container-sm;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  @media (min-width: $screen-md-min) {
+    max-width: $container-md;
+    width: $container-md;
+  }
+  @media (min-width: $screen-lg-min) {
+    max-width: $container-lg;
+    width: $container-lg;
+  }
+}
+.btn{
+	cursor: pointer;
+}
+.btn-group-lg > .btn, .btn-lg{
+	font-size: 16px;
+}
+.btn-group-sm > .btn, .btn-sm{
+
+}
+.btn-light{
+  &:hover, &:focus{
+
+  }
+}
+.btn-dark{
+  &:hover, &:focus{
+
+  }
+}
+.btn-primary{
+  background-color: $color-primary;
+  border-color: $color-primary;
+  &:hover, &:focus{
+    background-color: $color-secondary;
+    border-color: $color-secondary;
+  }
+}
+.btn-secondary{
+  &:hover, &:focus{
+
+  }
+}
+.btn-danger{
+  &:hover, &:focus{
+
+  }
+}
+.btn-info{
+  &:hover, &:focus{
+
+  }
+}
+.btn-warning{
+  &:hover, &:focus{
+
+  }
+}
+.btn-success{
+  &:hover, &:focus{
+
+  }
+}
+.form-control{
+  @include border-radius(0);
+  @include box-shadow(none);
+  &:focus{
+		@include box-shadow(none);
+  }
+}
+textarea.form-control{
+	height: auto;
+}
+input.form-control{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+select:not([multiple]){
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-position: right 50%;
+  background-repeat: no-repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
+  padding: .5em;
+  padding-right: 1.5em
+}
+select:not([multiple])::-ms-expand{
+  display: none;
+}
+.input-lg{
+
+}
+.input-sm{
+
+}
+.text-primary{
+
+}
+.text-danger{
+
+}
+.text-info{
+
+}
+.text-warning{
+
+}
+.text-success{
+
+}
+//end bootstrap common css
+//bootstrap table css
+.table{
+}
+//end bootstrap table css
+//bootstrap form css
+.b-form{
+  label{
+    font-weight: normal;
+  }
+  .b-form__captcha{
+    display:inline-block;
+    border:1px solid $color-border;
+    margin:0 0 5px;
+    vertical-align:middle;
+  }
+  .b-form__btnnewimg{
+    background: url(../images/btnnewimg.png) no-repeat;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    height: 31px;
+    margin:0 0 0 5px !important;
+    text-indent: -9999px;
+    vertical-align: middle !important;
+    width: 30px;
+    display: inline-block;
+  }
+  &.form-horizontal{
+    .control-label{
+      text-align: left;
+      &.text-right{
+        text-align: right;
+      }
+    }
+  }
+}
+//end bootstrap form css
+//bootstrap page css
+.b-page{
+  .page-item{
+    margin: 0 5px;
+    &.disabled{
+      .page-link{
+        background: $color-bg;
+        color: $color-time;
+      }
+    }
+    &.active{
+      .page-link{
+        background: $color-primary;
+      }
+    }
+  }
+  .page-link{
+    border: none;
+    background: $color-bg;
+    color: $color-text;
+    @include border-radius(4px);
+  }
+}
+//end bootstrap page css
+//bootstrap breadcrumb css
+.breadcrumb{
+  margin-bottom: 0;
+  @include border-radius(0);
+  background-color: transparent;
+  padding: 10px 0;
+  >li{
+    >a{
+      text-decoration: none;
+      color: $color-primary;
+      &:hover{
+      }
+    }
+    &.active{
+    }
+  }
+}
+//end bootstrap breadcrumb css
+//bootstrap modal css
+.modal{
+
+}
+//end bootstrap modal css
+//bootstrap panel css
+.panel{
+
+}
+//end bootstrap panel css
+//bootstrap responsive css
+@media (min-width: $screen-sm-min){
+.table{
+    table-layout: fixed;
+  }
+}
+@media (min-width: $screen-md-min){
+
+}
+@media (min-width: $screen-lg-min){
+
+}
+//end bootstrap responsive css
+/*---------- end bootstrap css rewrite css ----------*/

@@ -1,0 +1,54 @@
+
+/* HBON Color code
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+
+.bg-dai6 {
+    background: #282660;
+}
+
+.bg-hinh6 {
+    background: #F7941D;
+}
+.bg-van6 {
+    background: #BE1E2D;
+}
+
+
+.bg-dai7 {
+    background: #1B75BC;
+}
+.bg-hinh7 {
+    background: #282660;
+}
+.bg-van7 {
+    background: #DA1C5C;
+}
+
+
+.bg-dai8 {
+    background: #BE2230;
+}
+.bg-hinh8 {
+    background: #662D91;
+}
+.bg-van8 {
+    background: #262262;
+}
+
+.bg-dai9 {
+    background: #262262;
+}
+.bg-hinh9 {
+    background: #0575BC;
+}
+.bg-van9 {
+    background: #D52627;
+}
+
+.text-big {
+    margin-top: -6px;
+    position: absolute;
+    margin-left: 4px;
+    font-size: xx-large;
+}

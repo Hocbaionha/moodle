@@ -1,0 +1,179 @@
+body {
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+p {
+    font-size: 1rem;
+    text-align: justify;
+}
+
+@media only screen and (max-width: 1199.98px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    #logo {
+        content: url(images/LogoHBON-H.svg);
+    }
+}
+
+.navbar {
+    background-color: #ffffff;
+    z-index: 99999;
+}
+
+.navbar-brand #logo {
+    width: auto;
+    height: 2rem;
+
+    background-size: cover;
+}
+
+.banner {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.banner h2 {
+    margin: 2rem;
+    position: absolute;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.content-1 h2 {
+    color: #39B6EC;
+}
+
+.content-1 h3 {
+    color: #000000;
+    font-style: bolder;
+}
+
+.content-1 .col1 {
+    padding: 0 4rem 0 6rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-2 {
+    background: url(images/laptop-book_desktop.png);
+
+    height: 637px;
+}
+
+.content-2 .col1,  .content-2 .col2{
+    padding: 0;
+}
+
+.content-2 img {
+    display: none;
+    width: 100%;
+    height: 240px;
+}
+
+.content-2 .col2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-2 .col2 .content {
+    text-align: right;
+}
+
+.content-2 .col2 .content p{
+    text-align: right;
+}
+
+.content-3 h2 {
+    color: #39B6EC;
+}
+
+.content-3 h3 {
+    color: #000000;
+    font-style: bolder;
+}
+
+.content-3 .col1 {
+    padding: 0 4rem 0 6rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .content-3 .col2 .bg {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 50%;
+    width: 100%;
+    background-color: #535351;
+    z-index: -1;
+} */
+
+.content-4 {
+    padding: 3rem 0;
+    background-color: #535351;
+}
+
+@media only screen and (max-width: 767.98px) {
+    .banner h2 {
+        margin: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .content-1 .col1,
+    .content-3 .col1 {
+        padding: 0 1rem;
+    }
+
+}
+
+@media (max-width: 1199.98px) {
+    .content-2 {
+        background: #ffffff;
+        height: auto;
+    }
+
+    .content-2 .col2 {
+        background: url(images/bg_partern.png) repeat-x;
+        height: 240px;
+        
+    }
+
+    .content-2 .col2 .content {
+        text-align: center;
+    }
+
+    .content-2 .col2 .content p {
+        text-align: center;
+    }
+
+    .content-2 img {
+        display: block;
+    }
+}

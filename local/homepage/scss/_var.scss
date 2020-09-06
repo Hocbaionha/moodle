@@ -1,0 +1,65 @@
+﻿//color
+$color-bg: #fff;
+$color-bg2: #f7f7f7;
+$color-footer: #8b8b8b;
+$color-link: #333;
+$color-link-hover: #00aeef;
+$color-text: #9a9a9a;
+$color-border: #ddd;
+$color-time: #999;
+
+$color-primary: #6668f1;
+$color-secondary: #6668f1;
+$color-info: #0084ff;
+$color-success: #75d72c;
+$color-warning: #ebe606;
+$color-danger: #db2522;
+
+$color-blue: #00aeef;
+$color-oranges: #f15a29;
+$color-yellow: #fbb040;
+$color-violet: #9e1f63;
+$color-greenpurple: #343091;
+
+$color-white: #fff;
+$color-black: #000;
+//$color-gray: #48576f;
+//$color-pink: #f6459d;
+//$color-violet: #c436fe;
+
+//width
+$container-sm: 738px;
+$container-sm-number: 738;
+$container-md: 970px;
+$container-md-number: 970;
+$container-lg: 1140px;
+$container-lg-number: 1140;
+
+//grid size  
+$screen-sm: 768px;
+$screen-sm-min: $screen-sm;
+$screen-md: 992px;
+$screen-md-min: $screen-md;
+$screen-lg: 1200px;
+$screen-lg-min: $screen-lg;
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-sm-max: ($screen-md-min - 1);
+$screen-md-max: ($screen-lg-min - 1);
+$screen-xs: 576px;
+//more grid size
+$screen-xs-min: $screen-xs;
+$screen-xxs-max: ($screen-xs-min - 1);
+
+//font
+$font-arial: Arial,"Helvetica Neue",Helvetica,sans-serif;
+$font-lato: 'Lato',Arial,"Helvetica Neue",Helvetica,sans-serif;
+$font-roboto: 'Roboto',Arial,"Helvetica Neue",Helvetica,sans-serif;
+$font-roboto-condensed: 'Roboto Condensed','Roboto',Arial;
+$font-open-sans: 'Open Sans','Roboto',Arial,sans-serif;
+$font-awesome: 'FontAwesome';
+
+//font size
+$font-size-xs: 14px;
+$line-height-xs: 20px;
+$font-size-sm: 14px;
+$line-height-sm: 20px;

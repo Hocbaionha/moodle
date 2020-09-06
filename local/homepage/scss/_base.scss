@@ -1,0 +1,34 @@
+/*---------- base css ----------*/
+body{
+  background:$color-bg;
+  font-family: $font-roboto-condensed;
+  font-size: $font-size-xs;
+  @media (min-width: $screen-sm-min) {
+    font-size: $font-size-sm;
+  }
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+  font-family: $font-roboto-condensed;
+}
+a{
+  color:$color-link;
+}
+a:focus{
+  outline: none;
+}
+.bg-blue {
+	background: $color-blue;
+}
+.bg-oranges {
+	background: $color-oranges;
+}
+.bg-yellow {
+	background: $color-yellow;
+}
+.bg-violet {
+	background: $color-violet;
+}
+.bg-greenpurple {
+	background: $color-greenpurple;
+}
+/*---------- end base css ----------*/

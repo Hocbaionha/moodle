@@ -109,7 +109,7 @@
 }
 
 @media (max-width: 767px) {
-    
+
     #ltv10-card {
         display: none;
     }
@@ -341,7 +341,7 @@ a.button:hover {
 /* ---------------------------------- */
 
 
-/* Video - popup 
+/* Video - popup
 ------------------------------------- */
 
 .video-overlay {
@@ -898,23 +898,27 @@ a.button:hover {
     top:37%;
 }
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info h1 {
-    font-size: 2.5vw;
+    font-size: 3.5vw;
+    color: #fff;
 }
 
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info h2 {
-    font-size: 2.5vw;
+    font-size: 4.5vw;
+    color: #fff;
 
 }
 
 .slide-home-01 .slide-wrap:nth-child(2) .slide-info h1 {
-    font-size: 2.5vw;
+    font-size: 3.5vw;
     margin-left: 0;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    color: #fff;
 }
 
 .slide-home-01 .slide-wrap:nth-child(2) .slide-info h2 {
-    font-size: 2.5vw;
+    font-size: 4.5vw;
     margin: 0 0 20px 0;
+    color: #fff;
 }
 .slide-home-01 .slide-info,.slide-home-01 .slide-info h1, .slide-home-01 .slide-info h2{
     color: black;
@@ -996,17 +1000,17 @@ a.button:hover {
 } */
 
 .slide-home-01 .slide-wrap:nth-child(3) .slide-info h1 {
-    font-size: 3.6vw;
+    font-size: 2.5vw;
     margin: 0;
     margin-bottom: 5px;
 }
 
 .slide-home-01 .slide-wrap:nth-child(3) .slide-info h2 {
-    font-size: 2vw;
+    font-size: 3.5vw;
     margin: 0 0 20px 0;
 }
 .slide-home-01 .slide-wrap:nth-child(3) .slide-info {
-    top: 32%;
+    top: 38%;
 }
 
 .slide-home-01 .slide-wrap:nth-child(3) .slide-info a {
@@ -1067,25 +1071,25 @@ a.button:hover {
 
 
 @media (max-width: 420px) {
-    .slide-home-01 .slide-wrap:nth-child(2) .slide-info h1 {
-        font-size: 3.5vw;
+    .slide-home-01 .slide-wrap:nth-child(2) .slide-info h1,.slide-home-01 .slide-wrap:nth-child(1) .slide-info h1 {
+        font-size: 4.5vw;
         margin-left: 0;
         margin-bottom: 10px
     }
-    
-    .slide-home-01 .slide-wrap:nth-child(2) .slide-info h2 {
-        font-size: 3.5vw;
+
+    .slide-home-01 .slide-wrap:nth-child(2) .slide-info h2,.slide-home-01 .slide-wrap:nth-child(1) .slide-info h2 {
+        font-size: 5.5vw;
         margin: 0 0 20px 0;
     }
     .slide-home-01 .slide-info .slide-inner .btn-group{
-        top: -10px;
+        top: 0px;
         height: 24px;
     }
 
     .slide-home-01 .slide-wrap:nth-child(4) .btn-group{
         top: 0px;
     }
-    
+
     .slide-home-01 .slide-info .button1,.slide-home-01 .slide-info .button2 {
         border: solid;
         border-radius: 10px;
@@ -1316,7 +1320,7 @@ a.button:hover {
         top: 12px;
         height: 38px;
     }
-    
+
     .slide-home-01 .slide-info .button1,.slide-home-01 .slide-info .button2 {
         border: solid;
         border-radius: 14px;
@@ -2100,7 +2104,9 @@ h4 {
     .slide-home-01 .slide-wrap:nth-child(3) .slide-info {
         top: 45%;
     }
-    
+    #header .login{
+        
+    }
 }
 
 @media (max-width:768px) {
@@ -2221,7 +2227,17 @@ h4 {
         max-width: 47%;
     }
     .slide-home-01 .slide-wrap:nth-child(3) .slide-info {
-        top: 51%;
+        top: 55%;
+    }
+    .slide-home-01 .slide-wrap:nth-child(3) .slide-info h1 {
+        font-size: 3.5vw;
+        margin: 0;
+        margin-bottom: 5px;
+    }
+    
+    .slide-home-01 .slide-wrap:nth-child(3) .slide-info h2 {
+        font-size: 3.5vw;
+        margin: 0 0 20px 0;
     }
 }
 
@@ -2585,7 +2601,7 @@ h4 {
     position: relative;
     top: 0px;
     right: 0px;
-    
+
 }
 
 .has-sidebar {
@@ -2682,7 +2698,7 @@ a.submit-course-view {
         top: 0px;
         height: 28px;
     }
-    
+
     .slide-home-01 .slide-info .button1,.slide-home-01 .slide-info .button2 {
         border: solid;
         border-radius: 10px;
@@ -2773,7 +2789,7 @@ a.submit-course-view {
         top: 0px;
         height: 28px;
     }
-    
+
     .slide-home-01 .slide-info .button1,.slide-home-01 .slide-info .button2 {
         border: solid;
         border-radius: 10px;
@@ -2977,7 +2993,7 @@ a.submit-course-view {
         z-index: 9;
         width: 160px;
         right: 1px;
-        top: 75px;
+        top: 16px;
         font-size: 13px;
         font-weight: bold;
         text-align: right;
@@ -3071,4 +3087,8 @@ a.submit-course-view {
         top:280px;
         max-width: 250px;
     }
+}
+
+#menu:not( .mm-menu ) {
+    display: none;
 }

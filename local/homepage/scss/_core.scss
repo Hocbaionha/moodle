@@ -1,0 +1,95 @@
+/*---------- helpers css ----------*/
+.h-text__underline{
+  text-decoration:underline !important;
+}
+.h-text__none{
+  text-decoration:none !important;
+}
+.h-text__inline-block{
+  display:inline-block;
+  vertical-align:top;
+  width:auto;
+}
+.h-cursor__pointer{
+  cursor:pointer !important;
+}
+/*---------- end helpers css ----------*/
+/*---------- base small css ----------*/
+.b-maincontent{
+  font-size: $font-size-xs;
+  line-height:$line-height-xs;
+  p{
+    font-size: $font-size-xs;
+    margin:0 0 5px;
+  }
+  img{
+    max-width:100%;
+    height:auto !important;
+  }
+}
+.b-nodata{
+  padding:10px 0;
+}
+.b-table{
+  width: 100%;
+  display: table;
+}
+.b-table__row{
+  display: table-row;
+}
+.b-table__cell{
+  display: table-cell;
+  vertical-align: middle;
+}
+.b-grid{
+  margin:0;
+  padding:0;
+  min-height:60px;
+  .b-grid__img{
+    float:left;
+    width:50px;
+    height:50px;
+    overflow:hidden;
+    img{
+      width:100%;
+      min-height:50px;
+    }
+  }
+  .b-grid__content{
+    margin-left:60px;
+  }
+  .b-grid__row{
+    margin-bottom:5px;
+    &:last-child{
+      margin-bottom:0;
+    }
+  }
+  .b-grid__row-right{
+    text-align:right;
+    margin-bottom:5px;
+  }
+  .b-grid__title{
+    font-weight:bold;
+    margin-right:3px;
+  }
+  a.b-grid__title{
+    cursor: pointer;
+  }
+  .b-grid__small-title{
+    font-weight:normal;
+    margin-right:3px;
+  }
+  a.b-grid__small-title{
+    cursor: pointer;
+  }
+}
+@media (min-width: $screen-sm-min){
+  .b-maincontent{
+    font-size: $font-size-sm;
+    line-height:$line-height-sm;
+    p{
+      font-size: $font-size-sm;
+    }
+  }
+}
+/*---------- end base small css ----------*/

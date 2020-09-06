@@ -1,0 +1,126 @@
+/*---------- footer css ----------*/
+.b-footer{
+	background: $color-footer; 
+	.b-footer__content {
+		p {
+			margin-bottom: 0;
+			color: $color-white;
+		}
+	}
+	.b-footer__title {
+		margin-bottom: 20px;
+		color: $color-white; 
+		font-size: 16px;
+		font-weight: 500;
+	}
+	ul {
+		padding: 0;
+		li {
+			list-style: none;
+			margin-bottom: 10px;
+			&:hover a {
+				text-decoration: none;
+			}
+			a {
+				color: $color-white;
+			}
+		}
+	}
+	.b-footer__resources {
+		margin-right: 100px;
+	}
+	.b-footer__flex {
+		display: flex;
+	}
+}
+//footer responsive css
+@media (max-width: $screen-xxs-max){ 
+	.b-footer { 
+		.b-footer__info {
+			padding: 15px 0;
+			display: block;
+		}
+		.b-footer__left {
+			margin-bottom: 15px;
+		}
+		.b-footer__resources {
+			margin-right: 0;
+		}
+		.b-footer__flex {
+			display: block;
+		}
+		.b-footer__logo {
+			img {
+				height: 30px;
+			}
+		}
+	}
+}
+@media (min-width: $screen-xs-min){
+	.b-footer { 
+		.b-footer__info {
+			padding: 15px 0;
+			display: flex;
+		}
+		.b-footer__left {
+			margin-bottom: 15px;
+		} 
+	}
+}
+@media (min-width: $screen-sm-min){
+	.b-footer__resources {
+		margin-right: 100px;
+	}
+}
+@media (min-width: $screen-md-min){
+	.b-footer{
+		background: $color-footer;
+		.b-footer__info {
+			padding: 2.5rem 1rem;
+			display: flex;
+		}
+		.b-footer__left {
+			margin-bottom: 0;
+		}
+		.b-footer__content {
+			p {
+				margin-bottom: 0;
+				color: $color-white;
+			}
+		}
+		.b-footer__title {
+			margin-bottom: 20px;
+			color: $color-white; 
+			font-size: 16px;
+			font-weight: 500;
+		}
+		ul {
+			padding: 0;
+			li {
+				list-style: none;
+				margin-bottom: 10px;
+				&:hover a {
+					text-decoration: none;
+				}
+				a {
+					color: $color-white;
+				}
+			}
+		}
+		.b-footer__resources {
+			margin-right: 100px;
+		}
+		.b-footer__flex {
+			display: flex;
+		} 
+		.b-footer__title {
+			img {
+				height: 30px;
+			}
+		} 
+	}
+}
+@media (min-width: $screen-lg-min){ 
+}
+//end footer responsive css
+/*---------- end footer css ----------*/

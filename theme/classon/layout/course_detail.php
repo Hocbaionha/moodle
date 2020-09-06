@@ -21,6 +21,8 @@ if ($navdraweropen) {
     $extraclasses[] = 'drawer-open-left';
 }
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
+$blockshtml = $OUTPUT->blocks('side-pre');
+$hasblocks = strpos($blockshtml, 'data-block=') !== false;
 $name = optional_param('course_detail', 0, PARAM_TEXT);
 $course = $DB->get_record("course", array("shortname" => $name));
 if (!$course) {
@@ -99,6 +101,8 @@ $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
+    'sidepreblocks' => $blockshtml,
+    'hasblocks' => $hasblocks,
     'bodyattributes' => $bodyattributes,
     'navdraweropen' => $navdraweropen,
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
@@ -120,7 +124,9 @@ $templatecontext = [
     'signupurl'=>$signupurl
 ];
 
-$PAGE->requires->js_call_amd('theme_classon/classon_homepage', 'classon_homepage');
-$PAGE->requires->js('/theme/classon/amd/src/mmenu.js');
 
+$PAGE->requires->js('/theme/classon/amd/src/mmenu.js');
+// $PAGE->requires->js('https://unpkg.com/@popperjs/core@2.4.4/dist/umd/popper.min.js');
+// $PAGE->requires->js('https://unpkg.com/tippy.js@6');
+$templatecontext['flatnavigation'] = $PAGE->flatnav;
 echo $OUTPUT->render_from_template('theme_classon/classon_course_detail', $templatecontext);

@@ -37,7 +37,7 @@ $plugin->component = 'theme_classon';
 
 // This is a list of plugins, this plugin depends on (and their versions).
 $plugin->dependencies = [
-    'theme_boost' => 2020061500
+    'theme_boost' => 2016102100
 ];
 
 // This is a stable release.

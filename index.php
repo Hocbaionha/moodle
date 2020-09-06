@@ -65,7 +65,12 @@ if($page==="about"){
     $PAGE->set_pagelayout('help');
 } else if($page==="team"){
     $PAGE->set_pagelayout('team');
+} else if($page==="skillbuilder"){
+    $PAGE->set_pagelayout('skillbuilder');
+} else if($page==="en_speak"){
+    $PAGE->set_pagelayout('en_speak');
 }
+
 
 //anhnn comment $PAGE->set_pagelayout('frontpage');
 $PAGE->set_other_editing_capability('moodle/course:update');
