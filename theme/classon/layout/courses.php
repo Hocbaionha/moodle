@@ -22,11 +22,14 @@ if ($navdraweropen) {
     $extraclasses[] = 'drawer-open-left';
 }
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
-
+$thcs=array("lop6","lop7","lop8","lop9");
 $course_categorie = $DB->get_records("course_categories",array("visible"=>1),'sortorder');
 $course_categories = array();
 $i=0;
 foreach($course_categorie as $cc){
+    if (!in_array($cc->idnumber,$thcs)) {
+        continue;
+    }
     $i++;
     $title = $cc->name;
     $img=$url."/theme/classon/pix/course/sh6.png";

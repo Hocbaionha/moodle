@@ -3,7 +3,7 @@
 
     Admin time setting template.
 
-    
+
 }}
 {{{ output.doctype }}}
 <html {{{ output.htmlattributes }}}>
@@ -16,7 +16,7 @@
     {{{ output.ios_homescreen_icons}}}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
 
     {{{ output.standard_head_html }}}
 
@@ -47,6 +47,7 @@ doing...
 {{{ a }}}
 </div>
 {{{ output.standard_end_of_body_html }}}
+{{> theme_classon/class_facebook_chat }}
 </body>
 </html>
 {{#js}}
@@ -64,19 +65,19 @@ $(document).ready(function(){
     $("[role=tab]").click(function() {
         //  First remove class "active" from currently active tab
         $("[role=tab]").removeClass('active');
- 
+
         //  Now add class "active" to the selected/clicked tab
        $(this).addClass("active");
- 
+
         //  Hide all tab content
         $("[role=tabpanel]").hide();
- 
+
         //  Here we get the href value of the selected tab
         var selected_tab = $(this).find("a").attr("href");
- 
+
         //  Show the selected tab content
         $(selected_tab).fadeIn();
- 
+
         //  At the end, we add return false so that the click on the link is not executed
         return false;
     });

@@ -198,210 +198,228 @@ footer .furgan-listitem.style-01 li, footer .furgan-listitem.style-02 li {
 </div>
 
 {{#js}}
-console.log ("Run Hbon JS addon...");
-$('body').on('click', '#submit_phone_or_email', function() {
-var mail_input = $('#phoneoremail').val();
-var signup_method = $('#signup_method').val();
-if (mail_input ==''){
-alert ("Bạn cần nhập email hoặc số điện thoại!!");
-$('#phoneoremail').focus();
-return false;
-}
+console.log("Run Hbon JS addon...");
+$('body').on('click', '#submit_phone_or_email', function () {
+    var mail_input = $('#phoneoremail').val();
+    var signup_method = $('#signup_method').val();
+    if (mail_input == '') {
+        alert("Bạn cần nhập email hoặc số điện thoại!!");
+        $('#phoneoremail').focus();
+        return false;
+    }
 
-$('#submit_phone_or_email').hide();
-$('#loading_img').show();
-$('#phoneoremail').attr('readonly','readonly');
-$.ajax({
-url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_01.php",
-type: 'POST',
-data:{
-emailorphone: mail_input,
-signup_method: signup_method,
-},
-success: function(result){
-var json_result = JSON.parse(result);
-if (json_result.status != 'OK'){
-$('#phoneoremail').focus();
-alert (json_result.content);
-$('#submit_phone_or_email').show();
-$('#loading_img').hide();
+    $('#submit_phone_or_email').hide();
+    $('#loading_img').show();
+    $('#phoneoremail').attr('readonly', 'readonly');
+    if (signup_method === "email") {
+        $.ajax({
+            url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_01.php",
+            type: 'POST',
+            data: {
+                emailorphone: mail_input,
+                signup_method: signup_method,
+            },
+            success: function (result) {
+                var json_result = JSON.parse(result);
+                if (json_result.status != 'OK') {
+                    $('#phoneoremail').focus();
+                    alert(json_result.content);
+                    $('#submit_phone_or_email').show();
+                    $('#loading_img').hide();
 
-}
-else {
+                } else {
 
-$('#loading_img').hide();
-$('#otpsubmit').show();
-$('#otpcode').focus();
-$('#notice_otp_confirm').html(json_result.content);
-$('#phoneoremail').attr('readonly','readonly');
-$('#re_submit_phone_or_email').show();
-//---
-$('#resend_otp').html('Gửi lại OTP');
-var text_002 = $('#resend_otp').html();
-var second_after = 300;
-setInterval(function(){
+                    $('#loading_img').hide();
+                    $('#otpsubmit').show();
+                    $('#otpcode').focus();
+                    $('#notice_otp_confirm').html(json_result.content);
+                    $('#phoneoremail').attr('readonly', 'readonly');
+                    $('#re_submit_phone_or_email').show();
+                    //---
+                    $('#resend_otp').html('Gửi lại OTP');
+                    var text_002 = $('#resend_otp').html();
+                    var second_after = 300;
+                    setInterval(function () {
 
-if(!$('#resend_otp').length){
-return false;
-}
+                        if (!$('#resend_otp').length) {
+                            return false;
+                        }
 
-if ($('#resend_otp').html() == 'Gửi lại OTP '){
-return false;
-}
-if ($('#resend_otp').html() == text_002){
-var second_after_1 = second_after - 1;
-}
-else{
-var abccc= $('#resend_otp').html().replace(text_002+' sau ', '');
-var second_after_1 = parseInt(abccc) - 1;
-}
-console.log ("Run Hbon JS addon..."+ second_after_1);
-if (second_after_1 > 1){
-$('#resend_otp').html(text_002 + ' sau '+ second_after_1 +' giây');
-}
-else {
-$('#resend_otp').html('Gửi lại OTP ');
-$('#resend_otp').removeAttr ('disabled');
-}
+                        if ($('#resend_otp').html() == 'Gửi lại OTP ') {
+                            return false;
+                        }
+                        if ($('#resend_otp').html() == text_002) {
+                            var second_after_1 = second_after - 1;
+                        } else {
+                            var abccc = $('#resend_otp').html().replace(text_002 + ' sau ', '');
+                            var second_after_1 = parseInt(abccc) - 1;
+                        }
+                        console.log("Run Hbon JS addon..." + second_after_1);
+                        if (second_after_1 > 1) {
+                            $('#resend_otp').html(text_002 + ' sau ' + second_after_1 + ' giây');
+                        } else {
+                            $('#resend_otp').html('Gửi lại OTP ');
+                            $('#resend_otp').removeAttr('disabled');
+                        }
 
-},1000);
-//---
-}
-}
+                    }, 1000);
+                    //---
+                }
+            }
+        });
+    } else {
+            console.log(mail_input);
+        $.ajax({
+            url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_03.php",
+            type: 'POST',
+            data: {
+                emailorphone: mail_input,
+                signup_method: signup_method,
+            },
+            success: function (result) {
+                var json_result = JSON.parse(result);
+                if (json_result.status == 'OK') {
+                    $('#otpsubmit').hide();
+                    $('#notice_otp_confirm').html(json_result.content);
+                    setInterval(function () {
+                        $('#have_to_check_accquire_info').html('0');
+                        $('#banner_accquire_info').remove();
+                    }, 5000);
+                } else {
+                    $('#notice_otp_confirm').html(json_result.content);
+                }
+            }
+        });
+    }
+
+
 });
 
 
-});
-
-
-$('body').on('click', '#otp_confirm', function() {
-var otp_input = $('#otpcode').val();
-var signup_method = $('#signup_method').val();
-if (otp_input.length !== 6){
-alert ("Bạn cần nhập mã xác thực OTP có 6 chữ số!");
-$('#otpcode').focus();
-return false;
-}
-$.ajax({
-url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_02.php",
-type: 'POST',
-data:{
-otp_input: otp_input,
-signup_method: signup_method,
-},
-success: function(result){
-var json_result = JSON.parse(result);
-if (json_result.status == 'OK'){
-$('#otpsubmit').hide();
-$('#notice_otp_confirm').html(json_result.content);
-setInterval(function(){
-$('#have_to_check_accquire_info').html('0');
-$('#banner_accquire_info').remove();
-},5000);
-}
-else {
-$('#notice_otp_confirm').html(json_result.content);
-}
-}
-});
+$('body').on('click', '#otp_confirm', function () {
+    var otp_input = $('#otpcode').val();
+    var signup_method = $('#signup_method').val();
+    if (otp_input.length !== 6) {
+        alert("Bạn cần nhập mã xác thực OTP có 6 chữ số!");
+        $('#otpcode').focus();
+        return false;
+    }
+    $.ajax({
+        url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_02.php",
+        type: 'POST',
+        data: {
+            otp_input: otp_input,
+            signup_method: signup_method,
+        },
+        success: function (result) {
+            var json_result = JSON.parse(result);
+            if (json_result.status == 'OK') {
+                $('#otpsubmit').hide();
+                $('#notice_otp_confirm').html(json_result.content);
+                setInterval(function () {
+                    $('#have_to_check_accquire_info').html('0');
+                    $('#banner_accquire_info').remove();
+                }, 5000);
+            } else {
+                $('#notice_otp_confirm').html(json_result.content);
+            }
+        }
+    });
 
 });
 
 
 //resend_otp
-$('body').on('click', '#resend_otp', function() {
-var resend_otp_html = $('#resend_otp').html();
-if (resend_otp_html ==! 'Gửi lại OTP '){
-return false;
-}
-var mail_input = $('#phoneoremail').val();
-var signup_method = $('#signup_method').val();
-if (mail_input ==''){
-alert ("Bạn cần nhập email hoặc số điện thoại!!");
-$('#phoneoremail').focus();
-return false;
-}
-$('#resend_otp').html('Gửi lại OTP');
-$('#resend_otp').attr ('disabled','disabled');
-$('#loading_img').show();
-$.ajax({
-url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_01.php",
-type: 'POST',
-data:{
-emailorphone: mail_input,
-signup_method: signup_method,
-},
-success: function(result){
-var json_result = JSON.parse(result);
-if (json_result.status != 'OK'){
-$('#phoneoremail').focus();
-alert (json_result.content);
-$('#submit_phone_or_email').show();
-$('#loading_img').hide();
-}
-else {
-$('#loading_img').hide();
-$('#otpsubmit').show();
-$('#otpcode').focus();
-$('#notice_otp_confirm').html(json_result.content);
-$('#phoneoremail').attr('readonly','readonly');
-$('#re_submit_phone_or_email').show();
-$('#resend_otp').html('Gửi lại OTP');
-var text_002 = $('#resend_otp').html();
-var second_after = 240;
-setInterval(function(){
-if(!$('#resend_otp').length){
-return false;
-}
-if ($('#resend_otp').html() == 'Gửi lại OTP '){
-return false;
-}
-if ($('#resend_otp').html() == text_002){
-var second_after_1 = second_after - 1;
-}
-else{
-var abccc= $('#resend_otp').html().replace(text_002+' sau ', '');
-var second_after_1 = parseInt(abccc) - 1;
-}
-//console.log ("Run Hbon JS addon..."+ second_after_1);
-if (second_after_1 > 1){
-$('#resend_otp').html(text_002 + ' sau '+ second_after_1 +' giây');
-}
-else {
-$('#resend_otp').html('Gửi lại OTP ');
-$('#resend_otp').removeAttr ('disabled');
-}
-},1000);
-}
-}
-});
+$('body').on('click', '#resend_otp', function () {
+    var resend_otp_html = $('#resend_otp').html();
+    if (resend_otp_html == !'Gửi lại OTP ') {
+        return false;
+    }
+    var mail_input = $('#phoneoremail').val();
+    var signup_method = $('#signup_method').val();
+    if (mail_input == '') {
+        alert("Bạn cần nhập email hoặc số điện thoại!!");
+        $('#phoneoremail').focus();
+        return false;
+    }
+    $('#resend_otp').html('Gửi lại OTP');
+    $('#resend_otp').attr('disabled', 'disabled');
+    $('#loading_img').show();
+    $.ajax({
+        url: "{{{ config.wwwroot }}}/theme/classon/webservice/hbon_01.php",
+        type: 'POST',
+        data: {
+            emailorphone: mail_input,
+            signup_method: signup_method,
+        },
+        success: function (result) {
+            var json_result = JSON.parse(result);
+            if (json_result.status != 'OK') {
+                $('#phoneoremail').focus();
+                alert(json_result.content);
+                $('#submit_phone_or_email').show();
+                $('#loading_img').hide();
+            } else {
+                $('#loading_img').hide();
+                $('#otpsubmit').show();
+                $('#otpcode').focus();
+                $('#notice_otp_confirm').html(json_result.content);
+                $('#phoneoremail').attr('readonly', 'readonly');
+                $('#re_submit_phone_or_email').show();
+                $('#resend_otp').html('Gửi lại OTP');
+                var text_002 = $('#resend_otp').html();
+                var second_after = 240;
+                setInterval(function () {
+                    if (!$('#resend_otp').length) {
+                        return false;
+                    }
+                    if ($('#resend_otp').html() == 'Gửi lại OTP ') {
+                        return false;
+                    }
+                    if ($('#resend_otp').html() == text_002) {
+                        var second_after_1 = second_after - 1;
+                    } else {
+                        var abccc = $('#resend_otp').html().replace(text_002 + ' sau ', '');
+                        var second_after_1 = parseInt(abccc) - 1;
+                    }
+                    //console.log ("Run Hbon JS addon..."+ second_after_1);
+                    if (second_after_1 > 1) {
+                        $('#resend_otp').html(text_002 + ' sau ' + second_after_1 + ' giây');
+                    } else {
+                        $('#resend_otp').html('Gửi lại OTP ');
+                        $('#resend_otp').removeAttr('disabled');
+                    }
+                }, 1000);
+            }
+        }
+    });
 
 });
 
 //resend_otp
-$('body').on('click', '#re_submit_phone_or_email', function() {
-$('#re_submit_phone_or_email').hide();
-$('#resend_otp').html('Gửi lại OTP');
-$('#resend_otp').attr ('disabled','disabled');
-$('#otpsubmit').hide();
-$('#phoneoremail').removeAttr ('readonly');
-setTimeout(function(){
-$('#submit_phone_or_email').show();
-}, 5000);
+$('body').on('click', '#re_submit_phone_or_email', function () {
+    $('#re_submit_phone_or_email').hide();
+    $('#resend_otp').html('Gửi lại OTP');
+    $('#resend_otp').attr('disabled', 'disabled');
+    $('#otpsubmit').hide();
+    $('#phoneoremail').removeAttr('readonly');
+    setTimeout(function () {
+        $('#submit_phone_or_email').show();
+    }, 5000);
 });
 
 
-$('body').on('click', '#close_accquire_info', function() {
-$('#banner_accquire_info').slideUp('500');
-$('#state_of_have_to_check_block').html('close');
+$('body').on('click', '#close_accquire_info', function () {
+    $('#banner_accquire_info').slideUp('500');
+    $('#state_of_have_to_check_block').html('close');
 });
 
 function Run_popup_accquire_info() {
-var check = $('#resend_otp').attr('state');
-if (check == 'verifying'){
-$('#resend_otp').removeAttr ('disabled');
-$('#re_submit_phone_or_email').show();
-}
+    var check = $('#resend_otp').attr('state');
+    if (check == 'verifying') {
+        $('#resend_otp').removeAttr('disabled');
+        $('#re_submit_phone_or_email').show();
+    }
 
 }
 setTimeout(Run_popup_accquire_info, 10000);
@@ -448,19 +466,19 @@ return false;
 */
 
 
-setInterval(function(){
-var have_to_check =  $('#have_to_check_accquire_info').html();
-if (have_to_check != 'undefined'){
-if (have_to_check == '1'){
-if ($('#state_of_have_to_check_block').html() == 'close'){
-$(window).scrollTop(0);
-$('#banner_accquire_info').slideDown('500');
-$('#state_of_have_to_check_block').html('opening');
-}
+setInterval(function () {
+    var have_to_check = $('#have_to_check_accquire_info').html();
+    if (have_to_check != 'undefined') {
+        if (have_to_check == '1') {
+            if ($('#state_of_have_to_check_block').html() == 'close') {
+                $(window).scrollTop(0);
+                $('#banner_accquire_info').slideDown('500');
+                $('#state_of_have_to_check_block').html('opening');
+            }
 
-}
-}
-}, 30000);
+        }
+    }
+}, 30000); 
 {{/js}}
 </body>
 </html>

@@ -37,30 +37,30 @@
 <head>
     <title>{{{ output.page_title }}}</title>
     <link rel="shortcut icon" href="{{{ output.favicon }}}" />
-    
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    
+
     {{#output.headingfont}}
     <link href="https://fonts.googleapis.com/css?family={{ output.headingfont }}:300,400,500,700" rel="stylesheet" />
     {{/output.headingfont}}
-    
+
     {{#output.pagefont}}
     <link href="https://fonts.googleapis.com/css?family={{ output.pagefont }}:300,400,500,700" rel="stylesheet" />
     {{/output.pagefont}}
-    
+
     {{!--//ios_homescreen_icons (theme class function)--}}
 	{{{ output.ios_homescreen_icons}}}
-    
-    <link rel="stylesheet" href="{{{ config.wwwroot }}}/theme/photo/plugins/revolution/css/settings.css"> 
-    <link rel="stylesheet" href="{{{ config.wwwroot }}}/theme/photo/plugins/revolution/css/layers.css"> 
-    <link rel="stylesheet" href="{{{ config.wwwroot }}}/theme/photo/plugins/revolution/css/navigation.css"> 
-    
+
+    <link rel="stylesheet" href="{{{ config.wwwroot }}}/theme/photo/plugins/revolution/css/settings.css">
+    <link rel="stylesheet" href="{{{ config.wwwroot }}}/theme/photo/plugins/revolution/css/layers.css">
+    <link rel="stylesheet" href="{{{ config.wwwroot }}}/theme/photo/plugins/revolution/css/navigation.css">
+
     {{{ output.standard_head_html }}}
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    
+
+
+
     {{#output.google_analyticsid}}
     <!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id={{{output.google_analyticsid}}}"></script>
@@ -68,11 +68,11 @@
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
-	
+
 	  gtag('config', '{{{output.google_analyticsid}}}');
 	</script>
     {{/output.google_analyticsid}}
-    
+
 </head>
 
 <body {{{ bodyattributes }}}>
@@ -80,43 +80,43 @@
 <div id="page-wrapper" class="page-wrapper">
 
     {{{ output.standard_top_of_body_html }}}
-    
+
     {{>theme_boost/header}}
-    
+
     {{!--//header_alert (theme class function)--}}
     {{{ output.header_alert}}}
-    
+
 
 
     {{!-- fp_benefits (theme class function) --}}
-    {{{ output.fp_benefits }}} 
-    
+    {{{ output.fp_benefits }}}
+
     {{!-- fp_featuredblocks (theme class function) --}}
     {{{ output.fp_features }}}
-    
+
     {{!-- fp_promo (theme class function) -->}}
     {{{ output.fp_promo }}}
-    
+
     {{!-- fp_logos (theme class function) --}}
     {{{ output.fp_logos }}}
-    
+
     {{!-- fp_testimonials (theme class function) --}}
     {{{ output.fp_testimonials }}}
-    
 
-    
-    
-    
-    
-    
+
+
+
+
+
+
     {{!-- fp_faq (theme class function) --}}
     {{{ output.fp_faq }}}
-    
-    
+
+
     {{!-- fp_ctasection (theme class function) --}}
     {{{ output.fp_ctasection }}}
-    
-    
+
+
     {{!-- NOTE: side blocks must be rendered on the frontpage. Hide them visually --}}
     <div class="frontpage-sideblocks" style="display:none" >
         {{#hasblocks}}
@@ -125,13 +125,13 @@
 	    </section>
 	    {{/hasblocks}}
     </div>
-    
-    
+
+
     {{> theme_boost/nav-drawer }}
-    
+
 </div>
 
-    
+
 
 
 {{>theme_boost/footer}}

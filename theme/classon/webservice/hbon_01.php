@@ -206,6 +206,12 @@ if($signup_method == 'email') {
             'content'=>$out_content];
         echo json_encode($array_return);
         return;
+    } else {
+        $array_return = [
+            'status'=>'Fault',
+            'content'=>'Email không hợp lệ'];
+        echo json_encode($array_return);
+        return;
     }
 }else if($signup_method == 'phone') {
     if(preg_match("/^[0-9]{10}$/", $emailorphone)) {
