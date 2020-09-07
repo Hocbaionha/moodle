@@ -576,7 +576,10 @@ abstract class oauth2_client extends curl {
         if (is_null($r)) {
             throw new moodle_exception("Could not decode JSON token response");
         }
-
+        // begin-hainh
+        global $SESSION;
+        $SESSION->id_token = $r->id_token;
+	    // end-hainh
         if (!empty($r->error)) {
             throw new moodle_exception($r->error . ' ' . $r->error_description);
         }
