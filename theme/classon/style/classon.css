@@ -3147,10 +3147,17 @@ a.submit-course-view {
     font-size: 11px;
 }
 .mm-panel, .mm-panelopened{
+    text-transform: uppercase;
     width: 300px;
 }
 a.mm-listitem__text:after{
     display: none;
+}
+.dropdown-menu.mm-panel.mm-panel_opened a.dropdown-item{
+    text-transform: uppercase;
+}
+.dropdown.nav-item.show .dropdown-menu.show{
+    transform: translate3d(20px, 53px, 0px)!important;
 }
 
 
