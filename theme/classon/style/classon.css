@@ -3160,4 +3160,6 @@ a.mm-listitem__text:after{
     transform: translate3d(20px, 53px, 0px)!important;
 }
 
-
+.availabilityinfo.isrestricted ul {
+    display: none;
+}
