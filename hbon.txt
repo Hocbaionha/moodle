@@ -1,0 +1,81 @@
+1. Backup all database and moodle data 
+2. get new core version from moodle 
+3. copy file config.php, .htaccess.php
+4. upgrade all core plugin 
+5. copy hbon plugin:
+	- local_payment
+	- local_school
+	- local_session_keepalive
+	- theme_classon
+6. edit files:
+----------------------------login/index.php---41----------------------------------
+		//anhnn insert param to landing page line 41
+		$detail = optional_param('course_detail', "", PARAM_TEXT);
+		$courses = optional_param('courses', 0, PARAM_INT);
+		$page = optional_param('page', "", PARAM_TEXT);
+		if ($courses == 1) {
+		    $PAGE->set_pagelayout('courses');
+		} else {
+		    if ($detail === "") {
+			$PAGE->set_pagelayout('frontpage');
+		    } else {
+			$PAGE->set_pagelayout('course_detail');
+		    }
+		}
+		if($page==="about"){
+		    $PAGE->set_pagelayout('about');
+		} else if($page==="condition"){
+		    $PAGE->set_pagelayout('condition');
+		} else if($page==="privacy"){
+		    $PAGE->set_pagelayout('privacy');
+		} else if($page==="video"){
+		    $PAGE->set_pagelayout('video');
+		} else if($page==="shop"){
+		    $PAGE->set_pagelayout('shop');
+		} else if($page==="help"){
+		    $PAGE->set_pagelayout('help');
+		} else if($page==="team"){
+		    $PAGE->set_pagelayout('team');
+		} else if($page==="skillbuilder"){
+		    $PAGE->set_pagelayout('skillbuilder');
+		} else if($page==="en_speak"){
+		    $PAGE->set_pagelayout('en_speak');
+		}
+
+------------------------------------------------------------------------------
+----------------------------login/index.php---131----------------------------------
+		//TODO anhnn change login link to sso
+		 if(isset($CFG->sso)&&$CFG->sso){
+		     $authplugin = get_auth_plugin("oauth2");
+
+		    $identityproviders =  $authplugin->loginpage_idp_list($SESSION->wantsurl);
+		    foreach($identityproviders as $provider){
+			if($provider["name"]=="sso-server"){
+			    $loginurl = $provider['url'];
+			}
+		    }
+		     redirect($loginurl);
+		 }
+----------------------------auth/oauth2/classes/auth.php-----622---------------------------------------------
+// Create a new confirmed account.
+                $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
+                $userinfo = get_complete_user_data('id', $newuser->id);
+                global $DB;
+                $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
+                // end - add hainh
+----------------------------lib/oauthlib.php-----576---------------------------------------------
+ // begin-hainh
+        global $SESSION;
+        $SESSION->id_token = $r->id_token;
+	// end-hainh
+----------------------------login/logout.php---57-----------------------------------------------
+foreach($authsequence as $authname) {
+    $authplugin = get_auth_plugin($authname);
+    $authplugin->logoutpage_hook();
+
+    if($authname==$USER->auth){
+       global $SESSION;
+       $redirect='https://id.hocbaionha.com/oauth2/sessions/logout?id_token_hint='.$SESSION->id_token.'&post_logout_redirect_uri='.$CFG->wwwroot.'/';
+    }  
+}
+------------------------------------------------------------------------------
