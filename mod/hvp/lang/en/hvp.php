@@ -429,51 +429,51 @@ $string['privacy:metadata:hvp_xapi_results:raw_score'] = 'Achieved score for the
 $string['privacy:metadata:hvp_xapi_results:max_score'] = 'Max achievable score for the event.';
 
 // Reuse.
-$string['reuse'] = 'Reuse';
-$string['reusecontent'] = 'Reuse Content';
-$string['reusedescription'] = 'Reuse this content.';
-$string['contentcopied'] = 'Content is copied to the clipboard';
+//$string['reuse'] = 'Reuse';
+//$string['reusecontent'] = 'Reuse Content';
+//$string['reusedescription'] = 'Reuse this content.';
+//$string['contentcopied'] = 'Content is copied to the clipboard';
 
 // Offline.
-$string['connectionlost'] = 'Connection lost. Results will be stored and sent when you regain connection.';
-$string['connectionreestablished'] = 'Connection reestablished.';
-$string['resubmitscores'] = 'Attempting to submit stored results.';
-$string['offlinedialogheader'] = 'Your connection to the server was lost';
-$string['offlinedialogbody'] = 'We were unable to send information about your completion of this task. Please check your internet connection.';
-$string['offlinedialogretrymessage'] = 'Retrying in :num....';
-$string['offlinedialogretrybuttonlabel'] = 'Retry now';
-$string['offlinesuccessfulsubmit'] = 'Successfully submitted results.';
+//$string['connectionlost'] = 'Connection lost. Results will be stored and sent when you regain connection.';
+//$string['connectionreestablished'] = 'Connection reestablished.';
+//$string['resubmitscores'] = 'Attempting to submit stored results.';
+//$string['offlinedialogheader'] = 'Your connection to the server was lost';
+//$string['offlinedialogbody'] = 'We were unable to send information about your completion of this task. Please check your internet connection.';
+//$string['offlinedialogretrymessage'] = 'Retrying in :num....';
+//$string['offlinedialogretrybuttonlabel'] = 'Retry now';
+//$string['offlinesuccessfulsubmit'] = 'Successfully submitted results.';
 
 // Error messages.
-$string['fileexceedsmaxsize'] = 'One of the files inside the package exceeds the maximum file size allowed. (%file %used > %max)';
-$string['unpackedfilesexceedsmaxsize'] = 'The total size of the unpacked files exceeds the maximum size allowed. (%used > %max)';
-$string['couldnotreadfilefromzip'] = 'Unable to read file from the package: %fileName';
-$string['couldnotparsejsonfromzip'] = 'Unable to parse JSON from the package: %fileName';
-$string['couldnotparsepostdata'] = 'Could not parse post data.';
-$string['nombstringexteension'] = 'The mbstring PHP extension is not loaded. H5P needs this to function properly';
+//$string['fileexceedsmaxsize'] = 'One of the files inside the package exceeds the maximum file size allowed. (%file %used > %max)';
+//$string['unpackedfilesexceedsmaxsize'] = 'The total size of the unpacked files exceeds the maximum size allowed. (%used > %max)';
+//$string['couldnotreadfilefromzip'] = 'Unable to read file from the package: %fileName';
+//$string['couldnotparsejsonfromzip'] = 'Unable to parse JSON from the package: %fileName';
+//$string['couldnotparsepostdata'] = 'Could not parse post data.';
+//$string['nombstringexteension'] = 'The mbstring PHP extension is not loaded. H5P needs this to function properly';
 
 // Messaging api.
-$string['messageprovider:confirmation'] = 'Confirmation of your own H5P submissions';
-$string['messageprovider:submission'] = 'Notification of H5P submissions';
-$string['emailnotifysubject'] = '{$a->studentname} has completed {$a->hvpname}';
-$string['emailnotifybody'] = 'Hi {$a->username},
+//$string['messageprovider:confirmation'] = 'Confirmation of your own H5P submissions';
+//$string['messageprovider:submission'] = 'Notification of H5P submissions';
+//$string['emailnotifysubject'] = '{$a->studentname} has completed {$a->hvpname}';
+//$string['emailnotifybody'] = 'Hi {$a->username},
 
-{$a->studentname} has completed \'{$a->hvpname}\' ({$a->hvpurl}) in course \'{$a->coursename}\'.
+//{$a->studentname} has completed \'{$a->hvpname}\' ({$a->hvpurl}) in course \'{$a->coursename}\'.
 
-You can review this attempt at {$a->hvpreporturl}.';
-$string['emailnotifysmall'] = '{$a->studentname} has completed {$a->hvpname}. See {$a->hvpreporturl}';
-$string['emailconfirmbody'] = 'Hi {$a->username},
+//You can review this attempt at {$a->hvpreporturl}.';
+//$string['emailnotifysmall'] = '{$a->studentname} has completed {$a->hvpname}. See {$a->hvpreporturl}';
+//$string['emailconfirmbody'] = 'Hi {$a->username},
 
-Thank you for submitting your answers to \'{$a->hvpname}\' in course \'{$a->coursename}\'.
+//Thank you for submitting your answers to \'{$a->hvpname}\' in course \'{$a->coursename}\'.
 
-This message confirms that your answers have been saved.
+//This message confirms that your answers have been saved.
 
-You can access this H5P at {$a->hvpurl}.';
-$string['emailconfirmsmall'] = 'Thank you for submitting your answers to \'{$a->hvpname}\'';
-$string['emailconfirmsubject'] = 'Submission confirmation: {$a->hvpname}';
+//You can access this H5P at {$a->hvpurl}.';
+//$string['emailconfirmsmall'] = 'Thank you for submitting your answers to \'{$a->hvpname}\'';
+//$string['emailconfirmsubject'] = 'Submission confirmation: {$a->hvpname}';
 
-$string['completionpass'] = 'Require passing grade';
-$string['completionpassdesc'] = 'Student must achieve a passing grade to complete this activity';
-$string['completionpass_help'] = 'If enabled, this activity is considered complete when the student receives a pass grade (as specified in the Grade section of the H5P activity settings) or higher.';
-$string['gradetopassnotset'] = 'This H5P activity does not yet have a grade to pass set. It may be set in the Grade section of the H5P activity settings.';
-$string['gradetopassmustbeset'] = 'Grade to pass cannot be zero as this H5P activity has its completion method set to require passing grade. Please set a non-zero value.';
+//$string['completionpass'] = 'Require passing grade';
+//$string['completionpassdesc'] = 'Student must achieve a passing grade to complete this activity';
+//$string['completionpass_help'] = 'If enabled, this activity is considered complete when the student receives a pass grade (as specified in the Grade section of the H5P activity settings) or higher.';
+//$string['gradetopassnotset'] = 'This H5P activity does not yet have a grade to pass set. It may be set in the Grade section of the H5P activity settings.';
+//$string['gradetopassmustbeset'] = 'Grade to pass cannot be zero as this H5P activity has its completion method set to require passing grade. Please set a non-zero value.';
