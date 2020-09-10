@@ -3188,4 +3188,9 @@ a.mm-listitem__text:after{
 .menubar{
     padding-top: 7px;
 }
+footer{
+    width:100%;
+    position:absolute;
+    left:0;
+}
 
