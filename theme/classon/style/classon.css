@@ -3173,6 +3173,16 @@ a.mm-listitem__text:after{
 .dropdown-toggle.nav-link:focus{
     box-shadow: none;
 }
-.dropdown-menu .show .dropdown-item{
-z-index: 9999;
+.dropdown-menu.dropdown-menu-right.menu.align-tr-br.show{
+    box-shadow: none;
 }
+.dropdown-item.menu-action:focus{
+    box-shadow: none;
+}
+.usermenu{
+   padding-top: 5px;
+}
+.menubar{
+    padding-top: 7px;
+}
+
