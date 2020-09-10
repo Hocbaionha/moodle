@@ -2389,7 +2389,7 @@ h4 {
 
 .header-logo2.show {
     display: block;
-    padding-top: 15px;
+    padding-top: 24px;
 }
 
 
@@ -3000,7 +3000,7 @@ a.submit-course-view {
     }
 
     .show .login {
-        top: 16px;
+        top: 24px;
     }
 
     .user-menu {
@@ -3146,6 +3146,9 @@ a.submit-course-view {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     font-size: 11px;
 }
+.box-header-nav .main-menu>.nav-item a.dropdown-item:focus{
+  box-shadow: none;
+}
 .mm-panel, .mm-panelopened{
     text-transform: uppercase;
     width: 300px;
@@ -3162,4 +3165,14 @@ a.mm-listitem__text:after{
 
 .availabilityinfo.isrestricted ul {
     display: none;
+}
+
+.nav-item.nav-link:focus{
+    box-shadow: none;
+}
+.dropdown-toggle.nav-link:focus{
+    box-shadow: none;
+}
+.dropdown-menu .show .dropdown-item{
+z-index: 9999;
 }
