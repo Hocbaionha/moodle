@@ -3179,8 +3179,11 @@ a.mm-listitem__text:after{
 .dropdown-item.menu-action:focus{
     box-shadow: none;
 }
-.usermenu{
+.header-logo-nav.show .usermenu{
    padding-top: 5px;
+}
+.header-logo-nav .usermenu{
+    padding-top: 30px;
 }
 .menubar{
     padding-top: 7px;
