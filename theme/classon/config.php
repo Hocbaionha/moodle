@@ -44,7 +44,9 @@ $THEME->parents = ['boost'];
 // A dock is a way to take blocks out of the page and put them in a persistent floating area on the side of the page. Boost
 // does not support a dock so we won't either - but look at bootstrapbase for an example of a theme with a dock.
 $THEME->enable_dock = false;
-
+$THEME->extrascsscallback = 'theme_classon_get_extra_scss';
+$THEME->prescsscallback = 'theme_classon_get_pre_scss';
+$THEME->precompiledcsscallback = 'theme_classon_get_precompiled_css';
 // This is an old setting used to load specific CSS for some YUI JS. We don't need it in Boost based themes because Boost
 // provides default styling for the YUI modules that we use. It is not recommended to use this setting anymore.
 $THEME->yuicssmodules = array();
@@ -91,6 +93,18 @@ $THEME->layouts = [
     ),
     'about' => array(
         'file' => 'about.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,),
+    ),
+    'additional' => array(
+        'file' => 'additional.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,),
+    ),
+    'landing' => array(
+        'file' => 'landing.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,),

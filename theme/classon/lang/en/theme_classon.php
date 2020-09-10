@@ -152,3 +152,5 @@ Mobile app|https://someurl.xyz/app|Download our app
 
 $string['slidercount'] = 'slidercount'; 
 $string['slidercountdesc'] = 'slidercountdesc';
+$string['navbardarkdesc'] = 'Swaps text and background colours for the navbar at the top of the page between dark and light.';
+$string['navbardark'] = 'Use a dark style navbar';

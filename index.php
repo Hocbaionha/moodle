@@ -65,12 +65,11 @@ if($page==="about"){
     $PAGE->set_pagelayout('help');
 } else if($page==="team"){
     $PAGE->set_pagelayout('team');
-} else if($page==="skillbuilder"){
-    $PAGE->set_pagelayout('skillbuilder');
-} else if($page==="en_speak"){
-    $PAGE->set_pagelayout('en_speak');
+} else if($page==="landing"){
+    $PAGE->set_pagelayout('landing');
+} else if($page==="additional"){
+    $PAGE->set_pagelayout('additional');
 }
-
 
 //anhnn comment $PAGE->set_pagelayout('frontpage');
 $PAGE->set_other_editing_capability('moodle/course:update');
@@ -152,7 +151,7 @@ if (!empty($CFG->customfrontpageinclude)) {
 // Include course AJAX.
 include_course_ajax($SITE, $modnamesused);
 
-echo $courserenderer->frontpage();
+// echo $courserenderer->frontpage();
 
 if ($editing && has_capability('moodle/course:create', context_system::instance())) {
     echo $courserenderer->add_new_course_button();

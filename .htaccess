@@ -28,6 +28,10 @@ RewriteRule ^report/$ local/homepage/report.php [NC]
 RewriteRule ^local/staticpage/view.php?page=intro$  local/homepage/about.php [NC]
 RewriteRule ^local/staticpage/view.php?page=huong-dan$ local/homepage/guide.php [NC]
 RewriteRule ^local/staticpage/view.php?page=team-bio$ local/homepage/team.php [NC]
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
 
 <IfModule mod_expires.c>
 ExpiresActive On

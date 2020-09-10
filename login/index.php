@@ -132,7 +132,7 @@ if ($anchor && isset($SESSION->wantsurl) && strpos($SESSION->wantsurl, '#') === 
 //TODO  start anhnn change login link to sso
  if(isset($CFG->sso)&&$CFG->sso){
      $authplugin = get_auth_plugin("oauth2");
-
+     $SESSION->wantsurl = isset($SESSION->wantsurl)?$SESSION->wantsurl:"/";
     $identityproviders =  $authplugin->loginpage_idp_list($SESSION->wantsurl);
     foreach($identityproviders as $provider){
         if($provider["name"]=="sso-server"){
