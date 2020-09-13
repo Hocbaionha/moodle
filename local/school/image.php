@@ -8,11 +8,11 @@ $filename = optional_param('filename', '', PARAM_TEXT);
 $accept_type=array("png","jpp","xlsx");
 if ($filename != '') {
     $path = $CFG->dataroot . '/school/' . $filename;
-        if(!isset(pathinfo($path)["extension"])){
+    if (is_readable($path) && pathinfo($path)["dirname"]=="/efs/moodledata/school") {
+        $ext = pathinfo($path)["extension"];
+        if(isset(pathinfo($path)["extension"]) && !in_array($ext,$accept_type)){
             header("HTTP/1.0 404 Not Found");exit();
         }
-    $ext = pathinfo($path)["extension"];
-    if (is_readable($path) && in_array($ext,$accept_type)) {
         $info = getimagesize($path);
         if ($info !== FALSE) {
             header("Content-type: {$info['mime']}");
