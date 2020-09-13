@@ -5,19 +5,14 @@ require_once $CFG->libdir . '/hbonlib/lib.php';
 $context = context_system::instance();
 $PAGE->set_context($context);
 $filename = optional_param('filename', '', PARAM_TEXT);
-//$fileinfo = array(
-//    'component' => 'local_school',
-//    'filearea' => 'schoolplugin',
-//    'itemid' => 0,
-//    'contextid' => $context->id,
-//    'filepath' => '/',
-//    'filename' => $filename);
-//getFileFromStorage('schoolplugin', $fileinfo, true, array());
-//var_dump($filename);die;
-
+$accept_type=array("png","jpp","xlsx");
 if ($filename != '') {
     $path = $CFG->dataroot . '/school/' . $filename;
-    if (is_readable($path)) {
+        if(!isset(pathinfo($path)["extension"])){
+            header("HTTP/1.0 404 Not Found");exit();
+        }
+    $ext = pathinfo($path)["extension"];
+    if (is_readable($path) && in_array($ext,$accept_type)) {
         $info = getimagesize($path);
         if ($info !== FALSE) {
             header("Content-type: {$info['mime']}");
@@ -33,7 +28,11 @@ if ($filename != '') {
             readfile($path);
             exit();
         }
+    } else {
+        header("HTTP/1.0 404 Not Found");exit();
     }
+    
 } else {
+    header("HTTP/1.0 404 Not Found");
     echo "not found file name ";
 }
