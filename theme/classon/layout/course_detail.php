@@ -48,7 +48,7 @@ if($cohortids > 0){
     $coursehrefbutton = "Vào học";
 } else {
     $coursehref = "/course/view.php?id=$course->id";
-    $coursehrefbutton = "Học thử ";
+    $coursehrefbutton = "Vào học";   //"Học thử ";
     $coursehref1 = "/local/hbon_payment/index.php?product_id=$productid";
     $coursehrefbutton1 = "Đăng ký";
 }
