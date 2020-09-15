@@ -28,8 +28,10 @@ RewriteRule ^report/$ local/homepage/report.php [NC]
 RewriteRule ^local/staticpage/view.php?page=intro$  local/homepage/about.php [NC]
 RewriteRule ^local/staticpage/view.php?page=huong-dan$ local/homepage/guide.php [NC]
 RewriteRule ^local/staticpage/view.php?page=team-bio$ local/homepage/team.php [NC]
+
+Options -Indexes
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Origin "pages.hocbaionha.com"
 </IfModule>
 
 
