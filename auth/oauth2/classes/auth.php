@@ -410,7 +410,7 @@ class auth extends \auth_plugin_base {
         global $CFG, $SESSION, $PAGE;
 
         $userinfo = $client->get_userinfo();
-
+        $uid = $userinfo["uid"];
         if (!$userinfo) {
             // Trigger login failed event.
             $failurereason = AUTH_LOGIN_NOUSER;
@@ -615,6 +615,8 @@ class auth extends \auth_plugin_base {
         // We used to call authenticate_user - but that won't work if the current user has a different default authentication
         // method. Since we now ALWAYS link a login - if we get to here we can directly allow the user in.
         $user = (object) $userinfo;
+        if(isset($uid))
+            $user->uid  = $uid;
         complete_user_login($user);
         $this->update_picture($user);
         redirect($redirecturl);

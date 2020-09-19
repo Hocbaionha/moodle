@@ -353,7 +353,10 @@ class client extends \oauth2_client {
                 }
             }
         }
-
+        //anhnn get uid  firebase
+        if(isset($userinfo->uid))
+            $user->uid = $userinfo->uid;
+            //end
         return (array)$user;
     }
 }
