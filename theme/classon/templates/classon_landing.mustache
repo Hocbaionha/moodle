@@ -57,7 +57,9 @@
         if (evt.origin === 'https://pages.hocbaionha.com')
         {
             height= parseInt(evt.data)+5;
-            $("#iframe").css('height', height);
+	    height = height.toString() + "px"
+            document.getElementById("iframe").style.height = height;
+            
         }
         }
     // create listener

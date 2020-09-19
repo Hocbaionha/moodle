@@ -40,7 +40,9 @@ $PAGE->set_url('/login/change_password.php', array('id'=>$id));
 
 $PAGE->set_context($systemcontext);
 
-if ($return) {
+//anhnn disable change password form
+//if ($return) {
+if(true){
     // this redirect prevents security warning because https can not POST to http pages
     if (empty($SESSION->wantsurl)
             or stripos(str_replace('https://', 'http://', $SESSION->wantsurl), str_replace('https://', 'http://', $CFG->wwwroot.'/login/change_password.php')) === 0) {
