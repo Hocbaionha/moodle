@@ -16,5 +16,9 @@
         "moodlehq/behat-extension": "3.39.3",
         "mikey179/vfsstream": "^1.6",
         "instaclick/php-webdriver": "dev-local as 1.x-dev"
+    },
+    "require": {
+        "grpc/grpc": "^v1.27.0",
+        "google/cloud-firestore": "^1.15"
     }
 }
