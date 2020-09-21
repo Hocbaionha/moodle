@@ -61,7 +61,41 @@ function check_enrol($shortname, $userid, $roleid,$endtime, $enrolmethod = 'manu
             }
             $instance = $DB->get_record('enrol', array('id' => $instanceid));
         }
-        $enrol->enrol_user($instance, $userid, $roleid, $timestart, $timeend);
+        $enrol->enrol_user($instance, $userid, $roleid, $timestart, $endtime);
     }
     return true;
 }
+
+function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
+    global $CFG, $USER;
+    try{
+    //get quiz_attempt data
+    $quiz_attempt = $event->get_record_snapshot('quiz_attempts', $event->objectid);
+    //get quiz data
+    $quiz = $event->get_record_snapshot('quiz', $quiz_attempt->quiz);
+    //get course data
+    $course = $event->get_record_snapshot('course', $event->courseid);
+    
+    $send_data = [];
+    $send_data['uid'] = $USER->uid;
+    $send_data['course'] = $course->shortname ;
+    $send_data['course_id'] = $course->id;
+    $send_data['course_name'] = $course->fullname;
+    $send_data['quiz_id'] = $quiz->id;
+    $send_data['quiz_name'] = $quiz->name;
+    $send_data['cmid'] = $quiz->cmid;
+    $send_data['quiz_attempt_id'] = $quiz_attempt->id;
+    $send_data['timestart'] = $quiz_attempt->timestart;
+    $send_data['timefinish'] = $quiz_attempt->timefinish;
+    $send_data['timemodified'] = $quiz_attempt->timemodified;
+    $send_data['sumgrades'] = $quiz->sumgrades;
+    $send_data['grade'] = $quiz->grade;
+    $send_data['url'] = (string)$event->get_url();
+    
+    $db = new FirestoreClient($CFG->firebase_config);
+    $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($send_data);
+    return true;
+    }catch (Exception $exception){
+    throwException($exception);
+    }
+    }
