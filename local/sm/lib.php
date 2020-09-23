@@ -78,7 +78,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     // firebase.firestore.Timestamp.fromDate(data.birthdate.toDate())
     $send_data = [];
     $send_data['uid'] = $USER->uid;
-    $send_data['course'] = 'hbon'.$course->shortname ;
+    $send_data['course'] = 'hbon-'.$course->shortname ;
     $send_data['course_shortname'] = $course->shortname ;
     $send_data['course_id'] = $course->id;
     $send_data['course_name'] = $course->fullname;
