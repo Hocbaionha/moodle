@@ -1,4 +1,4 @@
-<?PHP 
+<?PHP
 require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 use Google\Cloud\Firestore\FirestoreClient;
 use Google\Cloud\Core\Timestamp;
@@ -22,7 +22,7 @@ function local_sm_enrole(core\event\user_loggedin $event){
     $documents = $db->collection('students')->document($uid)->collection('products')->documents();
     foreach ($documents as $document) {
         if ($document->exists()) {
-            
+
             $product = $document->data();
             $courses = $product['courses'];
             $endtime=$product['end_time']->get()->getTimestamp();
@@ -78,7 +78,8 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     // firebase.firestore.Timestamp.fromDate(data.birthdate.toDate())
     $send_data = [];
     $send_data['uid'] = $USER->uid;
-    $send_data['course'] = $course->shortname ;
+    $send_data['course'] = 'hbon-'.$course->shortname ;
+    $send_data['course_shortname'] = $course->shortname ;
     $send_data['course_id'] = $course->id;
     $send_data['course_name'] = $course->fullname;
     $send_data['quiz_id'] = $quiz->id;
@@ -92,7 +93,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     $send_data['sumgrades'] = (int)$quiz_attempt->sumgrades;
     $send_data['grade'] = (int)$quiz_attempt->sumgrades/(int)$quiz->sumgrades*(int)$quiz->grade;
     $send_data['url'] = ((string)$event->get_url())."&cmid=".$quiz->cmid;
-    
+
     $db = new FirestoreClient($CFG->firebase_config);
 
     $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($send_data);
