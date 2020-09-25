@@ -1,18 +1,25 @@
 <?PHP 
+require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+use Google\Cloud\Firestore\FirestoreClient;
+use Google\Cloud\Core\Timestamp;
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
-// echo $fullpath = $CFG->dataroot . '/school/';
-// echo "<script>alert('aaaaaaaaaaaaaaaaaa');</script>";
-$firebaseConfig = '{
-    "apiKey": "AIzaSyAb_jc2posJg2ZX4ZX3iWchsKjwZrMczAY",
-    "authDomain": "hbon-dev.firebaseapp.com",
-    "databaseURL": "https://hbon-dev.firebaseio.com",
-    "projectId": "hbon-dev",
-    "storageBucket": "hbon-dev.appspot.com",
-    "messagingSenderId": "288259119229",
-    "appId": "1:288259119229:web:e6eeccb58a8b9565c27914",
-    "measurementId": "G-CQSKZV9B64"
-  }';
-// echo $firebaseConfig;
-print_r( json_decode($firebaseConfig, TRUE));
- 
+global $USER;
+$url =  "https://localhost:5000/change_pass";
+
+$data=array("uid"=>$USER->uid,'password'=>"abcd1234");
+function httpPost($url, $data)
+{
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, '', '&'));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0); //ssl stuff
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $response;
+}
+
+
+$result = httpPost($url, $data);

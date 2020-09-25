@@ -7,8 +7,9 @@ $PAGE->set_context($context);
 $filename = optional_param('filename', '', PARAM_TEXT);
 $accept_type=array("png","jpp","xlsx");
 if ($filename != '') {
+    global $CFG;
     $path = $CFG->dataroot . '/school/' . $filename;
-    if (is_readable($path) && pathinfo($path)["dirname"]=="/efs/moodledata/school") {
+    if (is_readable($path) && pathinfo($path)["dirname"]==$CFG->dataroot . '/school/') {
         $ext = pathinfo($path)["extension"];
         if(isset(pathinfo($path)["extension"]) && !in_array($ext,$accept_type)){
             header("HTTP/1.0 404 Not Found");exit();
