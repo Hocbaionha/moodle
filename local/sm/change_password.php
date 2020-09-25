@@ -161,7 +161,7 @@ function httpPost($url, $data) {
 }
 
 function firebasechangepass($uid,$password){
-    global $USER;
+    global $USER,$CFG;
     $url =  $CFG->changepass;
     if(!isset($url)){
         $url="https://localhost:5000/change_pass";
