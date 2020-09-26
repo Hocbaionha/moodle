@@ -102,3 +102,54 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     throwException($exception);
     }
     }
+
+// event update section
+function local_sm_course_section_update(core\event\course_section_updated $event){
+    global $CFG, $USER, $DB;
+    try{
+        $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
+        $all_sections_of_course = $DB->get_records('course_sections',array('course'=>$course_info->id),'id ASC','id,name');
+        $db  = new FirestoreClient($CFG->firebase_config);
+//        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
+//        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topic"=>$all_sections_of_course]);
+        $sfRef = $db->collection('courses')->document('hbon-'.$course_info->shortname);
+        $batch = $db->batch();
+        $batch->update($sfRef, [
+            ['path' => 'topic', 'value' => $all_sections_of_course]
+        ]);
+        $batch->commit();
+        return true;
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_course_update(core\event\course_updated $event){
+    global $CFG, $USER, $DB;
+    try{
+        $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
+        $image = "";
+        if(isset($course_info->summaryfiles[0])){
+            $image = $course_info->summaryfiles[0]->fileurl;
+        }
+        $all_sections_of_course = $DB->get_records('course_sections',array('course'=>$course_info->id),'id ASC','id,name');
+        $newdata = [];
+        $newdata["category"] = $course_info->categoryname;
+        $newdata["categoryid"] = $course_info->categoryid;
+        $newdata["image"] = $image;
+        $newdata["name"] = $course_info->fullname;
+        $newdata["school"] = [
+            "id"=>$CFG->school_firebase_id?$CFG->school_firebase_id:'vFPBJ0wkJoxBY3s8RmVI',
+            "lms_url"=>$CFG->wwwroot
+        ];
+        $newdata["shortname"] = $course_info->shortname;
+        $newdata["summary"] = $course_info->summary;
+        $newdata["topic"] = $all_sections_of_course;
+        $school_deputy_id = $CFG->school_deputy_id?$CFG->school_deputy_id:'hbon';
+        $db  = new FirestoreClient($CFG->firebase_config);
+        $db->collection('courses')->document($school_deputy_id.'-'.$course_info->shortname)->set($newdata);
+        return true;
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
