@@ -12,8 +12,10 @@ function local_sm_enrole(){
     global $CFG,$DB;
     global $USER;
     global $SESSION;
-    if($USER->auth!="oauth2"){
-        return;
+    if(isset($USER->auth)){
+        if($USER->auth!="oauth2"){
+            return;
+        }
     }
     
     $uid = $USER->uid;
