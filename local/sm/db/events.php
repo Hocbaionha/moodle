@@ -19,11 +19,6 @@ $observers = array(
         'includefile' => '/local/sm/lib.php',
         'callback' => 'local_sm_course_update',
         'internal' => false
-    ),
-     array(
-        'eventname' => 'core\event\user_loggedin',
-        'includefile' => '/local/sm/lib.php',
-        'callback' => 'local_sm_enrole',
-    ),
+    )
 
 );
