@@ -295,6 +295,7 @@ class client extends \oauth2_client {
     public function get_userinfo() {
         $url = $this->get_issuer()->get_endpoint_url('userinfo');
         $response = $this->get($url);
+
         if (!$response) {
             return false;
         }
@@ -304,7 +305,12 @@ class client extends \oauth2_client {
         } catch (\Exception $e) {
             return false;
         }
+        //TODO anhnn add firebase token
+        if(isset($userinfo->firebaseToken)){
+            global $SESSION;
+            $SESSION->fb_token = $userinfo->firebaseToken;
 
+        }
         $map = $this->get_userinfo_mapping();
 
         $user = new stdClass();
