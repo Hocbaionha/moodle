@@ -37,7 +37,6 @@ use core\oauth2\client;
 require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
 require_once($CFG->dirroot.'/user/profile/lib.php');
-require_once($CFG->dirroot.'/local/sm/lib.php');
 
 /**
  * Plugin for oauth2 authentication.
@@ -409,6 +408,7 @@ class auth extends \auth_plugin_base {
      */
     public function complete_login(client $client, $redirecturl) {
         global $CFG, $SESSION, $PAGE;
+
         $userinfo = $client->get_userinfo();
         $uid = $userinfo["uid"];
         if (!$userinfo) {
@@ -536,10 +536,8 @@ class auth extends \auth_plugin_base {
                 } else {
                     \auth_oauth2\api::link_login($userinfo, $issuer, $moodleuser->id, true);
                     $userinfo = $this->update_user($userinfo, $moodleuser);
-                    
                     // No redirect, we will complete this login.
                 }
-
 
             } else {
                 // This is a new account.
@@ -610,7 +608,6 @@ class auth extends \auth_plugin_base {
                 $userinfo = get_complete_user_data('id', $newuser->id);
                 global $DB;
                 $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
-                local_sm_enrole();
                 // end - add hainh
             }
         }
@@ -618,7 +615,6 @@ class auth extends \auth_plugin_base {
         // We used to call authenticate_user - but that won't work if the current user has a different default authentication
         // method. Since we now ALWAYS link a login - if we get to here we can directly allow the user in.
         $user = (object) $userinfo;
-        
         if(isset($uid))
             $user->uid  = $uid;
         complete_user_login($user);
