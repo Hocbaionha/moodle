@@ -1,43 +1,75 @@
 <?PHP
 require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-use Google\Cloud\Firestore\FirestoreClient;
-use Google\Cloud\Core\Timestamp;
 
+use Google\Cloud\Core\Timestamp;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Firestore;
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 
-function local_sm_enrole(core\event\user_loggedin $event){
+function local_sm_enrole(){
     global $CFG,$DB;
     global $USER;
-
+    global $SESSION;
     if($USER->auth!="oauth2"){
         return;
     }
+    
     $uid = $USER->uid;
-    $db = new FirestoreClient($CFG->firebase_config);
+    // $db = new FirestoreClient($CFG->firebase_config);
     //check student
+    $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+    $auth = $factory->createAuth();
+    if(!isset($SESSION->fb_token)){
+        return;
+    }
+    $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+    $firestore = $factory->createFirestore();
+    $db = $firestore->database();
+
 
     $student_role = $DB->get_record("role",array("shortname"=>"student"))->id;
-    $documents = $db->collection('students')->document($uid)->collection('products')->documents();
-    foreach ($documents as $document) {
-        if ($document->exists()) {
 
-            $product = $document->data();
-            $courses = $product['courses'];
-            $endtime=$product['end_time']->get()->getTimestamp();
-            foreach($courses as $course) {
-                check_enrol($course["shortname"],$USER->id,$student_role,$endtime);
+    $docRef = $db->collection('students')->document($uid);
+    $snapshot = $docRef->snapshot();
+
+    if ($snapshot->exists()) {
+        
+        $student = $snapshot->data();
+        $enddate = time();
+        foreach($student["products"] as $productref){
+            $snapshot = $productref->snapshot();
+            if ($snapshot->exists()) {
+                $product = $snapshot->data();
+                $endtime = $product["endtime"];
+                switch($endtime){
+                    case "0":
+                        $enddate=$product['enddate']->get()->getTimestamp();
+                        break;
+                    case "00":
+                        $enddate = strtotime("01/01/2100");
+                        break;
+                    default:
+                        $enddate =  strtotime("+$endtime month", time());
+                }       
+                $courses = $product['courses'];
+                foreach($courses as $course) {
+                    check_enrol($course["shortname"],$USER->id,$student_role,$enddate);
+                }
             }
-        } else {
-            printf('Document %s does not exist!');
-        }
+        };
+    } else {
+        echo "not found".$uid;
     }
+    
+    
 }
 
 function check_enrol($shortname, $userid, $roleid,$endtime, $enrolmethod = 'manual') {
     global $DB;
     $timestart=time();
+
     $user = $DB->get_record('user', array('id' => $userid, 'deleted' => 0), '*', MUST_EXIST);
     $course = $DB->get_record('course', array('shortname' => $shortname), '*', MUST_EXIST);
     $context = context_course::instance($course->id);
