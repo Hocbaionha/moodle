@@ -8,7 +8,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 
-function local_sm_enrole(){
+function local_sm_enrole($uid){
     global $CFG,$DB;
     global $USER;
     global $SESSION;
@@ -17,8 +17,6 @@ function local_sm_enrole(){
             return;
         }
     }
-    
-    $uid = $USER->uid;
     // $db = new FirestoreClient($CFG->firebase_config);
     //check student
     $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');

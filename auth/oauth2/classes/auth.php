@@ -411,6 +411,7 @@ class auth extends \auth_plugin_base {
         global $CFG, $SESSION, $PAGE;
         $userinfo = $client->get_userinfo();
         $uid = $userinfo["uid"];
+        $new = false;
         if (!$userinfo) {
             // Trigger login failed event.
             $failurereason = AUTH_LOGIN_NOUSER;
@@ -610,7 +611,7 @@ class auth extends \auth_plugin_base {
                 $userinfo = get_complete_user_data('id', $newuser->id);
                 global $DB;
                 $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
-                local_sm_enrole();
+                $new=true;
                 // end - add hainh
             }
         }
@@ -623,6 +624,9 @@ class auth extends \auth_plugin_base {
             $user->uid  = $uid;
         complete_user_login($user);
         $this->update_picture($user);
+        if($new){
+            local_sm_enrole($uid);
+        }
         redirect($redirecturl);
     }
 
