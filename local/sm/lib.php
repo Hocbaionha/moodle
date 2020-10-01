@@ -156,7 +156,7 @@ function local_sm_course_section_update(core\event\course_section_updated $event
         $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
         $firestore = $factory->createFirestore();
         $db = $firestore->database();
-        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
+//        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
 //        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topics"=>$all_sections_of_course]);
         $sfRef = $db->collection('courses')->document('hbon-'.$course_info->shortname);
         $batch = $db->batch();
