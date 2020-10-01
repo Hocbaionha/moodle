@@ -3,11 +3,10 @@ require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_once('flatfile.php');
 
-use Google\Cloud\Firestore\FirestoreClient;
-
 use Google\Cloud\Core\Timestamp;
-//use Kreait\Firebase\Factory;
-//use Kreait\Firebase\Firestore;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Firestore;
+
 
 global $CFG,$USER,$SESSION;
 $timeSpent = optional_param('timeSpent', 0, PARAM_INT);
@@ -35,6 +34,7 @@ define('COURSE_NAME',   7);
 define('TOPIC',   8);
 define('UID',   9);
 
+
 $activity[ID] = $USER->id;
 $activity[NAME] = $aurl->get_name($action);
 $activity[INPUT_ID] = $aurl->get_param($action);
@@ -45,6 +45,7 @@ $activity[COURSE_ID] = $aurl->get_param($course_link);
 $activity[COURSE_NAME] = $course;
 $activity[TOPIC] = $topic;
 $activity[UID] = $USER->uid;
+
 
 $listActivity = [
     "assign"=>"/mod/assign/view.php",
@@ -58,26 +59,37 @@ $listActivity = [
     "page"=>"/mod/page/view.php",
     "hp5activity"=>"/mod/hp5activity/view.php",
 ];
-$aSingleRow = $db->selectUnique($name, NAME,  $aurl->get_name($action));
-if(empty($aSingleRow)){
-    $db->insert($name, $activity);
-} else {
-    $db->updateSetWhere($name, array(TIME_SPENT => $aSingleRow[TIME_SPENT]+$timeSpent),
-        new SimpleWhereClause(NAME, '=', $aurl->get_name($action)));
-//    if(time() - $aSingleRow[TIME_ADD]>3600000){
-        //push to firebase every 1h activity
-        $setdata = [];
-        $setdata['activity'] = $aSingleRow[NAME];
-        $setdata['activity_id'] = $aSingleRow[INPUT_ID];
-        $setdata['course_id'] = $aSingleRow[COURSE_ID];
-        $setdata['course_name'] = $aSingleRow[COURSE_NAME];
-        $setdata['created_at'] = new Timestamp($date->setTimestamp($aSingleRow[TIME_ADD]));
-        $setdata['time_spent'] = $aSingleRow[TIME_SPENT];
-        $setdata['topic'] = $aSingleRow[TOPIC];
-        $db = new FirestoreClient($CFG->firebase_config);
-        $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($setdata);
-//    }
+if($topic !=0 ){
+    $aSingleRow = $db->selectUnique($name, NAME,  $aurl->get_name($action));
+    if(empty($aSingleRow)){
+        $db->insert($name, $activity);
+    } else {
+        $db->updateSetWhere($name, array(TIME_SPENT => $aSingleRow[TIME_SPENT]+$timeSpent),
+            new SimpleWhereClause(NAME, '=', $aurl->get_name($action)));
+        if(time() - $aSingleRow[TIME_ADD]>3600000){
+            //push to firebase every 1h activity
+            $date = new DateTime();
+            $setdata = [];
+            $setdata['activity'] = $aSingleRow[NAME];
+            $setdata['activity_id'] = $aSingleRow[INPUT_ID];
+            $setdata['course_id'] = $aSingleRow[COURSE_ID];
+            $setdata['course_name'] = $aSingleRow[COURSE_NAME];
+            $setdata['created_at'] = new Timestamp($date->setTimestamp($aSingleRow[TIME_ADD]));
+            $setdata['time_spent'] = $aSingleRow[TIME_SPENT];
+            $setdata['topic'] = $aSingleRow[TOPIC];
+            $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+            $auth = $factory->createAuth();
+            if(!isset($SESSION->fb_token)){
+                return;
+            }
+            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+            $firestore = $factory->createFirestore();
+            $db = $firestore->database();
+            $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($setdata);
+        }
+    }
 }
+
 
 class Sup
 {
