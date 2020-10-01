@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>hello</h1>
+<a href="https://www.youtube.com/watch?v=2Yptrxh9lzk">TEST</a>
+<script>
+        window.onbeforeunload = function (event) {
+            var message = 'Important: Please click on \'Save\' button to leave this page.';
+            if (typeof event == 'undefined') {
+                event = window.event;
+            }
+            if (event) {
+                event.returnValue = message;
+            }
+            return message;
+        };
+
+    $(function () {
+        $("a").not('#lnkLogOut').click(function () {
+            window.onbeforeunload = null;
+        });
+        $(".btn").click(function () {
+            window.onbeforeunload = null;
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        var start = new Date();
+        $(window).on('beforeunload',function(e) {
+            e.returnValue = "Write something clever here..";
+            var end = new Date();
+            var uid = {{{uid}}};
+            var action = window.location.href;
+            var data={'timeSpent': end - start,'uid':uid, 'action':action};
+            console.log(data);
+            $.ajax({
+                url: "/local/sm/log.php",
+                type: 'POST',
+                data: data,
+                success: function(data, textStatus, jqXHR) {
+                    console.log(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    alert('Error occurred!');
+                },
+                async: true
+            })
+        });
+    });
+</script>
+</body>
+</html>

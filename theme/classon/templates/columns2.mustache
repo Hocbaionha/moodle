@@ -227,7 +227,7 @@ var end = new Date();
 var uid = {{{uid}}};
 var action = window.location.href;
 var data={'timeSpent': end - start,'uid':uid, 'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
-console.log(data);
+console.log(topic);
 $.ajax({
 url: "/local/sm/log.php",
 type: 'POST',

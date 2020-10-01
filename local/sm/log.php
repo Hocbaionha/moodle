@@ -46,27 +46,16 @@ $activity[COURSE_NAME] = $course;
 $activity[TOPIC] = $topic;
 $activity[UID] = $USER->uid;
 
+$listActivity = ["assign", "book", "feedback", "quiz", "wiki", "resource", "geogebra", "url", "page", "hp5activity"];
 
-$listActivity = [
-    "assign"=>"/mod/assign/view.php",
-    "book"=>"/mod/book/view.php",
-    "feedback"=>"/mod/feedback/view.php",
-    "quiz"=>"/mod/quiz/view.php",
-    "wiki"=>"/mod/wiki/view.php",
-    "resource"=>"/mod/resource/view.php",
-    "geogebra"=>"/mod/geogebra/view.php",
-    "url"=>"/mod/url/view.php",
-    "page"=>"/mod/page/view.php",
-    "hp5activity"=>"/mod/hp5activity/view.php",
-];
-if($topic !=0 ){
+if($topic && in_array(NAME, $listActivity) == true ){
     $aSingleRow = $db->selectUnique($name, NAME,  $aurl->get_name($action));
     if(empty($aSingleRow)){
         $db->insert($name, $activity);
     } else {
         $db->updateSetWhere($name, array(TIME_SPENT => $aSingleRow[TIME_SPENT]+$timeSpent),
             new SimpleWhereClause(NAME, '=', $aurl->get_name($action)));
-        if(time() - $aSingleRow[TIME_ADD]>3600000){
+        if((time() - $aSingleRow[TIME_ADD])>3600000){
             //push to firebase every 1h activity
             $date = new DateTime();
             $setdata = [];
@@ -84,8 +73,8 @@ if($topic !=0 ){
             }
             $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
             $firestore = $factory->createFirestore();
-            $db = $firestore->database();
-            $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($setdata);
+            $fb_db = $firestore->database();
+            $fb_db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($setdata);
         }
     }
 }

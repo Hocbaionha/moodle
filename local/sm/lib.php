@@ -99,7 +99,7 @@ function check_enrol($shortname, $userid, $roleid,$endtime, $enrolmethod = 'manu
 }
 
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
-    global $CFG, $USER;
+    global $CFG, $USER,$SESSION;
     try{
     //get quiz_attempt data
     $quiz_attempt = $event->get_record_snapshot('quiz_attempts', $event->objectid);
@@ -126,9 +126,16 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     $send_data['grade'] = (int)$quiz_attempt->sumgrades/(int)$quiz->sumgrades*(int)$quiz->grade;
     $send_data['url'] = ((string)$event->get_url())."&cmid=".$quiz->cmid;
 
-    $db = new FirestoreClient($CFG->firebase_config);
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        if(!isset($SESSION->fb_token)){
+            return;
+        }
+        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+        $firestore = $factory->createFirestore();
+        $db = $firestore->database();
 
-    $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($send_data);
+    $db->collection('students')->document($USER->uid)->collection('grades')->newDocument()->set($send_data);
     return true;
     }catch (Exception $exception){
     throwException($exception);
@@ -150,13 +157,13 @@ function local_sm_course_section_update(core\event\course_section_updated $event
         $firestore = $factory->createFirestore();
         $db = $firestore->database();
 //        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-//        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topic"=>$all_sections_of_course]);
-        $sfRef = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-        $batch = $db->batch();
-        $batch->update($sfRef, [
-            ['path' => 'topic', 'value' => $all_sections_of_course]
-        ]);
-        $batch->commit();
+        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topic"=>$all_sections_of_course]);
+//        $sfRef = $db->collection('courses')->document('hbon-'.$course_info->shortname);
+//        $batch = $db->batch();
+//        $batch->update($sfRef, [
+//            ['path' => 'topic', 'value' => $all_sections_of_course]
+//        ]);
+//        $batch->commit();
         return true;
     }catch (Exception $exception){
         print_r($exception);die();
