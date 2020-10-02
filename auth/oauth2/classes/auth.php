@@ -37,7 +37,11 @@ use core\oauth2\client;
 require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
 require_once($CFG->dirroot.'/user/profile/lib.php');
-require_once($CFG->dirroot.'/local/sm/lib.php');
+if (is_file($CFG->dirroot.'/local/sm/lib.php'))
+{
+    require_once($CFG->dirroot.'/local/sm/lib.php');
+}
+
 
 /**
  * Plugin for oauth2 authentication.
@@ -625,7 +629,9 @@ class auth extends \auth_plugin_base {
         complete_user_login($user);
         $this->update_picture($user);
         if($new){
+            if (function_exists('local_sm_enrole')) {
             local_sm_enrole($uid);
+            }
         }
         redirect($redirecturl);
     }
