@@ -148,6 +148,10 @@ function local_sm_course_section_update(core\event\course_section_updated $event
     try{
         $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
         $all_sections_of_course = $DB->get_records('course_sections',array('course'=>$course_info->id),'id ASC','id,name');
+        $result = [];
+        foreach ($all_sections_of_course as $item){
+            $result[]=(array)$item;
+        }
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
         $auth = $factory->createAuth();
         if(!isset($SESSION->fb_token)){
@@ -157,13 +161,10 @@ function local_sm_course_section_update(core\event\course_section_updated $event
         $firestore = $factory->createFirestore();
         $db = $firestore->database();
 //        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-//        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topics"=>$all_sections_of_course]);
-        $sfRef = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-        $batch = $db->batch();
-        $batch->update($sfRef, [
-            ['path' => 'topics', 'value' => $all_sections_of_course]
+        $db->collection('courses')->document('hbon-'.$course_info->shortname)->update([
+            ['path' => 'topics', 'value' => $result]
         ]);
-        $batch->commit();
+
         return true;
     }catch (Exception $exception){
         print_r($exception);die();
