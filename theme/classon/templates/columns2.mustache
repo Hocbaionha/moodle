@@ -199,7 +199,6 @@ input.mod_quiz-redo_question_button {
 
     {{> theme_classon/classon_hp_footer_inside }}
 </div>
-
 </body>
 </html>
 {{#js}}
@@ -211,5 +210,66 @@ M.util.js_pending('theme_boost/drawer');
 require(['theme_boost/drawer'], function(mod) {
     mod.init();
   M.util.js_complete('theme_boost/drawer');
+});
+
+
+$(document).ready(function() {
+var start = new Date();
+$(window).on('beforeunload',function(e) {
+e.returnValue = "Write something clever here..";
+
+var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+
+var end = new Date();
+var uid = {{{uid}}};
+var action = window.location.href;
+var data={'timeSpent': end - start,'uid':uid, 'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
+console.log(topic);
+$.ajax({
+url: "/local/sm/log.php",
+type: 'POST',
+data: data,
+success: function(data, textStatus, jqXHR) {
+console.log(data);
+},
+error: function(jqXHR, textStatus, errorThrown) {
+console.log(textStatus);
+console.log(errorThrown);
+alert('Error occurred!');
+},
+async: true
+})
+});
+
+$('a').click(function(e) {
+var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+console.log(topic);
+var start = new Date();
+var end = new Date();
+var uid = {{{uid}}};
+var action =$(this).attr('href');
+var data={'timeSpent': end - start,'uid':uid, 'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
+
+$.ajax({
+url: "/local/sm/log.php",
+type: 'POST',
+data: data,
+success: function(data, textStatus, jqXHR) {
+},
+error: function(jqXHR, textStatus, errorThrown) {
+console.log(textStatus);
+console.log(errorThrown);
+alert('Error occurred!');
+},
+async: true
+})
+});
+
 });
 {{/js}}

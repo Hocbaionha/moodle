@@ -35,7 +35,7 @@ function local_sm_enrole($uid){
     $snapshot = $docRef->snapshot();
 
     if ($snapshot->exists()) {
-        
+
         $student = $snapshot->data();
         $enddate = time();
         foreach($student["products"] as $productref){
@@ -52,7 +52,7 @@ function local_sm_enrole($uid){
                         break;
                     default:
                         $enddate =  strtotime("+$endtime month", time());
-                }       
+                }
                 $courses = $product['courses'];
                 foreach($courses as $course) {
                     check_enrol($course["shortname"],$USER->id,$student_role,$enddate);
@@ -62,8 +62,8 @@ function local_sm_enrole($uid){
     } else {
         echo "not found".$uid;
     }
-    
-    
+
+
 }
 
 function check_enrol($shortname, $userid, $roleid,$endtime, $enrolmethod = 'manual') {
@@ -99,7 +99,7 @@ function check_enrol($shortname, $userid, $roleid,$endtime, $enrolmethod = 'manu
 }
 
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
-    global $CFG, $USER;
+    global $CFG, $USER,$SESSION;
     try{
     //get quiz_attempt data
     $quiz_attempt = $event->get_record_snapshot('quiz_attempts', $event->objectid);
@@ -126,9 +126,16 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     $send_data['grade'] = (int)$quiz_attempt->sumgrades/(int)$quiz->sumgrades*(int)$quiz->grade;
     $send_data['url'] = ((string)$event->get_url())."&cmid=".$quiz->cmid;
 
-    $db = new FirestoreClient($CFG->firebase_config);
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        if(!isset($SESSION->fb_token)){
+            return;
+        }
+        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+        $firestore = $factory->createFirestore();
+        $db = $firestore->database();
 
-    $db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($send_data);
+    $db->collection('students')->document($USER->uid)->collection('grades')->newDocument()->set($send_data);
     return true;
     }catch (Exception $exception){
     throwException($exception);
@@ -137,17 +144,24 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
 
 // event update section
 function local_sm_course_section_update(core\event\course_section_updated $event){
-    global $CFG, $USER, $DB;
+    global $CFG, $USER, $DB,$SESSION;
     try{
         $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
         $all_sections_of_course = $DB->get_records('course_sections',array('course'=>$course_info->id),'id ASC','id,name');
-        $db  = new FirestoreClient($CFG->firebase_config);
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        if(!isset($SESSION->fb_token)){
+            return;
+        }
+        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+        $firestore = $factory->createFirestore();
+        $db = $firestore->database();
 //        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-//        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topic"=>$all_sections_of_course]);
+//        $db->collection('courses')->document('hbon-'.$course_info->shortname)->set(["topics"=>$all_sections_of_course]);
         $sfRef = $db->collection('courses')->document('hbon-'.$course_info->shortname);
         $batch = $db->batch();
         $batch->update($sfRef, [
-            ['path' => 'topic', 'value' => $all_sections_of_course]
+            ['path' => 'topics', 'value' => $all_sections_of_course]
         ]);
         $batch->commit();
         return true;
@@ -157,7 +171,7 @@ function local_sm_course_section_update(core\event\course_section_updated $event
 }
 
 function local_sm_course_update(core\event\course_updated $event){
-    global $CFG, $USER, $DB;
+    global $CFG, $USER, $DB,$SESSION;
     try{
         $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
         $image = "";
@@ -178,7 +192,14 @@ function local_sm_course_update(core\event\course_updated $event){
         $newdata["summary"] = $course_info->summary;
         $newdata["topic"] = $all_sections_of_course;
         $school_deputy_id = $CFG->school_deputy_id?$CFG->school_deputy_id:'hbon';
-        $db  = new FirestoreClient($CFG->firebase_config);
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        if(!isset($SESSION->fb_token)){
+            return;
+        }
+        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+        $firestore = $factory->createFirestore();
+        $db = $firestore->database();
         $db->collection('courses')->document($school_deputy_id.'-'.$course_info->shortname)->set($newdata);
         return true;
     }catch (Exception $exception){
