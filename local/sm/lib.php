@@ -206,3 +206,8 @@ function local_sm_course_update(core\event\course_updated $event){
         print_r($exception);die();
     }
 }
+
+function local_sm_check_session(){
+    global $USER;
+    \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
+}
