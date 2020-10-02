@@ -9,6 +9,10 @@ use Kreait\Firebase\Firestore;
 
 
 global $CFG,$USER,$SESSION;
+if(!isset($USER->uid)){
+    die;
+}
+//only log activity with SSO user
 $timeSpent = optional_param('timeSpent', 0, PARAM_INT);
 $timeSpent = $timeSpent/1000;
 $bodyattributes=optional_param('bodyattributes', 0, PARAM_TEXT);
