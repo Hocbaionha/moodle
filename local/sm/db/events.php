@@ -19,6 +19,11 @@ $observers = array(
         'includefile' => '/local/sm/lib.php',
         'callback' => 'local_sm_course_update',
         'internal' => false
+    ),
+    array(
+        'eventname' => '',
+        'includefile' => '/local/sm/lib.php',
+        'callback' => '',
+        'internal' => false
     )
-
 );
