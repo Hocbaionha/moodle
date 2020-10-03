@@ -4,8 +4,6 @@ require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
-use function foo\func;
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
@@ -210,11 +208,7 @@ function local_sm_course_update(core\event\course_updated $event){
     }
 }
 
-function forum_supports($feature) {
-    switch($feature) {
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
-        case FEATURE_COMPLETION_HAS_RULES: return true;
-        default: return null;
-    }
+function local_sm_check_session(){
+    global $USER;
+    \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
 }
-

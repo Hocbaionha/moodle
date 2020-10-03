@@ -21,9 +21,10 @@ $observers = array(
         'internal' => false
     ),
     array(
-        'eventname' => '',
+        'eventname' => 'core\event\user_loggedin',
         'includefile' => '/local/sm/lib.php',
-        'callback' => '',
+        'callback' => 'local_sm_check_session',
         'internal' => false
     )
+
 );
