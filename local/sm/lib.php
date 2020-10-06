@@ -4,9 +4,12 @@ require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
+use function foo\func;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
+require_once($CFG->dirroot . "/mod/book/lib.php");
 
 function local_sm_enrole($uid){
     global $CFG,$DB;
@@ -208,7 +211,101 @@ function local_sm_course_update(core\event\course_updated $event){
     }
 }
 
-function local_sm_check_session(){
-    global $USER;
-    \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
+function local_sm_mod_book_chapter_viewed(mod_book\event\chapter_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_book_module_viewed(mod_book\event\course_module_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_assign_submission_created(mod_assign\event\submission_created $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+        
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+ function local_sm_mod_feedback_view_feedback(mod_feedback\event\course_module_viewed $event){
+     global $CFG, $USER, $DB,$SESSION;
+     try{
+
+     }catch (Exception $exception){
+         print_r($exception);die();
+     }
+}
+
+function local_sm_mod_view_forum(mod_forum\event\forum_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_view_forum_discussion(mod_forum\event\discussion_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_wiki_page_viewed(mod_wiki\event\page_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_resource_course_module_viewed(mod_resource\event\course_module_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_resource_course_module_instance_list_viewed(mod_resource\event\course_module_instance_list_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_page_course_module_viewed(mod_page\event\course_module_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
+}
+
+function local_sm_mod_url_course_module_viewed(mod_url\event\course_module_viewed $event){
+    global $CFG, $USER, $DB,$SESSION;
+    try{
+
+    }catch (Exception $exception){
+        print_r($exception);die();
+    }
 }
