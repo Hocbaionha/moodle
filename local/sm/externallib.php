@@ -25,7 +25,8 @@ require_once($CFG->dirroot . "/course/externallib.php");
 class local_courses_external extends core_course_external
 {
 
-    public static function get_courses_by_field_parameters() {
+    public static function get_courses_by_field_parameters()
+    {
         return new external_function_parameters(
             array(
                 'field' => new external_value(PARAM_ALPHA, 'The field to search can be left empty for all courses or:
@@ -44,13 +45,14 @@ class local_courses_external extends core_course_external
     /**
      * Get courses matching a specific field (id/s, shortname, idnumber, category)
      *
-     * @param  string $field field name to search, or empty for all courses
-     * @param  string $value value to search
+     * @param string $field field name to search, or empty for all courses
+     * @param string $value value to search
      * @return array list of courses and warnings
      * @throws  invalid_parameter_exception
      * @since Moodle 3.2
      */
-    public static function get_courses_by_field($field = '', $value = '') {
+    public static function get_courses_by_field($field = '', $value = '')
+    {
         global $DB, $CFG;
         require_once($CFG->dirroot . '/course/lib.php');
         require_once($CFG->libdir . '/filterlib.php');
@@ -165,7 +167,15 @@ class local_courses_external extends core_course_external
                     'value' => $value
                 );
             }
-            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course"=>$course->id], 'id ASC', 'id,name');
+            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id], 'id ASC', 'id,name');
+            $activitys = get_array_of_activities($course->id);
+            foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
+                foreach ($activitys as $activities) {
+                    if ($key == $activities->sectionid) {
+                        $coursesdata[$course->id]['topics'][$key]->activities[] = (array)$activities;
+                    }
+                }
+            }
         }
         return array(
             'courses' => $coursesdata,
@@ -179,7 +189,8 @@ class local_courses_external extends core_course_external
      * @return external_description
      * @since Moodle 3.2
      */
-    public static function get_courses_by_field_returns() {
+    public static function get_courses_by_field_returns()
+    {
         // Course structure, including not only public viewable fields.
         return new external_single_structure(
             array(
@@ -189,7 +200,8 @@ class local_courses_external extends core_course_external
         );
     }
 
-    protected static function get_course_structure($onlypublicdata = true) {
+    protected static function get_course_structure($onlypublicdata = true)
+    {
         $coursestructure = array(
             'id' => new external_value(PARAM_INT, 'course id'),
             'fullname' => new external_value(PARAM_TEXT, 'course full name'),
@@ -206,7 +218,7 @@ class local_courses_external extends core_course_external
                 new external_single_structure(
                     array(
                         'id' => new external_value(PARAM_INT, 'contact user id'),
-                        'fullname'  => new external_value(PARAM_NOTAGS, 'contact user fullname'),
+                        'fullname' => new external_value(PARAM_NOTAGS, 'contact user fullname'),
                     )
                 ),
                 'contact users'
@@ -221,18 +233,28 @@ class local_courses_external extends core_course_external
                         'name' => new external_value(PARAM_RAW, 'The name of the custom field'),
                         'shortname' => new external_value(PARAM_RAW,
                             'The shortname of the custom field - to be able to build the field class in the code'),
-                        'type'  => new external_value(PARAM_ALPHANUMEXT,
+                        'type' => new external_value(PARAM_ALPHANUMEXT,
                             'The type of the custom field - text field, checkbox...'),
                         'value' => new external_value(PARAM_RAW, 'The value of the custom field'),
                     )
                 ), 'Custom fields', VALUE_OPTIONAL),
-            'topics'=>new external_multiple_structure(new external_single_structure(
+            'topics' => new external_multiple_structure(
+                new external_single_structure(
                 array(
+                    'activities' => new external_multiple_structure(
+                        new external_single_structure(
+                            array(
+                                'id' => new external_value(PARAM_INT, 'activities id'),
+                                'name' => new external_value(PARAM_RAW, 'activities name'),
+                                'mod' => new external_value(PARAM_RAW, 'activities mod')
+                            )
+                        ),'activities', VALUE_OPTIONAL
+                    ),
                     'id' => new external_value(PARAM_INT, 'topic id'),
-                    'name'  => new external_value(PARAM_NOTAGS, 'topic name'),
+                    'name' => new external_value(PARAM_NOTAGS, 'topic name'),
                 )
             ),
-                'topic')
+                'topics',VALUE_OPTIONAL)
         );
 
         if (!$onlypublicdata) {
@@ -263,7 +285,7 @@ class local_courses_external extends core_course_external
                 'filters' => new external_multiple_structure(
                     new external_single_structure(
                         array(
-                            'filter'  => new external_value(PARAM_PLUGIN, 'Filter plugin name'),
+                            'filter' => new external_value(PARAM_PLUGIN, 'Filter plugin name'),
                             'localstate' => new external_value(PARAM_INT, 'Filter state: 1 for on, -1 for off, 0 if inherit'),
                             'inheritedstate' => new external_value(PARAM_INT, '1 or 0 to use when localstate is set to inherit'),
                         )
