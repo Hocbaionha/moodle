@@ -144,11 +144,6 @@ function insertGroup($shortname, $group_name, $userid) {
     return $gid;
 }
 
-function local_sm_check_session(){
-    global $USER;
-    \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
-}
-
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     global $CFG, $USER,$SESSION;
     try{
