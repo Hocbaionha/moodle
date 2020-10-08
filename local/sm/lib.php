@@ -211,6 +211,12 @@ function local_sm_course_update(core\event\course_updated $event){
     }
 }
 
+function local_sm_check_session(){
+    //TODO bổ sung popup confirm 5' trước khi destroy session 
+    global $USER;
+    \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
+}
+
 function local_sm_mod_book_chapter_viewed(mod_book\event\chapter_viewed $event){
     global $CFG, $USER, $DB,$SESSION;
     try{
