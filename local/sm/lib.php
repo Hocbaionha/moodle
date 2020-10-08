@@ -13,7 +13,7 @@ require_once($CFG->dirroot . "/mod/book/lib.php");
 require_once($CFG->dirroot . "/cohort/lib.php");
 require_once($CFG->dirroot . "/lib/externallib.php");
 require_once($CFG->dirroot . '/group/lib.php');
-
+$ccache = array();
 function local_sm_enrole($uid){
     global $CFG,$DB;
     global $USER;
@@ -83,10 +83,13 @@ function local_sm_enrole($uid){
         serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
-$ccache = array();
+
 function insertGroup($shortname, $group_name, $userid) {
     global $DB;
     global $ccache;
+    if(!isset($ccache)){
+        $ccache = array();
+    }
     if (!array_key_exists($shortname, $ccache)) {
         if (!$course = $DB->get_record('course', array('shortname' => $shortname), 'id, shortname')) {
             echo 'unknowncourse' . $shortname;
