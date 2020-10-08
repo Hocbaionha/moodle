@@ -144,6 +144,11 @@ function insertGroup($shortname, $group_name, $userid) {
     return $gid;
 }
 
+function local_sm_check_session(){
+    global $USER;
+    \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
+}
+
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     global $CFG, $USER,$SESSION;
     try{
@@ -194,8 +199,15 @@ function local_sm_course_section_update(core\event\course_section_updated $event
     try{
         $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
         $all_sections_of_course = $DB->get_records('course_sections',array('course'=>$course_info->id),'id ASC','id,name');
+        $activities = get_array_of_activities($course_info->id);
+//        print_object($all_sections_of_course);die();
         $result = [];
         foreach ($all_sections_of_course as $item){
+            foreach ($activities as $activitie) {
+                if ($item->id == $activitie->sectionid) {
+                  $item->activities = (array)$activitie;
+                }
+            }
             $result[]=(array)$item;
         }
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
@@ -281,7 +293,7 @@ function local_sm_mod_book_module_viewed(mod_book\event\course_module_viewed $ev
 function local_sm_mod_assign_submission_created(mod_assign\event\submission_created $event){
     global $CFG, $USER, $DB,$SESSION;
     try{
-        
+
     }catch (Exception $exception){
         print_r($exception);die();
     }
