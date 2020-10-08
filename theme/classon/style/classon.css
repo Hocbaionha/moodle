@@ -895,30 +895,26 @@ a.button:hover {
     margin: 0px;
 }
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info,.slide-home-01 .slide-wrap:nth-child(2) .slide-info{
-    top:37%;
+    top:41%;
 }
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info h1 {
-    font-size: 3.5vw;
-    color: #fff;
+    font-size: 4.6vw;
 }
 
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info h2 {
-    font-size: 4.5vw;
-    color: #fff;
-
+    font-size: 1.6vw;
 }
 
 .slide-home-01 .slide-wrap:nth-child(2) .slide-info h1 {
-    font-size: 3.5vw;
+    font-size: 4.6vw;
     margin-left: 0;
     margin-bottom: 10px;
-    color: #fff;
 }
 
 .slide-home-01 .slide-wrap:nth-child(2) .slide-info h2 {
-    font-size: 4.5vw;
+    font-size: 1.6vw;
     margin: 0 0 20px 0;
-    color: #fff;
+
 }
 .slide-home-01 .slide-info,.slide-home-01 .slide-info h1, .slide-home-01 .slide-info h2{
     color: black;
@@ -1072,13 +1068,13 @@ a.button:hover {
 
 @media (max-width: 420px) {
     .slide-home-01 .slide-wrap:nth-child(2) .slide-info h1,.slide-home-01 .slide-wrap:nth-child(1) .slide-info h1 {
-        font-size: 4.5vw;
+        font-size: 6vw;
         margin-left: 0;
         margin-bottom: 10px
     }
 
     .slide-home-01 .slide-wrap:nth-child(2) .slide-info h2,.slide-home-01 .slide-wrap:nth-child(1) .slide-info h2 {
-        font-size: 5.5vw;
+        font-size: 2.3vw;
         margin: 0 0 20px 0;
     }
     .slide-home-01 .slide-info .slide-inner .btn-group{
