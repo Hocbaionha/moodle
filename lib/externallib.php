@@ -24,7 +24,15 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+function serviceErrorLog($message = 'no message') {
+    $date = date('Y-m-d H:i:s');
+    $fp   = fopen('/var/log/moodle-errors.log', 'a');
+    if (!$fp) {
+         throw new \Exception("Could not open log file! Permission error?");
+    }
+    fwrite($fp, $date . ' ' . $message . "\n");
+    fclose($fp);
+}
 /**
  * Exception indicating user is not allowed to use external function in the current context.
  *

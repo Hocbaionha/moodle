@@ -29,6 +29,13 @@ $functions = array(
         'classpath'   => 'local/sm/externallib.php',
         'description' => 'service custome course',
         'type'        => 'read',
+    ),
+    'local_create_product' => array(
+        'classname'   => 'local_sm_cohort_external',
+        'methodname'  => 'create_product',
+        'classpath'   => 'local/sm/classes/local_sm_cohort_external',
+        'description' => 'service add products',
+        'type'        => 'write',
     )
 );
 
