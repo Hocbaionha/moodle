@@ -81,6 +81,7 @@ class local_sm_cohort_external extends external_api{
                             $ca = new stdClass();
                             $ca->type="cohort";
                             $ca->id = $cohort->id;
+                            $availability->show=true;
                             array_push($availability->c,$ca);
                             $sql = "update mdl_course_sections set availability=? where id=?";
                             $availability->op="|";
@@ -93,6 +94,18 @@ class local_sm_cohort_external extends external_api{
                         $DB->execute($sql,array("availability"=>$availability,"id"=>$section->id));
                         
                         rebuild_course_cache($section->course, true);
+                        // Trigger an event for course section update.
+                        $courseid = $coursep->course;
+                        $event = \core\event\course_section_updated::create(
+                            array(
+                                'objectid' => $section->id,
+                                'courseid' => $courseid,
+                                'context' => context_course::instance($courseid),
+                                'other' => array('sectionnum' => $section->section)
+                            )
+                        );
+                        $event->trigger();
+
                     }
                 } 
             }

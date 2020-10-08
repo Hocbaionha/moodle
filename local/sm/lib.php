@@ -10,6 +10,9 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_once($CFG->dirroot . "/mod/book/lib.php");
+require_once($CFG->dirroot . "/cohort/lib.php");
+require_once($CFG->dirroot . "/lib/externallib.php");
+require_once($CFG->dirroot . '/group/lib.php');
 
 function local_sm_enrole($uid){
     global $CFG,$DB;
@@ -36,11 +39,12 @@ function local_sm_enrole($uid){
 
     $docRef = $db->collection('students')->document($uid);
     $snapshot = $docRef->snapshot();
-
+    try{
     if ($snapshot->exists()) {
 
         $student = $snapshot->data();
         $enddate = time();
+        $group_name = $student["class"]["name"];
         foreach($student["products"] as $productref){
             $snapshot = $productref->snapshot();
             if ($snapshot->exists()) {
@@ -58,47 +62,86 @@ function local_sm_enrole($uid){
                 }
                 $courses = $product['courses'];
                 foreach($courses as $course) {
-                    check_enrol($course["shortname"],$USER->id,$student_role,$enddate);
+                    $shortname=$course["shortname"];
+                    insertGroup($shortname, $group_name, $USER->id);
                 }
+                
+                //dont need to enrol
+                //add to cohort only
+                
+                $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
+                cohort_add_member($cohort->id, $USER->id);
+                $cohort = $DB->get_record('cohort', array('idnumber' => $product["idnumber"]), '*', MUST_EXIST);
+                cohort_add_member($cohort->id, $USER->id);
             }
         };
+        
     } else {
         echo "not found".$uid;
     }
-
-
-}
-
-function check_enrol($shortname, $userid, $roleid,$endtime, $enrolmethod = 'manual') {
-    global $DB;
-    $timestart=time();
-
-    $user = $DB->get_record('user', array('id' => $userid, 'deleted' => 0), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('shortname' => $shortname), '*', MUST_EXIST);
-    $context = context_course::instance($course->id);
-    if (!is_enrolled($context, $user)) {
-        $enrol = enrol_get_plugin($enrolmethod);
-        if ($enrol === null) {
-            return false;
-        }
-        $instances = enrol_get_instances($course->id, true);
-        $manualinstance = null;
-        foreach ($instances as $instance) {
-            if ($instance->name == $enrolmethod) {
-                $manualinstance = $instance;
-                break;
-            }
-        }
-        if ($manualinstance !== null) {
-            $instanceid = $enrol->add_default_instance($course);
-            if ($instanceid === null) {
-                $instanceid = $enrol->add_instance($course);
-            }
-            $instance = $DB->get_record('enrol', array('id' => $instanceid));
-        }
-        $enrol->enrol_user($instance, $userid, $roleid, $timestart, $endtime);
+    }catch (Exception $e){
+        serviceErrorLog("error:".json_encode($e->getTrace()));
     }
-    return true;
+}
+$ccache = array();
+function insertGroup($shortname, $group_name, $userid) {
+    global $DB;
+    global $ccache;
+    if (!array_key_exists($shortname, $ccache)) {
+        if (!$course = $DB->get_record('course', array('shortname' => $shortname), 'id, shortname')) {
+            echo 'unknowncourse' . $shortname;
+        }
+        $ccache[$shortname] = $course;
+        $ccache[$shortname]->groups = null;
+    }
+
+    $courseid = $ccache[$shortname]->id;
+    $coursecontext = context_course::instance($courseid);
+    if (is_null($ccache[$shortname]->groups)) {
+        $ccache[$shortname]->groups = array();
+        if ($groups = groups_get_all_groups($courseid)) {
+            foreach ($groups as $gid => $group) {
+                $ccache[$shortname]->groups[$gid] = new stdClass();
+                $ccache[$shortname]->groups[$gid]->id = $gid;
+                $ccache[$shortname]->groups[$gid]->name = $group->name;
+                if (!is_numeric($group->name)) { // only non-numeric names are supported!!!
+                    $ccache[$shortname]->groups[$group->name] = new stdClass();
+                    $ccache[$shortname]->groups[$group->name]->id = $gid;
+                    $ccache[$shortname]->groups[$group->name]->name = $group->name;
+                }
+            }
+        }
+    }
+    // group exists?
+    if (!array_key_exists($group_name, $ccache[$shortname]->groups)) {
+        // if group doesn't exist,  create it
+        $newgroupdata = new stdClass();
+        $newgroupdata->name = $group_name;
+        $newgroupdata->courseid = $ccache[$shortname]->id;
+        $newgroupdata->description = '';
+        $gid = groups_create_group($newgroupdata);
+
+        if ($gid) {
+            $ccache[$shortname]->groups[$group_name] = new stdClass();
+            $ccache[$shortname]->groups[$group_name]->id = $gid;
+            $ccache[$shortname]->groups[$group_name]->name = $newgroupdata->name;
+        } else {
+            echo 'unknowngroup:' . $group_name;
+            return;
+        }
+    }
+    $gid = $ccache[$shortname]->groups[$group_name]->id;
+    $gname = $ccache[$shortname]->groups[$group_name]->name;
+    try {
+        if (groups_add_member($gid, $userid)) {
+            // add to group success
+        } else {
+            echo $userid . ' addedtogroup ' . $gname . "<br/>";
+        }
+    } catch (moodle_exception $e) {
+        echo 'addedtogroupnot error:' . $gname;
+    }
+    return $gid;
 }
 
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
