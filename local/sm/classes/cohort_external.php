@@ -48,49 +48,57 @@ class local_sm_cohort_external extends external_api{
         $transaction = $DB->start_delegated_transaction();
         $cohort = new stdClass();
         $cohort->name=trim($name," ");
-        $cohort->idnumber==trim($idnumber," ");
+        $cohort->idnumber=$idnumber;
         $syscontext = context_system::instance();
         $cohort->categorytype = 'system';
         $cohort->contextid = $syscontext->id;
         //check existed idnumber
+
         if ($DB->record_exists('cohort', array('idnumber' => $cohort->idnumber))) {
             return ["status"=>"exited:".$idnumber];
         }
-
-        $cohort->id = cohort_add_cohort($cohort);
-        $sql = "select cs.id,cs.course,cs.section,cs.sequence,cs.availability from mdl_course_sections cs join mdl_course c on c.id=cs.course where c.shortname=?";
-        foreach ($params['courses'] as $coursep) {
-            $shortname = $coursep["shortname"];
-            $course_sections = $DB->get_records_sql($sql,array("shortname"=>$shortname));
-            foreach($course_sections as $section){
-                $availability = $section->availability;
-                if(isset($availability)){
-                    $availability = json_decode($section->availability);
-                    $op = $availability->op;
-                    $c = $availability->c;
-                    //cohort type availability
-                    $cohorst_existed=false;
-                    foreach($c as $co){
-                        if($co->type="cohort"&&$co->id=$cohort->id){
-                            $cohorst_existed=true;
+        try{
+            $cohort->id = cohort_add_cohort($cohort);
+            $sql1 = "select cs.id,cs.course,cs.section,cs.sequence,cs.availability from mdl_course_sections cs join mdl_course c on c.id=cs.course where c.shortname=?";
+            foreach ($params['courses'] as $coursep) {
+                $shortname = $coursep["shortname"];
+                $course_sections = $DB->get_records_sql($sql1,array("shortname"=>$shortname));
+                foreach($course_sections as $section){
+                    $availability = $section->availability;
+                    if(isset($availability)){
+                        $availability = json_decode($section->availability);
+                        $op = $availability->op;
+                        $c = $availability->c;
+                        //cohort type availability
+                        
+                        $cohorst_existed=false;
+                        foreach($c as $co){
+                            if($co->type=="cohort"&&$co->id==$cohort->id){
+                                $cohorst_existed=true;
+                            }
                         }
-                    }
-                    if(!$cohorst_existed){
-                        $ca = new stdClass();
-                        $ca->type="cohort";
-                        $ca->id = $cohort->id;
-                        array_push($availability->c,$ca);
+                        if(!$cohorst_existed){
+                            $ca = new stdClass();
+                            $ca->type="cohort";
+                            $ca->id = $cohort->id;
+                            array_push($availability->c,$ca);
+                            $sql = "update mdl_course_sections set availability=? where id=?";
+                            $availability->op="|";
+                            $DB->execute($sql,array("availability"=>json_encode($availability),"id"=>$section->id));
+                            
+                        }
+                    } else {
+                        $availability ='{"op":"|","c":[{"type":"cohort","id":'.$cohort->id.'}],"show":true}';
                         $sql = "update mdl_course_sections set availability=? where id=?";
-                        $availability->op="|";
-                        $DB->execute($sql,array("availability"=>json_encode($availability),"id"=>$section->id));
+                        $DB->execute($sql,array("availability"=>$availability,"id"=>$section->id));
+                        
+                        rebuild_course_cache($section->course, true);
                     }
-                } else {
-                    $availability ='{"op":"|","c":[{"type":"cohort","id":'+$cohort->id+'}],"show":true}';
-                    $sql = "update mdl_course_sections set availability=? where id=?";
-                    $DB->execute($sql,array("availability"=>$availability,"id"=>$section->id));
-                    rebuild_course_cache($courseid, true);
-                }
-            } 
+                } 
+            }
+        } catch (Exception $e){
+            serviceErrorLog("error:".json_encode($e->getTrace()));
+            return ["status"=>"error:".$cohort->id];
         }
         $transaction->allow_commit();
 
