@@ -65,17 +65,17 @@ function local_sm_enrole($uid){
                     $shortname=$course["shortname"];
                     insertGroup($shortname, $group_name, $USER->id);
                 }
-                
+
                 //dont need to enrol
                 //add to cohort only
-                
+
                 $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
                 cohort_add_member($cohort->id, $USER->id);
                 $cohort = $DB->get_record('cohort', array('idnumber' => $product["idnumber"]), '*', MUST_EXIST);
                 cohort_add_member($cohort->id, $USER->id);
             }
         };
-        
+
     } else {
         echo "not found".$uid;
     }
@@ -191,6 +191,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event) {
     }
     }
 
+
 // event update section
 function local_sm_course_section_update(core\event\course_section_updated $event){
     global $CFG, $USER, $DB,$SESSION;
@@ -198,12 +199,16 @@ function local_sm_course_section_update(core\event\course_section_updated $event
         $course_info = $event->get_record_snapshot('course',$event->contextinstanceid);
         $all_sections_of_course = $DB->get_records('course_sections',array('course'=>$course_info->id),'id ASC','id,name');
         $activities = get_array_of_activities($course_info->id);
-//        print_object($all_sections_of_course);die();
         $result = [];
         foreach ($all_sections_of_course as $item){
+            $item->id = (int)$item->id;
             foreach ($activities as $activitie) {
                 if ($item->id == $activitie->sectionid) {
-                  $item->activities = (array)$activitie;
+                    $item->activities[] =
+                        array('id'=>(int)$activitie->cm,
+                            'name'=>$activitie->name,
+                            'mod'=>$activitie->mod
+                        );
                 }
             }
             $result[]=(array)$item;
@@ -265,27 +270,45 @@ function local_sm_course_update(core\event\course_updated $event){
 }
 
 function local_sm_check_session(){
-    //TODO bổ sung popup confirm 5' trước khi destroy session 
+//    TODO bổ sung popup confirm 5' trước khi destroy session
     global $USER;
     \core\session\manager::apply_concurrent_login_limit($USER->id, session_id());
 }
-
-function local_sm_mod_book_chapter_viewed(mod_book\event\chapter_viewed $event){
+function complete_view($event){
     global $CFG, $USER, $DB,$SESSION;
     try{
-
+        $course = $event->get_record_snapshot('course',$event->courseid);
+        $course_module = $event->get_record_snapshot('course_modules',$event->contextinstanceid);
+        $section = $event->get_record_snapshot('course_sections',$course_module->section);
+        $activity = get_array_of_activities($event->courseid)[$event->contextinstanceid];
+        $send_data = [];
+        $send_data['course_id'] = $CFG->school_deputy_id.'-'.$course->shortname;
+        $send_data['course_name'] = $course->fullname;
+        $send_data['topic_id'] = (int)$section->id;
+        $send_data['topic_name'] = $section->name;
+        $send_data['activity_id'] = (int)$activity->cm;
+        $send_data['activity_name'] = $activity->name;
+        $send_data['activity_mod'] = $activity->mod;
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        if(!isset($SESSION->fb_token)){
+            return;
+        }
+        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+        $firestore = $factory->createFirestore();
+        $db = $firestore->database();
+        $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'].'-'.$send_data['topic_id'].'-'.$send_data['activity_id'])->set($send_data);
     }catch (Exception $exception){
         print_r($exception);die();
     }
 }
 
-function local_sm_mod_book_module_viewed(mod_book\event\course_module_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
+function local_sm_mod_book_chapter_viewed(mod_book\event\chapter_viewed $event){
+    complete_view($event);
+}
 
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+function local_sm_mod_book_module_viewed(mod_book\event\course_module_viewed $event){
+    complete_view($event);
 }
 
 function local_sm_mod_assign_submission_created(mod_assign\event\submission_created $event){
@@ -297,49 +320,24 @@ function local_sm_mod_assign_submission_created(mod_assign\event\submission_crea
     }
 }
 
- function local_sm_mod_feedback_view_feedback(mod_feedback\event\course_module_viewed $event){
-     global $CFG, $USER, $DB,$SESSION;
-     try{
-
-     }catch (Exception $exception){
-         print_r($exception);die();
-     }
+function local_sm_mod_feedback_view_feedback(mod_feedback\event\course_module_viewed $event){
+    complete_view($event);
 }
 
 function local_sm_mod_view_forum(mod_forum\event\forum_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
-
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+    complete_view($event);
 }
 
 function local_sm_mod_view_forum_discussion(mod_forum\event\discussion_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
-
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+    complete_view($event);
 }
 
 function local_sm_mod_wiki_page_viewed(mod_wiki\event\page_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
-
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+    complete_view($event);
 }
 
 function local_sm_mod_resource_course_module_viewed(mod_resource\event\course_module_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
-
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+    complete_view($event);
 }
 
 function local_sm_mod_resource_course_module_instance_list_viewed(mod_resource\event\course_module_instance_list_viewed $event){
@@ -352,19 +350,9 @@ function local_sm_mod_resource_course_module_instance_list_viewed(mod_resource\e
 }
 
 function local_sm_mod_page_course_module_viewed(mod_page\event\course_module_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
-
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+    complete_view($event);
 }
 
 function local_sm_mod_url_course_module_viewed(mod_url\event\course_module_viewed $event){
-    global $CFG, $USER, $DB,$SESSION;
-    try{
-
-    }catch (Exception $exception){
-        print_r($exception);die();
-    }
+    complete_view($event);
 }
