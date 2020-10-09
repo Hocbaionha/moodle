@@ -45,7 +45,7 @@ if ($mform->is_cancelled()) {
     
     $cohortId = $fromform->cohort;
     $usernamelist = $fromform->usernamelist;
-    $userstoremove = explode(",",$usernamelist);
+    $userstoremove = explode("\n",$usernamelist);
     foreach ($userstoremove as $username) {
         $username = trim($username);
         $user = $DB->get_record("user",array("username"=>$username));
