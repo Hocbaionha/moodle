@@ -228,7 +228,7 @@ function local_sm_course_section_update(core\event\course_section_updated $event
 
         return true;
     }catch (Exception $exception){
-        print_r($exception);die();
+        serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
 
@@ -253,7 +253,7 @@ function local_sm_course_update(core\event\course_updated $event){
         $newdata["shortname"] = $course_info->shortname;
         $newdata["summary"] = $course_info->summary;
         $newdata["topic"] = $all_sections_of_course;
-        $school_deputy_id = $CFG->school_deputy_id?$CFG->school_deputy_id:'hbon';
+        $school_deputy_id = isset($CFG->school_deputy_id)?$CFG->school_deputy_id:'hbon';
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
         $auth = $factory->createAuth();
         if(!isset($SESSION->fb_token)){
@@ -265,7 +265,7 @@ function local_sm_course_update(core\event\course_updated $event){
         $db->collection('courses')->document($school_deputy_id.'-'.$course_info->shortname)->set($newdata);
         return true;
     }catch (Exception $exception){
-        print_r($exception);die();
+        serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
 
@@ -299,7 +299,7 @@ function complete_view($event){
         $db = $firestore->database();
         $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'].'-'.$send_data['topic_id'].'-'.$send_data['activity_id'])->set($send_data);
     }catch (Exception $exception){
-        print_r($exception);die();
+        serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
 
@@ -316,7 +316,7 @@ function local_sm_mod_assign_submission_created(mod_assign\event\submission_crea
     try{
 
     }catch (Exception $exception){
-        print_r($exception);die();
+        serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
 
@@ -345,7 +345,7 @@ function local_sm_mod_resource_course_module_instance_list_viewed(mod_resource\e
     try{
 
     }catch (Exception $exception){
-        print_r($exception);die();
+        serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
 
