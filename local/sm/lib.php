@@ -4,7 +4,6 @@ require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
-use function foo\func;
 
 defined('MOODLE_INTERNAL') || die();
 
