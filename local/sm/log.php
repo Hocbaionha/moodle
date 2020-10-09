@@ -2,7 +2,7 @@
 require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_once('flatfile.php');
-
+require_once($CFG->dirroot . "/lib/externallib.php");
 use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
@@ -42,6 +42,9 @@ define('UID',   9);
 $activity[ID] = $USER->id;
 $activity[NAME] = $aurl->get_name($action);
 $activity[INPUT_ID] = $aurl->get_param($action);
+if(!$activity[INPUT_ID]){
+    die;
+}
 $activity[TIME_ADD] = time();
 $activity[TIME_SPENT] = $timeSpent;
 $activity[URL] = $action;
@@ -95,7 +98,13 @@ class Sup
 
     function get_param($url){
         $parts = parse_url($url);
-        parse_str($parts['query'], $query);
+        $query=array();
+        if(array_key_exists('query',$parts)){
+            parse_str($parts['query'], $query);
+        }
+        if(!array_key_exists('id',$query)){
+            return false;
+        }
         return $query['id'];
     }
 }
