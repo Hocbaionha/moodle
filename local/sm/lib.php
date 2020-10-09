@@ -4,7 +4,6 @@ require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
-use function foo\func;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -83,8 +82,15 @@ function local_sm_enrole($uid){
         serviceErrorLog("error:".json_encode($e->getTrace()));
     }
 }
+/***
+ * create new class as a grouup in moodle if not existed in a course
+ * then add user as a member in this group
+ * if the class exited, add user only
+ * param: course shortname, class name, user id
+ */
 
 function insertGroup($shortname, $group_name, $userid) {
+    
     global $DB;
     global $ccache;
     if(!isset($ccache)){
