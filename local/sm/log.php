@@ -1,4 +1,5 @@
 <?PHP
+global $CFG,$USER,$SESSION;
 require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_once('flatfile.php');
@@ -7,11 +8,10 @@ use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
 
-
-global $CFG,$USER,$SESSION;
-if(!isset($USER->uid)){
+if(!isset($USER->id)){
     die;
 }
+
 //only log activity with SSO user
 $timeSpent = optional_param('timeSpent', 0, PARAM_INT);
 $timeSpent = $timeSpent/1000;

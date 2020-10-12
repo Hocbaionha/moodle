@@ -229,7 +229,6 @@ function local_sm_course_section_update(core\event\course_section_updated $event
             $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
-//        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
             $docRef = $db->collection('courses')->document('hbon-' . $course_info->shortname);
             $snapshot = $docRef->snapshot();
             if(!empty($snapshot->data())){
@@ -241,10 +240,9 @@ function local_sm_course_section_update(core\event\course_section_updated $event
                 if (isset($course_info->summaryfiles[0])) {
                     $image = $course_info->summaryfiles[0]->fileurl;
                 }
-                $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
                 $newdata = [];
-                $newdata["category"] = $course_info->categoryname;
-                $newdata["categoryid"] = $course_info->categoryid;
+                $newdata["category"] = !empty($event->get_record_snapshot('course_categories', $course_info->category)->name)?$event->get_record_snapshot('course_categories', $course_info->category)->name:'';
+                $newdata["categoryid"] = (int)$course_info->category;
                 $newdata["image"] = $image;
                 $newdata["name"] = $course_info->fullname;
                 $newdata["school"] = [
@@ -280,8 +278,8 @@ function local_sm_course_update(core\event\course_updated $event)
             }
             $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
             $newdata = [];
-            $newdata["category"] = $course_info->categoryname;
-            $newdata["categoryid"] = $course_info->categoryid;
+            $newdata["category"] = !empty($event->get_record_snapshot('course_categories', $course_info->category)->name)?$event->get_record_snapshot('course_categories', $course_info->category)->name:'';
+            $newdata["categoryid"] = (int)$course_info->category;
             $newdata["image"] = $image;
             $newdata["name"] = $course_info->fullname;
             $newdata["school"] = [
