@@ -230,9 +230,32 @@ function local_sm_course_section_update(core\event\course_section_updated $event
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
 //        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-            $db->collection('courses')->document('hbon-' . $course_info->shortname)->update([
+            $docRef = $db->collection('courses')->document('hbon-' . $course_info->shortname);
+            $snapshot = $docRef->snapshot();
+            if(!empty($snapshot->data())){
+                $docRef->update([
                 ['path' => 'topics', 'value' => $result]
             ]);
+            }else{
+                $image = "";
+                if (isset($course_info->summaryfiles[0])) {
+                    $image = $course_info->summaryfiles[0]->fileurl;
+                }
+                $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
+                $newdata = [];
+                $newdata["category"] = $course_info->categoryname;
+                $newdata["categoryid"] = $course_info->categoryid;
+                $newdata["image"] = $image;
+                $newdata["name"] = $course_info->fullname;
+                $newdata["school"] = [
+                    "id" => $CFG->school_firebase_id ? $CFG->school_firebase_id : 'vFPBJ0wkJoxBY3s8RmVI',
+                    "lms_url" => $CFG->wwwroot
+                ];
+                $newdata["shortname"] = $course_info->shortname;
+                $newdata["summary"] = $course_info->summary;
+                $newdata["topic"] = $all_sections_of_course;
+                $db->collection('courses')->document('hbon-' . $course_info->shortname)->set($newdata);
+            }
 
             return true;
         }
