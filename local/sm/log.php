@@ -11,7 +11,6 @@ use Kreait\Firebase\Firestore;
 if(!isset($USER->id)){
     die;
 }
-
 //only log activity with SSO user
 $timeSpent = optional_param('timeSpent', 0, PARAM_INT);
 $timeSpent = $timeSpent/1000;
@@ -55,7 +54,7 @@ $activity[UID] = $USER->uid;
 
 $listActivity = ["assign", "book", "feedback", "quiz", "wiki", "resource", "geogebra", "url", "page", "hp5activity"];
 
-if($topic && in_array(NAME, $listActivity) == true ){
+if($topic && (in_array($activity[NAME], $listActivity) == true)){
     $aSingleRow = $db->selectUnique($name, NAME,  $aurl->get_name($action));
     if(empty($aSingleRow)){
         $db->insert($name, $activity);
