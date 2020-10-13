@@ -171,7 +171,7 @@ class local_courses_external extends core_course_external
             $activitys = get_array_of_activities($course->id);
             foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
                 foreach ($activitys as $activities) {
-                    if ($key == $activities->sectionid && $activities->visible == 1) {
+                    if ($section->id == $activities->sectionid && $activities->visible == 1) {
                         $coursesdata[$course->id]['topics'][$key]->activities[] = (array)$activities;
                     }
                 }
