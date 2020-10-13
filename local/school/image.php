@@ -11,8 +11,7 @@ if ($filename != '') {
     $path = $CFG->dataroot . '/school/' . $filename;
 //    echo pathinfo($path)["dirname"];die;
     if (is_readable($path) && pathinfo($path)["dirname"]=='/efs/moodledata/school') {
-        $ext = pathinfo($path)["extension"];
-        if(isset(pathinfo($path)["extension"]) && !in_array($ext,$accept_type)){
+        if(isset(pathinfo($path)["extension"]) && !in_array(pathinfo($path)["extension"],$accept_type)){
             header("HTTP/1.0 404 Not Found");exit();
         }
         $info = getimagesize($path);
