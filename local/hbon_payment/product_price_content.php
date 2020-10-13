@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="pricing ui-ribbon-container">
                 <div class="title" style="margin-top: 30px;">
@@ -75,9 +75,11 @@
                                         <li style="padding-left: 15px; margin-left: 18px; ">Số tài khoản: 1005299093</li>
                                         <li style="padding-left: 15px; margin-left: 18px; ">Ngân hàng: TMCP Sài gòn Hà Nội(SHB) - chi nhánh Hà Nội</li>
                                         <li style="padding-left: 15px; margin-left: 18px; ">Số tiền: <?php echo number_format($product->price,0,",","."). ' đồng' ;  ?></li>
-                                        <li style="padding-left: 15px; margin-left: 18px; ">Nội dung: <em>Chuyển khoản thanh toán khoá học: <strong><?php echo $product->name ?></strong>,
-                                              tên đăng nhập: <strong><?php echo $USER->username ?></strong>, họ tên học sinh <strong><?php echo $USER->firstname. ' '.$USER->lastname;  ?></strong>
-                                            </em>
+                                        <li style="padding-left: 15px; margin-left: 18px; ">
+                                            Nội dung chuyển khoản: <strong>Tên khóa học - Tên đăng nhập của tài khoản - Số điện thoại liên hệ</strong>
+<!--                                            Nội dung: <em>Thanh toán khoá học: <strong>--><?php //echo $product->name ?><!--</strong>,-->
+<!--                                              tên đăng nhập: <strong>--><?php //echo $USER->username ?><!--</strong>, số điện thoại học sinh <strong>--><?php //echo $USER->firstname. ' '.$USER->lastname;  ?><!--</strong>-->
+<!--                                            </em>-->
                                         </li>
                                     </ul>
                                 </li>
@@ -175,5 +177,5 @@
               </div>
           </div>
     </div>
-</div> -->					
+</div> -->
 <!-- product price -->
