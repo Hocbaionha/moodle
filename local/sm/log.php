@@ -61,7 +61,7 @@ if($topic && (in_array($activity[NAME], $listActivity) == true)){
     } else {
         $db->updateSetWhere($name, array(TIME_SPENT => $aSingleRow[TIME_SPENT]+$timeSpent),
             new SimpleWhereClause(NAME, '=', $aurl->get_name($action)));
-        if((time() - $aSingleRow[TIME_ADD])>3600000){
+//        if((time() - $aSingleRow[TIME_ADD])>3600000){
             //push to firebase every 1h activity
             $date = new DateTime();
             $setdata = [];
@@ -82,7 +82,7 @@ if($topic && (in_array($activity[NAME], $listActivity) == true)){
             $fb_db = $firestore->database();
             $fb_db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($setdata);
         }
-    }
+//    }
 }
 
 

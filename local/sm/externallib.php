@@ -168,7 +168,7 @@ class local_courses_external extends core_course_external
                 );
             }
             $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'id ASC', 'id,name');
-            $activitys = get_array_of_activities(18);
+            $activitys = get_array_of_activities($course->id);
             foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
                 foreach ($activitys as $activities) {
                     if ($section->id == $activities->sectionid && !isset($activities->deletioninprogress)) {

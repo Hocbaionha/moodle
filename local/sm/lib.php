@@ -326,7 +326,7 @@ function complete_view($event)
         $section = $event->get_record_snapshot('course_sections', $course_module->section);
         $activity = get_array_of_activities($event->courseid)[$event->contextinstanceid];
         $send_data = [];
-        $check = $DB->count_records('logstore_standard_log',
+        $check = $DB->count_records('hbon_complete_activity',
             array(
                 'courseid' => $event->courseid,
                 'contextinstanceid' => $event->contextinstanceid,
