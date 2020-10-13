@@ -167,11 +167,11 @@ class local_courses_external extends core_course_external
                     'value' => $value
                 );
             }
-            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id], 'id ASC', 'id,name');
-            $activitys = get_array_of_activities($course->id);
+            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'id ASC', 'id,name');
+            $activitys = get_array_of_activities(18);
             foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
                 foreach ($activitys as $activities) {
-                    if ($section->id == $activities->sectionid && $activities->visible == 1) {
+                    if ($section->id == $activities->sectionid && !isset($activities->deletioninprogress)) {
                         $coursesdata[$course->id]['topics'][$key]->activities[] = (array)$activities;
                     }
                 }
