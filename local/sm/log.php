@@ -1,4 +1,5 @@
 <?PHP
+global $CFG,$USER,$SESSION;
 require  dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_once('flatfile.php');
@@ -7,9 +8,7 @@ use Google\Cloud\Core\Timestamp;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
 
-
-global $CFG,$USER,$SESSION;
-if(!isset($USER->uid)){
+if(!isset($USER->id)){
     die;
 }
 //only log activity with SSO user
@@ -55,7 +54,7 @@ $activity[UID] = $USER->uid;
 
 $listActivity = ["assign", "book", "feedback", "quiz", "wiki", "resource", "geogebra", "url", "page", "hp5activity"];
 
-if($topic && in_array(NAME, $listActivity) == true ){
+if($topic && (in_array($activity[NAME], $listActivity) == true)){
     $aSingleRow = $db->selectUnique($name, NAME,  $aurl->get_name($action));
     if(empty($aSingleRow)){
         $db->insert($name, $activity);

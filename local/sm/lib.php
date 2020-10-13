@@ -204,36 +204,59 @@ function local_sm_course_section_update(core\event\course_section_updated $event
     global $CFG, $USER, $DB, $SESSION;
     try {
         $course_info = $event->get_record_snapshot('course', $event->contextinstanceid);
-        $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
-        $activities = get_array_of_activities($course_info->id);
-        $result = [];
-        foreach ($all_sections_of_course as $item) {
-            $item->id = (int)$item->id;
-            foreach ($activities as $activitie) {
-                if ($item->id == $activitie->sectionid) {
-                    $item->activities[] =
-                        array('id' => (int)$activitie->cm,
-                            'name' => $activitie->name,
-                            'mod' => $activitie->mod
-                        );
+        if($course_info->visible == 1){
+            $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
+            $activities = get_array_of_activities($course_info->id);
+            $result = [];
+            foreach ($all_sections_of_course as $item) {
+                $item->id = (int)$item->id;
+                foreach ($activities as $activitie) {
+                    if ($item->id == $activitie->sectionid) {
+                        $item->activities[] =
+                            array('id' => (int)$activitie->cm,
+                                'name' => $activitie->name,
+                                'mod' => $activitie->mod
+                            );
+                    }
                 }
+                $result[] = (array)$item;
             }
-            $result[] = (array)$item;
-        }
-        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
-        $auth = $factory->createAuth();
-        if (!isset($SESSION->fb_token)) {
-            return;
-        }
-        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
-        $firestore = $factory->createFirestore();
-        $db = $firestore->database();
-//        $result = $db->collection('courses')->document('hbon-'.$course_info->shortname);
-        $db->collection('courses')->document('hbon-' . $course_info->shortname)->update([
-            ['path' => 'topics', 'value' => $result]
-        ]);
+            $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+            $auth = $factory->createAuth();
+            if (!isset($SESSION->fb_token)) {
+                return;
+            }
+            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+            $firestore = $factory->createFirestore();
+            $db = $firestore->database();
+            $docRef = $db->collection('courses')->document('hbon-' . $course_info->shortname);
+            $snapshot = $docRef->snapshot();
+            if(!empty($snapshot->data())){
+                $docRef->update([
+                ['path' => 'topics', 'value' => $result]
+            ]);
+            }else{
+                $image = "";
+                if (isset($course_info->summaryfiles[0])) {
+                    $image = $course_info->summaryfiles[0]->fileurl;
+                }
+                $newdata = [];
+                $newdata["category"] = !empty($event->get_record_snapshot('course_categories', $course_info->category)->name)?$event->get_record_snapshot('course_categories', $course_info->category)->name:'';
+                $newdata["categoryid"] = (int)$course_info->category;
+                $newdata["image"] = $image;
+                $newdata["name"] = $course_info->fullname;
+                $newdata["school"] = [
+                    "id" => $CFG->school_firebase_id ? $CFG->school_firebase_id : 'vFPBJ0wkJoxBY3s8RmVI',
+                    "lms_url" => $CFG->wwwroot
+                ];
+                $newdata["shortname"] = $course_info->shortname;
+                $newdata["summary"] = $course_info->summary;
+                $newdata["topic"] = $all_sections_of_course;
+                $db->collection('courses')->document('hbon-' . $course_info->shortname)->set($newdata);
+            }
 
-        return true;
+            return true;
+        }
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
             print_object($exception);die();
@@ -248,34 +271,36 @@ function local_sm_course_update(core\event\course_updated $event)
     global $CFG, $USER, $DB, $SESSION;
     try {
         $course_info = $event->get_record_snapshot('course', $event->contextinstanceid);
-        $image = "";
-        if (isset($course_info->summaryfiles[0])) {
-            $image = $course_info->summaryfiles[0]->fileurl;
+        if($course_info->visible == 1) {
+            $image = "";
+            if (isset($course_info->summaryfiles[0])) {
+                $image = $course_info->summaryfiles[0]->fileurl;
+            }
+            $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
+            $newdata = [];
+            $newdata["category"] = !empty($event->get_record_snapshot('course_categories', $course_info->category)->name)?$event->get_record_snapshot('course_categories', $course_info->category)->name:'';
+            $newdata["categoryid"] = (int)$course_info->category;
+            $newdata["image"] = $image;
+            $newdata["name"] = $course_info->fullname;
+            $newdata["school"] = [
+                "id" => $CFG->school_firebase_id ? $CFG->school_firebase_id : 'vFPBJ0wkJoxBY3s8RmVI',
+                "lms_url" => $CFG->wwwroot
+            ];
+            $newdata["shortname"] = $course_info->shortname;
+            $newdata["summary"] = $course_info->summary;
+            $newdata["topic"] = $all_sections_of_course;
+            $school_deputy_id = $CFG->school_deputy_id ? $CFG->school_deputy_id : 'hbon';
+            $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+            $auth = $factory->createAuth();
+            if (!isset($SESSION->fb_token)) {
+                return;
+            }
+            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+            $firestore = $factory->createFirestore();
+            $db = $firestore->database();
+            $db->collection('courses')->document($school_deputy_id . '-' . $course_info->shortname)->set($newdata);
+            return true;
         }
-        $all_sections_of_course = $DB->get_records('course_sections', array('course' => $course_info->id), 'id ASC', 'id,name');
-        $newdata = [];
-        $newdata["category"] = $course_info->categoryname;
-        $newdata["categoryid"] = $course_info->categoryid;
-        $newdata["image"] = $image;
-        $newdata["name"] = $course_info->fullname;
-        $newdata["school"] = [
-            "id" => $CFG->school_firebase_id ? $CFG->school_firebase_id : 'vFPBJ0wkJoxBY3s8RmVI',
-            "lms_url" => $CFG->wwwroot
-        ];
-        $newdata["shortname"] = $course_info->shortname;
-        $newdata["summary"] = $course_info->summary;
-        $newdata["topic"] = $all_sections_of_course;
-        $school_deputy_id = $CFG->school_deputy_id ? $CFG->school_deputy_id : 'hbon';
-        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
-        $auth = $factory->createAuth();
-        if (!isset($SESSION->fb_token)) {
-            return;
-        }
-        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
-        $firestore = $factory->createFirestore();
-        $db = $firestore->database();
-        $db->collection('courses')->document($school_deputy_id . '-' . $course_info->shortname)->set($newdata);
-        return true;
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
             print_object($exception);die();
