@@ -169,9 +169,10 @@ class local_courses_external extends core_course_external
                     'value' => $value
                 );
             }
-            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'section ASC', 'id,name,section');
+            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'section ASC', 'id,name,section,visible');
             $activitys = get_array_of_activities($course->id);
             foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
+                $section->section = (int)$section->section;
                 foreach ($activitys as $activities) {
                     if ($section->id == $activities->sectionid && !isset($activities->deletioninprogress)) {
                         $coursesdata[$course->id]['topics'][$key]->activities[] = (array)$activities;
@@ -248,13 +249,15 @@ class local_courses_external extends core_course_external
                             array(
                                 'id' => new external_value(PARAM_INT, 'activities id'),
                                 'name' => new external_value(PARAM_RAW, 'activities name'),
-                                'mod' => new external_value(PARAM_RAW, 'activities mod')
+                                'mod' => new external_value(PARAM_RAW, 'activities mod'),
+                                'visible' =>new external_value(PARAM_NOTAGS, 'activities section')
                             )
                         ),'activities', VALUE_OPTIONAL
                     ),
                     'id' => new external_value(PARAM_INT, 'topic id'),
                     'name' => new external_value(PARAM_NOTAGS, 'topic name'),
-                    'section' => new external_value(PARAM_NOTAGS, 'topic section')
+                    'section' => new external_value(PARAM_NOTAGS, 'topic section'),
+                    'visible' =>new external_value(PARAM_NOTAGS, 'display section')
                 )
             ),
                 'topics',VALUE_OPTIONAL)

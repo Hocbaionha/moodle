@@ -25,6 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_sm';
-$plugin->version = 2020021436;
+$plugin->version = 2020021437;
 $plugin->requires = 2019111800;
 $plugin->maturity = MATURITY_STABLE;
