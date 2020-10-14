@@ -71,12 +71,17 @@ foreach($mdlusers as $mdluser){
     }
     $user = array("moodleUserId"=>$userid,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$schoolid);
     $sql = "SELECT concat(c.idnumber,u.id),c.idnumber,u.id, u.username,u.firstname,u.lastname, u.currentlogin FROM mdl_cohort c JOIN mdl_cohort_members cm ON c.id = cm.cohortid JOIN mdl_user u ON cm.userid = u.id  WHERE u.id=? and c.idnumber like '%hbon%'";
-    $cuser = $DB->get_record_sql($sql,array("id"=>$mdluser->id));
+    
+    $cusers = $DB->get_records_sql($sql,array("id"=>$mdluser->id));
+
+    $products = [];
+    foreach ($cusers as $cuser){
+        $productid=$cuser->idnumber;
+        $prodRef = $fdb->collection('products')->document($productid);
+        $products[] = $prodRef;
+    }
     if($cuser){
         // da mua the thanh vien
-        $productid=$cuser->idnumber;
-        
-            //random 6 chars
             $sql = "select g.name from mdl_groups_members gm  join mdl_groups g on gm.groupid=g.id join mdl_user u on u.id=gm.userid where u.id=? group by name limit 1";
             $group = $DB->get_record_sql($sql,array("id"=>$mdluser->id));
             if($group){
@@ -92,8 +97,11 @@ foreach($mdlusers as $mdluser){
                     $classid=$document->id();
                     if ($document->exists()) {
                         $data = $document->data();
-                        $classname = $data->name;
-                        echo $classname." found! ";
+                        if(isset($data->name)&&$data->name!=""){
+                            $classname = $data->name;
+                            echo $classname." found! ";
+                        }
+                        
                     } else {
                         echo $classname." created! ";
                         $sclass = array("name"=>$classname,"school_id"=>$schoolid,"years"=>"2020_2021");
@@ -111,19 +119,19 @@ foreach($mdlusers as $mdluser){
                     $fdb->collection('schools')->document($schoolid)->update([["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
                 }
 
-                $user["class"]=array("id"=>$classid,"name"=>$classname);
+                
                 $docRefUser = $fdb->collection('users');
                 $query = $docRefUser->where('username', '==', $username);
                 $documents = $query->documents();
                 echo $classid." find user:".$username;
                 foreach ($documents as $document) {
                     if ($document->exists()) {
-                        
                         $uid=$document->id();
                         echo " found user:".$username."-".$uid;
                         if(startsWith($uname,"hs")){
                             $student = $user;
-                            $student["products"] = array($productid);
+                            $student["class"]=array("id"=>$classid,"name"=>$classname);
+                            $student["products"] = $products;
                             $student["code"]=generateStudentCode();
                             $stuRef = $fdb->collection('students')->document($uid);
                             $stuSnapshot = $stuRef->snapshot();
@@ -155,7 +163,7 @@ foreach($mdlusers as $mdluser){
                     if ($document->exists()) {
                         $uid=$document->id();
                         if(startsWith($uname,"hs")){
-                            $student["products"] = array($productid);
+                            $student["products"] = $products;
                             $student["code"]=generateStudentCode();
                             $stuRef = $fdb->collection('students')->document($uid);
                             $stuSnapshot = $stuRef->snapshot();
@@ -171,7 +179,6 @@ foreach($mdlusers as $mdluser){
                     }
                 }
             }
-            
     } else {
         // chua mua the thanh vien
 
@@ -220,5 +227,4 @@ function generateStudentCode(){
     $time = $date->getTimestamp();
     $expired_time = $time + (365*24*60*60); 
     return array("code"=>$code,"expired_time"=>$expired_time*1000);
-
 }
