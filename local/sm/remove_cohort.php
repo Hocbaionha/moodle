@@ -4,6 +4,8 @@ require_once(__DIR__ . '/../../config.php');
 require_once $CFG->libdir . '/formslib.php';
 require_once($CFG->dirroot . "/cohort/lib.php");
 require_login();
+//set timeout: 5 minute
+set_time_limit(300);
 
 class import_form extends moodleform {
     

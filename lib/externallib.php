@@ -33,6 +33,12 @@ function serviceErrorLog($message = 'no message') {
     fwrite($fp, $date . ' ' . $message . "\n");
     fclose($fp);
 }
+
+
+function startsWith( $haystack, $needle ) {
+    $length = strlen( $needle );
+    return substr( $haystack, 0, $length ) === $needle;
+}
 /**
  * Exception indicating user is not allowed to use external function in the current context.
  *
