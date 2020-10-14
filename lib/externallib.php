@@ -34,11 +34,11 @@ function serviceErrorLog($message = 'no message') {
     fclose($fp);
 }
 
-
-function startsWith( $haystack, $needle ) {
-    $length = strlen( $needle );
-    return substr( $haystack, 0, $length ) === $needle;
+function startsWith($string, $startString) {
+    $len = strlen($startString);
+    return (substr($string, 0, $len) === $startString);
 }
+
 /**
  * Exception indicating user is not allowed to use external function in the current context.
  *

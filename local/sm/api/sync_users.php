@@ -24,6 +24,9 @@ switch ($startwith){
     case "as":
         $schoolid = "na-anhson";
         break;
+    case "quangminh":
+        $schoolid = "hn-quangminh";
+        break;
 }
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -35,7 +38,7 @@ echo $OUTPUT->header();
 $cohorts = array();
 
 //get users from each school
-$sql = "SELECT id,username,email,firstname,lastname from mdl_user where username like '$startwith%'";
+$sql = "SELECT id,username,email,firstname,lastname from mdl_user where username like '$schoolid%'";
 $mdlusers = $DB->get_records_sql($sql);
 
 
@@ -78,52 +81,62 @@ foreach($mdlusers as $mdluser){
             $group = $DB->get_record_sql($sql,array("id"=>$mdluser->id));
             if($group){
                 // Mua theo trường
-                // $docRef = $fdb->collection('users');
-                // $query = $docRef->where('username', '==', $username);
-                // $documents = $query->documents();
-                // foreach ($documents as $document) {
-                //     $uid=$document->id();
                 $classid = "";
                 $classname = $group->name;
+                
                 $docRef = $fdb->collection('classes');
                 $query = $docRef->where('school_id', '==', $schoolid)->where('name', '==', $classname)->where("years","==","2020_2021");
                 $documents = $query->documents();
+                echo $classname.";";
                 foreach ($documents as $document) {
-                    $classid=$document->id;
+                    $classid=$document->id();
                     if ($document->exists()) {
                         $data = $document->data();
                         $classname = $data->name;
+                        echo $classname." found! ";
                     } else {
-                        
+                        echo $classname." created! ";
                         $sclass = array("name"=>$classname,"school_id"=>$schoolid,"years"=>"2020_2021");
                         $classRef = $fdb->collection('classes')->document($classid);
                         $classRef->set($sclass);
-                        // app.firestore().collection('schools').doc(data.school_id).update({classes:firebase.firestore.FieldValue.arrayUnion(docRef)})
-                        $fdb->collection('schools')->document($schoolid)->update(array("classes"=>FieldValue::arrayUnion([[$classRef]])));
+                        $fdb->collection('schools')->document($schoolid)->update([["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
                     }
                 }
                 if($classid==""){
                     $classid= substr(md5(microtime()),rand(0,26),6);
+                    echo $classname." created! ";
+                    $sclass = array("name"=>$classname,"school_id"=>$schoolid,"years"=>"2020_2021");
+                    $classRef = $fdb->collection('classes')->document($classid);
+                    $classRef->set($sclass);
+                    $fdb->collection('schools')->document($schoolid)->update([["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
                 }
 
                 $user["class"]=array("id"=>$classid,"name"=>$classname);
                 $docRefUser = $fdb->collection('users');
-                $documents = $docRefUser->where('username', '==', $username);
+                $query = $docRefUser->where('username', '==', $username);
+                $documents = $query->documents();
+                echo $classid." find user:".$username;
                 foreach ($documents as $document) {
                     if ($document->exists()) {
-                        $uid=$document->id;
+                        
+                        $uid=$document->id();
+                        echo " found user:".$username."-".$uid;
                         if(startsWith($uname,"hs")){
                             $student = $user;
                             $student["products"] = array($productid);
                             $student["code"]=generateStudentCode();
                             $stuRef = $fdb->collection('students')->document($uid);
-                            $stuSnapshot = $docRef->snapshot();
+                            $stuSnapshot = $stuRef->snapshot();
                             if (!$stuSnapshot->exists()) {
                                 $fdb->collection('students')->document($uid)->set($student);
                                 $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
                                 $fdb->collection('student_code')->document($student["code"]["code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                             } else {
-                                $fdb->collection('students')->document($uid)->update($student);
+                                $datas = array();
+                                foreach($student as $key=>$value){
+                                    $datas[] = ['path'=>$key,'value'=>$value];
+                                }
+                                $fdb->collection('students')->document($uid)->update($datas);
                             }
     
                         } else if(startsWith($uname,"gv")){
@@ -136,15 +149,16 @@ foreach($mdlusers as $mdluser){
                 // không có lớp
                 $student = $user;
                 $docRefUser = $fdb->collection('users');
-                $documents = $docRefUser->where('username', '==', $username);
+                $query = $docRefUser->where('username', '==', $username);
+                $documents = $query->documents();
                 foreach ($documents as $document) {
                     if ($document->exists()) {
-                        $uid=$document->id;
+                        $uid=$document->id();
                         if(startsWith($uname,"hs")){
                             $student["products"] = array($productid);
                             $student["code"]=generateStudentCode();
                             $stuRef = $fdb->collection('students')->document($uid);
-                            $stuSnapshot = $docRef->snapshot();
+                            $stuSnapshot = $stuRef->snapshot();
                             if (!$stuSnapshot->exists()) {
                                 $fdb->collection('students')->document($uid)->set($student);
                                 $fdb->collection('student_code')->document($student["code"]["code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
@@ -175,7 +189,7 @@ foreach($mdlusers as $mdluser){
                     $fdb->collection('students')->document($uid)->set($student);
                     $fdb->collection('student_code')->document($student["code"]["code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                 } else {
-                    $fdb->collection('students')->document($uid)->update($user);
+                    //not update
                 }
             }  else if(startsWith($uname,"gv")){
                 $teaRef = $fdb->collection('teachers')->document($uid);

@@ -93,11 +93,6 @@ function doFlush() {
     flush();
 }
 
-function startsWith($string, $startString) {
-    $len = strlen($startString);
-    return (substr($string, 0, $len) === $startString);
-}
-
 function truncate($str, $width) {
     return strtok(wordwrap($str, $width, "...\n"), "\n");
 }
