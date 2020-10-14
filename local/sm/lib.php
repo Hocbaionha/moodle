@@ -326,15 +326,14 @@ function complete_view($event)
         $section = $event->get_record_snapshot('course_sections', $course_module->section);
         $activity = get_array_of_activities($event->courseid)[$event->contextinstanceid];
         $send_data = [];
-        $check = $DB->count_records('hbon_complete_activity',
-            array(
-                'courseid' => $event->courseid,
-                'contextinstanceid' => $event->contextinstanceid,
-                'userid' => $USER->id,
-                'component' => $event->component,
-                'action' => $event->action
-            )
+        $input_check =   array(
+            'courseid' => $event->courseid,
+            'contextinstanceid' => $event->contextinstanceid,
+            'userid' => $USER->id,
+            'component' => $event->component,
+            'action' => $event->action
         );
+        $check = $DB->count_records('hbon_complete_activity',$input_check);
         if ($check === 0) {
             $send_data['course_id'] = $CFG->school_deputy_id . '-' . $course->shortname;
             $send_data['course_name'] = $course->fullname;
@@ -352,6 +351,13 @@ function complete_view($event)
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
             $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'] . '-' . $send_data['topic_id'] . '-' . $send_data['activity_id'])->set($send_data);
+            $complete = new stdClass();
+            $complete->courseid = $event->courseid;
+            $complete->contextinstanceid = $event->contextinstanceid;
+            $complete->userid = $USER->id;
+            $complete->component = $event->component;
+            $complete->action = $event->action;
+            $DB->insert_record('hbon_complete_activity',  $complete);
         }
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
