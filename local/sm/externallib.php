@@ -21,6 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot . "/course/externallib.php");
+require_once("$CFG->libdir/externallib.php");
+require_once("lib.php");
 
 class local_courses_external extends core_course_external
 {
@@ -167,7 +169,7 @@ class local_courses_external extends core_course_external
                     'value' => $value
                 );
             }
-            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'id ASC', 'id,name');
+            $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'section ASC', 'id,name,section');
             $activitys = get_array_of_activities($course->id);
             foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
                 foreach ($activitys as $activities) {
@@ -252,6 +254,7 @@ class local_courses_external extends core_course_external
                     ),
                     'id' => new external_value(PARAM_INT, 'topic id'),
                     'name' => new external_value(PARAM_NOTAGS, 'topic name'),
+                    'section' => new external_value(PARAM_NOTAGS, 'topic section')
                 )
             ),
                 'topics',VALUE_OPTIONAL)
