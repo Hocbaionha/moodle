@@ -376,6 +376,10 @@ function local_sm_mod_wiki_page_viewed(mod_wiki\event\page_viewed $event)
     complete_view($event);
 }
 
+function local_sm_mod_wiki_course_module_viewed(mod_wiki\event\course_module_viewed $event){
+    complete_view($event);
+}
+
 function local_sm_mod_resource_course_module_viewed(mod_resource\event\course_module_viewed $event)
 {
     complete_view($event);

@@ -75,6 +75,12 @@ $observers = array(
         'internal' => false
     ),
     array(
+        'eventname' => 'mod_wiki\event\course_module_viewed',
+        'includefile' => '/local/sm/lib.php',
+        'callback' => 'local_sm_mod_wiki_course_module_viewed',
+        'internal' => false
+    ),
+    array(
         'eventname' => 'mod_resource\event\course_module_viewed',
         'includefile' => '/local/sm/lib.php',
         'callback' => 'local_sm_mod_resource_course_module_viewed',
