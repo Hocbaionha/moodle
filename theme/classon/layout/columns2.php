@@ -51,7 +51,8 @@ $templatecontext = [
     'navdraweropen' => $navdraweropen,
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
-    'uid'=>$USER->id
+    'uid'=>$USER->id,
+//    'fb_id'=>$USER->uid
 ];
 
 $nav = $PAGE->flatnav;
@@ -64,7 +65,7 @@ global $DB;
 if ( isloggedin() && !isguestuser() ) {
     $uid = $USER->id;
     $table = 'hbon_add_info_user';
-    
+
     $has_add_phone = $DB->record_exists($table, array('user_id' => $uid , 'signup_method' => 'phone'));
 
 
@@ -81,12 +82,12 @@ if ( isloggedin() && !isguestuser() ) {
             }
         }else {
             $has_add_email = $DB->record_exists($table, array('user_id' => $uid , 'signup_method' => 'email'));
-            
+
             if(!$has_add_email) {
                 $templatecontext['should_get_user_email'] = '1';
             }else {
                 $user_email_info =  $DB->get_record($table, array('user_id'=>$uid, 'signup_method' => 'email'));
-                
+
                 if($user_email_info->has_confirm == 0) {
                     $templatecontext['should_get_user_email'] = '1';
 
@@ -96,7 +97,7 @@ if ( isloggedin() && !isguestuser() ) {
                     }
                 }
             }
-        }        
+        }
     }
 
     // $check_record = $DB->record_exists($table, array('user_id'=>$uid));
@@ -121,7 +122,7 @@ if ( isloggedin() && !isguestuser() ) {
 // $role = $DB->get_record("role_assignments",array("userid"=>$USER->id));
 
 if($USER->id!=2){
-    
+
     $PAGE->requires->css('/theme/classon/style/killCopy.css');
     $PAGE->requires->js('/theme/classon/amd/src/killCopy.js');
 }

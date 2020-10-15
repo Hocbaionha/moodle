@@ -18,7 +18,7 @@ class Column
 	/**
 	 * Create a new column object
 	 */
-	function Column($index, $type)
+	function __construct($index, $type)
 	{
 		$this->index = $index;
 		$this->type = $type;
@@ -28,7 +28,7 @@ class Column
 /** EXPERIMENTAL: Represent a column that is a foreign key.  Used for temporarily building tables array */
 class JoinColumn
 {
-	function JoinColumn($index, $tablename, $columnname)
+	function __construct($index, $tablename, $columnname)
 	{
 		$this->index = $index;
 		$this->tablename = $tablename;
@@ -41,12 +41,12 @@ class JoinColumn
  */
 class TableUtils
 {
-	/** 
+	/**
 	 * Finds JoinColumns in an array of tables, and adds 'type' fields by looking up the columns
 	 *
 	 * @param tables This should be an associative array containing 'tablename' => tabledefinition
 	 * tabledefinition is itself an associativive array of 'COLUMN_NAME_CONSTANT' => columndefintion
-	 * COLUMN_NAME_CONSTANT should be a unique constant within the table, and 
+	 * COLUMN_NAME_CONSTANT should be a unique constant within the table, and
 	 * column definition should be a Column object or JoinColumn object
 	 */
 	function resolveJoins(&$tables)
@@ -54,11 +54,11 @@ class TableUtils
 		foreach ($tables as $tablename => $discard)
 		{
 			// PHP4 compatible: can't do :  foreach ($tables as $tablename => &$tabledef)
-			// and strangely, if we do 
+			// and strangely, if we do
 			// foreach ($tables as $tablename => &$tabledef)
 			// 	$tabledef =& $tables[$tablename];
 			// then we get bugs
-			$tabledef =& $tables[$tablename]; 
+			$tabledef =& $tables[$tablename];
 			foreach ($tabledef as $colname => $discard)
 			{
 				$coldef =& $tabledef[$colname]; // PHP4 compatible
@@ -67,7 +67,7 @@ class TableUtils
 					TableUtils::resolveColumnJoin($coldef, $tables);
 				}
 			}
-		}	
+		}
 	}
 
 	/** @access private */
@@ -92,8 +92,8 @@ class TableUtils
 		}
 	}
 
-	/** 
-	 * Creates a 'row schema' for a given table definition. 
+	/**
+	 * Creates a 'row schema' for a given table definition.
 	 *
 	 * A row schema is just an array of the column types for a table,
 	 * using the constants defined above.
