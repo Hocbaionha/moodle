@@ -13,6 +13,7 @@ $key = $CFG->hbon_uid_admin;
 if (isset($param) && $param === $key) {
 
     $ressult = $DB->get_records('hbon_activity_one_hourse');
+    $DB->delete_records('hbon_activity_one_hourse');
     try{
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
         $auth = $factory->createAuth();
@@ -20,6 +21,20 @@ if (isset($param) && $param === $key) {
         $firestore = $factory->createFirestore();
         $fb_db = $firestore->database();
         $date = new DateTime();
+
+        ob_end_clean();
+        header("Connection: close");
+        ignore_user_abort(); // optional
+        ob_start();
+        echo ('Text the user will see');
+        $size = ob_get_length();
+        header("Content-Length: $size");
+        ob_end_flush(); // Strange behaviour, will not work
+        flush();            // Unless both are called !
+        session_write_close(); // Added a line suggested in the comment
+        // Do processing here
+        sleep(30);
+        echo('Text user will never see');
 
         foreach ($ressult as $key=>$item) {
             if ($item->uid !== 0 && $item->uid !== null) {
@@ -34,9 +49,8 @@ if (isset($param) && $param === $key) {
                 $fb_db->collection('students')->document($item->uid)->collection('activities')->newDocument()->set($setdata);
             }
         }
-        $DB->delete_records('hbon_activity_one_hourse');
     }catch (Exception $exception){
-        $DB->delete_records('hbon_activity_one_hourse');
+
     }
 
 
@@ -69,4 +83,18 @@ if (isset($param) && $param === $key) {
 //    }
 ////    print_r(json_encode($result));die();
 //    $DB->insert_records('hbon_activity_one_hourse', $result);
+}else{
+    ob_end_clean();
+    header("Connection: close");
+    ignore_user_abort(); // optional
+    ob_start();
+    echo ('Text the user will see');
+    $size = ob_get_length();
+    header("Content-Length: $size");
+    ob_end_flush(); // Strange behaviour, will not work
+    flush();            // Unless both are called !
+    session_write_close(); // Added a line suggested in the comment
+    // Do processing here
+    sleep(30);
+    echo('Text user will never see');
 }
