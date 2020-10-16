@@ -15,7 +15,7 @@ $topic = optional_param('topic', 0, PARAM_TEXT);
 
 $aurl = new Sup();
 
-$activity = $aurl->get_name($action) ;
+$activity = $aurl->get_name($action);
 $activity_id = $aurl->get_param($action);
 $course_name = $aurl->get_name($course_link);
 $course_id = $aurl->get_param($course_link);
@@ -30,25 +30,25 @@ if (isset($topic) && $activity !== false && $activity_id !== false && in_array($
             'timespent' => $timeSpent,
             'link' => $action,
             'course_id' => (int)$course_id,
-            'course_name' =>$course,
+            'course_name' => $course,
             'uid' => $USER->uid,
-            'topic'=>$topic);
+            'topic' => $topic);
         $DB->insert_record('hbon_activity_one_hourse', (object)$newData);
     } else {
         $old = $DB->get_record('hbon_activity_one_hourse', array('user_id' => $USER->id, 'activity' => $activity, 'activity_id' => $activity_id));
         $newTime = $timeSpent + $old->timespent;
         $newData = array(
-            'id'=>(int)$old->id,
+            'id' => (int)$old->id,
             'user_id' => (int)$USER->id,
             'activity' => $activity,
             'activity_id' => (int)$activity_id,
             'timespent' => $newTime,
             'link' => $action,
             'course_id' => (int)$course_id,
-            'course_name' =>$course,
+            'course_name' => $course,
             'uid' => $USER->uid,
-            'topic'=>$topic);
-         $DB->update_record('hbon_activity_one_hourse',  (object)$newData);
+            'topic' => $topic);
+        $DB->update_record('hbon_activity_one_hourse', (object)$newData);
     }
 }
 //            $date = new DateTime();
@@ -76,7 +76,7 @@ class Sup
     {
         $name = parse_url($url, PHP_URL_PATH);
         $t = explode("/", $name);
-        if (array_key_exists(2,$t)) {
+        if (array_key_exists(2, $t)) {
             return $t[2];
         } else {
             return false;
@@ -96,4 +96,5 @@ class Sup
         return $query['id'];
     }
 }
+
 

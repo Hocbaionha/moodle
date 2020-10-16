@@ -43,6 +43,17 @@ class local_courses_external extends core_course_external
         );
     }
 
+    public static function get_activity_parameters(){
+        return new external_function_parameters(
+            array(
+                'field' => new external_value(PARAM_ALPHA, 'The field to search can be left empty for all courses or:
+                    token_id: token id
+                ', VALUE_DEFAULT, ''),
+                'value' => new external_value(PARAM_RAW, 'The value to match', VALUE_DEFAULT, '')
+            )
+        );
+    }
+
 
     /**
      * Get courses matching a specific field (id/s, shortname, idnumber, category)
@@ -184,6 +195,10 @@ class local_courses_external extends core_course_external
             'courses' => $coursesdata,
             'warnings' => $warnings
         );
+    }
+
+    public static function get_activity(){
+
     }
 
     /**
