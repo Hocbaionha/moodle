@@ -32,7 +32,8 @@ if (isset($topic) && $activity !== false && $activity_id !== false && in_array($
             'course_id' => (int)$course_id,
             'course_name' => $course,
             'uid' => $USER->uid,
-            'topic' => $topic);
+            'topic' => $topic
+        );
         $DB->insert_record('hbon_activity_one_hourse', (object)$newData);
     } else {
         $old = $DB->get_record('hbon_activity_one_hourse', array('user_id' => $USER->id, 'activity' => $activity, 'activity_id' => $activity_id));
