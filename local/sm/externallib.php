@@ -21,8 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot . "/course/externallib.php");
-require_once("$CFG->libdir/externallib.php");
-require_once("lib.php");
+//require_once("$CFG->libdir/externallib.php");
+//require_once("lib.php");
 
 class local_courses_external extends core_course_external
 {
@@ -183,9 +183,10 @@ class local_courses_external extends core_course_external
             $coursesdata[$course->id]['topics'] = $DB->get_records('course_sections', ["course" => $course->id ], 'section ASC', 'id,name,section,visible');
             $activitys = get_array_of_activities($course->id);
             foreach ($coursesdata[$course->id]['topics'] as $key => $section) {
-                $section->section = (int)$section->section;
+                $section->id = (int)$section->id;
                 foreach ($activitys as $activities) {
                     if ($section->id == $activities->sectionid && !isset($activities->deletioninprogress)) {
+                        $activities->id = $activities->cm;
                         $coursesdata[$course->id]['topics'][$key]->activities[] = (array)$activities;
                     }
                 }
