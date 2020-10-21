@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="hbon_complete_activity" COMMENT="HBON Products">
+    <TABLE NAME="hbon_complete_activity" COMMENT="hbon_complete_activity">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
@@ -17,7 +17,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="hbon_activity_one_hourse" COMMENT="HBON Products">
+    <TABLE NAME="hbon_activity_one_hourse" COMMENT="hbon_activity_one_hourse">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="user_id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
