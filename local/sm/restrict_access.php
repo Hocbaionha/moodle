@@ -18,18 +18,12 @@ $PAGE->set_context($context);
 
 $courseid = optional_param('courseid', 0, PARAM_INT);
 $availability=null;
-if($courseid>0){
-    $cra = $DB->get_record("hbon_course_restrict_access",array("course"=>$courseid));
-    if($cra){
-        $availability = $cra->availability;
-    }
-}
 $mform = new restrictaccess_form($PAGE->url,array('availability' => $availability,"courseid"=>$courseid));
 
 
 if ($mform->is_cancelled()){
     // Form cancelled, return to course.
-    redirect("/admin/search.php#linkschool");
+    redirect("/admin/search.php#linkschools");
 } else if ($data = $mform->get_data()) {
 if(!isset($data->topic)){
     $data->topic=false;
@@ -41,16 +35,14 @@ if(!isset($data->topic)){
                 $mod[]= substr($key,7);
         }
     }
-    $cra = $DB->get_record("hbon_course_restrict_access",array("course"=>$data->course));
+
     if($cra){
         $cra->availability = $data->availabilityconditionsjson;
-        $DB->update_record("hbon_course_restrict_access",$cra);
         $did = changeActivity($cra,$mod,$data->topic);
     } else {
         $new = new stdClass();
         $new->course = $data->course;
         $new->availability = $data->availabilityconditionsjson;
-        $DB->insert_record("hbon_course_restrict_access", $new);
         $did = changeActivity($new,$mod,$data->topic);
     }
     // Data submitted and validated, update and return to course.
