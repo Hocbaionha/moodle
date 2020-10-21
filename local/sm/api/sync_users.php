@@ -22,9 +22,11 @@ if($startwith==""){
 }
 switch ($startwith){
     case "as":
+        $old_school="as";
         $schoolid = "na-anhson";
         break;
     case "quangminh":
+        $old_school = "hn-quangminh";
         $schoolid = "hn-quangminh";
         break;
 }
@@ -38,7 +40,7 @@ echo $OUTPUT->header();
 $cohorts = array();
 
 //get users from each school
-$sql = "SELECT id,username,email,firstname,lastname from mdl_user where username like '$schoolid%'";
+$sql = "SELECT id,username,email,firstname,lastname from mdl_user where username like '$old_school%'";
 $mdlusers = $DB->get_records_sql($sql);
 
 
