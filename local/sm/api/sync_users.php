@@ -29,6 +29,10 @@ switch ($startwith){
         $old_school = "hn-quangminh";
         $schoolid = "hn-quangminh";
         break;
+    case "namson":
+        $old_school = "hn-namson";
+        $schoolid = "hn-namson";
+        break;
 }
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -54,6 +58,7 @@ if(!isset($SESSION->fb_token)){
 $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
 $firestore = $factory->createFirestore();
 $fdb = $firestore->database();
+$batch = $fdb->batch();
 
 $new_schools = array();
 $schools = array();
@@ -62,6 +67,8 @@ if(count($mdlusers)==0) {
     echo "not found any"; 
     return;
 }
+$codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
+$uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
 foreach($mdlusers as $mdluser){
     
     $userid=$mdluser->id;
@@ -77,6 +84,7 @@ foreach($mdlusers as $mdluser){
     $cusers = $DB->get_records_sql($sql,array("id"=>$mdluser->id));
 
     $products = [];
+    $cuser = false;
     foreach ($cusers as $cuser){
         $productid=$cuser->idnumber;
         $prodRef = $fdb->collection('products')->document($productid);
@@ -108,8 +116,9 @@ foreach($mdlusers as $mdluser){
                         echo $classname." created! ";
                         $sclass = array("name"=>$classname,"school_id"=>$schoolid,"years"=>"2020_2021");
                         $classRef = $fdb->collection('classes')->document($classid);
-                        $classRef->set($sclass);
-                        $fdb->collection('schools')->document($schoolid)->update([["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
+                        $batch->set($classRef,$sclass);
+                        $schoolRef = $fdb->collection('schools')->document($schoolid);
+                        $batch->update($schoolRef,[["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
                     }
                 }
                 if($classid==""){
@@ -117,8 +126,9 @@ foreach($mdlusers as $mdluser){
                     echo $classname." created! ";
                     $sclass = array("name"=>$classname,"school_id"=>$schoolid,"years"=>"2020_2021");
                     $classRef = $fdb->collection('classes')->document($classid);
-                    $classRef->set($sclass);
-                    $fdb->collection('schools')->document($schoolid)->update([["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
+                    $batch->set($classRef,$sclass);
+                    $schoolRef = $fdb->collection('schools')->document($schoolid);
+                    $batch->update($schoolRef,[["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
                 }
 
                 
@@ -138,21 +148,22 @@ foreach($mdlusers as $mdluser){
                             $stuRef = $fdb->collection('students')->document($uid);
                             $stuSnapshot = $stuRef->snapshot();
                             if (!$stuSnapshot->exists()) {
-                                $fdb->collection('students')->document($uid)->set($student);
-                                $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
-                                $fdb->collection('student_code')->document($student["code"]["code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                $batch->set($fdb->collection('students')->document($uid),$student);
+                                $batch->update($fdb->collection('classes')->document($classid),[["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
+                                $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
                             } else {
                                 $datas = array();
                                 foreach($student as $key=>$value){
                                     $datas[] = ['path'=>$key,'value'=>$value];
                                 }
-                                $fdb->collection('students')->document($uid)->update($datas);
+                                $batch->update($fdb->collection('students')->document($uid),$datas);
                             }
     
                         } else if(startsWith($uname,"gv")){
                             $teaRef = $fdb->collection('teachers')->document($uid);
-                            $fdb->collection('teachers')->document($uid)->set($user);
-                            $fdb->collection('schools')->document($schoolid)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teaRef])]]);                        }
+                            $batch->set($fdb->collection('teachers')->document($uid),$user);
+                            $batch->update($fdb->collection('schools')->document($schoolid),[["path"=>"teachers","value"=>FieldValue::arrayUnion([$teaRef])]]);                        }
                     }
                 }
             } else {
@@ -170,13 +181,14 @@ foreach($mdlusers as $mdluser){
                             $stuRef = $fdb->collection('students')->document($uid);
                             $stuSnapshot = $stuRef->snapshot();
                             if (!$stuSnapshot->exists()) {
-                                $fdb->collection('students')->document($uid)->set($student);
-                                $fdb->collection('student_code')->document($student["code"]["code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                $batch->set($fdb->collection('students')->document($uid),$student);
+                                $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
                             }
                         } else if(startsWith($uname,"gv")){
                             $teaRef = $fdb->collection('teachers')->document($uid);
-                            $fdb->collection('teachers')->document($uid)->set($user);
-                            $fdb->collection('schools')->document($schoolid)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teaRef])]]);
+                            $batch->set($fdb->collection('teachers')->document($uid),$user);
+                            $batch->update($fdb->collection('schools')->document($schoolid),[["path"=>"teachers","value"=>FieldValue::arrayUnion([$teaRef])]]);
                         }
                     }
                 }
@@ -195,19 +207,21 @@ foreach($mdlusers as $mdluser){
                 if (!$stuSnapshot->exists()) {
                     $student = $user;
                     $student["code"]=generateStudentCode();
-                    $fdb->collection('students')->document($uid)->set($student);
-                    $fdb->collection('student_code')->document($student["code"]["code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                    $batch->set($fdb->collection('students')->document($uid),$student);
+                    $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                    updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
                 } else {
                     //not update
                 }
             }  else if(startsWith($uname,"gv")){
                 $teaRef = $fdb->collection('teachers')->document($uid);
-                $fdb->collection('teachers')->document($uid)->set($user);
-                $fdb->collection('schools')->document($schoolid)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teaRef])]]);
+                $batch->set($fdb->collection('teachers')->document($uid),$user);
+                $batch->update($fdb->collection('schools')->document($schoolid),[["path"=>"teachers","value"=>FieldValue::arrayUnion([$teaRef])]]);
             }
         }
     }
     print_object($mdluser);
+    $batch->commit();
 }
 echo " done<br/>";    
 
@@ -229,4 +243,11 @@ function generateStudentCode(){
     $time = $date->getTimestamp();
     $expired_time = $time + (365*24*60*60); 
     return array("code"=>$code,"expired_time"=>$expired_time*1000);
+}
+
+function updateStudentData($moodleUserId,$uid,$code){
+    global $codeField,$uidField,$DB;
+    $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
+    $DB->execute($sql,array("data"=>$uid,"userid"=>$moodleUserId,"fieldid"=>$uidField));
+    $DB->execute($sql,array("data"=>$code,"userid"=>$moodleUserId,"fieldid"=>$codeField));
 }
