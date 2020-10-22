@@ -248,7 +248,20 @@ function generateStudentCode(){
 
 function updateStudentData($moodleUserId,$uid,$code){
     global $codeField,$uidField,$DB;
+    $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$uidField));
     $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
-    $DB->execute($sql,array("data"=>$uid,"userid"=>$moodleUserId,"fieldid"=>$uidField));
-    $DB->execute($sql,array("data"=>$code,"userid"=>$moodleUserId,"fieldid"=>$codeField));
+    if(!$check){
+        $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                    'fieldid' => $uidField, 'data' => $uid));
+    } else {
+        $DB->execute($sql,array("data"=>$uid,"userid"=>$moodleUserId,"fieldid"=>$uidField));
+    }
+
+    $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$codeField));
+    if(!$check){
+        $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                    'fieldid' => $codeField, 'data' => $code));
+    } else {
+        $DB->execute($sql,array("data"=>$code,"userid"=>$moodleUserId,"fieldid"=>$codeField));
+    }
 }
