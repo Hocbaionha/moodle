@@ -153,11 +153,12 @@ foreach($mdlusers as $mdluser){
                                 $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                                 updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
                             } else {
-                                $datas = array();
-                                foreach($student as $key=>$value){
-                                    $datas[] = ['path'=>$key,'value'=>$value];
-                                }
-                                $batch->update($fdb->collection('students')->document($uid),$datas);
+                                //do nothing if found student
+                                // $datas = array();
+                                // foreach($student as $key=>$value){
+                                //     $datas[] = ['path'=>$key,'value'=>$value];
+                                // }
+                                // $batch->update($fdb->collection('students')->document($uid),$datas);
                             }
     
                         } else if(startsWith($uname,"gv")){
