@@ -29,9 +29,17 @@ switch ($startwith){
         $old_school = "hn-quangminh";
         $schoolid = "hn-quangminh";
         break;
-    case "namson":
-        $old_school = "hn-namson";
-        $schoolid = "hn-namson";
+    case "qna-ndh":
+        $old_school = "qna-ndh";
+        $schoolid = "qna-nguyenduyhieu";
+        break;
+    case "kd":
+        $old_school="kd";
+        $schoolid = "hn-khuongdinh";
+        break;
+    case "kd":
+        $old_school="kd";
+        $schoolid = "hn-khuongdinh";
         break;
 }
 $context = context_system::instance();
@@ -58,7 +66,7 @@ if(!isset($SESSION->fb_token)){
 $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
 $firestore = $factory->createFirestore();
 $fdb = $firestore->database();
-$batch = $fdb->batch();
+
 
 $new_schools = array();
 $schools = array();
@@ -70,7 +78,7 @@ if(count($mdlusers)==0) {
 $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
 $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
 foreach($mdlusers as $mdluser){
-    
+    $batch = $fdb->batch();
     $userid=$mdluser->id;
     $username=$mdluser->username;
     $userArr = explode("-",$username);
