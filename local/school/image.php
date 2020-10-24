@@ -10,7 +10,7 @@ if ($filename != '') {
     global $CFG;
     $path = $CFG->dataroot . '/school/' . $filename;
 //    echo pathinfo($path)["dirname"];die;
-    if (is_readable($path) && pathinfo($path)["dirname"]=='/efs/moodledata/school') {
+    if (is_readable($path) ) {
         if(isset(pathinfo($path)["extension"]) && !in_array(pathinfo($path)["extension"],$accept_type)){
             header("HTTP/1.0 404 Not Found");exit();
         }
@@ -32,7 +32,7 @@ if ($filename != '') {
     } else {
         header("HTTP/1.0 404 Not Found");exit();
     }
-    
+
 } else {
     header("HTTP/1.0 404 Not Found");
     echo "not found file name ";

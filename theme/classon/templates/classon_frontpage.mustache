@@ -60,8 +60,43 @@
 <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/icons.css"/>
 <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css"/>
 <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css"/>
+    <style>
+        #overlay {
+            position: fixed; /* Sit on top of the page content */
+            display: none; /* Hidden by default */
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            padding: 25%;
+            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
+        }
+        .close{
+            cursor: pointer;
+            font-size: 45px;
+            color: red;
+        }
+        .image_event{
+            width: 100%;
+            height: auto;
+            text-align: center;
+        }
+    </style>
 </head>
 <body {{{ bodyattributes }}}>
+
+{{#popup_event}}
+    <div id="overlay" style="display: block">
+        <span class="close" onclick="off()">[&times;]</span>
+            {{#title}}
+            <H2 style="color: white;text-align:center;">{{title}}</H2>
+            {{/title}}
+            {{#image}}
+                <img class="image_event" src="https://moodledev.classon.vn/local/school/image.php?filename=1603537000_popup">
+            {{/image}}
+    </div>
+{{/popup_event}}
+
 {{{ output.standard_top_of_body_html }}}
 {{> theme_classon/classon_hp_header }}
 
@@ -221,6 +256,9 @@
                 $('#ovplayer6').hide();
             });
         });
+        function off() {
+            document.getElementById("overlay").style.display = "none";
+        }
     </script>
 {{> theme_classon/class_facebook_chat }}
 </body>
