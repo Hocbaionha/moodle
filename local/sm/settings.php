@@ -35,3 +35,4 @@ $ADMIN->add('custom_users', new admin_externalpage('remove_user_from_cohort', ne
 $ADMIN->add('schools', new admin_category('custom_course', new lang_string('courses','admin')));
 
 $ADMIN->add('custom_course', new admin_externalpage('restrict_access', new lang_string('restrict_access','local_sm'), "$CFG->wwwroot/local/sm/restrict_access.php"));
+$ADMIN->add('home_popup_management', new admin_externalpage('home_popup_management', new lang_string('home_popup_management','local_sm'), "$CFG->wwwroot/local/sm/home_popup_management.php"));

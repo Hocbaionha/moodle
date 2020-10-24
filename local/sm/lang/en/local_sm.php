@@ -1,5 +1,5 @@
 <?php
-$string['cohort'] = '';
+$string['home_popup_management'] = 'Homepage Popup';
 $string['cohort'] = 'Cohort';
 $string['usernamelist'] = 'Danh sách username';
 $string['title'] = 'Xóa user khỏi cohort';
