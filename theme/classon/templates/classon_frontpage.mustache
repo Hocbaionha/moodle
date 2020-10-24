@@ -78,7 +78,7 @@
         }
         .image_event{
             width: 100%;
-            height: auto;
+            height: 100%;
             text-align: center;
         }
     </style>
@@ -92,7 +92,7 @@
             <H2 style="color: white;text-align:center;">{{title}}</H2>
             {{/title}}
             {{#image}}
-                <img class="image_event" src="https://moodledev.classon.vn/local/school/image.php?filename=1603537000_popup">
+                <img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}">
             {{/image}}
     </div>
 {{/popup_event}}
