@@ -92,7 +92,8 @@
             <H2 style="color: white;text-align:center;">{{title}}</H2>
             {{/title}}
             {{#image}}
-                <img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}">
+                {{#link}}<a href="{{link}}"><img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}"></a>{{/link}}
+                {{^link}}<img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}">{{/link}}
             {{/image}}
     </div>
 {{/popup_event}}

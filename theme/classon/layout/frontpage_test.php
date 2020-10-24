@@ -101,7 +101,8 @@ if (false) {// alway redirect to homepage
 
     }
     $now =date("Y-m-d H:i:s");
-    $popup_event = $DB->get_records('hbon_popup_home', array('status'=>1),'created_at ASC','*',0,1);
+    $popup_event = $DB->get_records('hbon_popup_home', array('status'=>1),'created_at DESC');
+//    print_object($popup_event);die();
     $popup = new stdClass();
     foreach ($popup_event as $object){
         $popup = $object;
