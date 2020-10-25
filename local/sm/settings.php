@@ -30,7 +30,8 @@ defined('MOODLE_INTERNAL') || die;
 $ADMIN->add('root', new admin_category('schools', new lang_string('schools','local_school')));
 $ADMIN->add('schools', new admin_externalpage('course_desc', get_string('course_desc','local_school'), "$CFG->wwwroot/local/school/course/courses_desc.php"));
 $ADMIN->add('schools', new admin_category('custom_users', get_string('users','admin')));
-$ADMIN->add('custom_users', new admin_externalpage('remove_user_from_cohort', new lang_string('title','local_sm'), "$CFG->wwwroot/local/sm/remove_cohort.php"));
+$ADMIN->add('custom_users', new admin_externalpage('remove_user_from_cohort', new lang_string('remove_user_from_cohort','local_sm'), "$CFG->wwwroot/local/sm/remove_cohort.php"));
+$ADMIN->add('custom_users', new admin_externalpage('registed_user_chart', new lang_string('registed_user_chart','local_sm'), "$CFG->wwwroot/local/sm/registed_user_chart.php"));
 
 $ADMIN->add('schools', new admin_category('custom_course', new lang_string('courses','admin')));
 

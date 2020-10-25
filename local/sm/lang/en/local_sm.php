@@ -2,7 +2,7 @@
 $string['home_popup_management'] = 'Homepage Popup';
 $string['cohort'] = 'Cohort';
 $string['usernamelist'] = 'Danh sách username';
-$string['title'] = 'Xóa user khỏi cohort';
+$string['remove_user_from_cohort'] = 'Xóa user khỏi cohort';
 $string['pluginname'] = 'Hbon School Management';
 $string['course']='course';
 $string['restrict_access'] = 'restrict access';
@@ -16,3 +16,7 @@ $string['created_at'] = 'created_at';
 $string['public_at'] = 'public_at';
 $string['add'] = 'add';
 $string['test'] = 'test';
+$string['period'] = 'Period';
+$string['from_date'] = "Từ ngày";
+$string['to_date'] = "Đến ngày";
+$string['registed_user_chart'] = "Biểu đồ đăng ký";
