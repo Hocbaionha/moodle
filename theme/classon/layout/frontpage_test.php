@@ -101,7 +101,9 @@ if (false) {// alway redirect to homepage
 
     }
     $now =date("Y-m-d H:i:s");
-    $popup_event = $DB->get_records('hbon_popup_home', array('status'=>1),'created_at DESC');
+    $sql = "select * from mdl_hbon_popup_home where status=1 and
+    public_at <= NOW() order by public_at DESC limit 1";
+    $popup_event = $DB->get_records_sql($sql);
     if (count($popup_event)>0){
         $popup = new stdClass();
         foreach ($popup_event as $object){

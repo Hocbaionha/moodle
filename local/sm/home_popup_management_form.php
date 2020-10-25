@@ -21,7 +21,7 @@ class home_popup_management_form extends moodleform {
                    array('maxbytes' => $maxbytes, 'accepted_types' => array('web_image')));
         $mform->addElement('text', 'link', get_string('link', 'local_sm'));
         $mform->setType('link', PARAM_TEXT);
-        $mform->addElement('date_selector', 'public_at', "ngày active");
+        $mform->addElement('date_time_selector', 'public_at', "ngày active");
         $mform->setType('public_at', PARAM_TEXT);
         $mform->addElement('select', 'status', get_string('status', 'local_sm'), array(0,1));
         $mform->setType('status', PARAM_TEXT);
