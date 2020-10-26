@@ -71,13 +71,13 @@ if ($mform->is_cancelled()) {
         $school[] = $result;
     
     }
-    
+ $CFG->chart_colorset = ['#EB4734','#1DA1F2'];   
     echo $OUTPUT->header();
     $mform->display();
-    $chart = new core\chart_bar();
+    $chart = new core\chart_line();
     $chart->set_title('User đăng ký mới ');
     
-    $chart->set_stacked(true);
+//    $chart->set_stacked(true);
     $serie1 = new core\chart_series('Facebook', $fb);
     $serie2 = new core\chart_series('Gmail', $gmail);
     $serie3 = new core\chart_series('School', $school);
@@ -86,11 +86,13 @@ if ($mform->is_cancelled()) {
     // $chart->add_series($serie3);
     $chart->set_labels($labels);
     
-    $chart2 = new core\chart_bar();
+    $chart2 = new core\chart_line();
     $serie3 = new core\chart_series('School', $school);
     $chart2->add_series($serie3);
     $chart2->set_labels($labels);
     echo $OUTPUT->render($chart);
+     $CFG->chart_colorset = ['#09AC0E'];
+
     echo $OUTPUT->render($chart2);
     echo $OUTPUT->footer();
 } else {
