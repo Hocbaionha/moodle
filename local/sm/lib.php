@@ -18,6 +18,7 @@ function local_sm_enrole($uid)
     global $CFG, $DB;
     global $USER;
     global $SESSION;
+    $fb_token = $CFG->hbon_uid_admin;
     if (isset($USER->auth)) {
         if ($USER->auth != "oauth2") {
             return;
@@ -27,10 +28,10 @@ function local_sm_enrole($uid)
     //check student
     $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
     $auth = $factory->createAuth();
-    if (!isset($SESSION->fb_token)) {
+    if (!isset($fb_token)) {
         return;
     }
-    $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+    $signInResult = $auth->signInAsUser($fb_token);
     $firestore = $factory->createFirestore();
     $db = $firestore->database();
 
@@ -151,6 +152,7 @@ function insertGroup($shortname, $group_name, $userid)
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 {
     global $CFG, $USER, $SESSION;
+    $fb_token = $CFG->hbon_uid_admin;
     try {
         //get quiz_attempt data
         $quiz_attempt = $event->get_record_snapshot('quiz_attempts', $event->objectid);
@@ -179,10 +181,10 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
         $auth = $factory->createAuth();
-        if (!isset($SESSION->fb_token)) {
+        if (!isset($fb_token)) {
             return;
         }
-        $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+        $signInResult = $auth->signInAsUser($fb_token);
         $firestore = $factory->createFirestore();
         $db = $firestore->database();
 
@@ -202,6 +204,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 function local_sm_course_section_update(core\event\course_section_updated $event)
 {
     global $CFG, $USER, $DB, $SESSION;
+    $fb_token = $CFG->hbon_uid_admin;
     try {
         $course_info = $event->get_record_snapshot('course', $event->contextinstanceid);
         if($course_info->visible == 1){
@@ -221,10 +224,10 @@ function local_sm_course_section_update(core\event\course_section_updated $event
             $newdata['activities'] = $result;
             $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
             $auth = $factory->createAuth();
-            if (!isset($SESSION->fb_token)) {
+            if (!isset($fb_token)) {
                 return;
             }
-            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+            $signInResult = $auth->signInAsUser($fb_token);
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
             $db->collection('courses')->document('hbon-' . $course_info->shortname)->collection('topics')->document($event->objectid)->set($newdata);
@@ -242,6 +245,7 @@ function local_sm_course_section_update(core\event\course_section_updated $event
 function local_sm_course_update(core\event\course_updated $event)
 {
     global $CFG, $USER, $DB, $SESSION;
+    $fb_token = $CFG->hbon_uid_admin;
     try {
         $course_info = $event->get_record_snapshot('course', $event->contextinstanceid);
         if($course_info->visible == 1) {
@@ -265,10 +269,10 @@ function local_sm_course_update(core\event\course_updated $event)
             $school_deputy_id = $CFG->school_deputy_id ? $CFG->school_deputy_id : 'hbon';
             $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
             $auth = $factory->createAuth();
-            if (!isset($SESSION->fb_token)) {
+            if (!isset($fb_token)) {
                 return;
             }
-            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+            $signInResult = $auth->signInAsUser($fb_token);
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
             $db->collection('courses')->document($school_deputy_id . '-' . $course_info->shortname)->set($newdata);
@@ -293,6 +297,7 @@ function local_sm_check_session()
 function complete_view($event)
 {
     global $CFG, $USER, $DB, $SESSION;
+    $fb_token = $CFG->hbon_uid_admin;
     try {
         $course = $event->get_record_snapshot('course', $event->courseid);
         $course_module = $event->get_record_snapshot('course_modules', $event->contextinstanceid);
@@ -318,10 +323,10 @@ function complete_view($event)
             $send_data['created_at'] = time();
             $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
             $auth = $factory->createAuth();
-            if (!isset($SESSION->fb_token)) {
+            if (!isset($fb_token)) {
                 return;
             }
-            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
+            $signInResult = $auth->signInAsUser($fb_token);
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
             $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'] . '-' . $send_data['topic_id'] . '-' . $send_data['activity_id'])->set($send_data);
