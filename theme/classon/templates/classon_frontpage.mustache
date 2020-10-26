@@ -142,7 +142,7 @@
         }
     </style>
 </head>
-<body {{{ bodyattributes }}}>
+<body onload="checkCookiePopup()" {{{ bodyattributes }}}>
 
 {{#popup_event}}
     <div id="overlay" style="display: block">
@@ -159,7 +159,7 @@
             {{/image}}
             <div class="popup__close-btn" onclick="off()"><svg enable-background="new 0 0 11 11" viewBox="0 0 11 11" x="0" y="0" class="svg-icon "><path d="m10.7 9.2-3.8-3.8 3.8-3.7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0l-3.8 3.7-3.8-3.7c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3.8 3.7-3.8 3.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.3 0 .5-.1.7-.3l3.8-3.8 3.8 3.8c.2.2.4.3.7.3s.5-.1.7-.3c.4-.4.4-1 0-1.4z"></path></svg></div>
             </div>
-            
+
     </div>
 {{/popup_event}}
 
@@ -324,6 +324,31 @@
         });
         function off() {
             document.getElementById("overlay").style.display = "none";
+            var d = new Date();
+            d.setTime(d.getTime() + (60*60*1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = "popup_event=viewed;" + expires + ";path=/";
+        }
+        function checkCookiePopup() {
+            var popup_event=getCookie("popup_event");
+            if (popup_event != "" && popup_event == 'viewed') {
+                document.getElementById("overlay").style.display = "none";
+            }
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
         }
     </script>
 {{> theme_classon/class_facebook_chat }}
