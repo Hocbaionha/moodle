@@ -46,10 +46,13 @@ if ($mform->is_cancelled()) {
     switch ($fromform->period){
         case "date":
             $t= 86400;
+            break;
         case "week":
             $t= 86400*7;
+            break;
         case "month":
             $t= 86400*30;
+            break;
     }
     global $DB;
     $labels=[];
