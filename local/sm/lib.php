@@ -151,7 +151,7 @@ function insertGroup($shortname, $group_name, $userid)
 
 function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 {
-    global $CFG, $USER, $SESSION;
+    global $CFG, $USER, $SESSION,$DB;
     $fb_token = $CFG->hbon_uid_admin;
     try {
         //get quiz_attempt data
@@ -161,6 +161,8 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         //get course data
         $course = $event->get_record_snapshot('course', $event->courseid);
         // firebase.firestore.Timestamp.fromDate(data.birthdate.toDate())
+        $section = $DB->get_records('course_sections', array('course' => $event->courseid));
+
         $send_data = [];
         $send_data['uid'] = $USER->uid;
         $send_data['course'] = 'hbon-' . $course->shortname;
@@ -181,14 +183,29 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
         $auth = $factory->createAuth();
-        if (!isset($fb_token)) {
-            return;
-        }
+//        if (!isset($fb_token)) {
+//            return;
+//        }
         $signInResult = $auth->signInAsUser($fb_token);
         $firestore = $factory->createFirestore();
         $db = $firestore->database();
 
         $db->collection('students')->document($USER->uid)->collection('grades')->newDocument()->set($send_data);
+        $complete_activities = [];
+        $complete_activities ['activity_id']= $quiz->cmid;
+        $complete_activities ['activity_mod']= "quiz";
+        $complete_activities ['activity_name']=$quiz->name;
+        $complete_activities ['course_id']=$quiz->course;
+        $complete_activities ['course_name']=$course->shortname;
+        if(isset($section) && count($section)>0){
+            foreach ($section as $key=>$object){
+                if(in_array($quiz->cmid, explode(",",$object->sequence))){
+                    $complete_activities ['topic_id']= $key;
+                    $complete_activities ['topic_name']=$object->name;
+                }
+            }
+        }
+        $db->collection('students')->document($USER->uid)->collection('complete_activities')->document( 'hbon-'.$course->shortname.'-'.$complete_activities ['topic_id']."-".$quiz->cmid)->set($complete_activities);
         return true;
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
@@ -338,6 +355,7 @@ function complete_view($event)
             $complete->action = $event->action;
             $DB->insert_record('hbon_complete_activity',  $complete);
         }
+
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
             print_object($exception);die();
