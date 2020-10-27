@@ -183,9 +183,9 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
         $auth = $factory->createAuth();
-//        if (!isset($fb_token)) {
-//            return;
-//        }
+        if (!isset($fb_token)) {
+            return;
+        }
         $signInResult = $auth->signInAsUser($fb_token);
         $firestore = $factory->createFirestore();
         $db = $firestore->database();
