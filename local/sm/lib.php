@@ -167,12 +167,12 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         $send_data['uid'] = $USER->uid;
         $send_data['course'] = 'hbon-' . $course->shortname;
         $send_data['course_shortname'] = $course->shortname;
-        $send_data['course_id'] = $course->id;
+        $send_data['course_id'] = (int)$course->id;
         $send_data['course_name'] = $course->fullname;
-        $send_data['quiz_id'] = $quiz->id;
+        $send_data['quiz_id'] = (int)$quiz->id;
         $send_data['quiz_name'] = $quiz->name;
-        $send_data['cmid'] = $quiz->cmid;
-        $send_data['quiz_attempt_id'] = $quiz_attempt->id;
+        $send_data['cmid'] = (int)$quiz->cmid;
+        $send_data['quiz_attempt_id'] = (int)$quiz_attempt->id;
         $date = new DateTime();
         $send_data['timestart'] = new Timestamp($date->setTimestamp($quiz_attempt->timestart));
         $send_data['timefinish'] = new Timestamp($date->setTimestamp($quiz_attempt->timefinish));
@@ -192,10 +192,10 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
 
         $db->collection('students')->document($USER->uid)->collection('grades')->newDocument()->set($send_data);
         $complete_activities = [];
-        $complete_activities ['activity_id']= $quiz->cmid;
+        $complete_activities ['activity_id']= (int)$quiz->cmid;
         $complete_activities ['activity_mod']= "quiz";
         $complete_activities ['activity_name']=$quiz->name;
-        $complete_activities ['course_id']=$quiz->course;
+        $complete_activities ['course_id']=(int)$quiz->course;
         $complete_activities ['course_name']=$course->shortname;
         if(isset($section) && count($section)>0){
             foreach ($section as $key=>$object){
@@ -346,16 +346,17 @@ function complete_view($event)
             $signInResult = $auth->signInAsUser($fb_token);
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
-            $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'] . '-' . $send_data['topic_id'] . '-' . $send_data['activity_id'])->set($send_data);
-            $complete = new stdClass();
-            $complete->courseid = $event->courseid;
-            $complete->contextinstanceid = $event->contextinstanceid;
-            $complete->userid = $USER->id;
-            $complete->component = $event->component;
-            $complete->action = $event->action;
-            $DB->insert_record('hbon_complete_activity',  $complete);
+            if(isset($USER->uid)){
+                $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'] . '-' . $send_data['topic_id'] . '-' . $send_data['activity_id'])->set($send_data);
+                $complete = new stdClass();
+                $complete->courseid = $event->courseid;
+                $complete->contextinstanceid = $event->contextinstanceid;
+                $complete->userid = $USER->id;
+                $complete->component = $event->component;
+                $complete->action = $event->action;
+                $DB->insert_record('hbon_complete_activity',  $complete);
+            }
         }
-
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
             print_object($exception);die();
