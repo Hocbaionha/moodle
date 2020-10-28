@@ -39,7 +39,9 @@ if ( isloggedin() && !isguestuser() ) {
         $showpopup=true;
     }
 }
-
+if(2 == $USER->id){
+    $showpopup=false;
+}
 /*End- add cohort*/
 
 $extraclasses = [];
