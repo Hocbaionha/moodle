@@ -346,16 +346,17 @@ function complete_view($event)
             $signInResult = $auth->signInAsUser($fb_token);
             $firestore = $factory->createFirestore();
             $db = $firestore->database();
-            $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'] . '-' . $send_data['topic_id'] . '-' . $send_data['activity_id'])->set($send_data);
-            $complete = new stdClass();
-            $complete->courseid = $event->courseid;
-            $complete->contextinstanceid = $event->contextinstanceid;
-            $complete->userid = $USER->id;
-            $complete->component = $event->component;
-            $complete->action = $event->action;
-            $DB->insert_record('hbon_complete_activity',  $complete);
+            if(isset($USER->uid)){
+                $db->collection('students')->document($USER->uid)->collection('complete_activities')->document($send_data['course_id'] . '-' . $send_data['topic_id'] . '-' . $send_data['activity_id'])->set($send_data);
+                $complete = new stdClass();
+                $complete->courseid = $event->courseid;
+                $complete->contextinstanceid = $event->contextinstanceid;
+                $complete->userid = $USER->id;
+                $complete->component = $event->component;
+                $complete->action = $event->action;
+                $DB->insert_record('hbon_complete_activity',  $complete);
+            }
         }
-
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
             print_object($exception);die();
