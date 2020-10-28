@@ -19,19 +19,35 @@ if (isloggedin()) {
 
 /*Begin- add cohort */
 require_once($CFG->dirroot.'/cohort/locallib.php');
-global $USER;
+global $USER,$PAGE,$DB;
+$url = parse_url($PAGE->url)["path"];
+$showpopup=false;
 if ( isloggedin() && !isguestuser() ) {
     $uid = $USER->id;
     if (!(cohort_is_member(1, $uid) || cohort_is_member(2, $uid) || cohort_is_member(3, $uid))) {
         cohort_add_member(1, $uid);
     }
+    //check phone 
+    $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
+        join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.name='phone' and ud.data is not null and ud.data !=''";
+    $phone = $DB->get_record_sql($sql,array("id"=>$uid));
+    if(!$phone && $url == "/course/view.php"){
+        $showpopup=true;
+    }
+} else {
+    if($url == "/course/view.php" && !$_SESSION["registed"]){
+        $showpopup=true;
+    }
 }
+
 /*End- add cohort*/
 
 $extraclasses = [];
 if ($navdraweropen) {
     $extraclasses[] = 'drawer-open-left';
 }
+$sql = 'select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
+join mdl_user_info_field uf on uf.id=ud.fieldid where uf.name="phone" and ud.data is not null and ud.data !=""';
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $blockshtml = $OUTPUT->blocks('side-pre');
 $hasblocks = strpos($blockshtml, 'data-block=') !== false;
@@ -52,6 +68,8 @@ $templatecontext = [
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'uid'=>$USER->id,
+    'showpopup'=>$showpopup,
+    'wanturl'=>$PAGE->url
 //    'fb_id'=>$USER->uid
 ];
 

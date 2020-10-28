@@ -153,13 +153,109 @@ footer .furgan-listitem.style-01 li, footer .furgan-listitem.style-02 li {
 input.mod_quiz-redo_question_button {
     display: none;//anhnn Bỏ nút làm lại trong bài quiz
 }
+
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 600;
+        }
+        #overlay:target {
+            visibility: visible;
+            display: block;
+        }
+        .close{
+            cursor: pointer;
+            font-size: 45px;
+            color: red;
+        }
+        .image_event{
+            margin: 0 auto;
+            width: 430px;
+            height: auto;
+        }
+        .reveal-modal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            overflow: visible;
+            max-height: 100%;
+            max-width: 100%;
+        }
+        .popup__overlay {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.4);
+        }
+        .popup__close-btn {
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            line-height: 2.5rem;
+            height: 1.875rem;
+            width: 1.875rem;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            position: absolute;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #5a5a5a;
+            top: -.625rem;
+            right: -.625rem;
+            border-radius: 1.25rem;
+            border: 3px solid #fff;
+        }
+        .svg-icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            position: relative;
+            font-size: .75rem;
+            color: #fff;
+        }
+
 </style>
 
 {{> theme_boost/head }}
 
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
-
+{{#showpopup}}
+    <div id="overlay" >
+        <div class="popup__overlay"></div>
+        <div class="reveal-modal">
+            <div style="background-color:white;padding:20px">
+                <h3 style="color:red">Hãy nhập số điện thoại để được vào học thử </h3>
+                <form action="/local/sm/course_popup.php" method="post">
+                    <input type="text" name="phone" required/>
+                    <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
+                    <button type="submit">Gửi </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/showpopup}}
 <div id="page-wrapper" class="d-print-block">
 
     {{{ output.standard_top_of_body_html }}}
