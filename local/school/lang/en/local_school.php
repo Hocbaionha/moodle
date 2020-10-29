@@ -127,3 +127,4 @@ $string['gvbm']='gvbm';
 $string['bgh']='bgh';
 $string['hbonteacher']='hbonteacher';
 $string['price'] = 'price';
+$string['popup'] = 'popup';

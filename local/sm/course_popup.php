@@ -3,7 +3,7 @@
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 global $USER,$CFG,$DB;
 $phone = optional_param('phone', "", PARAM_TEXT);
-if(!$SESSION->wantsurl){
+if(!isset($SESSION->wantsurl)){
     $SESSION->wantsurl = optional_param('wanturl', "", PARAM_TEXT);
 }
 if($USER->id>2){
