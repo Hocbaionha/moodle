@@ -149,9 +149,6 @@
         <div class="popup__overlay"></div>
         <div class="reveal-modal">
             <H2 style="color: white;text-align:center;">
-            {{#title}}
-                {{title}}
-            {{/title}}
             </H2>
             {{#image}}
                 {{#link}}<a href="{{link}}"><img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}"></a>{{/link}}
@@ -221,7 +218,9 @@
         if (popup_event != "" && popup_event == 'viewed') {
             document.getElementById("overlay").style.display = "none";
         }else{
-            document.getElementById("overlay").style.display = "block";
+            if( $("#overlay").length){
+                document.getElementById("overlay").style.display = "block";
+            }
         }
     }
     function getCookie(cname) {
