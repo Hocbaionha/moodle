@@ -36,7 +36,7 @@ if ( isloggedin() && !isguestuser() ) {
         $showpopup=true;
     }
 } else {
-    if($path == "/course/view.php" && !$_SESSION["registed"]){
+    if($path == "/course/view.php" && !isset($_SESSION["registed"])){
         $courseid = explode("=",$url["query"])[1];
         $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
         if($coursedesc && $coursedesc->popup){
