@@ -1,6 +1,6 @@
 <?php
 
-$string['title'] = 'Xóa user khỏi cohort';
+$string['title'] = 'Tiêu đề';
 $string['cohort'] = 'Cohort';
 $string['usernamelist'] = 'Danh sách username';
 $string['course']='course';
