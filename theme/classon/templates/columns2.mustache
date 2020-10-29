@@ -153,13 +153,163 @@ footer .furgan-listitem.style-01 li, footer .furgan-listitem.style-02 li {
 input.mod_quiz-redo_question_button {
     display: none;//anhnn Bỏ nút làm lại trong bài quiz
 }
+
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        #overlay:target {
+            visibility: visible;
+            display: block;
+        }
+        .close{
+            cursor: pointer;
+            font-size: 45px;
+            color: red;
+        }
+        .image_event{
+            margin: 0 auto;
+            width: 430px;
+            height: auto;
+        }
+        .reveal-modal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            overflow: visible;
+            max-height: 100%;
+            max-width: 100%;
+        }
+        .popup__overlay {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.4);
+        }
+        .popup__close-btn {
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            line-height: 2.5rem;
+            height: 1.875rem;
+            width: 1.875rem;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            position: absolute;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #5a5a5a;
+            top: -.625rem;
+            right: -.625rem;
+            border-radius: 1.25rem;
+            border: 3px solid #fff;
+        }
+        .svg-icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            position: relative;
+            font-size: .75rem;
+            color: #fff;
+        }
+        .imgstyle {
+            background-image: url({{{ config.wwwroot }}}/theme/classon/pix/popup-2-bg.png);
+            background-color: white;
+            background-size: contain;
+            padding: 20px;
+            height: 400px;
+            width: 400px;
+            border-radius: 19px;
+            text-align:center;
+            padding-top:210px;
+        }
+        .popup-text{
+            color: #545454;
+            font-weight: bold;
+            width: 350px;
+            margin:auto;
+        }
+        .phone{
+            border: 2px solid #797979;
+            background-color: #EFEFEF;
+            border-radius: 4px;
+            height: 40px;
+            font-size:12px;
+            width:250px;
+            margin-top:15px;
+            margin-bottom:15px;
+        
+        }
+        ::-webkit-input-placeholder {
+            text-align: center;
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+            text-align: center;  
+        }
+
+        ::-moz-placeholder {  /* Firefox 19+ */
+            text-align: center;  
+        }
+
+        :-ms-input-placeholder {  
+            text-align: center; 
+        }
+        .send{
+            width:250px;
+            border: 2px solid #797979;
+            background-color: #9CC25D;
+            border-radius: 4px;
+            height: 40px;
+            color:#fff;
+            text-align:center;
+            font-weight:bold;
+            font-size:20px;
+        }
+
 </style>
 
 {{> theme_boost/head }}
 
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
-
+{{#showpopup}}
+    <div id="overlay" >
+        <div class="popup__overlay"></div>
+        <div class="reveal-modal">
+            <div class="imgstyle">
+                <h3 class="popup-text">Vui lòng nhập số điện thoại để  học thử </h3>
+                <form action="/local/sm/course_popup.php" method="post">
+                    <input class="phone" type="text" name="phone" placeholder="Nhập số điện thoại của bạn" required/>
+                    <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
+                    <button class="send" type="submit">HỌC THỬ NGAY</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/showpopup}}
 <div id="page-wrapper" class="d-print-block">
 
     {{{ output.standard_top_of_body_html }}}
@@ -214,68 +364,67 @@ require(['theme_boost/drawer'], function(mod) {
 });
 
 $(document).ready(function() {
-var start = new Date();
-$(window).on('beforeunload',function(e) {
-e.returnValue = "Write something clever here..";
+    var start = new Date();
+    $(window).on('beforeunload',function(e) {
+    e.returnValue = "Write something clever here..";
 
-var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
 
-var end = new Date();
-var id = {{uid}};
-var uid = $('#fb_id').val();
-var action = window.location.href;
-var data = {
-'timeSpent': end - start,
-'uid': uid,
-'id':id,
-'action': action,
-'course': course,
-'course_link': course_link,
-'topic': topic,
-'topic_link': topic_link
-};
+    var end = new Date();
+    var id = {{uid}};
+    var uid = $('#fb_id').val();
+    var action = window.location.href;
+    var data = {
+    'timeSpent': end - start,
+    'uid': uid,
+    'id':id,
+    'action': action,
+    'course': course,
+    'course_link': course_link,
+    'topic': topic,
+    'topic_link': topic_link
+    };
 
-$.ajax({
-url: "/local/sm/log.php",
-type: 'POST',
-data: data,
-success: function (data, textStatus, jqXHR) {
-console.log(data);
-},
-error: function (jqXHR, textStatus, errorThrown) {
-},
-async: true
-})
+    $.ajax({
+        url: "/local/sm/log.php",
+        type: 'POST',
+        data: data,
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {},
+        async: true
+    })
 
 });
 
 $('a').click(function(e) {
-var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
-var end = new Date();
-var id = {{uid}};
-var uid =  $('#fb_id').val();
-var action =$(this).attr('href');
-var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
-console.log(data);
-if(topic_link !== 'undefined'){
-$.ajax({
-url: "/local/sm/log.php",
-type: 'POST',
-data: data,
-success: function(data, textStatus, jqXHR) {
-},
-error: function(jqXHR, textStatus, errorThrown) {
-},
-async: true
-});
-}
-});
+    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+    var end = new Date();
+    var id = {{uid}};
+    var uid =  $('#fb_id').val();
+    var action =$(this).attr('href');
+    var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
+    console.log(data);
+    if(topic_link !== 'undefined'){
+    $.ajax({
+        url: "/local/sm/log.php",
+        type: 'POST',
+        data: data,
+        success: function(data, textStatus, jqXHR) {
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            },
+            async: true
+            });
+        }
+    });
 
 });
 {{/js}}

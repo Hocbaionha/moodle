@@ -101,7 +101,7 @@ if ($mform->is_cancelled()) {
     $fromform->review = $fromform->review['text'];
     $fromform->introduce_desc = $fromform->introduce_desc['text'];
 //    dd($fromform);
-// dd($fromform);
+
     if (!$DB->update_record('course_desc', $fromform)) {
         print_error('updateerror', 'school');
     }

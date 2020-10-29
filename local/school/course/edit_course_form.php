@@ -58,6 +58,9 @@ class edit_course_form extends moodleform {
         $mform->setType('thumb_desc', PARAM_TEXT);
         $mform->addElement('text', 'productid', get_string('productid', 'local_school'), $attributes);
         $mform->setType('productid', PARAM_INT);
+        $selectArray=array(0,1);
+        $mform->addElement('select', 'popup', get_string('popup', 'local_sm'), $selectArray); 
+        $mform->setType('popup', PARAM_INT);
         $this->add_action_buttons();
     }
 
