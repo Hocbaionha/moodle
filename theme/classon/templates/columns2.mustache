@@ -161,7 +161,7 @@ input.mod_quiz-redo_question_button {
             right: 0;
             bottom: 0;
             left: 0;
-            z-index: 600;
+            z-index: 1000;
         }
         #overlay:target {
             visibility: visible;
@@ -234,6 +234,60 @@ input.mod_quiz-redo_question_button {
             font-size: .75rem;
             color: #fff;
         }
+        .imgstyle {
+            background-image: url({{{ config.wwwroot }}}/theme/classon/pix/popup-2-bg.png);
+            background-color: white;
+            background-size: contain;
+            padding: 20px;
+            height: 400px;
+            width: 400px;
+            border-radius: 19px;
+            text-align:center;
+            padding-top:210px;
+        }
+        .popup-text{
+            color: #545454;
+            font-weight: bold;
+            width: 350px;
+            margin:auto;
+        }
+        .phone{
+            border: 2px solid #797979;
+            background-color: #EFEFEF;
+            border-radius: 4px;
+            height: 40px;
+            font-size:12px;
+            width:250px;
+            margin-top:15px;
+            margin-bottom:15px;
+        
+        }
+        ::-webkit-input-placeholder {
+            text-align: center;
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+            text-align: center;  
+        }
+
+        ::-moz-placeholder {  /* Firefox 19+ */
+            text-align: center;  
+        }
+
+        :-ms-input-placeholder {  
+            text-align: center; 
+        }
+        .send{
+            width:250px;
+            border: 2px solid #797979;
+            background-color: #9CC25D;
+            border-radius: 4px;
+            height: 40px;
+            color:#fff;
+            text-align:center;
+            font-weight:bold;
+            font-size:20px;
+        }
 
 </style>
 
@@ -245,12 +299,12 @@ input.mod_quiz-redo_question_button {
     <div id="overlay" >
         <div class="popup__overlay"></div>
         <div class="reveal-modal">
-            <div style="background-color:white;padding:20px">
-                <h3 style="color:red">Hãy nhập số điện thoại để được vào học thử </h3>
+            <div class="imgstyle">
+                <h3 class="popup-text">Vui lòng nhập số điện thoại để  học thử </h3>
                 <form action="/local/sm/course_popup.php" method="post">
-                    <input type="text" name="phone" required/>
+                    <input class="phone" type="text" name="phone" placeholder="Nhập số điện thoại của bạn" required/>
                     <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
-                    <button type="submit">Gửi </button>
+                    <button class="send" type="submit">HỌC THỬ NGAY</button>
                 </form>
             </div>
         </div>
@@ -310,68 +364,67 @@ require(['theme_boost/drawer'], function(mod) {
 });
 
 $(document).ready(function() {
-var start = new Date();
-$(window).on('beforeunload',function(e) {
-e.returnValue = "Write something clever here..";
+    var start = new Date();
+    $(window).on('beforeunload',function(e) {
+    e.returnValue = "Write something clever here..";
 
-var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
 
-var end = new Date();
-var id = {{uid}};
-var uid = $('#fb_id').val();
-var action = window.location.href;
-var data = {
-'timeSpent': end - start,
-'uid': uid,
-'id':id,
-'action': action,
-'course': course,
-'course_link': course_link,
-'topic': topic,
-'topic_link': topic_link
-};
+    var end = new Date();
+    var id = {{uid}};
+    var uid = $('#fb_id').val();
+    var action = window.location.href;
+    var data = {
+    'timeSpent': end - start,
+    'uid': uid,
+    'id':id,
+    'action': action,
+    'course': course,
+    'course_link': course_link,
+    'topic': topic,
+    'topic_link': topic_link
+    };
 
-$.ajax({
-url: "/local/sm/log.php",
-type: 'POST',
-data: data,
-success: function (data, textStatus, jqXHR) {
-console.log(data);
-},
-error: function (jqXHR, textStatus, errorThrown) {
-},
-async: true
-})
+    $.ajax({
+        url: "/local/sm/log.php",
+        type: 'POST',
+        data: data,
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {},
+        async: true
+    })
 
 });
 
 $('a').click(function(e) {
-var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
-var end = new Date();
-var id = {{uid}};
-var uid =  $('#fb_id').val();
-var action =$(this).attr('href');
-var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
-console.log(data);
-if(topic_link !== 'undefined'){
-$.ajax({
-url: "/local/sm/log.php",
-type: 'POST',
-data: data,
-success: function(data, textStatus, jqXHR) {
-},
-error: function(jqXHR, textStatus, errorThrown) {
-},
-async: true
-});
-}
-});
+    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+    var end = new Date();
+    var id = {{uid}};
+    var uid =  $('#fb_id').val();
+    var action =$(this).attr('href');
+    var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
+    console.log(data);
+    if(topic_link !== 'undefined'){
+    $.ajax({
+        url: "/local/sm/log.php",
+        type: 'POST',
+        data: data,
+        success: function(data, textStatus, jqXHR) {
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            },
+            async: true
+            });
+        }
+    });
 
 });
 {{/js}}
