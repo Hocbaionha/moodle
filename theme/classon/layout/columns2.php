@@ -33,7 +33,11 @@ if ( isloggedin() && !isguestuser() ) {
         join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.name='phone' and ud.data is not null and ud.data !=''";
     $phone = $DB->get_record_sql($sql,array("id"=>$uid));
     if(!$phone && $path == "/course/view.php"){
-        $showpopup=true;
+    	$courseid = explode("=",$url["query"])[1];
+	$coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
+        if($coursedesc && $coursedesc->popup){
+            $showpopup=true;
+        }
     }
 } else {
     if($path == "/course/view.php" && !isset($_SESSION["registed"])){
