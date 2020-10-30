@@ -3,9 +3,9 @@
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 global $USER,$CFG,$DB;
 $phone = optional_param('phone', "", PARAM_TEXT);
-if(!isset($SESSION->wantsurl)){
+//if(!isset($SESSION->wantsurl)){
     $SESSION->wantsurl = optional_param('wanturl', "", PARAM_TEXT);
-}
+//}
 if($USER->id>2){
     //not admin or guest
     $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
