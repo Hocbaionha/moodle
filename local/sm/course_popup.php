@@ -16,8 +16,8 @@ if($USER->id>2){
         $DB->execute($sql,array("userid"=>$USER->id,"data"=>$phone));
         echo "done";
     } else {
-        $sql = "update mdl_user_info_data set data=? where u.id=? and fieldid=(select id from mdl_user_info_field where shortname='phone')";
-        $DB->execute($sql,array("userid"=>$USER->id,"data"=>$phone));
+        $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=(select id from mdl_user_info_field where shortname='phone')";
+        $DB->execute($sql,array("data"=>$phone,"userid"=>$USER->id));
         echo "done";
     }
 } 
