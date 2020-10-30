@@ -61,6 +61,8 @@ class edit_course_form extends moodleform {
         $selectArray=array(0,1);
         $mform->addElement('select', 'popup', get_string('popup', 'local_sm'), $selectArray); 
         $mform->setType('popup', PARAM_INT);
+        $mform->addElement('filepicker', 'popupimg', get_string('popupimg','local_school'), null,
+                   array('maxbytes' => $maxbytes, 'accepted_types' => array('web_image')));
         $this->add_action_buttons();
     }
 

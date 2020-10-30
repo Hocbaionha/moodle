@@ -235,7 +235,7 @@ input.mod_quiz-redo_question_button {
             color: #fff;
         }
         .imgstyle {
-            background-image: url({{{ config.wwwroot }}}/theme/classon/pix/popup-2-bg.png);
+            background-image: url({{{ config.wwwroot }}}/local/school/image.php?filename={{{popup_img}}});
             background-color: white;
             background-size: contain;
             padding: 20px;
@@ -243,7 +243,7 @@ input.mod_quiz-redo_question_button {
             width: 400px;
             border-radius: 19px;
             text-align:center;
-            padding-top:210px;
+            padding-top:140px;
         }
         .popup-text{
             color: #545454;
@@ -300,7 +300,6 @@ input.mod_quiz-redo_question_button {
         <div class="popup__overlay"></div>
         <div class="reveal-modal">
             <div class="imgstyle">
-                <h3 class="popup-text">Vui lòng nhập số điện thoại để  học thử </h3>
                 <form action="/local/sm/course_popup.php" method="post">
                     <input class="phone" type="text" name="phone" placeholder="Nhập số điện thoại của bạn" required/>
                     <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
