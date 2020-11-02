@@ -56,6 +56,16 @@
         {
         if (evt.origin === 'https://pages.hocbaionha.com')
         {
+
+	if(typeof evt.data === 'string' && evt.data.startsWith("popup:")){
+        //	console.log(evt.data)
+	        var res = evt.data.split(":");
+	        console.log(res)
+	        let h = parseInt(res[1]);
+	        window.scrollTo(0,h);
+	      } else {
+	//        console.log(evt.data)
+	      }
             height= parseInt(evt.data)+5;
 	    height = height.toString() + "px"
             document.getElementById("iframe").style.height = height;
