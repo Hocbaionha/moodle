@@ -23,6 +23,7 @@ global $USER,$PAGE,$DB;
 $url = parse_url($PAGE->url);
 $path = $url["path"];
 $showpopup=false;
+$popupimg="";
 if ( isloggedin() && !isguestuser() ) {
     $uid = $USER->id;
     if (!(cohort_is_member(1, $uid) || cohort_is_member(2, $uid) || cohort_is_member(3, $uid))) {
@@ -36,6 +37,7 @@ if ( isloggedin() && !isguestuser() ) {
     	$courseid = explode("=",$url["query"])[1];
 	    $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
         if($coursedesc && $coursedesc->popup){
+            $popupimg = $coursedesc->popupimg;
             $showpopup=true;
         }
     }
@@ -44,6 +46,7 @@ if ( isloggedin() && !isguestuser() ) {
         $courseid = explode("=",$url["query"])[1];
         $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
         if($coursedesc && $coursedesc->popup){
+            $popupimg = $coursedesc->popupimg;
             $showpopup=true;
         }
     }
@@ -80,7 +83,8 @@ $templatecontext = [
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'uid'=>$USER->id,
     'showpopup'=>$showpopup,
-    'wanturl'=>$PAGE->url
+    'wanturl'=>$PAGE->url,
+    'popup_img'=>$popupimg
 //    'fb_id'=>$USER->uid
 ];
 

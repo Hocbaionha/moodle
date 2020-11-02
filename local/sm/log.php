@@ -6,7 +6,7 @@ require_once($CFG->dirroot . "/lib/externallib.php");
 global $CFG, $USER, $SESSION, $DB;
 
 $timeSpent = optional_param('timeSpent', 0, PARAM_INT);
-$timeSpent = $timeSpent / 1000;
+$timeSpent = round($timeSpent / 1000);
 $bodyattributes = optional_param('bodyattributes', 0, PARAM_TEXT);
 $action = optional_param('action', 0, PARAM_TEXT);
 $course = optional_param('course', 0, PARAM_TEXT);

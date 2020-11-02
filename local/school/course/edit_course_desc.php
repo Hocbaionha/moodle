@@ -100,6 +100,21 @@ if ($mform->is_cancelled()) {
     $fromform->teacher_desc = $fromform->teacher_desc['text'];
     $fromform->review = $fromform->review['text'];
     $fromform->introduce_desc = $fromform->introduce_desc['text'];
+
+    $popupimg_name = $mform->get_new_filename('popupimg');
+    if ($popupimg_name) {
+        $popupimg_path = $fullpath . "popup-".$fromform->shortname;
+        
+        $success = $mform->save_file('popupimg', $popupimg_path, true);
+        if (!$success) {
+            print_error('cant_upload', 'local_school');
+        }
+        
+        $fileinfo['filename'] = "popup-".$fromform->shortname;
+        $fromform->popupimg = "popup-".$fromform->shortname;
+    } else {
+        unset($fromform->popupimg);
+    }
 //    dd($fromform);
 
     if (!$DB->update_record('course_desc', $fromform)) {
