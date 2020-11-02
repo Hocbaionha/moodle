@@ -895,10 +895,10 @@ a.button:hover {
     margin: 0px;
 }
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info,.slide-home-01 .slide-wrap:nth-child(2) .slide-info{
-    top:41%;
+    top:44%;
 }
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info h1 {
-    font-size: 4.6vw;
+    font-size: 3vw;
 }
 
 .slide-home-01 .slide-wrap:nth-child(1) .slide-info h2 {
@@ -906,7 +906,7 @@ a.button:hover {
 }
 
 .slide-home-01 .slide-wrap:nth-child(2) .slide-info h1 {
-    font-size: 4.6vw;
+    font-size: 3vw;
     margin-left: 0;
     margin-bottom: 10px;
 }
@@ -1074,7 +1074,7 @@ a.button:hover {
     }
 
     .slide-home-01 .slide-wrap:nth-child(2) .slide-info h2,.slide-home-01 .slide-wrap:nth-child(1) .slide-info h2 {
-        font-size: 2.3vw;
+        font-size: 3vw;
         margin: 0 0 20px 0;
     }
     .slide-home-01 .slide-info .slide-inner .btn-group{
