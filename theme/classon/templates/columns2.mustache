@@ -260,22 +260,22 @@ input.mod_quiz-redo_question_button {
             width:250px;
             margin-top:15px;
             margin-bottom:15px;
-        
+
         }
         ::-webkit-input-placeholder {
             text-align: center;
         }
 
         :-moz-placeholder { /* Firefox 18- */
-            text-align: center;  
+            text-align: center;
         }
 
         ::-moz-placeholder {  /* Firefox 19+ */
-            text-align: center;  
+            text-align: center;
         }
 
-        :-ms-input-placeholder {  
-            text-align: center; 
+        :-ms-input-placeholder {
+            text-align: center;
         }
         .send{
             width:250px;
@@ -361,69 +361,102 @@ require(['theme_boost/drawer'], function(mod) {
     mod.init();
   M.util.js_complete('theme_boost/drawer');
 });
+var path = window.location.pathname;
+if(path == '/mod/quiz/attempt.php'){
+setInterval(function(){
+var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
 
+var id = {{uid}};
+var uid = $('#fb_id').val();
+var action = window.location.href;
+var data = {
+'timeSpent': 30000,
+'uid': uid,
+'id':id,
+'action': action,
+'course': course,
+'course_link': course_link,
+'topic': topic,
+'topic_link': topic_link
+};
+console.log(data);
+$.ajax({
+url: "/local/sm/log.php",
+type: 'POST',
+data: data,
+success: function (data, textStatus, jqXHR) {
+console.log(data);
+},
+error: function (jqXHR, textStatus, errorThrown) {},
+})
+}, 30000);
+}else{
 $(document).ready(function() {
-    var start = new Date();
-    $(window).on('beforeunload',function(e) {
-    e.returnValue = "Write something clever here..";
+var start = new Date();
+$(window).on('beforeunload',function(e) {
+e.returnValue = "Write something clever here..";
 
-    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
 
-    var end = new Date();
-    var id = {{uid}};
-    var uid = $('#fb_id').val();
-    var action = window.location.href;
-    var data = {
-    'timeSpent': end - start,
-    'uid': uid,
-    'id':id,
-    'action': action,
-    'course': course,
-    'course_link': course_link,
-    'topic': topic,
-    'topic_link': topic_link
-    };
+var end = new Date();
+var id = {{uid}};
+var uid = $('#fb_id').val();
+var action = window.location.href;
+var data = {
+'timeSpent': end - start,
+'uid': uid,
+'id':id,
+'action': action,
+'course': course,
+'course_link': course_link,
+'topic': topic,
+'topic_link': topic_link
+};
 
-    $.ajax({
-        url: "/local/sm/log.php",
-        type: 'POST',
-        data: data,
-        success: function (data, textStatus, jqXHR) {
-            console.log(data);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {},
-        async: true
-    })
+$.ajax({
+url: "/local/sm/log.php",
+type: 'POST',
+data: data,
+success: function (data, textStatus, jqXHR) {
+console.log(data);
+},
+error: function (jqXHR, textStatus, errorThrown) {},
+async: true
+})
 
 });
 
 $('a').click(function(e) {
-    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
-    var end = new Date();
-    var id = {{uid}};
-    var uid =  $('#fb_id').val();
-    var action =$(this).attr('href');
-    var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
-    console.log(data);
-    if(topic_link !== 'undefined'){
-    $.ajax({
-        url: "/local/sm/log.php",
-        type: 'POST',
-        data: data,
-        success: function(data, textStatus, jqXHR) {
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-            },
-            async: true
-            });
-        }
-    });
+var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+var end = new Date();
+var id = {{uid}};
+var uid =  $('#fb_id').val();
+var action =$(this).attr('href');
+var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
+console.log(data);
+if(topic_link !== 'undefined'){
+$.ajax({
+url: "/local/sm/log.php",
+type: 'POST',
+data: data,
+success: function(data, textStatus, jqXHR) {
+},
+error: function(jqXHR, textStatus, errorThrown) {
+},
+async: true
+});
+}
+});
 
 });
+}
 {{/js}}
