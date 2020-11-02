@@ -20,11 +20,13 @@ $activity_id = $aurl->get_param($action);
 $course_name = $aurl->get_name($course_link);
 $course_id = $aurl->get_param($course_link);
 
+
 $listActivity = ["assign", "book", "feedback", "quiz", "wiki", "resource", "geogebra", "url", "page", "hp5activity", "forum"];
 if (isset($topic) && $activity !== false && $activity_id !== false && in_array($activity, $listActivity)) {
     $checkexist = $DB->count_records('hbon_activity_one_hourse', array('user_id' => $USER->id, 'activity' => $activity, 'activity_id' => $activity_id));
     if ($checkexist === 0) {
-        $newData = array('user_id' => (int)$USER->id,
+        $newData = array(
+            'user_id' => (int)$USER->id,
             'activity' => $activity,
             'activity_id' => (int)$activity_id,
             'timespent' => $timeSpent,
@@ -52,24 +54,7 @@ if (isset($topic) && $activity !== false && $activity_id !== false && in_array($
         $DB->update_record('hbon_activity_one_hourse', (object)$newData);
     }
 }
-//            $date = new DateTime();
-//            $setdata = [];
-//            $setdata['activity'] = $aSingleRow[NAME];
-//            $setdata['activity_id'] = $aSingleRow[INPUT_ID];
-//            $setdata['course_id'] = $aSingleRow[COURSE_ID];
-//            $setdata['course_name'] = $aSingleRow[COURSE_NAME];
-//            $setdata['created_at'] = new Timestamp($date->setTimestamp($aSingleRow[TIME_ADD]));
-//            $setdata['time_spent'] = $aSingleRow[TIME_SPENT];
-//            $setdata['topic'] = $aSingleRow[TOPIC];
-//            $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
-//            $auth = $factory->createAuth();
-//            if(!isset($SESSION->fb_token)){
-//                return;
-//            }
-//            $signInResult = $auth->signInWithCustomToken($SESSION->fb_token);
-//            $firestore = $factory->createFirestore();
-//            $fb_db = $firestore->database();
-//            $fb_db->collection('students')->document($USER->uid)->collection('activities')->newDocument()->set($setdata);
+
 
 class Sup
 {
@@ -91,10 +76,14 @@ class Sup
         if (array_key_exists('query', $parts)) {
             parse_str($parts['query'], $query);
         }
-        if (!array_key_exists('id', $query)) {
+        if (array_key_exists('id', $query)) {
+            return $query['id'];
+        }elseif (array_key_exists('cmid', $query)){
+            return $query['cmid'];
+        }else{
             return false;
         }
-        return $query['id'];
+
     }
 }
 
