@@ -145,11 +145,10 @@
             font-size: 30px;
             margin-top: -85px;
             display: inline-block;
-            padding-left: 12px;
-            padding-right: 15px;
+            padding-left: 19px;
         }
         #event_time_days{
-            padding-left: 248px;
+            padding-left: 242px;
         }
     </style>
 </head>
@@ -245,10 +244,26 @@
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Output the result in an element with id="demo"
-            document.getElementById("event_time_days").innerHTML = days ;
-            document.getElementById("event_time_hours").innerHTML = hours ;
-            document.getElementById("event_time_minutes").innerHTML = minutes ;
-            document.getElementById("event_time_seconds").innerHTML = seconds ;
+            if(days<10){
+                document.getElementById("event_time_days").innerHTML = "0"+days ;
+            }else{
+                document.getElementById("event_time_days").innerHTML = days ;
+            }
+            if(hours<10){
+                document.getElementById("event_time_hours").innerHTML = "0"+hours ;
+            }else{
+                document.getElementById("event_time_hours").innerHTML = hours ;
+            }
+            if(minutes<10){
+                document.getElementById("event_time_minutes").innerHTML = "0"+minutes ;
+            }else {
+                document.getElementById("event_time_minutes").innerHTML = minutes ;
+            }
+            if(seconds<10){
+                document.getElementById("event_time_seconds").innerHTML = "0"+seconds ;
+            }else{
+                document.getElementById("event_time_seconds").innerHTML = seconds ;
+            }
 
             // If the count down is over, write some text
             if (distance < 0) {
