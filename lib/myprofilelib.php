@@ -385,6 +385,11 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
                     format_string($formfield->field->name), null, null, $formfield->display_data());
                 $tree->add_node($node);
             }
+            if($formfield->field->shortname ==='student_code' &&!$formfield->is_empty()){
+                $node = new core_user\output\myprofile\node('contact', 'custom_field_' . $formfield->field->shortname,
+                    format_string($formfield->field->name), null, null, $formfield->display_data());
+                $tree->add_node($node);
+            }
         }
     }
 
