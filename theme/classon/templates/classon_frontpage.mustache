@@ -282,12 +282,17 @@
     }
     function checkCookiePopup() {
         event.preventDefault();
-        var popup_event=getCookie("popup_event");
-        if (popup_event != "" && popup_event == 'viewed') {
+        var now = new Date().getTime();
+        if(countDownDate-now<0){
             document.getElementById("overlay").style.display = "none";
         }else{
-            if( $("#overlay").length){
-                document.getElementById("overlay").style.display = "block";
+            var popup_event=getCookie("popup_event");
+            if (popup_event != "" && popup_event == 'viewed') {
+                document.getElementById("overlay").style.display = "none";
+            }else{
+                if( $("#overlay").length){
+                    document.getElementById("overlay").style.display = "block";
+                }
             }
         }
     }
