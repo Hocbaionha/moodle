@@ -54,10 +54,11 @@ $hcolumns = array('title' => get_string('title', 'local_sm'),
     'status' => get_string('status', 'local_sm'),
     'created_at' => get_string('created_at', 'local_sm'),
     'public_at' => get_string('public_at', 'local_sm'),
+    'expitime' => get_string('expitime', 'local_sm'),
 );
 
 $table = new html_table();
-$table->head = array($hcolumns['title'], $hcolumns['image'], $hcolumns['link'],$hcolumns['status'],$hcolumns['created_at'],$hcolumns['public_at'], get_string('edit'), "");
+$table->head = array($hcolumns['title'], $hcolumns['image'], $hcolumns['link'],$hcolumns['status'],$hcolumns['created_at'],$hcolumns['public_at'], $hcolumns['expitime'], get_string('edit'), "");
 $table->colclasses = array('leftalign date', 'leftalign name', 'leftalign plugin', 'leftalign setting', 'leftalign newvalue', 'leftalign originalvalue');
 $table->attributes['class'] = 'admintable generaltable';
 
@@ -90,6 +91,7 @@ foreach ($rs as $s) {
     $row[] = $s->status;
     $row[] = $s->created_at;
     $row[] = $s->public_at;
+    $row[] = $s->expitime;
     $row[] = implode(' ', $buttons);
     $row[] = $lastcolumn;
     $table->data[] = $row;

@@ -140,6 +140,17 @@
             font-size: .75rem;
             color: #fff;
         }
+        .event_time{
+            color: white;
+            font-size: 30px;
+            margin-top: -85px;
+            display: inline-block;
+            padding-left: 12px;
+            padding-right: 15px;
+        }
+        #event_time_days{
+            padding-left: 248px;
+        }
     </style>
 </head>
 <body onload="checkCookiePopup()" {{{ bodyattributes }}}>
@@ -154,13 +165,21 @@
                 {{#link}}<a href="{{link}}"><img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}"></a>{{/link}}
                 {{^link}}<img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}">{{/link}}
             {{/image}}
-            <div class="popup__close-btn" onclick="off()"><svg enable-background="new 0 0 11 11" viewBox="0 0 11 11" x="0" y="0" class="svg-icon "><path d="m10.7 9.2-3.8-3.8 3.8-3.7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0l-3.8 3.7-3.8-3.7c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3.8 3.7-3.8 3.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.3 0 .5-.1.7-.3l3.8-3.8 3.8 3.8c.2.2.4.3.7.3s.5-.1.7-.3c.4-.4.4-1 0-1.4z"></path></svg></div>
+            <div class="row">
+            <p class="event_time" id="event_time_days"></p>
+            <p class="event_time" id="event_time_hours"></p>
+            <p class="event_time" id="event_time_minutes"></p>
+            <p class="event_time" id="event_time_seconds"></p>
             </div>
-
+            <div class="popup__close-btn" onclick="off()"><svg enable-background="new 0 0 11 11" viewBox="0 0 11 11" x="0" y="0" class="svg-icon "><path d="m10.7 9.2-3.8-3.8 3.8-3.7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0l-3.8 3.7-3.8-3.7c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3.8 3.7-3.8 3.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.3 0 .5-.1.7-.3l3.8-3.8 3.8 3.8c.2.2.4.3.7.3s.5-.1.7-.3c.4-.4.4-1 0-1.4z"></path></svg></div>
+            {{#expitime}}
+               <input type="hidden" value="{{expitime}}" id="expitime">
+            {{/expitime}}
+        </div>
     </div>
 {{/popup_event}}
 
-{{{ output.standard_top_of_body_html }}}
+{{{ output.standard_top_of_body_html }}}+
 {{> theme_classon/classon_hp_header }}
 
 {{> theme_classon/classon_hp_body }}
@@ -205,6 +224,40 @@
   </div>
 </div>
 <script>
+
+    // Set the date we're counting down to
+    // var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+    var countDownDate = parseInt(document.getElementById("expitime").value)*1000;
+    if(typeof countDownDate !=="undefined"){
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("event_time_days").innerHTML = days ;
+            document.getElementById("event_time_hours").innerHTML = hours ;
+            document.getElementById("event_time_minutes").innerHTML = minutes ;
+            document.getElementById("event_time_seconds").innerHTML = seconds ;
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("overlay").style.display = "none";
+            }
+        }, 1000);
+    }
+
     function off() {
         document.getElementById("overlay").style.display = "none";
         var d = new Date();

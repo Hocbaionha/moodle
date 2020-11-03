@@ -20,3 +20,4 @@ $string['period'] = 'Period';
 $string['from_date'] = "Từ ngày";
 $string['to_date'] = "Đến ngày";
 $string['registed_user_chart'] = "Biểu đồ đăng ký";
+$string['expitime'] = "Thời gian hết hạn";

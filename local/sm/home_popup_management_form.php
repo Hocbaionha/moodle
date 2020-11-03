@@ -23,18 +23,15 @@ class home_popup_management_form extends moodleform {
         $mform->setType('link', PARAM_TEXT);
         $mform->addElement('date_time_selector', 'public_at', "ngày active");
         $mform->setType('public_at', PARAM_TEXT);
+        $mform->addElement('date_time_selector', 'expitime', "ngày hết hạn");
+        $mform->setType('expitime', PARAM_TEXT);
         $mform->addElement('select', 'status', get_string('status', 'local_sm'), array(0,1));
         $mform->setType('status', PARAM_TEXT);
-        if (isset($districtid)) {
-            $mform->setDefault('district', $districtid);
-        }
-        if (isset($provinceid)) {
-            $mform->setDefault('province', $provinceid);
-        }
+
         $mform->setType('query', PARAM_RAW);
         $mform->setDefault('query', optional_param('query', '', PARAM_RAW));
         $this->add_action_buttons();
-        
+
     }
 
 }

@@ -107,12 +107,12 @@ if (false) {// alway redirect to homepage
     if (count($popup_event)>0){
         $popup = new stdClass();
         foreach ($popup_event as $object){
+            $object->expitime = strtotime($object->expitime);
             $popup = $object;
         }
     }else{
         $popup = null;
     }
-
     $templatecontext = [
         'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
         'output' => $OUTPUT,

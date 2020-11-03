@@ -56,6 +56,7 @@ if ($mform->is_cancelled()) {
         unset($fromform->image);
     }
     $fromform->public_at = date('Y-m-d H:i:s', $fromform->public_at);
+    $fromform->expitime = date('Y-m-d H:i:s', $fromform->expitime);
     $schoolurl = new moodle_url('/local/sm/home_popup_management.php', array('id' => $id));
     $fromform->title = trim(preg_replace('/\s+/', ' ', $fromform->title));
     $fromform->created_at =date("Y-m-d H:i:s");
@@ -78,6 +79,7 @@ if ($mform->is_cancelled()) {
         //edit if have $id
         $mformpage = $DB->get_record('hbon_popup_home', array('id' => $id));
         $mformpage->public_at = (new \DateTime($mformpage->public_at))->getTimestamp();
+        $mformpage->expitime = (new \DateTime($mformpage->expitime))->getTimestamp();
         $mform = new home_popup_management_form(null, array('id' => $id));
         $mform->set_data($mformpage);
     }
