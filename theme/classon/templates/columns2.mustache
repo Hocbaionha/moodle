@@ -382,7 +382,7 @@ var data = {
 'topic': topic,
 'topic_link': topic_link
 };
-console.log(data);
+console.log(topic);
 $.ajax({
 url: "/local/sm/log.php",
 type: 'POST',
@@ -403,11 +403,14 @@ var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
 var course = $('ol.breadcrumb li:nth-child(3n) a').html();
 var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
 var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+console.log("for link",topic_link);
+console.log("for topic",topic);
 
 var end = new Date();
 var id = {{uid}};
 var uid = $('#fb_id').val();
 var action = window.location.href;
+console.log("time",end-start);
 var data = {
 'timeSpent': end - start,
 'uid': uid,
@@ -430,31 +433,6 @@ error: function (jqXHR, textStatus, errorThrown) {},
 async: true
 })
 
-});
-
-$('a').click(function(e) {
-var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-var course = $('ol.breadcrumb li:nth-child(3n) a').html();
-var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
-var end = new Date();
-var id = {{uid}};
-var uid =  $('#fb_id').val();
-var action =$(this).attr('href');
-var data={'timeSpent': end - start,'uid':uid, 'id':id ,'action':action, 'course':course, 'course_link':course_link, 'topic':topic, 'topic_link':topic_link};
-console.log(data);
-if(topic_link !== 'undefined'){
-$.ajax({
-url: "/local/sm/log.php",
-type: 'POST',
-data: data,
-success: function(data, textStatus, jqXHR) {
-},
-error: function(jqXHR, textStatus, errorThrown) {
-},
-async: true
-});
-}
 });
 
 });
