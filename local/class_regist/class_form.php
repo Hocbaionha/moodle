@@ -34,6 +34,12 @@ class class_form extends moodleform {
         $mform->setType('limited', PARAM_INT);
         $mform->addElement('text', 'schedule', get_string('schedule', 'local_class_regist')); // Add elements to your form
         $mform->setType('schedule', PARAM_TEXT);
+        $mform->addElement('textarea', 'linkzoom', get_string('linkzoom', 'local_class_regist')); // Add elements to your form
+        $mform->setType('linkzoom', PARAM_TEXT);
+        $mform->addElement('text', 'zoomid', get_string('zoomid', 'local_class_regist')); // Add elements to your form
+        $mform->setType('zoomid', PARAM_TEXT);
+        $mform->addElement('text', 'zoompass', get_string('zoompass', 'local_class_regist')); // Add elements to your form
+        $mform->setType('zoompass', PARAM_TEXT);
         $mform->setType('query', PARAM_RAW);
         $mform->setDefault('query', optional_param('query', '', PARAM_RAW));
         $this->add_action_buttons();

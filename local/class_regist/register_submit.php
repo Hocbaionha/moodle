@@ -17,7 +17,7 @@ $province = optional_param('province', '', PARAM_TEXT);
 $phone = optional_param('phone', '', PARAM_TEXT);
 $choose  = optional_param('choose', '', PARAM_TEXT);
 
-$check = $DB->get_record("hbon_classes_register",array("phone"=>$phone));
+$check = $DB->get_record("hbon_classes_register",array("phone"=>$phone,"name"=>$name));
 if($check){
     echo "phone";die;
 }
