@@ -11,7 +11,10 @@
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="A1 toi thu 2"/>
         <FIELD NAME="limited" TYPE="int" LENGTH="5" NOTNULL="false" COMMENT="40"/>
         <FIELD NAME="level" TYPE="char" LENGTH="50" NOTNULL="false" COMMENT="A1"/>
-        <FIELD NAME="schedule" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="A1 toi thu 2"/>
+        <FIELD NAME="schedule" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="schedule"/>
+        <FIELD NAME="linkzoom" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="linkzoom"/>
+        <FIELD NAME="zoomid" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="zoomid"/>
+        <FIELD NAME="zoompass" TYPE="char" LENGTH="255" NOTNULL="false" COMMENT="zoompass"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

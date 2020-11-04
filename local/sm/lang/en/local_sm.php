@@ -22,5 +22,5 @@ $string['to_date'] = "Đến ngày";
 $string['registed_user_chart'] = "Biểu đồ đăng ký";
 $string['expitime'] = "Thời gian hết hạn";
 
-$string['class_regist'] = "class_regist";
-$string ['list_class'] = 'list_class';
+$string['list_class'] = 'Tạo lớp học live';
+$string['class_regist'] = 'Live Class';
