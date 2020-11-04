@@ -322,13 +322,13 @@ echo $OUTPUT->paging_bar($count, $page, $perpage, $returnurl);
                   $("#POPUP55").show();
                   console.log("here");
                   window.setTimeout( function(){
-                     window.location = "/";
+                     window.location = "/?page=landing&lurl=https%3A%2F%2Fpages.hocbaionha.com%2Fspeaking-english-ver2";
                   }, 2000 );
                }
                if(data=="phone"){
                   $("#POPUP56").show();
                   window.setTimeout( function(){
-                     window.location = "/";
+                     window.location = "/?page=landing&lurl=https%3A%2F%2Fpages.hocbaionha.com%2Fspeaking-english-ver2";
                   }, 2000 );
                }
             }
