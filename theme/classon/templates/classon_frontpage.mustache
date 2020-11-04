@@ -143,12 +143,39 @@
         .event_time{
             color: white;
             font-size: 30px;
-            margin-top: -85px;
             display: inline-block;
-            padding-left: 18px;
+            padding-left: 14px;
         }
-        #event_time_days{
-            padding-left: 242px;
+        #count_down{
+            position: absolute;
+            float: right;
+            right: 20px;
+            bottom: 40px;
+        }
+        @media  screen and (min-width: 1920px) {
+            #count_down{
+                right:30px;
+            }
+        }
+        /*iPhone 6 and iPhone 6+ landscape*/
+        @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : landscape){
+            .image_event{
+                width: 198px;
+            }
+        }
+        @media only screen and (max-width: 768px) {
+            .event_time{
+                color: white;
+                font-size: 12px;
+                display: inline-block;
+                padding-left: 6px;
+            }
+            #count_down{
+                position: absolute;
+                float: right;
+                right: 10px;
+                bottom: 1px;
+            }
         }
     </style>
 </head>
@@ -164,7 +191,7 @@
                 {{#link}}<a href="{{link}}"><img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}"></a>{{/link}}
                 {{^link}}<img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}">{{/link}}
             {{/image}}
-            <div class="row">
+            <div class="count_down" id="count_down">
             <p class="event_time" id="event_time_days"></p>
             <p class="event_time" id="event_time_hours"></p>
             <p class="event_time" id="event_time_minutes"></p>
