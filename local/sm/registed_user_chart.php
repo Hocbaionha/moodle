@@ -60,7 +60,7 @@ if ($mform->is_cancelled()) {
             $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email  like 'fb%'";
             $result = $DB->count_records_sql($sql);
             $fb[] = $result;
-            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like '%hocbaionha.com' and email not like '%dschool.vn'";
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and email not like 'fb%' and email not like '%hocbaionha.com' and email not like '%dschool.vn'";
             $result = $DB->count_records_sql($sql);
             $gmail[] = $result;
         
@@ -76,7 +76,7 @@ if ($mform->is_cancelled()) {
             $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".(strtotime("+1 month", $i))." and  email  like 'fb%'";
             $result = $DB->count_records_sql($sql);
             $fb[] = $result;
-            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".(strtotime("+1 month", $i))." and  email not like '%hocbaionha.com' and email not like '%dschool.vn'";
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".(strtotime("+1 month", $i))." and email not like 'fb%' and email not like '%hocbaionha.com' and email not like '%dschool.vn'";
             $result = $DB->count_records_sql($sql);
             $gmail[] = $result;
         
