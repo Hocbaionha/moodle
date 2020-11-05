@@ -107,8 +107,13 @@ if (false) {// alway redirect to homepage
     if (count($popup_event)>0){
         $popup = new stdClass();
         foreach ($popup_event as $object){
-            $object->expitime = strtotime($object->expitime);
-            $popup = $object;
+            if($object->is_countdown != 0){
+                $object->expitime = strtotime($object->expitime);
+                $popup = $object;
+            }else{
+                $object->expitime = null;
+                $popup = $object;
+            }
         }
     }else{
         $popup = null;

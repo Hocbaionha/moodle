@@ -41,6 +41,7 @@
         <FIELD NAME="image" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="link" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="status" TYPE="int" LENGTH="1" SEQUENCE="false"/>
+        <FIELD NAME="is_countdown" TYPE="int" LENGTH="1" SEQUENCE="false"/>
         <FIELD NAME="created_at" TYPE="datetime" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="public_at" TYPE="datetime" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
