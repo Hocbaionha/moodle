@@ -27,6 +27,8 @@ class home_popup_management_form extends moodleform {
         $mform->setType('expitime', PARAM_TEXT);
         $mform->addElement('select', 'status', get_string('status', 'local_sm'), array(0,1));
         $mform->setType('status', PARAM_TEXT);
+        $mform->addElement('select', 'is_countdown', get_string('is_countdown', 'local_sm'), array(0,1));
+        $mform->setType('is_countdown', PARAM_TEXT);
 
         $mform->setType('query', PARAM_RAW);
         $mform->setDefault('query', optional_param('query', '', PARAM_RAW));
