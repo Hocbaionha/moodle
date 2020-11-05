@@ -50,26 +50,41 @@ if ($mform->is_cancelled()) {
         case "week":
             $t= 86400*7;
             break;
-        case "month":
-            $t= 86400*30;
-            break;
     }
     global $DB;
     $labels=[];
-    for($i=$fromform->start_date;$i<$fromform->end_date;$i=$i+$t){
-        $date = date("Y-m-d",$i);
-        $labels[] = $date;
-        $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email  like 'fb%'";
-        $result = $DB->count_records_sql($sql);
-        $fb[] = $result;
-        $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like '%hocbaionha.com' and email not like '%dschool.vn'";
-        $result = $DB->count_records_sql($sql);
-        $gmail[] = $result;
-    
-        $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like 'fb%' and (email like '%hocbaionha.com' or email like '%hocbaionha.com')";
-        $result = $DB->count_records_sql($sql);
-        $school[] = $result;
-    
+    if($fromform->period!="month"){
+        for($i=$fromform->start_date;$i<$fromform->end_date;$i=$i+$t){
+            $date = date("Y-m-d",$i);
+            $labels[] = $date;
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email  like 'fb%'";
+            $result = $DB->count_records_sql($sql);
+            $fb[] = $result;
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like '%hocbaionha.com' and email not like '%dschool.vn'";
+            $result = $DB->count_records_sql($sql);
+            $gmail[] = $result;
+        
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like 'fb%' and (email like '%hocbaionha.com' or email like '%dschool.vn')";
+            $result = $DB->count_records_sql($sql);
+            $school[] = $result;
+        
+        }
+    } else {
+        for($i=$fromform->start_date;$i<$fromform->end_date;$i = strtotime("+1 month", $i)){
+            $date = date("Y-m-d",$i);
+            $labels[] = $date;
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email  like 'fb%'";
+            $result = $DB->count_records_sql($sql);
+            $fb[] = $result;
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like '%hocbaionha.com' and email not like '%dschool.vn'";
+            $result = $DB->count_records_sql($sql);
+            $gmail[] = $result;
+        
+            $sql = "select count(*) from mdl_user where timecreated>=$i and timecreated<".($i+$t)." and  email not like 'fb%' and (email like '%hocbaionha.com' or email like '%dschool.vn')";
+            $result = $DB->count_records_sql($sql);
+            $school[] = $result;
+        
+        }
     }
  $CFG->chart_colorset = ['#EB4734','#1DA1F2'];   
     echo $OUTPUT->header();
