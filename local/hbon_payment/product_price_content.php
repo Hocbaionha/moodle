@@ -84,7 +84,7 @@
                                     </ul>
                                 </li>
                                 <li><i class="fa fa-check text-success"></i> Chụp ảnh phiếu uỷ nhiệm chi gửi email tới info@hocbaionha.com</li>
-                                <li><i class="fa fa-check text-success"></i> Mọi thắc mặc liên hệ số hot line: 024.7100.5858</li>
+                                <li><i class="fa fa-check text-success"></i> Mọi thắc mắc liên hệ số hot line: 024.7100.5858</li>
                             </ul>
                         </div>
                     </div>
