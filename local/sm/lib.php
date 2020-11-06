@@ -337,7 +337,7 @@ function complete_view($event)
             $send_data['activity_id'] = (int)$activity->cm;
             $send_data['activity_name'] = $activity->name;
             $send_data['activity_mod'] = $activity->mod;
-            $send_data['created_at'] = time();
+            $send_data['created_at'] = new Timestamp(time());
             $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
             $auth = $factory->createAuth();
             if (!isset($fb_token)) {
