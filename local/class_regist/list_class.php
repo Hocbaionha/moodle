@@ -60,6 +60,7 @@ $hcolumns = array('code' => get_string('code', 'local_class_regist'),
     'name' => get_string('name', 'local_class_regist'),
     'level' => get_string('level', 'local_class_regist'),
     'limit' => get_string('limit', 'local_class_regist'),
+    'registed' => get_string('registed', 'local_class_regist'),
     'schedule' => get_string('schedule', 'local_class_regist'),
     'linkzoom' => get_string('linkzoom', 'local_class_regist'),
 );
@@ -68,7 +69,7 @@ $strdelete = get_string('delete');
 $stredit = get_string('edit');
 
 $table = new html_table();
-$table->head = array($hcolumns['code'], $hcolumns['name'], $hcolumns['level'], $hcolumns['limit'], $hcolumns['schedule'], $hcolumns['linkzoom'], get_string('edit'), "");
+$table->head = array($hcolumns['code'], $hcolumns['name'], $hcolumns['level'], $hcolumns['limit'], $hcolumns['registed'], $hcolumns['schedule'], $hcolumns['linkzoom'], get_string('edit'), "");
 $table->colclasses = array('leftalign date', 'leftalign name', 'leftalign plugin', 'leftalign setting', 'leftalign newvalue', 'leftalign originalvalue');
 $table->attributes['class'] = 'admintable generaltable';
 
@@ -76,6 +77,7 @@ $table->attributes['class'] = 'admintable generaltable';
     $rs = $DB->get_recordset_sql($sql, array(), $page * $perpage, $perpage);
     $result = array();
     foreach ($rs as $s) {
+        $count = $DB->count_records("hbon_classes_register",array("classid"=>$s->id));
         $buttons = array();
         $lastcolumn = '';
         if (has_capability('local/school:write', $sitecontext)) {
@@ -94,6 +96,7 @@ $table->attributes['class'] = 'admintable generaltable';
         $row[] = $s->name;
         $row[] = $s->level;
         $row[] = $s->limited;
+        $row[] = $s->count;
         $row[] = $s->schedule;
         $row[] = $s->linkzoom;
         $row[] = implode(' ', $buttons);
