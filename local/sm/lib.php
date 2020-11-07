@@ -195,7 +195,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         $complete_activities ['activity_id']= (int)$quiz->cmid;
         $complete_activities ['activity_mod']= "quiz";
         $complete_activities ['activity_name']=$quiz->name;
-        $complete_activities ['course_id']=(int)$quiz->course;
+        $complete_activities ['course_id']=$CFG->school_deputy_id . '-' . $course->shortname;
         $complete_activities ['course_name']=$course->shortname;
         if(isset($section) && count($section)>0){
             foreach ($section as $key=>$object){
