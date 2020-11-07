@@ -45,38 +45,50 @@ function local_sm_enrole($uid)
 
             $student = $snapshot->data();
             $enddate = time();
-            $group_name = $student["class"]["name"];
-            foreach ($student["products"] as $productref) {
-                $snapshot = $productref->snapshot();
-                if ($snapshot->exists()) {
-                    $product = $snapshot->data();
-                    $endtime = $product["endtime"];
-                    switch ($endtime) {
-                        case "0":
-                            $enddate = $product['enddate']->get()->getTimestamp();
-                            break;
-                        case "00":
-                            $enddate = strtotime("01/01/2100");
-                            break;
-                        default:
-                            $enddate = strtotime("+$endtime month", time());
-                    }
-                    $courses = $product['courses'];
-                    foreach ($courses as $course) {
-                        $shortname = $course["shortname"];
-                        insertGroup($shortname, $group_name, $USER->id);
-                    }
+            if(array_key_exists("class",$student)){
+                $group_name = $student["class"]["name"];
+                foreach ($student["products"] as $productref) {
+                    $snapshot = $productref->snapshot();
+                    if ($snapshot->exists()) {
+                        $product = $snapshot->data();
+                        $endtime = $product["endtime"];
+                        switch ($endtime) {
+                            case "0":
+                                $enddate = $product['enddate']->get()->getTimestamp();
+                                break;
+                            case "00":
+                                $enddate = strtotime("01/01/2100");
+                                break;
+                            default:
+                                $enddate = strtotime("+$endtime month", time());
+                        }
+                        $courses = $product['courses'];
+                        foreach ($courses as $course) {
+                            $shortname = $course["shortname"];
+                            insertGroup($shortname, $group_name, $USER->id);
+                        }
 
-                    //dont need to enrol
-                    //add to cohort only
+                        //dont need to enrol
+                        //add to cohort only
 
-                    $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
-                    cohort_add_member($cohort->id, $USER->id);
-                    $cohort = $DB->get_record('cohort', array('idnumber' => $product["idnumber"]), '*', MUST_EXIST);
-                    cohort_add_member($cohort->id, $USER->id);
+                        $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
+                        cohort_add_member($cohort->id, $USER->id);
+                        $cohort = $DB->get_record('cohort', array('idnumber' => $product["idnumber"]), '*', MUST_EXIST);
+                        cohort_add_member($cohort->id, $USER->id);
+                    }
+                };
+            } else {
+                foreach ($student["products"] as $productref) {
+                    $snapshot = $productref->snapshot();
+                    if ($snapshot->exists()) {
+                        $product = $snapshot->data();
+                        $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
+                        cohort_add_member($cohort->id, $USER->id);
+                        $cohort = $DB->get_record('cohort', array('idnumber' => $product["idnumber"]), '*', MUST_EXIST);
+                        cohort_add_member($cohort->id, $USER->id);
+                    }
                 }
-            };
-
+            }
         } else {
             echo "not found" . $uid;
         }
