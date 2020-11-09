@@ -385,14 +385,15 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
                     format_string($formfield->field->name), null, null, $formfield->display_data());
                 $tree->add_node($node);
             }
-            if($formfield->field->shortname ==='student_code' &&!$formfield->is_empty()){
-                $node = new core_user\output\myprofile\node('contact', 'custom_field_' . $formfield->field->shortname,
-                    format_string($formfield->field->name), null, null, $formfield->display_data());
-                $tree->add_node($node);
+            if (!isset($tree->nodes['custom_field_student_code'])){
+                if( $formfield->field->shortname ==='student_code' &&!$formfield->is_empty()){
+                    $node = new core_user\output\myprofile\node('contact', 'custom_field_' . $formfield->field->shortname,
+                        format_string($formfield->field->name), null, null, $formfield->display_data());
+                    $tree->add_node($node);
+                }
             }
         }
     }
-
     // First access. (Why only for sites ?)
     if (!isset($hiddenfields['firstaccess']) && empty($course)) {
         if ($user->firstaccess) {
