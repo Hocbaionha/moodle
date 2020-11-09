@@ -9,10 +9,11 @@ class local_sm_user_external extends external_api{
                 'data' => 
                     new external_single_structure(
                         array(
-                    'uid' => new external_value(PARAM_TEXT, 'name'),
+                    'uid' => new external_value(PARAM_TEXT, 'uid'),
                     'firstname' => new external_value(PARAM_TEXT, 'firstname'),
                     'lastname' => new external_value(PARAM_TEXT, 'lastname'),
                     'email' => new external_value(PARAM_TEXT, 'email'),
+                    'username' => new external_value(PARAM_TEXT, 'username'),
                     'phone' => new external_value(PARAM_TEXT, 'phone')
                     ))
             )
@@ -23,15 +24,23 @@ class local_sm_user_external extends external_api{
         $userinfo = $params;
         // $name = json_encode($params['data']);
         $firebase_uid = $params["uid"];
+    try{
 
         $issuerid=1;//oauth2
         $issuer = new \core\oauth2\issuer($issuerid);
+        serviceErrorLog("issuer:".$issuer->id);
         $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
+        serviceErrorLog("created user:".$newuser->id);
         $userinfo = get_complete_user_data('id', $newuser->id);
-
+        serviceErrorLog("userinfo:".json_encode($userinfo));
         $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
 
         local_sm_enrole($newuser->id,$firebase_uid);
+        serviceErrorLog("local_sm_enrole done");
+    } catch (Exception $e){
+        serviceErrorLog("error:".json_encode($e->getTrace()));
+        return ["status"=>"error:".$cohort->id];
+    }
         return ["status"=>"success:".$firebase_uid];
     }
 
