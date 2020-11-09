@@ -36,13 +36,20 @@ $functions = array(
         'classpath'   => 'local/sm/classes/local_sm_cohort_external',
         'description' => 'service add products',
         'type'        => 'write',
+    ),
+    'local_create_user' => array(
+        'classname'   => 'local_sm_user_external',
+        'methodname'  => 'create_user',
+        'classpath'   => 'local/sm/classes/create_user_api.php',
+        'description' => 'service add user',
+        'type'        => 'write',
     )
 );
 
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'firebase service' => array(
-        'functions' => array ('local_get_courses_by_field','local_create_product'),
+        'functions' => array ('local_get_courses_by_field','local_create_product','local_create_user'),
         'restrictedusers' => 0,
         'enabled'=>1,
     )
