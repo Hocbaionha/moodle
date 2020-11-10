@@ -107,7 +107,7 @@ echo "</div></div><br/>";
 echo html_writer::table($table);
 $sql = "select count(*) from {hbon_popup_home}";
 $count = $DB->count_records_sql($sql);
-    echo $OUTPUT->paging_bar($count, $page, $perpage, $returnurl);
+echo $OUTPUT->paging_bar($count, $page, $perpage, $returnurl);
 echo html_writer::link("edit_home_popup_management.php", get_string("add",'local_sm'));
 
 echo $OUTPUT->footer();

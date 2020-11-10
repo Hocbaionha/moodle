@@ -25,3 +25,11 @@ $string['is_countdown'] = "Hiển thị countdown";
 
 $string['list_class'] = 'Tạo lớp học live';
 $string['class_regist'] = 'Live Class';
+
+$string['eed_class_id'] = 'Id';
+$string['eed_name'] = 'Tên lớp';
+$string['eed_class'] = 'Lớp';
+$string['eed_school'] = 'Trường';
+$string['eed_province'] = 'Tỉnh';
+$string['eed_phone'] = 'Số điện thoại';
+$string['created_at'] = 'Ngày tạo';
