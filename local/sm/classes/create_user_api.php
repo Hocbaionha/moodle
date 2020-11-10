@@ -1,7 +1,11 @@
 <?PHP
-
+require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 require_once($CFG->dirroot . "/cohort/externallib.php");
 require_once($CFG->dirroot . "/lib/externallib.php");
+
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Firestore;
+
 class local_sm_user_external extends external_api{
     public static function create_user_parameters() {
         return new external_function_parameters(
@@ -22,21 +26,21 @@ class local_sm_user_external extends external_api{
 
     public static function create_user($params){
         $userinfo = $params;
+        $userinfo['username'] = $userinfo['email'];
         // $name = json_encode($params['data']);
         $firebase_uid = $params["uid"];
     try{
-
-        $issuerid=1;//oauth2
+        global $DB;
+        $iss = $DB->get_record("oauth2_issuer",array("name"=>"sso-server"));
+        $issuerid=$iss->id;//oauth2
         $issuer = new \core\oauth2\issuer($issuerid);
-        serviceErrorLog("issuer:".$issuer->id);
+
         $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
         serviceErrorLog("created user:".$newuser->id);
         $userinfo = get_complete_user_data('id', $newuser->id);
-        \auth_oauth2\api::link_login($userinfo, $issuer, $newuser->id, true);
-        serviceErrorLog("userinfo:".json_encode($userinfo));
         $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
 
-        local_sm_enrole($newuser->id,$firebase_uid);
+        self::local_sm_enrole($newuser->id,$firebase_uid);
         serviceErrorLog("local_sm_enrole done");
     } catch (Exception $e){
         serviceErrorLog("error:".json_encode($e->getTrace()));
@@ -45,7 +49,7 @@ class local_sm_user_external extends external_api{
         return ["status"=>"success:".$firebase_uid];
     }
 
-    function local_sm_enrole($userid,$firebase_uid)
+    public static function local_sm_enrole($userid,$firebase_uid)
     {
         global $CFG, $DB;
         $fb_token = $CFG->hbon_uid_admin;
