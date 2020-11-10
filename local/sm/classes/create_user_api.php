@@ -32,6 +32,7 @@ class local_sm_user_external extends external_api{
         $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
         serviceErrorLog("created user:".$newuser->id);
         $userinfo = get_complete_user_data('id', $newuser->id);
+        \auth_oauth2\api::link_login($userinfo, $issuer, $newuser->id, true);
         serviceErrorLog("userinfo:".json_encode($userinfo));
         $DB->set_field("user", "confirmed", 1, array("id" => $newuser->id));
 
