@@ -1,5 +1,5 @@
 <?PHP
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+require dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
 require_once($CFG->dirroot . "/cohort/externallib.php");
 require_once($CFG->dirroot . "/lib/externallib.php");
 
