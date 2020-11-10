@@ -56,7 +56,7 @@ class local_sm_user_external extends external_api{
 
         // $db = new FirestoreClient($CFG->firebase_config);
         //check student
-        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(dirname(__DIR__))) . '/firebasekey.json');
         $auth = $factory->createAuth();
         if (!isset($fb_token)) {
             return;
