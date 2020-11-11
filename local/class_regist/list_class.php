@@ -90,13 +90,19 @@ $table->attributes['class'] = 'admintable generaltable';
                 $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', $stredit));
             }
         }
+        if (has_capability('local/school:write', $sitecontext)) {
+            if (is_siteadmin($USER) or ! is_siteadmin($user)) {
+                $url = new moodle_url('/local/sm/export/index.php', array('classid' => $s->id));
+                $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/download', $stredit));
+            }
+        }
         $row = array();
 
         $row[] = $s->code;
         $row[] = $s->name;
         $row[] = $s->level;
         $row[] = $s->limited;
-        $row[] = $s->count;
+        $row[] = $count;
         $row[] = $s->schedule;
         $row[] = $s->linkzoom;
         $row[] = implode(' ', $buttons);
@@ -106,7 +112,10 @@ $table->attributes['class'] = 'admintable generaltable';
     $rs->close();
 
 $back = new moodle_url('/admin/search.php#linkschools');
+$export = new moodle_url('/local/sm/export/index.php');
+
 echo "<div class='row'><div class='col-12'>";
+echo html_writer::link($export, "Export All ".$OUTPUT->pix_icon('t/download', $stredit), array("class"=>"btn btn-success float-left"));
 echo html_writer::link($back, "Back", array("class"=>"btn btn-secondary float-right"));
 echo "</div></div><br/>";
 

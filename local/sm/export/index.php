@@ -6,11 +6,10 @@ require_login();
 global $DB,$CFG;
 $sitecontext = context_system::instance();
 
-$url = new moodle_url('/local/sm//export/index.php');
+$url = new moodle_url('/local/sm/export/index.php');
 
 //param input
-$type_report = optional_param('type_report', '', PARAM_TEXT);
-$classid = optional_param('class', '', PARAM_TEXT);
+$classid = optional_param('classid', '', PARAM_TEXT);
 
 if ($classid != '' && $classid != null) {
     $header_info =  $DB->get_record('hbon_classes',array('id'=>$classid));
