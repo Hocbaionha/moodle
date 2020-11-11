@@ -15,7 +15,7 @@ $stto = strtotime($to);
 global $DB;
 $sql = "select a.num,u.id,u.username,d.data as phone, u.email,from_unixtime(u.timecreated) as created,from_unixtime(u.lastlogin) as last_login from mdl_user u 
 join (SELECT count(*) as num,userid FROM moodle.mdl_logstore_standard_log group by userid ) a on u.id=a.userid 
-join mdl_user_info_data d on d.userid=u.id where d.fieldid=9 and d.data!='' 
+join mdl_user_info_data d on d.userid=u.id where d.fieldid=19 and d.data!='' 
 and u.timecreated > ? and u.timecreated < ?
 order by num desc";
 $users = $DB->get_records_sql($sql,array("from"=>$stfrom,"to"=>$stto));
