@@ -15,3 +15,4 @@ $string['class_regist'] = 'Live Class';
 $string['linkzoom'] = 'link zoom';
 $string['zoomid'] = 'zoomid';
 $string['zoompass'] = 'zoompass';
+$string['download'] = 'download';

@@ -67,6 +67,7 @@ $hcolumns = array('code' => get_string('code', 'local_class_regist'),
 
 $strdelete = get_string('delete');
 $stredit = get_string('edit');
+$strdownload = get_string('download');
 
 $table = new html_table();
 $table->head = array($hcolumns['code'], $hcolumns['name'], $hcolumns['level'], $hcolumns['limit'], $hcolumns['registed'], $hcolumns['schedule'], $hcolumns['linkzoom'], get_string('edit'), "");
@@ -93,7 +94,7 @@ $table->attributes['class'] = 'admintable generaltable';
         if (has_capability('local/school:write', $sitecontext)) {
             if (is_siteadmin($USER) or ! is_siteadmin($user)) {
                 $url = new moodle_url('/local/sm/export/index.php', array('classid' => $s->id));
-                $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/download', $stredit));
+                $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/download', $strdownload));
             }
         }
         $row = array();
