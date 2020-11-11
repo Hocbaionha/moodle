@@ -14,7 +14,8 @@ $classid = optional_param('classid', '', PARAM_TEXT);
 if ($classid != '' && $classid != null) {
     $header_info =  $DB->get_record('hbon_classes',array('id'=>$classid));
     if(!empty($header_info)){
-        $b2 =$header_info->code;
+        $b1 =$header_info->code;
+        $b2 =$header_info->name;
         $b3 =$header_info->schedule;
         $b4 =$header_info->limited;
     }
@@ -46,11 +47,11 @@ if ($classid != '' && $classid != null) {
         $activeSheet->setCellValue("D" . $i, $student->school);
         $activeSheet->setCellValue("E" . $i, $student->phone);
         $activeSheet->setCellValue("F" . $i, $student->province);
-        $activeSheet->setCellValue("G" . $i, $student->classid);
+        $activeSheet->setCellValue("G" . $i, $b1);
         $activeSheet->setCellValue("H" . $i, $student->created_at == null ? "" : date("d/m/Y", strtotime($student->created_at)));
     }
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-    $filename = "Danh sách học sinh lớp".$classid.".xlsx";
+    $filename = "Danh sách học sinh lớp".$b1.".xlsx";
 //    $writer->save($fullpath . $filename);
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
@@ -87,7 +88,7 @@ else{
         $activeSheet->setCellValue("H" . $i, $student->created_at == null ? "" : date("d/m/Y", strtotime($student->created_at)));
     }
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-    $filename = "Danh sách học sinh lớp".$classid.".xlsx";
+    $filename = "Danh sách toàn bộ học sinh đăng kí EED.xlsx";
 //    $writer->save($fullpath . $filename);
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
