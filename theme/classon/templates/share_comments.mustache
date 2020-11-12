@@ -75,7 +75,7 @@
                                     <div class="mt-3">
                                         <h4>ENGLISH CLUB EVERYDAY</h4>
                                         <p class="text-secondary mb-1">Mã lớp : {{class}}</p>
-                                        <button class="btn btn-outline-primary">MUA NGAY</button>
+                                        <a href="{{{config.wwwroot}}}/local/hbon_payment/index.php?product_id=17"><button class="btn btn-outline-primary">MUA NGAY</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -95,10 +95,10 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <h6 class="mb-0">Tỉnh :</h6>
+                                        <h6 class="mb-0">Lớp :</h6>
                                     </div>
                                     <div class="col-sm-8 text-secondary">
-                                        {{province}}
+                                        {{class}}
                                     </div>
                                 </div>
                                 <hr>
@@ -113,16 +113,16 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <h6 class="mb-0">Lớp :</h6>
+                                        <h6 class="mb-0">Tỉnh :</h6>
                                     </div>
                                     <div class="col-sm-8 text-secondary">
-                                        {{class}}
+                                        {{province}}
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <h6 class="mb-0">Phone :</h6>
+                                        <h6 class="mb-0">Số điện thoại :</h6>
                                     </div>
                                     <div class="col-sm-8 text-secondary">
                                         {{phone}}

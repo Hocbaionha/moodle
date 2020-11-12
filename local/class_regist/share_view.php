@@ -10,7 +10,7 @@ $PAGE->set_context($sitecontext);
 $PAGE->set_url($url);
 
 $PAGE->set_title("title");
-$PAGE->set_heading('Đánh giá học thử khóa EED');
+$PAGE->set_heading('Đánh giá học thử khóa English EveryDay Club');
 
 echo $OUTPUT->header();
 $phone = optional_param('phone', 0, PARAM_TEXT);
