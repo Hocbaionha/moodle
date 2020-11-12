@@ -99,7 +99,7 @@ $table->attributes['class'] = 'admintable generaltable';
         }
         if (has_capability('local/school:write', $sitecontext)) {
             if (is_siteadmin($USER) or ! is_siteadmin($user)) {
-                $url = new moodle_url('/local/sm/export/index.php', array('classid' => $s->id));
+                $url = new moodle_url('/local/class_regist/list_member.php', array('classid' => $s->id));
                 $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/cohort', $strdownload));
             }
         }

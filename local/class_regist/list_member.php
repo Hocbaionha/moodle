@@ -100,7 +100,7 @@ foreach ($rs as $s) {
             $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', $stredit));
         }
     }
-    $url = new moodle_url('/local/class_regist/edit_member.php', array('classid'=>$classid,'id' => $s->id));
+    $url = new moodle_url('/eed', array('phone'=>$s->phone));
     $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('i/publish', $stredit));
 
     $row = array();
