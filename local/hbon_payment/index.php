@@ -8,19 +8,23 @@ global $USER;
 
 // params
 $product_id = optional_param('product_id', 0, PARAM_INT);
-
+$getlist =  optional_param('getlist', 0, PARAM_TEXT);
+$condition  = [8,10,12,13,14];
 $product_table = 'hbon_payment_product';
 $product_is_exists = $DB->record_exists($product_table, array('id'=>$product_id));
 if ($product_is_exists) {
     $product = $DB->get_record($product_table, array('id' => $product_id), '*', MUST_EXIST);
 }
 
-$list_product = $DB->get_records($product_table);
-
+$sql = "SELECT * FROM mdl_hbon_payment_product WHERE id IN (8,10,12,13,14)";
+$list_product = $DB->get_recordset_sql($sql);
 $login_url = new moodle_url('/login/index.php');
 
 require_login();
 
+if($getlist === 'getlist'){
+
+}
 if(!isguestuser()) {
     $PAGE->set_url('/local/hbon_payment/index.php', array('product_id' => $product_id));
     $PAGE->requires->css(new moodle_url('/local/hbon_payment/styles.css'));
@@ -30,7 +34,6 @@ if(!isguestuser()) {
     $PAGE->set_title('Thanh toán');
     // $PAGE->set_heading('Thanh toán khóa học');
     $PAGE->navbar->add('Thanh toán');
-    $condition  = [8,10,12,13,14];
     echo $OUTPUT->header();
 
     if ($product_is_exists) {

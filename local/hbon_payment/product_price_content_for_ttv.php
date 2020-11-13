@@ -16,9 +16,9 @@
                             <?php
                             foreach ($list_product as $object) {
                                 if ($object->id === $product_id) {
-                                    echo '<option value="' . $object->name . '" selected>' . $object->name . '</option>';
+                                    echo '<option value="' . $object->id . '" selected>' . $object->name . '</option>';
                                 } else {
-                                    echo '<option value="' . $object->name . '">' . $object->name . '</option>';
+                                    echo '<option value="' . $object->id . '">' . $object->name . '</option>';
                                 }
                             }
                             ?>
@@ -28,16 +28,16 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-3">Mã sản phẩm</div>
-                    <div class="col-md-6"><?php echo $product->code ?></div>
+                    <div class="col-md-6" id="label_product_code"><?php echo $product->code ?></div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-3">Giá tiền</div>
-                    <div class="col-md-6"><?php echo number_format($product->price, 0, ",", ".") . ' đồng'; ?></div>
+                    <div class="col-md-6" id="label_product_price"><?php echo number_format($product->price, 0, ",", ".") . ' đồng'; ?></div>
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6"><?php echo $product->description ?></div>
+                    <div class="col-md-6" id="label_product_desciption"><?php echo $product->description ?></div>
                 </div>
             </div>
         </div>
