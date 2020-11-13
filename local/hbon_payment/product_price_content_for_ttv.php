@@ -157,7 +157,7 @@
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                         <label>Mã sản phẩm: </label>
-                        <span><strong><?php echo $product->code; ?></strong></span>
+                        <span><strong id="modal_code"><?php echo $product->code; ?></strong></span>
                     </div>
                     <input type="hidden" id="product_code" name="product_code" value="<?php echo $product->code; ?>"/>
                     <input type="hidden" id="product_id" name="product_id" value="<?php echo $product->id; ?>"/>
@@ -184,8 +184,15 @@ $('#product').on('change', function () {
     var obj = JSON.parse(list_product);
     var product = String(this.value);
     // obj[product].
+    console.log(obj[product]);
     $('#label_product_code').html(obj[product].code);
-    $('#label_product_price').html(obj[product].price);
+    $('#label_product_price').html(parseInt(obj[product].price) +" đồng");
+    $('#money_trans_1').val(parseInt(obj[product].price) +" đồng");
     $('#label_product_desciption').html(obj[product].description);
+    $('#product_code').val(obj[product].code);
+    $('#product_id').val(obj[product].id);
+    $('#product_name').val(obj[product].name);
+    $('#money_trans').val(obj[product].price);
+    $('#modal_code').html(obj[product].code);
 });
 </script>
