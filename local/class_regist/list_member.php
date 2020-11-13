@@ -85,7 +85,9 @@ $table->head = array($hcolumns['id'], $hcolumns['classid'], $hcolumns['name'], $
 $table->colclasses = array('leftalign date', 'leftalign name', 'leftalign plugin', 'leftalign setting', 'leftalign newvalue', 'leftalign originalvalue');
 $table->attributes['class'] = 'admintable generaltable';
 
-$rs = $DB->get_records('hbon_classes_register', array('classid'=>$classid));
+//$rs = $DB->get_records('hbon_classes_register', array('classid'=>$classid));
+$sql = "SELECT * FROM mdl_hbon_classes_register where classid=?";
+$rs = $DB->get_recordset_sql($sql, array('classid'=>$classid), $page * $perpage, $perpage);
 $result = array();
 foreach ($rs as $s) {
     $buttons = array();
@@ -118,7 +120,7 @@ foreach ($rs as $s) {
     $row[] = $lastcolumn;
     $table->data[] = $row;
 }
-
+$rs->close();
 $back = new moodle_url('/local/class_regist/list_class.php');
 $export = new moodle_url('/local/sm/export/index.php?classid='.$classid);
 $creat = new moodle_url('/local/class_regist/edit_member.php');
@@ -133,6 +135,6 @@ echo "</div></div><br/>";
 //echo get_string("click_add_class", "local_class_regist", $a);
 
 echo html_writer::table($table);
-$count = $DB->count_records('hbon_classes_register');
+$count = $DB->count_records('hbon_classes_register', array('classid'=>$classid));
 echo $OUTPUT->paging_bar($count, $page, $perpage, $returnurl);
 echo $OUTPUT->footer();

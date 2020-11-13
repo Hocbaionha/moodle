@@ -185,5 +185,7 @@ $('#product').on('change', function () {
     var product = String(this.value);
     // obj[product].
     $('#label_product_code').html(obj[product].code);
+    $('#label_product_price').html(obj[product].price);
+    $('#label_product_desciption').html(obj[product].description);
 });
 </script>
