@@ -9,7 +9,7 @@ $url = new moodle_url('/local/class_regist/class.php');
 $PAGE->set_context($sitecontext);
 $PAGE->set_url($url);
 
-$PAGE->set_title("title");
+$PAGE->set_title("English Everyday Club");
 $PAGE->set_heading('Đánh giá học thử khóa English EveryDay Club');
 
 echo $OUTPUT->header();

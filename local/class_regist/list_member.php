@@ -78,6 +78,7 @@ $hcolumns = array('id' => get_string('id', 'local_class_regist'),
 $strdelete = get_string('delete');
 $stredit = get_string('edit');
 $strdownload = get_string('download');
+$strshare = get_string('share');
 
 $table = new html_table();
 $table->head = array($hcolumns['id'], $hcolumns['classid'], $hcolumns['name'], $hcolumns['class'], $hcolumns['school'], $hcolumns['province'], $hcolumns['phone'], $hcolumns['comments'],$hcolumns['created_at'], get_string('edit'), "");
@@ -101,7 +102,7 @@ foreach ($rs as $s) {
         }
     }
     $url = new moodle_url('/eed', array('phone'=>$s->phone));
-    $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('i/publish', $stredit));
+    $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('i/publish', $strshare));
 
     $row = array();
 

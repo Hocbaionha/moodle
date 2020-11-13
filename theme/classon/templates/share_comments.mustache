@@ -57,8 +57,20 @@
     .shadow-none {
         box-shadow: none !important;
     }
-    .text-secondary{
-        color: #0b0b0b!important;
+
+    .text-secondary {
+        color: #0b0b0b !important;
+        font-size: 14pt;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .page-header-headings h1 {
+            font-size: 14px;
+            font-weight: bold;
+        }
+    }
+    h3, h4, h5, h6 {
+        font-weight: bold;
     }
 </style>
 <div>
@@ -70,75 +82,50 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    <img src="{{{ config.wwwroot }}}/theme/classon/pix/SubjectIcon_SpeakUp_Club.png"
+                                    <img src="{{{ config.wwwroot }}}/theme/classon/pix/EnglishEveryday_Club.png"
                                          alt="Admin" class="rounded" width="250">
                                     <div class="mt-3">
                                         <h4>ENGLISH CLUB EVERYDAY</h4>
-                                        <p class="text-secondary mb-1">Mã lớp : {{class}}</p>
-                                        <a href="{{{config.wwwroot}}}/local/hbon_payment/index.php?product_id=17"><button class="btn btn-outline-primary">MUA NGAY</button></a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card mb-3">
-                            <div class="card-body">
+                                <hr>
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <h6 class="mb-0">Họ và tên :</h6>
+                                    <div class="col-md-4">
+                                        <h6 class="mb-0">Họ và tên</h6>
                                     </div>
-                                    <div class="col-sm-8 text-secondary">
+                                    <div class="col-md-8 text-secondary">
                                         {{name}}
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <h6 class="mb-0">Lớp :</h6>
+                                    <div class="col-md-4">
+                                        <h6 class="mb-0">Số điện thoại</h6>
                                     </div>
-                                    <div class="col-sm-8 text-secondary">
-                                        {{class}}
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <h6 class="mb-0">Trường :</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
-                                        {{school}}
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <h6 class="mb-0">Tỉnh :</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
-                                        {{province}}
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <h6 class="mb-0">Số điện thoại :</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
+                                    <div class="col-md-8 text-secondary ">
                                         {{phone}}
                                     </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <a href="{{{config.wwwroot}}}/local/hbon_payment/index.php?product_id=17">
+                                        <button class="btn btn-outline-primary">MUA NGAY</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body card mb-3">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <h6 class="mb-0">Nhận xét của giáo viên :</h6>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            {{comments}}
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="col-md-12 text-center">
+                                    <h4 class="mb-0">Nhận xét của giáo viên :</h4>
+                                </div>
+                                <hr>
+                                <div class="text-secondary">
+                                    {{comments}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
