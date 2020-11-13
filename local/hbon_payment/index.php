@@ -17,7 +17,8 @@ if ($product_is_exists) {
 }
 
 $sql = "SELECT * FROM mdl_hbon_payment_product WHERE id IN (8,10,12,13,14)";
-$list_product = $DB->get_recordset_sql($sql);
+$list_product = $DB->get_records_sql($sql);
+
 $login_url = new moodle_url('/login/index.php');
 
 require_login();

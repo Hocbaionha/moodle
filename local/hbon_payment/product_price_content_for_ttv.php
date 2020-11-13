@@ -39,6 +39,7 @@
                 <div class="row">
                     <div class="col-md-6" id="label_product_desciption"><?php echo $product->description ?></div>
                 </div>
+                <input type="hidden" id="list_product" value="<?php echo json_encode($list_product);?>">
             </div>
         </div>
     </div>
@@ -179,6 +180,7 @@
 </div>
 <script>
 $('#product').on('change', function () {
-
+    var list_product = $('#list_product').val();
+    console.log(list_product);
 });
 </script>
