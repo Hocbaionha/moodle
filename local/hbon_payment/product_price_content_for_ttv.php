@@ -1,4 +1,9 @@
 <!-- product price -->
+<style>
+    #product{
+        border: #0a78d1;
+    }
+</style>
 <div class="container">
     <div class="block-heading">
         <h2 class="text-info text-center">
@@ -9,6 +14,19 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="pricing">
+                <div class="row">
+                    <div class="col-md-3">Khách hàng</div>
+                    <div class="col-md-6" ><?php echo $USER->firstname. ' '.$USER->lastname;  ?></div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">Số điện thoại</div>
+                    <div class="col-md-6" ><input type="tel" id="phone" name="phone"
+                                                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                                  required class="form-control rounded"
+                                                  value="<?php if(isset($USER->phone)){echo $USER->phone;};?>"></div>
+                </div>
+                <hr>
                 <div class="row">
                     <div class="col-md-3">Sản phẩm</div>
                     <div class="col-md-6">
