@@ -33,6 +33,8 @@ if ($classid != '' && $classid != null) {
     $activeSheet->getColumnDimension('F')->setWidth(20);
     $activeSheet->getColumnDimension('G')->setWidth(20);
     $activeSheet->getColumnDimension('H')->setWidth(20);
+    $activeSheet->getColumnDimension('I')->setWidth(20);
+    $activeSheet->getColumnDimension('J')->setWidth(30);
 
     $temp_students = $DB->get_records('hbon_classes_register', array("classid" => $classid));
     $activeSheet->setCellValue("B2", $b2);
@@ -49,6 +51,8 @@ if ($classid != '' && $classid != null) {
         $activeSheet->setCellValue("F" . $i, $student->province);
         $activeSheet->setCellValue("G" . $i, $b1);
         $activeSheet->setCellValue("H" . $i, $student->created_at == null ? "" : date("d/m/Y", strtotime($student->created_at)));
+        $activeSheet->setCellValue("I" . $i, $student->comments);
+        $activeSheet->setCellValue("J" . $i, $CFG->wwwroot.'/eed?phone='.$student->phone);
     }
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
     $filename = "Danh sách học sinh lớp".$b1.".xlsx";

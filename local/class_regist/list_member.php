@@ -78,23 +78,22 @@ $hcolumns = array('id' => get_string('id', 'local_class_regist'),
 $strdelete = get_string('delete');
 $stredit = get_string('edit');
 $strdownload = get_string('download');
-$strshare = get_string('share');
+$strshare = "link share";
 
 $table = new html_table();
 $table->head = array($hcolumns['id'], $hcolumns['classid'], $hcolumns['name'], $hcolumns['class'], $hcolumns['school'], $hcolumns['province'], $hcolumns['phone'], $hcolumns['comments'],$hcolumns['created_at'], get_string('edit'), "");
 $table->colclasses = array('leftalign date', 'leftalign name', 'leftalign plugin', 'leftalign setting', 'leftalign newvalue', 'leftalign originalvalue');
 $table->attributes['class'] = 'admintable generaltable';
 
-$sql = "SELECT * FROM mdl_hbon_classes_register ";
-$rs = $DB->get_recordset_sql($sql, array(), $page * $perpage, $perpage);
+$rs = $DB->get_records('hbon_classes_register', array('classid'=>$classid));
 $result = array();
 foreach ($rs as $s) {
     $buttons = array();
     $lastcolumn = '';
-    if (has_capability('local/school:write', $sitecontext)) {
-        $url = new moodle_url('/local/class_regist/list_member.php', array('classid'=>$classid,'delete' => $s->id, 'sesskey' => sesskey()));
-        $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/delete', $strdelete));
-    }
+//    if (has_capability('local/school:write', $sitecontext)) {
+//        $url = new moodle_url('/local/class_regist/list_member.php', array('classid'=>$classid,'delete' => $s->id, 'sesskey' => sesskey()));
+//        $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/delete', $strdelete));
+//    }
     if (has_capability('local/school:write', $sitecontext)) {
         if (is_siteadmin($USER) or ! is_siteadmin($user)) {
             $url = new moodle_url('/local/class_regist/edit_member.php', array('classid'=>$classid,'id' => $s->id));
@@ -119,9 +118,8 @@ foreach ($rs as $s) {
     $row[] = $lastcolumn;
     $table->data[] = $row;
 }
-$rs->close();
 
-$back = new moodle_url('/admin/search.php#linkschools');
+$back = new moodle_url('/local/class_regist/list_class.php');
 $export = new moodle_url('/local/sm/export/index.php?classid='.$classid);
 $creat = new moodle_url('/local/class_regist/edit_member.php');
 

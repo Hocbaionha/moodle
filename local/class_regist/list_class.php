@@ -68,6 +68,7 @@ $hcolumns = array('code' => get_string('code', 'local_class_regist'),
 $strdelete = get_string('delete');
 $stredit = get_string('edit');
 $strdownload = get_string('download');
+$view_part= "Danh sách thành viên";
 
 $table = new html_table();
 $table->head = array($hcolumns['code'], $hcolumns['name'], $hcolumns['level'], $hcolumns['limit'], $hcolumns['registed'], $hcolumns['schedule'], $hcolumns['linkzoom'], get_string('edit'), "");
@@ -100,7 +101,7 @@ $table->attributes['class'] = 'admintable generaltable';
         if (has_capability('local/school:write', $sitecontext)) {
             if (is_siteadmin($USER) or ! is_siteadmin($user)) {
                 $url = new moodle_url('/local/class_regist/list_member.php', array('classid' => $s->id));
-                $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/cohort', $strdownload));
+                $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/cohort', $view_part));
             }
         }
         $row = array();

@@ -29,3 +29,4 @@ $string['title_deletemember'] = 'Xóa thành viên';
 $string['deletemember'] = 'Bạn có chắc chắn muốn xóa {$a} ?';
 $string['not_exist_classid'] = 'Class id not exist';
 $string['share'] = 'chia sẻ liên kết';
+$string['partner'] = 'Danh sách thành viên';
