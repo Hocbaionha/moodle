@@ -168,14 +168,14 @@ function generate_student_code($uid,$moodleUserId,$codeField){
                 $batch->set($fdb->collection('students')->document($uid),$student);
                 $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                 $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]));
+                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
             } else {
                 $student = $user;
                 $student["code"]=generateStudentCode($fdb);
                 $batch->update($fdb->collection('student')->document($uid),$student);
                 $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                 $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]));
+                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
             }
             if (!$batch->isEmpty()) {
                 $batch->commit();
