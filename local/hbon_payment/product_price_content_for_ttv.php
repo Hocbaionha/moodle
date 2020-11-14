@@ -33,11 +33,13 @@
                     <div class="col-md-6">
                         <select name="product" class="form-control rounded" id="product">
                             <?php
-                            foreach ($list_product as $object) {
-                                if ($object->id === $product_id) {
-                                    echo '<option value="' . $object->id . '" selected>' . $object->name . '</option>';
-                                } else {
-                                    echo '<option value="' . $object->id . '">' . $object->name . '</option>';
+                            if(!empty($list_product)){
+                                foreach ($list_product as $object) {
+                                    if ($object->id === $product_id) {
+                                        echo '<option value="' . $object->id . '" selected>' . $object->name . '</option>';
+                                    } else {
+                                        echo '<option value="' . $object->id . '">' . $object->name . '</option>';
+                                    }
                                 }
                             }
                             ?>

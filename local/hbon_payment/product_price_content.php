@@ -10,6 +10,25 @@
             <div class="pricing">
                 <table class="table table-condensed">
                     <tr>
+                        <td width="20%">Khách hàng</td>
+                        <td ><?php echo $USER->firstname . ' ' . $USER->lastname; ?></td>
+                    </tr>
+                    <hr>
+                    <tr>
+                        <td width="20%">Số điện thoại</td>
+                        <td><input type="text" id="phone" name="phone"
+                                                     required class="form-control rounded"
+                                                     value="<?php if (isset($phone)) {
+                                                         echo $phone;
+                                                     }; ?>">
+                            <div class="alert alert-danger" role="alert" style="display: none" id="error_phone">
+                                Điền số điện thoại trước khi thanh toán
+                            </div>
+                        </td>
+
+                    </tr>
+                    <hr>
+                    <tr>
                         <td width="20%">Tên sản phẩm</td>
                         <td class="text-info"> <?php echo $product->name ?></td>
                     </tr>
@@ -51,7 +70,7 @@
                                 style="width: 50%; float: right;"
                                 class="btn btn-primary"
                                 id = "charge_money"
-                                data-toggle="modal"
+
                                 data-target="#payment_by_nganluong">
                             Thực hiện ngay
                     </div>
@@ -144,7 +163,59 @@
     </form>
 </div>
 </div>
+<script>
+    $('#charge_money').on('click', function (event) {
+        event.preventDefault();
+        var check = $('#phone').val();
+        console.log(check);
+        if (typeof check == "undefined" || check == null || check == '') {
+            $('#phone').addClass('is-invalid ');
+            document.getElementById("error_phone").style.display = "block";
+        } else {
+            phonenumber(String(check),"submit");
+        }
+    });
+    $("#phone").keypress(function () {
+        $(this).removeClass('is-invalid');
+        document.getElementById("error_phone").style.display = "none";
+    });
+    $('#phone').on('input', function() {
+        phonenumber(String($(this).val()));
+    });
 
+    function phonenumber(inputtxt,type=null) {
+        var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if(inputtxt.match(phoneno)) {
+            if(type === "submit"){
+                $.ajax({
+                    type: "post",
+                    url: "/local/hbon_payment/update_phone.php",
+                    dataType:"json",
+                    data: {phone:inputtxt},
+                    success: function (response) {
+                        if(response.status === "success") {
+                            $('#payment_by_nganluong').modal('show');
+                        } else if(response.status === "error") {
+                            $('#phone').addClass('is-invalid');
+                            document.getElementById("error_phone").style.display = "block";
+                            document.getElementById("error_phone").innerHTML = "Định dạng không khớp";
+                        }
+                    }
+                });
+            }else{
+                $('#phone').addClass('is-valid');
+            }
+
+        }
+        else {
+            // if(type === "submit"){
+            $('#phone').addClass('is-invalid');
+            document.getElementById("error_phone").style.display = "block";
+            document.getElementById("error_phone").innerHTML = "Định dạng không khớp";
+            // }
+        }
+    }
+</script>
 <!-- <div class="modal fade in" id="payment_by_banktranfer" role = "dialog">
     <div class="modal-dialog">
           <div class="modal-content">
