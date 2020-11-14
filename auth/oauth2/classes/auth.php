@@ -624,13 +624,20 @@ class auth extends \auth_plugin_base {
         // method. Since we now ALWAYS link a login - if we get to here we can directly allow the user in.
         $user = (object) $userinfo;
         
-        if(isset($uid))
+        if(isset($uid)){
+            global $DB;
             $user->uid  = $uid;
+            $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
+            $check = $DB->get_record("user_info_data",array("userid"=>$user->id,"fieldid"=>$codeField));
+            if(!$check){
+                generate_student_code($uid,$user->id,$codeField);
+            } 
+        }
         complete_user_login($user);
         $this->update_picture($user);
         if($new){
             if (function_exists('local_sm_enrole')) {
-            local_sm_enrole($uid);
+                local_sm_enrole($uid);
             }
         }
         redirect($redirecturl);
