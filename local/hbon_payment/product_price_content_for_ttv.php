@@ -1,9 +1,4 @@
 <!-- product price -->
-<style>
-    #product{
-        border: #0a78d1;
-    }
-</style>
 <div class="container">
     <div class="block-heading">
         <h2 class="text-info text-center">
@@ -16,15 +11,21 @@
             <div class="pricing">
                 <div class="row">
                     <div class="col-md-3">Khách hàng</div>
-                    <div class="col-md-6" ><?php echo $USER->firstname. ' '.$USER->lastname;  ?></div>
+                    <div class="col-md-6"><?php echo $USER->firstname . ' ' . $USER->lastname; ?></div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-3">Số điện thoại</div>
-                    <div class="col-md-6" ><input type="tel" id="phone" name="phone"
-                                                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                                                  required class="form-control rounded"
-                                                  value="<?php if(isset($USER->phone)){echo $USER->phone;};?>"></div>
+                    <div class="col-md-6"><input type="text" id="phone" name="phone"
+                                                 required class="form-control rounded"
+                                                 value="<?php if (isset($USER->phone)) {
+                                                     echo $USER->phone;
+                                                 }; ?>">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="error_phone">
+                            Điền số điện thoại trước khi thanh toán
+                        </div>
+                    </div>
+
                 </div>
                 <hr>
                 <div class="row">
@@ -51,13 +52,14 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-3">Giá tiền</div>
-                    <div class="col-md-6" id="label_product_price"><?php echo number_format($product->price, 0, ",", ".") . ' đồng'; ?></div>
+                    <div class="col-md-6"
+                         id="label_product_price"><?php echo number_format($product->price, 0, ",", ".") . ' đồng'; ?></div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-6" id="label_product_desciption"><?php echo $product->description ?></div>
                 </div>
-                <input type="hidden" id="list_product" value='<?php echo json_encode($list_product);?>'>
+                <input type="hidden" id="list_product" value='<?php echo json_encode($list_product); ?>'>
             </div>
         </div>
     </div>
@@ -89,7 +91,7 @@
                                 style="width: 50%; float: right;"
                                 class="btn btn-primary rounded"
                                 id="charge_money"
-                                data-toggle="modal"
+
                                 data-target="#payment_by_nganluong">
                             Thực hiện ngay
                     </div>
@@ -197,20 +199,71 @@
     </div>
 </div>
 <script>
-$('#product').on('change', function () {
-    var list_product = $('#list_product').val();
-    var obj = JSON.parse(list_product);
-    var product = String(this.value);
-    // obj[product].
-    console.log(obj[product]);
-    $('#label_product_code').html(obj[product].code);
-    $('#label_product_price').html(parseInt(obj[product].price) +" đồng");
-    $('#money_trans_1').val(parseInt(obj[product].price) +" đồng");
-    $('#label_product_desciption').html(obj[product].description);
-    $('#product_code').val(obj[product].code);
-    $('#product_id').val(obj[product].id);
-    $('#product_name').val(obj[product].name);
-    $('#money_trans').val(obj[product].price);
-    $('#modal_code').html(obj[product].code);
-});
+    $('#product').on('change', function () {
+        var list_product = $('#list_product').val();
+        var obj = JSON.parse(list_product);
+        var product = String(this.value);
+        // obj[product].
+        console.log(obj[product]);
+        $('#label_product_code').html(obj[product].code);
+        $('#label_product_price').html(parseInt(obj[product].price) + " đồng");
+        $('#money_trans_1').val(parseInt(obj[product].price) + " đồng");
+        $('#label_product_desciption').html(obj[product].description);
+        $('#product_code').val(obj[product].code);
+        $('#product_id').val(obj[product].id);
+        $('#product_name').val(obj[product].name);
+        $('#money_trans').val(obj[product].price);
+        $('#modal_code').html(obj[product].code);
+    });
+    $('#charge_money').on('click', function (event) {
+        event.preventDefault();
+        var check = $('#phone').val();
+        console.log(check);
+        if (typeof check == "undefined" || check == null || check == '') {
+            $('#phone').addClass('is-invalid ');
+            document.getElementById("error_phone").style.display = "block";
+        } else {
+           phonenumber(String(check),"submit");
+        }
+    });
+    $("#phone").keypress(function () {
+        $(this).removeClass('is-invalid');
+        document.getElementById("error_phone").style.display = "none";
+    });
+    $('#phone').on('input', function() {
+        phonenumber(String($(this).val()));
+    });
+
+    function phonenumber(inputtxt,type=null) {
+        var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if(inputtxt.match(phoneno)) {
+            if(type === "submit"){
+                $.ajax({
+                    type: "post",
+                    url: "/local/hbon_payment/update_phone.php",
+                    dataType:"json",
+                    data: {phone:inputtxt},
+                    success: function (response) {
+                        if(response.status === "success") {
+                            $('#payment_by_nganluong').modal('show');
+                        } else if(response.status === "error") {
+                            $('#phone').addClass('is-invalid');
+                            document.getElementById("error_phone").style.display = "block";
+                            document.getElementById("error_phone").innerHTML = "Định dạng không khớp";
+                        }
+                    }
+                });
+            }else{
+                $('#phone').addClass('is-valid');
+            }
+
+        }
+        else {
+            if(type === "submit"){
+                $('#phone').addClass('is-invalid');
+                document.getElementById("error_phone").style.display = "block";
+                document.getElementById("error_phone").innerHTML = "Định dạng không khớp";
+            }
+    }
+    }
 </script>

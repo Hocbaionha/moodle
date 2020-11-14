@@ -39,6 +39,10 @@ if(!isguestuser()) {
 
     if ($product_is_exists) {
 //        echo $OUTPUT->render_from_template('theme_classon/payment_product', $data);
+
+//        $sql =
+//        $phone = $DB->get_recordset_sql($sql, $select);
+
         if(in_array($product_id, $condition)){
             require_once(__DIR__ . '/product_price_content_for_ttv.php');
         }else{
