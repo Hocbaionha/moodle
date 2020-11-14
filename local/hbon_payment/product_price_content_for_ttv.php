@@ -18,8 +18,8 @@
                     <div class="col-md-3">Số điện thoại</div>
                     <div class="col-md-6"><input type="text" id="phone" name="phone"
                                                  required class="form-control rounded"
-                                                 value="<?php if (isset($USER->phone)) {
-                                                     echo $USER->phone;
+                                                 value="<?php if (isset($phone)) {
+                                                     echo $phone;
                                                  }; ?>">
                         <div class="alert alert-danger" role="alert" style="display: none" id="error_phone">
                             Điền số điện thoại trước khi thanh toán
@@ -259,11 +259,11 @@
 
         }
         else {
-            if(type === "submit"){
+            // if(type === "submit"){
                 $('#phone').addClass('is-invalid');
                 document.getElementById("error_phone").style.display = "block";
                 document.getElementById("error_phone").innerHTML = "Định dạng không khớp";
-            }
+            // }
     }
     }
 </script>
