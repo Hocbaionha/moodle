@@ -40,7 +40,11 @@ if(!isguestuser()) {
     if ($product_is_exists) {
         $sql = "SELECT * FROM mdl_user_info_data d JOIN  mdl_user_info_field f ON d.fieldid=f.id JOIN mdl_user u ON u.id=d.userid WHERE u.id=? AND f.`name`='phone';";
         $data = $DB->get_record_sql($sql, array('id'=>$USER->id));
-        $phone = $data->data;
+        if($data->data){
+            $phone = $data->data;
+        }else{
+            $phone = '';
+        }
         if(in_array($product_id, $condition)){
             require_once(__DIR__ . '/product_price_content_for_ttv.php');
         }else{
