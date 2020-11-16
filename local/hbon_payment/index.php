@@ -38,7 +38,8 @@ if(!isguestuser()) {
     echo $OUTPUT->header();
 
     if ($product_is_exists) {
-        $sql = "SELECT * FROM mdl_user_info_data d JOIN  mdl_user_info_field f ON d.fieldid=f.id JOIN mdl_user u ON u.id=d.userid WHERE u.id=? AND f.`name`='phone';";
+        $sql = "SELECT * FROM mdl_user_info_data d JOIN  mdl_user_info_field f ON d.fieldid=f.id JOIN mdl_user u ON u.id=d.userid WHERE u.id=? AND f.`shortname`='phone';";
+//        $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' ";
         $data = $DB->get_record_sql($sql, array('id'=>$USER->id));
         if(isset($data->data)){
             $phone = $data->data;
