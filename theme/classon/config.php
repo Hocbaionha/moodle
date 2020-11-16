@@ -209,6 +209,12 @@ $THEME->layouts = [
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,),
     ),
+    'share_view' => array(
+        'file' => 'share_view.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,),
+    ),
     ];
 
 
