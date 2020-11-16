@@ -35,7 +35,7 @@
                             <?php
                             if(!empty($list_product)){
                                 foreach ($list_product as $object) {
-                                    if ($object->id === $product_id) {
+                                    if ($object->id == $product_id) {
                                         echo '<option value="' . $object->id . '" selected>' . $object->name . '</option>';
                                     } else {
                                         echo '<option value="' . $object->id . '">' . $object->name . '</option>';
