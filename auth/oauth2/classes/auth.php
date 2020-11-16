@@ -629,7 +629,7 @@ class auth extends \auth_plugin_base {
             $user->uid  = $uid;
             $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
             $check = $DB->get_record("user_info_data",array("userid"=>$user->id,"fieldid"=>$codeField));
-            if(!$check){
+            if(!$check||$check->data==""){
                 generate_student_code($uid,$user->id,$codeField);
             } 
         }
