@@ -261,7 +261,6 @@ input.mod_quiz-redo_question_button {
             width:250px;
             margin-top:15px;
             margin-bottom:15px;
-
         }
         ::-webkit-input-placeholder {
             text-align: center;
@@ -281,7 +280,7 @@ input.mod_quiz-redo_question_button {
         .send{
             width:250px;
             border: 2px solid #797979;
-            background-color: #9CC25D;
+            background-color: #473e9b;
             border-radius: 4px;
             height: 40px;
             color:#fff;
@@ -289,7 +288,9 @@ input.mod_quiz-redo_question_button {
             font-weight:bold;
             font-size:20px;
         }
-
+        .wrap{
+            padding-top: 110px;
+        }
 </style>
 
 {{> theme_boost/head }}
@@ -301,11 +302,13 @@ input.mod_quiz-redo_question_button {
         <div class="popup__overlay"></div>
         <div class="reveal-modal">
             <div class="imgstyle">
-                <form action="/local/sm/course_popup.php" method="post">
-                    <input class="phone" type="text" name="phone" placeholder="Nhập số điện thoại của bạn" required/>
-                    <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
-                    <button class="send" type="submit">HỌC THỬ NGAY</button>
-                </form>
+                <div class="wrap">
+                    <form action="/local/sm/course_popup.php" method="post">
+                        <input class="phone" type="text" name="phone" placeholder="Nhập số điện thoại của bạn" required/>
+                        <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
+                        <button class="send" type="submit">THÊM</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

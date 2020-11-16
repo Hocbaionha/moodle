@@ -24,6 +24,7 @@ $url = parse_url($PAGE->url);
 $path = $url["path"];
 $showpopup=false;
 $popupimg="";
+
 if ( isloggedin() && !isguestuser() ) {
     $uid = $USER->id;
     if (!(cohort_is_member(1, $uid) || cohort_is_member(2, $uid) || cohort_is_member(3, $uid))) {
@@ -34,9 +35,9 @@ if ( isloggedin() && !isguestuser() ) {
         join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' and ud.data is not null and ud.data !=''";
     $phone = $DB->get_record_sql($sql,array("id"=>$uid));
 
-    if(!$phone && $path == "/course/view.php"){
-    	$courseid = explode("=",$url["query"])[1];
-	    $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
+    if(!$phone){
+//    	$courseid = explode("=",$url["query"])[1];
+//	    $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
 //        if($coursedesc && isset($coursedesc->popup)){
             $showpopup=true;
 //        }
