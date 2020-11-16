@@ -89,6 +89,28 @@ function local_sm_enrole($uid)
                     }
                 }
             }
+            if(array_key_exists("code",$student)){
+                $code = $student["code"]["code"];
+                $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
+                $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
+                $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$uidField));
+                $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
+                if(!$check){
+                    $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                                'fieldid' => $uidField, 'data' => $uid));
+                } else {
+                    $DB->execute($sql,array("data"=>$uid,"userid"=>$moodleUserId,"fieldid"=>$uidField));
+                }
+
+                $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$codeField));
+                if(!$check){
+                    $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                                'fieldid' => $codeField, 'data' => $code));
+                } else {
+                    $DB->execute($sql,array("data"=>$code,"userid"=>$moodleUserId,"fieldid"=>$codeField));
+                }
+            }
+            
         } else {
             echo "not found" . $uid;
         }
@@ -96,7 +118,100 @@ function local_sm_enrole($uid)
         serviceErrorLog("error:" . json_encode($e->getTrace()));
     }
 }
+function generate_student_code($uid,$moodleUserId,$codeField){
+    global $CFG, $DB;
+    global $SESSION;
+    $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
+    
+    $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$uidField));
+    $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
+    if(!$check){
+    //insert firebase uid 
+        $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                    'fieldid' => $uidField, 'data' => $uid));
+    }
+    // check stcode 
+    $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$codeField));
+    if(!$check){
+        //create code 
+        $fb_token = $CFG->hbon_uid_admin;
+        // $db = new FirestoreClient($CFG->firebase_config);
+        //check student
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        if (!isset($fb_token)) {
+            return;
+        }
+        $signInResult = $auth->signInAsUser($fb_token);
+        $firestore = $factory->createFirestore();
+        $fdb = $firestore->database();
+        $db = $firestore->database();
+        $sql = "SELECT id,username,email,firstname,lastname from mdl_user where id=?";
+        $mdluser = $DB->get_record_sql($sql,array("id"=>$moodleUserId));
 
+        $username=$mdluser->username;
+        $userArr = explode("-",$username);
+        $uname = array_pop($userArr);  
+        if($uname=="bgh" || $uname=="admin") {
+            return;
+        }
+        $user = array("moodleUserId"=>$moodleUserId,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0);
+        $query = $fdb->collection('student_code')->where("student_id","==",$uid);
+        $documents = $query->documents();
+        if($documents->size()==0){
+            $batch = $fdb->batch();
+            $stuRef = $fdb->collection('students')->document($uid);
+            $stuSnapshot = $stuRef->snapshot();
+            if (!$stuSnapshot->exists()) {
+                $student = $user;
+                $student["code"]=generateStudentCode($fdb);
+                $batch->set($fdb->collection('students')->document($uid),$student);
+                $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
+            } else {
+                $student = $user;
+                $student["code"]=generateStudentCode($fdb);
+                $batch->update($fdb->collection('student')->document($uid),$student);
+                $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
+            }
+            if (!$batch->isEmpty()) {
+                $batch->commit();
+            }
+        } else {
+            $stuRef = $fdb->collection('students')->document($uid);
+            $stuSnapshot = $stuRef->snapshot();
+            if ($stuSnapshot->exists()) {
+                $student = $stuSnapshot->data();
+                serviceErrorLog("code:" . json_encode($student["code"]['code']));
+                $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
+            }
+        }
+    }
+ 
+}
+
+function generateStudentCode($fdb){
+    $code = substr(md5(microtime()),rand(0,26),6);
+    $exist=true;
+    while ($exist) {
+        $docRef = $fdb->collection('student_code')->document($code);
+        $snapshot = $docRef->snapshot();
+        if (!$snapshot->exists()) {
+            $exist=false;
+        } else {
+            $code = substr(md5(microtime()),rand(0,26),6);
+        }
+    }
+    
+    $date = new DateTime();
+    $time = $date->getTimestamp();
+    $expired_time = $time + (365*24*60*60); 
+    return array("code"=>$code,"expired_time"=>$expired_time*1000);
+}
 function insertGroup($shortname, $group_name, $userid)
 {
     global $DB;

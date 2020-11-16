@@ -43,6 +43,13 @@ $functions = array(
         'classpath'   => 'local/sm/classes/create_user_api.php',
         'description' => 'service add user',
         'type'        => 'write',
+    ),
+    'local_upload_school' => array(
+        'classname'   => 'local_sm_user_external',
+        'methodname'  => 'upload_school',
+        'classpath'   => 'local/sm/classes/create_user_api.php',
+        'description' => 'service upload school',
+        'type'        => 'write',
     )
 );
 
