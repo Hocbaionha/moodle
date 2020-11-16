@@ -40,7 +40,7 @@ if(!isguestuser()) {
     if ($product_is_exists) {
         $sql = "SELECT * FROM mdl_user_info_data d JOIN  mdl_user_info_field f ON d.fieldid=f.id JOIN mdl_user u ON u.id=d.userid WHERE u.id=? AND f.`name`='phone';";
         $data = $DB->get_record_sql($sql, array('id'=>$USER->id));
-        if($data->data){
+        if(isset($data->data)){
             $phone = $data->data;
         }else{
             $phone = '';
