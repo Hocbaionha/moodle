@@ -346,6 +346,7 @@
         }
     }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 {{> theme_boost/head }}
 
@@ -361,13 +362,13 @@
                     <p class="popup_title">Hocbaionha cần số điện thoại của bạn để hỗ trợ tốt hơn!</p>
                 </div>
                 <div class="wrap">
-                    <form action="/local/sm/course_popup.php" method="post">
+                    <form id="form_update_phone" action="" method="post">
                         <input class="phone" type="tel" name="phone" placeholder="Nhập số điện thoại của bạn"
                                pattern="(\+84|0){1}(9|8|7|5|3){1}[0-9]{8}"
                                oninvalid="this.setCustomValidity('Vui lòng khớp định dạng được yêu cầu.')"
-                               oninput="this.setCustomValidity('')" required/>
-                        <input type="hidden" name="wanturl" value="{{{wanturl}}}"/>
-                        <button class="send" type="submit">THÊM</button>
+                               oninput="this.setCustomValidity('')" id="phone" required/>
+                        <input type="hidden" id="wanturl" name="wanturl" value="{{{wanturl}}}"/>
+                        <button class="send" id="add_phone">THÊM</button>
                     </form>
                 </div>
             </div>
@@ -503,4 +504,42 @@
 
     });
     }
+
+    $("#form_update_phone").submit(function(event){
+    event.preventDefault();
+    var phone = $('#phone').val();
+    var wanturl = $('#wanturl').val();
+    var send_data = {"phone":phone,"wanturl":wanturl};
+    $.ajax({
+    url: "/local/sm/course_popup.php",
+    type: 'POST',
+    data: send_data,
+    success: function (res, textStatus, jqXHR) {
+    var res = JSON.parse(res);
+        if(res.status ==="success"){
+            swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Cập nhật thành công',
+            showConfirmButton: false,
+            timer: 2000
+            }).then((result)=>{
+                console.log(wanturl);
+                location.href= wanturl;
+            });
+        }else{
+            swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Cập nhật thất bại',
+            showConfirmButton: false,
+            timer: 2000
+            });
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {}
+    });
+    });
 {{/js}}
+
+
