@@ -4,19 +4,19 @@ require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 
-global $DB;
+global $DB,$USER;
 require_login();
 $sitecontext = context_system::instance();
 
-
+$user = $USER->id;
 $url = new moodle_url('/local/class_regist/list_member.php');
 $PAGE->set_context($sitecontext);
 $PAGE->set_url($url);
 
 $PAGE->set_title("title_member");
 $PAGE->set_heading(get_string("member", "local_class_regist"));
-
-if (!has_capability('local/school:write', $sitecontext)) {
+$accept_user = [27774];
+if (!has_capability('local/school:write', $sitecontext) && !in_array($user, $accept_user)) {
     echo $OUTPUT->header();
     echo get_string("not_allow","local_class_regist");
     echo $OUTPUT->footer();die;
@@ -96,7 +96,7 @@ foreach ($rs as $s) {
 //        $url = new moodle_url('/local/class_regist/list_member.php', array('classid'=>$classid,'delete' => $s->id, 'sesskey' => sesskey()));
 //        $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/delete', $strdelete));
 //    }
-    if (has_capability('local/school:write', $sitecontext)) {
+    if (has_capability('local/school:write', $sitecontext) or in_array($user, $accept_user)) {
         if (is_siteadmin($USER) or ! is_siteadmin($user)) {
             $url = new moodle_url('/local/class_regist/edit_member.php', array('classid'=>$classid,'id' => $s->id));
             $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', $stredit));

@@ -4,16 +4,19 @@ require(__DIR__ . '/../../config.php');
 require("member_form.php");
 require_login();
 
+global $USER;
 $id = optional_param('id', 0, PARAM_INT);
 $classid = optional_param('classid', 0, PARAM_INT);
 $site = get_site();
+$user = $USER->id;
+$accept_user = [27774];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
 $url = new moodle_url('/local/class_regist/edit_member.php');
 $PAGE->set_heading(get_string("member", "local_class_regist"));
 $PAGE->set_url($url);
-if (!has_capability('local/school:write', $context)) {
+if (!has_capability('local/school:write', $context) && !in_array($user, $accept_user)) {
     echo $OUTPUT->header();
     echo get_string("not_allow", "local_class_regist");
     echo $OUTPUT->footer();

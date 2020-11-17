@@ -4,10 +4,11 @@ require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 
-global $DB;
+global $DB,$USER;
 require_login();
 $sitecontext = context_system::instance();
-
+$user = $USER->id;
+$accept_user = [27774];
 
 $url = new moodle_url('/local/class_regist/class.php');
 $PAGE->set_context($sitecontext);
@@ -16,7 +17,7 @@ $PAGE->set_url($url);
 $PAGE->set_title("title");
 $PAGE->set_heading(get_string("class", "local_class_regist"));
 
-if (!has_capability('local/school:write', $sitecontext)) {
+if (!has_capability('local/school:write', $sitecontext) && !in_array($user, $accept_user)) {
     echo $OUTPUT->header();
     echo get_string("not_allow","local_class_regist");
     echo $OUTPUT->footer();die;
@@ -98,7 +99,7 @@ $table->attributes['class'] = 'admintable generaltable';
                 $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/download', $strdownload));
             }
         }
-        if (has_capability('local/school:write', $sitecontext)) {
+        if (has_capability('local/school:write', $sitecontext) or in_array($user, $accept_user)) {
             if (is_siteadmin($USER) or ! is_siteadmin($user)) {
                 $url = new moodle_url('/local/class_regist/list_member.php', array('classid' => $s->id));
                 $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/cohort', $view_part));
