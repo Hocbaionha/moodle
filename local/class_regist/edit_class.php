@@ -18,6 +18,7 @@ if (!has_capability('local/school:write', $context)) {
     echo $OUTPUT->footer();
     die;
 }
+
 $mform = new class_form(null, array('id' => $id));
 //$url = new moodle_url('/course/editcategory.php');
 if ($mform->is_cancelled()) {
@@ -26,7 +27,7 @@ if ($mform->is_cancelled()) {
     redirect($schoolurl);
 } else if ($fromform = $mform->get_data()) {
     $fromform->name = trim(preg_replace('/\s+/', ' ', $fromform->name));
-    //check unique 
+    //check unique
 
     $check = $DB->get_record("hbon_classes", array("code" => $fromform->code));
 

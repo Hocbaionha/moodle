@@ -8,23 +8,6 @@ global $DB,$USER;
 require_login();
 $sitecontext = context_system::instance();
 
-$user = $USER->id;
-$url = new moodle_url('/local/class_regist/list_member.php');
-$PAGE->set_context($sitecontext);
-$PAGE->set_url($url);
-
-$PAGE->set_title("title_member");
-$PAGE->set_heading(get_string("member", "local_class_regist"));
-$accept_user = [27774];
-if (!has_capability('local/school:write', $sitecontext) && !in_array($user, $accept_user)) {
-    echo $OUTPUT->header();
-    echo get_string("not_allow","local_class_regist");
-    echo $OUTPUT->footer();die;
-}
-$PAGE->requires->jquery();
-$PAGE->requires->css(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css'));
-$PAGE->requires->css(new moodle_url('/local/class_regist/css/custom.css'));
-//$PAGE->requires->js(new moodle_url('/local/class_regist/js/school.js'));
 // page parameters
 $delete = optional_param('delete', 0, PARAM_INT);
 $confirm = optional_param('confirm', '', PARAM_ALPHANUM);   //md5 confirmation hash
@@ -38,6 +21,29 @@ if($classid == null or $classid == ''){
     echo get_string("not_exist_classid","local_class_regist");
     echo $OUTPUT->footer();die;
 }
+
+$user = $USER->id;
+$url = new moodle_url('/local/class_regist/list_member.php');
+$PAGE->set_context($sitecontext);
+$PAGE->set_url($url);
+
+$PAGE->set_title("title_member");
+$PAGE->set_heading(get_string("member", "local_class_regist"));
+$sql_permission = $DB->get_record('hbon_classes',array('id'=>$classid));
+if(isset($sql_permission->is_accept)){
+    $accept_user = explode(',', $sql_permission->is_accept);
+}else{
+    $accept_user=[];
+}
+if (!has_capability('local/school:write', $sitecontext) && $user !==0 &&!in_array($user, $accept_user)) {
+    echo $OUTPUT->header();
+    echo get_string("not_allow","local_class_regist");
+    echo $OUTPUT->footer();die;
+}
+$PAGE->requires->jquery();
+$PAGE->requires->css(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css'));
+$PAGE->requires->css(new moodle_url('/local/class_regist/css/custom.css'));
+//$PAGE->requires->js(new moodle_url('/local/class_regist/js/school.js'));
 
 $returnurl = new moodle_url('/local/class_regist/list_member.php', array('classid'=>$classid,'perpage' => $perpage, 'page' => $page));
 if ($delete and confirm_sesskey()) {              // Delete a selected school, after confirmation
@@ -96,10 +102,12 @@ foreach ($rs as $s) {
 //        $url = new moodle_url('/local/class_regist/list_member.php', array('classid'=>$classid,'delete' => $s->id, 'sesskey' => sesskey()));
 //        $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/delete', $strdelete));
 //    }
-    if (has_capability('local/school:write', $sitecontext) or in_array($user, $accept_user)) {
-        if (is_siteadmin($USER) or ! is_siteadmin($user)) {
-            $url = new moodle_url('/local/class_regist/edit_member.php', array('classid'=>$classid,'id' => $s->id));
-            $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', $stredit));
+    if($user !==0){
+        if (has_capability('local/school:write', $sitecontext) or in_array($user, $accept_user)) {
+            if (is_siteadmin($USER) or ! is_siteadmin($user)) {
+                $url = new moodle_url('/local/class_regist/edit_member.php', array('classid'=>$classid,'id' => $s->id));
+                $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', $stredit));
+            }
         }
     }
     $url = new moodle_url('/eed', array('phone'=>$s->phone));

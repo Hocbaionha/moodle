@@ -8,7 +8,17 @@ global $DB,$USER;
 require_login();
 $sitecontext = context_system::instance();
 $user = $USER->id;
-$accept_user = [27774];
+
+$sql_permission = $DB->get_records('hbon_classes');
+if(!empty($sql_permission)){
+    $in_role = '';
+    foreach ($sql_permission as $object){
+        if($object->is_accept !== null && $object->is_accept!==''){
+            $in_role = ($object->is_accept).','.$in_role;
+        }
+    }
+    $has_role = array_map('intval', explode(',', $in_role));
+}
 
 $url = new moodle_url('/local/class_regist/class.php');
 $PAGE->set_context($sitecontext);
@@ -17,7 +27,7 @@ $PAGE->set_url($url);
 $PAGE->set_title("title");
 $PAGE->set_heading(get_string("class", "local_class_regist"));
 
-if (!has_capability('local/school:write', $sitecontext) && !in_array($user, $accept_user)) {
+if (!has_capability('local/school:write', $sitecontext) && $user!==0 && !in_array($user, $has_role)) {
     echo $OUTPUT->header();
     echo get_string("not_allow","local_class_regist");
     echo $OUTPUT->footer();die;
@@ -80,6 +90,12 @@ $table->attributes['class'] = 'admintable generaltable';
     $rs = $DB->get_recordset_sql($sql, array(), $page * $perpage, $perpage);
     $result = array();
     foreach ($rs as $s) {
+        $teachers = $s->is_accept;
+        if(isset( $s->is_accept)){
+            $accept_user = explode( ',', $s->is_accept );
+        }else{
+            $accept_user = [];
+        }
         $count = $DB->count_records("hbon_classes_register",array("classid"=>$s->id));
         $buttons = array();
         $lastcolumn = '';

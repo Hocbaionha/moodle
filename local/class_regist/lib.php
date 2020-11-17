@@ -13,9 +13,18 @@ require_once $CFG->libdir . '/hbonlib/string_util.php';
  */
 
 function local_class_regist_extend_navigation(global_navigation $navigation) {
-    global $USER;
-    $condition =  [27774];
-    if (isset($USER->username) && in_array($USER->id, $condition)) {
+    global $USER,$DB;
+    $sql_permission = $DB->get_records('hbon_classes');
+    if(!empty($sql_permission)){
+        $in_role = '';
+        foreach ($sql_permission as $object){
+            if($object->is_accept !== null && $object->is_accept!==''){
+                $in_role = ($object->is_accept).','.$in_role;
+            }
+        }
+        $has_role = array_map('intval', explode(',', $in_role));
+    }
+    if (isset($USER->username) && $USER->id !==0 &&in_array($USER->id, $has_role)) {
         $url = new moodle_url('/local/class_regist/list_class.php');
         $node = $navigation->add('Quản lý lớp live', $url,
             navigation_node::TYPE_CATEGORY, null, 'myclass', new pix_icon('i/dashboard', ''));
