@@ -8,14 +8,26 @@ $SESSION->wantsurl = optional_param('wanturl', "", PARAM_TEXT);
 //}
 if ($USER->id > 2) {
     //not admin or guest
-    $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
-    join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' ";
+    $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' ";
     $check = $DB->get_record_sql($sql, array("id" => $USER->id));
     if (!$check) {
         $sql = "insert into mdl_user_info_data (userid,fieldid,data) values(?,(select id from mdl_user_info_field where shortname='phone'),?)";
         $execute = $DB->execute($sql, array("userid" => $USER->id, "data" => $phone));
         if ($execute) {
-            result(1, "Update success", $SESSION->wantsurl);
+            $has_phone = ["userid"=>$USER->id];
+//            $has_phone = ["userid"=>$USER->id,"phone"=>$phone,"timecreated"=>time()];
+            $check_phone_collect = $DB->get_record('hbon_has_check_phone', $has_phone);
+            if($check_phone_collect){
+                $has_phone["timemodified"]=time();
+                $has_phone["phone"]=$phone;
+                $has_phone["id"]=$check_phone_collect->id;
+                $has_data = $DB->update_record('hbon_has_check_phone', (object)$has_phone);
+            }else{
+                $has_phone["timecreated"]=time();
+                $has_phone["phone"]=$phone;
+                $has_data = $DB->insert_record('hbon_has_check_phone', (object)$has_phone);
+            }
+            result(1, "Update success", $SESSION->wantsurl,$has_data);
         }else{
             result(2, "Update false", $SESSION->wantsurl);
         }
@@ -23,6 +35,19 @@ if ($USER->id > 2) {
         $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=(select id from mdl_user_info_field where shortname='phone')";
         $execute = $DB->execute($sql, array("data" => $phone, "userid" => $USER->id));
         if ($execute) {
+            $has_phone = ["userid"=>$USER->id];
+//            $has_phone = ["userid"=>$USER->id,"phone"=>$phone,"timecreated"=>time()];
+            $check_phone_collect = $DB->get_record('hbon_has_check_phone', $has_phone);
+            if($check_phone_collect){
+                $has_phone["timemodified"]=time();
+                $has_phone["phone"]=$phone;
+                $has_phone["id"]=$check_phone_collect->id;
+                $has_data = $DB->update_record('hbon_has_check_phone', (object)$has_phone);
+            }else{
+                $has_phone["timecreated"]=time();
+                $has_phone["phone"]=$phone;
+                $has_data = $DB->insert_record('hbon_has_check_phone', (object)$has_phone);
+            }
             result(1, "Update success", $SESSION->wantsurl);
         }else{
             result(2, "Update false", $SESSION->wantsurl);
@@ -43,7 +68,7 @@ function result($code, $message){
         $result = [
             "status"=>"success",
             "code"=>$code,
-            "message"=> $message,
+            "message"=> $message
         ];
         echo json_encode($result);
     }else{

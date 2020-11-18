@@ -122,17 +122,30 @@ $table->attributes['class'] = 'admintable generaltable';
             }
         }
         $row = array();
+        if(in_array($user, $accept_user)){
+            $row[] = $s->code;
+            $row[] = $s->name;
+            $row[] = $s->level;
+            $row[] = $s->limited;
+            $row[] = $count;
+            $row[] = $s->schedule;
+            $row[] = $s->linkzoom;
+            $row[] = implode(' ', $buttons);
+            $row[] = $lastcolumn;
+            $table->data[] = $row;
+        }elseif (is_siteadmin($USER)){
+            $row[] = $s->code;
+            $row[] = $s->name;
+            $row[] = $s->level;
+            $row[] = $s->limited;
+            $row[] = $count;
+            $row[] = $s->schedule;
+            $row[] = $s->linkzoom;
+            $row[] = implode(' ', $buttons);
+            $row[] = $lastcolumn;
+            $table->data[] = $row;
+        }
 
-        $row[] = $s->code;
-        $row[] = $s->name;
-        $row[] = $s->level;
-        $row[] = $s->limited;
-        $row[] = $count;
-        $row[] = $s->schedule;
-        $row[] = $s->linkzoom;
-        $row[] = implode(' ', $buttons);
-        $row[] = $lastcolumn;
-        $table->data[] = $row;
     }
     $rs->close();
 
