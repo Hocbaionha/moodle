@@ -320,18 +320,22 @@
     }
 
     .wrap {
-        padding-top: 175px;
+        padding-top: 150px;
     }
 
     .popup_title{
         font-size: 13px;
         color: #473e9b;
         font-weight: bold;
+        text-align: left;
+        margin: 0;
     }
 
     .wrap_title{
+        font-size: 16px;
         font-weight: bold;
         color: #473e9b;
+        margin: 0;
     }
     @media only screen and (max-width: 600px) {
         .imgstyle {
@@ -342,7 +346,32 @@
             font-size: 12px;
         }
         .wrap {
-            padding-top: 155px;
+            padding-top: 125px;
+        }
+        .wrap_title{
+            font-size: 14px;
+        }
+        .phone {
+            border: 2px solid #797979;
+            background-color: #EFEFEF;
+            border-radius: 4px;
+            height: 40px;
+            /*font-size:12px;*/
+            width: 200px;
+            margin: 6px;
+            text-align: center;
+            font-size: 10pt;
+        }
+        .send {
+            width: 200px;
+            border: 2px solid #797979;
+            background-color: #473e9b;
+            border-radius: 4px;
+            height: 40px;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
         }
     }
 </style>
@@ -357,11 +386,15 @@
         <div class="popup__overlay"></div>
         <div class="reveal-modal">
             <div class="imgstyle">
-                <div>
-                    <h3 class="wrap_title">THÊM SỐ ĐIỆN THOẠI</h3>
-                    <p class="popup_title">Hocbaionha cần số điện thoại của bạn để hỗ trợ tốt hơn!</p>
-                </div>
+<!--                <div>-->
+<!--                    <h3 class="wrap_title">THÊM SỐ ĐIỆN THOẠI</h3>-->
+<!--                    <p class="popup_title">Hocbaionha cần số điện thoại của bạn để hỗ trợ tốt hơn!</p>-->
+<!--                </div>-->
                 <div class="wrap">
+                    <p class="wrap_title">Vui lòng nhập Số ĐIỆN THOẠI của bạn để:</p>
+                    <p class="popup_title">-Nhận được sự hỗ trợ nhanh chóng khi tài khoản của bạn có vấn đề</p>
+                    <p class="popup_title">-Dễ dàng khôi phục mật khẩu</p>
+                    <p class="popup_title">-Nhận thông báo kịp thời về các hoạt động của Hbon Club</p>
                     <form id="form_update_phone" action="" method="post">
                         <input class="phone" type="tel" name="phone" placeholder="Nhập số điện thoại của bạn"
                                pattern="(\+84|0){1}(9|8|7|5|3){1}[0-9]{8}"
