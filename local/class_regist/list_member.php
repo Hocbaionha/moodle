@@ -131,7 +131,7 @@ foreach ($rs as $s) {
 $rs->close();
 $back = new moodle_url('/local/class_regist/list_class.php');
 $export = new moodle_url('/local/sm/export/index.php?classid='.$classid);
-$creat = new moodle_url('/local/class_regist/edit_member.php');
+$creat = new moodle_url('/local/class_regist/edit_member.php?classid='.$classid);
 
 echo "<div class='row'><div class='col-12'>";
 echo html_writer::link($export, "Export All ".$OUTPUT->pix_icon('t/download', $stredit), array("class"=>"btn btn-success float-left"));
