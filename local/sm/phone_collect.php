@@ -59,8 +59,8 @@ foreach ($rs as $s) {
     $row[] = $s->id;
     $row[] = $s->userid;
     $row[] = $s->phone;
-    $row[] = $s->timecreated;
-    $row[] = $s->timemodified;
+    $row[] = date('d-m-Y h:i:s',$s->timecreated);
+    $row[] = isset($s->timemodified)?date('d-m-Y h:i:s',$s->timemodified):'';
     $table->data[] = $row;
 }
 $rs->close();

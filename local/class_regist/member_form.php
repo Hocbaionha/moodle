@@ -14,7 +14,7 @@ require_once $CFG->libdir .'/hbonlib/lib.php';
 class member_form extends moodleform {
 
     function definition() {
-        global $DB;
+        global $DB,$USER;
 //        $PAGE->requires->js(new moodle_url('/local/school/js/school.js'));
         $mform = $this->_form;
         $id = $this->_customdata['id'];
@@ -57,7 +57,14 @@ class member_form extends moodleform {
             $classid = $DB->get_records('hbon_classes');
             $cond = [];
             foreach ($classid as $object){
-                $cond[$object->id] = $object->code;
+                if(isset($object->is_accept)){
+                    $accept_user = explode(',', $object->is_accept);
+                    if(in_array($USER->id, $accept_user) ){
+                        $cond[$object->id] = $object->code;
+                    }elseif (is_siteadmin($USER)){
+                        $cond[$object->id] = $object->code;
+                    }
+                }
             }
             $mform->addElement('select', 'classid', get_string('classid', 'local_class_regist'),$cond);
             $mform->setType('classid', PARAM_TEXT);

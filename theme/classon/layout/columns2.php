@@ -18,14 +18,14 @@ if (isloggedin()) {
 }
 
 /*Begin- add cohort */
-require_once($CFG->dirroot.'/cohort/locallib.php');
-global $USER,$PAGE,$DB;
+require_once($CFG->dirroot . '/cohort/locallib.php');
+global $USER, $PAGE, $DB;
 $url = parse_url($PAGE->url);
 $path = $url["path"];
-$showpopup=false;
-$popupimg="";
+$showpopup = false;
+$popupimg = "";
 
-if ( isloggedin() && !isguestuser() ) {
+if (isloggedin() && !isguestuser()) {
     $uid = $USER->id;
     if (!(cohort_is_member(1, $uid) || cohort_is_member(2, $uid) || cohort_is_member(3, $uid))) {
         cohort_add_member(1, $uid);
@@ -33,27 +33,27 @@ if ( isloggedin() && !isguestuser() ) {
     //check phone
     $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
         join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' and ud.data is not null and ud.data !=''";
-    $phone = $DB->get_record_sql($sql,array("id"=>$uid));
+    $phone = $DB->get_record_sql($sql, array("id" => $uid));
 
-    if(!$phone){
+    if (!$phone) {
 //    	$courseid = explode("=",$url["query"])[1];
 //	    $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
 //        if($coursedesc && isset($coursedesc->popup)){
-            $showpopup=true;
+        $showpopup = true;
 //        }
     }
 } else {
-    if($path == "/course/view.php" && !isset($_SESSION["registed"])){
-        $courseid = explode("=",$url["query"])[1];
+    if ($path == "/course/view.php" && !isset($_SESSION["registed"])) {
+        $courseid = explode("=", $url["query"])[1];
         $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
-        if($coursedesc && $coursedesc->popup){
+        if ($coursedesc && $coursedesc->popup) {
             $popupimg = $coursedesc->popupimg;
-            $showpopup=true;
+            $showpopup = true;
         }
     }
 }
-if(2 == $USER->id){
-    $showpopup=false;
+if (2 == $USER->id) {
+    $showpopup = false;
 }
 /*End- add cohort*/
 
@@ -82,10 +82,10 @@ $templatecontext = [
     'navdraweropen' => $navdraweropen,
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
-    'uid'=>$USER->id,
-    'showpopup'=>$showpopup,
-    'wanturl'=>$PAGE->url,
-    'popup_img'=>$popupimg
+    'uid' => $USER->id,
+    'showpopup' => $showpopup,
+    'wanturl' => $PAGE->url,
+    'popup_img' => $popupimg
 //    'fb_id'=>$USER->uid
 ];
 
@@ -96,36 +96,36 @@ $templatecontext['firstcollectionlabel'] = $nav->get_collectionlabel();
 /* Add to accquire user data */
 
 global $DB;
-if ( isloggedin() && !isguestuser() ) {
+if (isloggedin() && !isguestuser()) {
     $uid = $USER->id;
     $table = 'hbon_add_info_user';
 
-    $has_add_phone = $DB->record_exists($table, array('user_id' => $uid , 'signup_method' => 'phone'));
+    $has_add_phone = $DB->record_exists($table, array('user_id' => $uid, 'signup_method' => 'phone'));
 
 
-    if(!$has_add_phone) {
+    if (!$has_add_phone) {
         $templatecontext['should_get_user_phone'] = '1';
-    }else {
-        $user_phone_info =  $DB->get_record($table, array('user_id'=>$uid, 'signup_method' => 'phone'));
-        if($user_phone_info->has_confirm == 0) {
+    } else {
+        $user_phone_info = $DB->get_record($table, array('user_id' => $uid, 'signup_method' => 'phone'));
+        if ($user_phone_info->has_confirm == 0) {
             $templatecontext['should_get_user_phone'] = '1';
 
-            if($user_phone_info->signup_type == 'verifying') {
+            if ($user_phone_info->signup_type == 'verifying') {
                 $templatecontext['user_phone'] = $user_phone_info->signup_info;
                 $templatecontext['verifying'] = '1';
             }
-        }else {
-            $has_add_email = $DB->record_exists($table, array('user_id' => $uid , 'signup_method' => 'email'));
+        } else {
+            $has_add_email = $DB->record_exists($table, array('user_id' => $uid, 'signup_method' => 'email'));
 
-            if(!$has_add_email) {
+            if (!$has_add_email) {
                 $templatecontext['should_get_user_email'] = '1';
-            }else {
-                $user_email_info =  $DB->get_record($table, array('user_id'=>$uid, 'signup_method' => 'email'));
+            } else {
+                $user_email_info = $DB->get_record($table, array('user_id' => $uid, 'signup_method' => 'email'));
 
-                if($user_email_info->has_confirm == 0) {
+                if ($user_email_info->has_confirm == 0) {
                     $templatecontext['should_get_user_email'] = '1';
 
-                    if($user_email_info->signup_type == 'verifying') {
+                    if ($user_email_info->signup_type == 'verifying') {
                         $templatecontext['user_email'] = $user_email_info->signup_info;
                         $templatecontext['verifying'] = '1';
                     }
@@ -155,7 +155,7 @@ if ( isloggedin() && !isguestuser() ) {
 // $role = $DB->get_records("mdl_")
 // $role = $DB->get_record("role_assignments",array("userid"=>$USER->id));
 
-if($USER->id!=2){
+if ($USER->id != 2) {
 
     $PAGE->requires->css('/theme/classon/style/killCopy.css');
     $PAGE->requires->js('/theme/classon/amd/src/killCopy.js');

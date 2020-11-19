@@ -14,6 +14,9 @@ global $DB;
 //-- /GET MENU AND RENDER
 require_once($CFG->dirroot . '/theme/classon/layout/component/get_menu.php');
 require_once($CFG->dirroot.'/theme/classon/layout/component/sso.php');
+$PAGE->requires->jquery();
+$PAGE->requires->css(new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css'));
+$PAGE->requires->css(new moodle_url('/local/class_regist/css/custom.css'));
 
 $url = new moodle_url('/');
 $navdraweropen = false;
@@ -43,7 +46,23 @@ foreach($course_categorie as $cc){
     }
 //print_object($courses);die;
     $course_categories[] = array("title"=>$title,"img"=>$img,"desc"=>$desc,"id"=>$cc->idnumber,"courses"=>$courses,"css_class"=>"course_categories".$i);
-    
+
+}
+
+$showpopup = false;
+if (isloggedin() && !isguestuser()) {
+    $uid = $USER->id;
+    if (!(cohort_is_member(1, $uid) || cohort_is_member(2, $uid) || cohort_is_member(3, $uid))) {
+        cohort_add_member(1, $uid);
+    }
+    //check phone
+    $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
+        join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' and ud.data is not null and ud.data !=''";
+    $phone = $DB->get_record_sql($sql, array("id" => $uid));
+
+    if (!$phone) {
+        $showpopup = true;
+    }
 }
 //print_object($course_categories);die;
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
@@ -61,7 +80,8 @@ $templatecontext = [
     'coursename' => "Các khóa học",
     'isloggedin' =>isloggedin(),
     'loginurl'=>$loginurl,
-    'signupurl'=>$signupurl
+    'signupurl'=>$signupurl,
+    'showpopup'=>$showpopup
 ];
 
 $PAGE->requires->js_call_amd('theme_classon/classon_homepage', 'classon_homepage');

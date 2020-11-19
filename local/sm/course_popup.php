@@ -16,16 +16,16 @@ if ($USER->id > 2) {
         if ($execute) {
             $has_phone = ["userid"=>$USER->id];
 //            $has_phone = ["userid"=>$USER->id,"phone"=>$phone,"timecreated"=>time()];
-            $check_phone_collect = $DB->get_record('hbon_has_check_phone', $has_phone);
+            $check_phone_collect = $DB->get_record('hbon_collect_info', $has_phone);
             if($check_phone_collect){
                 $has_phone["timemodified"]=time();
                 $has_phone["phone"]=$phone;
                 $has_phone["id"]=$check_phone_collect->id;
-                $has_data = $DB->update_record('hbon_has_check_phone', (object)$has_phone);
+                $has_data = $DB->update_record('hbon_collect_info', (object)$has_phone);
             }else{
                 $has_phone["timecreated"]=time();
                 $has_phone["phone"]=$phone;
-                $has_data = $DB->insert_record('hbon_has_check_phone', (object)$has_phone);
+                $has_data = $DB->insert_record('hbon_collect_info', (object)$has_phone);
             }
             result(1, "Update success", $SESSION->wantsurl,$has_data);
         }else{
@@ -37,16 +37,16 @@ if ($USER->id > 2) {
         if ($execute) {
             $has_phone = ["userid"=>$USER->id];
 //            $has_phone = ["userid"=>$USER->id,"phone"=>$phone,"timecreated"=>time()];
-            $check_phone_collect = $DB->get_record('hbon_has_check_phone', $has_phone);
+            $check_phone_collect = $DB->get_record('hbon_collect_info', $has_phone);
             if($check_phone_collect){
                 $has_phone["timemodified"]=time();
                 $has_phone["phone"]=$phone;
                 $has_phone["id"]=$check_phone_collect->id;
-                $has_data = $DB->update_record('hbon_has_check_phone', (object)$has_phone);
+                $has_data = $DB->update_record('hbon_collect_info', (object)$has_phone);
             }else{
                 $has_phone["timecreated"]=time();
                 $has_phone["phone"]=$phone;
-                $has_data = $DB->insert_record('hbon_has_check_phone', (object)$has_phone);
+                $has_data = $DB->insert_record('hbon_collect_info', (object)$has_phone);
             }
             result(1, "Update success", $SESSION->wantsurl);
         }else{

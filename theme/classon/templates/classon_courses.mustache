@@ -7,8 +7,8 @@
 <head>
     <title>{{{ output.page_title }}}</title>
     <meta charset="UTF-8"/>
-    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico" />
-<link href="{{{ config.wwwroot }}}/theme/classon/style/all.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/classon/pix/favicon.ico"/>
+    <link href="{{{ config.wwwroot }}}/theme/classon/style/all.css" rel="stylesheet">
     {{!--//ios_homescreen_icons (theme class function)--}}
     {{{ output.ios_homescreen_icons}}}
 
@@ -17,44 +17,513 @@
 
     {{{ output.standard_head_html }}}
 
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/animate.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/chosen.min.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/jquery.scrollbar.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/lightbox.min.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/magnific-popup.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/slick.min.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/fonts/flaticon.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/megamenu.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/dreaming-attribute.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/icons.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css"/>
-<link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/mmenu.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/chosen.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/jquery.scrollbar.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/lightbox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/magnific-popup.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/fonts/flaticon.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/megamenu.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/dreaming-attribute.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/icons.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css"/>
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/mmenu.css"/>
 
-<style>
-      .tippy-box{
-          background: #42BCED;
-          text-align:center;
-        color: white;
+    <style>
+        .tippy-box {
+            background: #42BCED;
+            text-align: center;
+            color: white;
 
-        font-size: 14px;
-        border-radius: 4px;
-      }
-      .tippy-arrow{
-          color:#42BCED;
-      }
-    #course-tab{
-        background-color:#F4F4F4;
-    }
-    p{
-        margin-bottom:0px;
-    }
-    hr{
-        margin:1px;
-    }
-</style>
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .tippy-arrow {
+            color: #42BCED;
+        }
+
+        #course-tab {
+            background-color: #F4F4F4;
+        }
+
+        p {
+            margin-bottom: 0px;
+        }
+
+        hr {
+            margin: 1px;
+        }
+
+        i.fa {
+            top: 14px;
+        }
+
+        .furgan-socials .socials-list {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .furgan-socials.style-01 .social-title {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+            position: relative;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding-left: 45px;
+        }
+
+        .furgan-socials.style-01 .socials-list li {
+            display: inline-block;
+            height: 46px;
+            margin-right: 10px;
+            margin-top: 8px;
+        }
+
+        .furgan-socials.style-01 .socials-list li a {
+            display: block;
+            height: 46px;
+            width: 46px;
+            font-size: 17px;
+            line-height: 48px;
+            color: #fff;
+            background-color: #1e1e1e;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .furgan-socials.style-01 .socials-list li a::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            -webkit-transition: top 0.25s ease 0s;
+            -moz-transition: top 0.25s ease 0s;
+            -o-transition: top 0.25s ease 0s;
+            transition: top 0.25s ease 0s;
+            background-color: #9cc25d;
+        }
+
+        .furgan-socials.style-01 .socials-list li a i {
+            position: relative;
+        }
+
+        .fa {
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .fa-facebook-f:before, .fa-facebook:before {
+            content: "";
+        }
+
+        .furgan-listitem.style-01 .title, .furgan-listitem.style-02 .title {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 700;
+            position: relative;
+            padding-left: 10px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        footer .furgan-listitem.style-01 li, footer .furgan-listitem.style-02 li {
+            margin-bottom: 5px;
+        }
+
+        .furgan-listitem.style-01 li, .furgan-listitem.style-02 li {
+            line-height: 34px;
+        }
+
+        .furgan-listitem a:not(:hover) {
+            color: inherit;
+        }
+
+        .furgan-listitem li a {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-0281 {
+            padding-top: 65px;
+            padding-bottom: 55px;
+            background-color: #f4f4f4;
+            color: #868686;
+        }
+
+        .section-010 {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background: #f4f4f4;
+            border-top: 1px solid #ebebeb;
+        }
+
+        .availabilityinfo.isrestricted ul {
+            display: none;
+        }
+
+        input.mod_quiz-redo_question_button {
+            display: none;
+        / / anhnn Bỏ nút làm lại trong bài quiz
+        }
+
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        #overlay:target {
+            visibility: visible;
+            display: block;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 45px;
+            color: red;
+        }
+
+        .image_event {
+            margin: 0 auto;
+            width: 430px;
+            height: auto;
+        }
+
+        .reveal-modal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            overflow: visible;
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .popup__overlay {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .4);
+        }
+
+        .popup__close-btn {
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            line-height: 2.5rem;
+            height: 1.875rem;
+            width: 1.875rem;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            position: absolute;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #5a5a5a;
+            top: -.625rem;
+            right: -.625rem;
+            border-radius: 1.25rem;
+            border: 3px solid #fff;
+        }
+
+        .svg-icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            position: relative;
+            font-size: .75rem;
+            color: #fff;
+        }
+
+        .imgstyle {
+            background-image: url({{{ config.wwwroot }}}/theme/classon/pix/backgrounds/phone-popup-bg2.png);
+            background-color: white;
+            background-size: contain;
+            padding: 20px;
+            height: 400px;
+            width: 400px;
+            border-radius: 19px;
+            text-align: center;
+            background-repeat: no-repeat;
+        }
+
+        .popup-text {
+            color: #545454;
+            font-weight: bold;
+            width: 350px;
+            margin: auto;
+        }
+
+        .phone {
+            border: 2px solid #797979 !important;
+            background-color: white !important;
+            border-radius: 4px !important;
+            height: 40px;
+            /*font-size:12px;*/
+            width: 250px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 13pt;
+        }
+
+        ::-webkit-input-placeholder {
+            text-align: center;
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+            text-align: center;
+        }
+
+        ::-moz-placeholder { /* Firefox 19+ */
+            text-align: center;
+        }
+
+        :-ms-input-placeholder {
+            text-align: center;
+        }
+
+        .send {
+            width: 250px;
+            border: 2px solid #797979;
+            background-color: #473e9b;
+            border-radius: 4px;
+            height: 40px;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .wrap {
+            padding-top: 150px;
+        }
+
+        .popup_title {
+            font-size: 13px;
+            color: #473e9b;
+            font-weight: bold;
+            text-align: left;
+            margin: 0;
+        }
+
+        .wrap_title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #473e9b;
+            margin: 0;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .imgstyle {
+                width: 360px;
+                height: 360px;
+            }
+
+            .popup_title {
+                font-size: 12px;
+            }
+
+            .wrap {
+                padding-top: 125px;
+            }
+
+            .wrap_title {
+                font-size: 14px;
+            }
+
+            .phone {
+                border: 2px solid #797979;
+                background-color: #EFEFEF;
+                border-radius: 4px;
+                height: 40px;
+                /*font-size:12px;*/
+                width: 200px;
+                margin: 6px;
+                text-align: center;
+                font-size: 10pt;
+            }
+
+            .send {
+                width: 200px;
+                border: 2px solid #797979;
+                background-color: #473e9b;
+                border-radius: 4px;
+                height: 40px;
+                color: #fff;
+                text-align: center;
+                font-weight: bold;
+                font-size: 20px;
+            }
+        }
+
+        .step2 {
+            display: none;
+        }
+
+        /*.radio-toolbar {*/
+        /*    margin: 10px;*/
+        /*}*/
+
+        .radio-toolbar input[type="radio"] {
+            opacity: 0;
+            position: fixed;
+            width: 0;
+        }
+
+        .radio-toolbar label {
+            display: inline-block;
+            background-color: white!important;
+            color: #473e9b;
+            padding: 5px 10px;
+            font-family: sans-serif, Arial;
+            font-size: 12px;
+            border: 2px solid #473e9b;
+            border-radius: 4px;
+        }
+
+        .radio-toolbar label:hover {
+            background-color: #dfd;
+        }
+
+        .radio-toolbar input[type="radio"]:focus + label {
+            border: 2px dashed #444;
+            color: #4c4;
+        }
+
+        .radio-toolbar input[type="radio"]:checked + label {
+            background-color: #bfb;
+            border-color: #4c4;
+            color: #4c4;
+        }
+        .custom-radio{
+            display: inline-block
+        }
+        .step2{
+            text-align: left;
+        }
+        #complete_survey{
+            width: 100px;
+            text-align: center!important;
+            line-height: unset;
+            float: right;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body {{{ bodyattributes }}}>
+{{#showpopup}}
+    <div id="overlay">
+        <div class="popup__overlay"></div>
+        <div class="reveal-modal">
+            <div class="imgstyle">
+                <!--                <div>-->
+                <!--                    <h3 class="wrap_title">THÊM SỐ ĐIỆN THOẠI</h3>-->
+                <!--                    <p class="popup_title">Hocbaionha cần số điện thoại của bạn để hỗ trợ tốt hơn!</p>-->
+                <!--                </div>-->
+                <div class="wrap">
+                    <p class="wrap_title">Vui lòng nhập SỐ ĐIỆN THOẠI của bạn để:</p>
+                    <p class="popup_title">-Nhận được sự hỗ trợ nhanh chóng khi tài khoản của bạn có vấn đề</p>
+                    <p class="popup_title">-Dễ dàng khôi phục mật khẩu</p>
+                    <p class="popup_title">-Nhận thông báo kịp thời về các hoạt động của Hbon Club</p>
+                    <form id="form_update_phone" action="" method="post">
+                        <input class="phone" type="tel" name="phone" placeholder="Nhập số điện thoại của bạn"
+                               pattern="(\+84|0){1}(9|8|7|5|3){1}[0-9]{8}"
+                               oninvalid="this.setCustomValidity('Vui lòng nhập đúng số điện thoại.')"
+                               oninput="this.setCustomValidity('')" id="phone" required/>
+                        <input type="hidden" id="wanturl" name="wanturl" value="{{{wanturl}}}"/>
+                        <button class="send" id="add_phone">THÊM</button>
+                    </form>
+                </div>
+                <div class="step2">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-md-3">Bạn là </label>
+                            <div class="radio-toolbar col-md-9">
+                                <input  type="radio" id="radioOHS" name="object" value="1" checked>
+                                <label class="custom-radio" for="radioOHS">Học sinh</label>
+                                <input type="radio" id="radioOGV" name="object" value="2">
+                                <label class="custom-radio" for="radioOGV">Giáo Viên</label>
+                                <input type="radio" id="radioOPH" name="object" value="3">
+                                <label class="custom-radio" for="radioOPH">Phụ Huynh</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3">Lớp </label>
+                            <div class="radio-toolbar col-md-9">
+                                <input  type="radio" id="radioC6" name="class" value="6" checked>
+                                <label class="custom-radio" for="radioC6">Lớp 6</label>
+                                <input type="radio" id="radioC7" name="class" value="7">
+                                <label class="custom-radio" for="radioC7">Lớp 7</label>
+                                <input type="radio" id="radioC8" name="class" value="8">
+                                <label class="custom-radio" for="radioC8">Lớp 8</label>
+                                <input type="radio" id="radioC9" name="class" value="9">
+                                <label class="custom-radio" for="radioC9">Lớp 9</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3">Môn</label>
+                            <div class="radio-toolbar col-md-9">
+                                <input  type="radio" id="radioST" name="subject" value="1" checked>
+                                <label class="custom-radio" for="radioST">Toán</label>
+                                <input type="radio" id="radioSV" name="subject" value="2">
+                                <label class="custom-radio" for="radioSV">Văn</label>
+                                <input type="radio" id="radioSTA" name="subject" value="3">
+                                <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3">Mức độ bài học ưa thích</label>
+                            <div class="radio-toolbar col-md-9">
+                                <input  type="radio" id="radioLB" name="level" value="1" checked>
+                                <label class="custom-radio" for="radioLB">Chương trình cơ bản</label>
+                                <input type="radio" id="radioLA" name="level" value="2">
+                                <label class="custom-radio" for="radioLA">Chương trình nâng cao</label>
+                            </div>
+                        </div>
+                        <button class="send" id="complete_survey">GỬI</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/showpopup}}
+<!-- Vertically centered scrollable modal -->
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    ...
+</div>
 {{{ output.standard_top_of_body_html }}}
 
 {{> theme_classon/classon_hp_header }}
@@ -66,10 +535,10 @@
 {{> theme_classon/classon_hp_footer }}
 
 <div style="display:none;">
-{{{ a }}}
+    {{{ a }}}
 </div>
-       <script src="https://unpkg.com/@popperjs/core@2"></script>
-        <script src="https://unpkg.com/tippy.js@6"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 {{{ output.standard_end_of_body_html }}}
 {{> theme_classon/class_facebook_chat }}
 </body>
@@ -84,64 +553,64 @@
     mod.init();
     M.util.js_complete('theme_boost/drawer');
     });
-$(document).ready(function(){
+    $(document).ready(function(){
     //  When user clicks on tab, this code will be executed
     $("[role=tab]").click(function() {
-        //  First remove class "active" from currently active tab
-        $("[role=tab]").removeClass('active');
+    //  First remove class "active" from currently active tab
+    $("[role=tab]").removeClass('active');
 
-        //  Now add class "active" to the selected/clicked tab
-       $(this).addClass("active");
+    //  Now add class "active" to the selected/clicked tab
+    $(this).addClass("active");
 
-        //  Hide all tab content
-        $("[role=tabpanel]").hide();
+    //  Hide all tab content
+    $("[role=tabpanel]").hide();
 
-        //  Here we get the href value of the selected tab
-        var selected_tab = $(this).find("a").attr("href");
+    //  Here we get the href value of the selected tab
+    var selected_tab = $(this).find("a").attr("href");
 
-        //  Show the selected tab content
-        $(selected_tab).fadeIn();
+    //  Show the selected tab content
+    $(selected_tab).fadeIn();
 
-        //  At the end, we add return false so that the click on the link is not executed
-        return false;
+    //  At the end, we add return false so that the click on the link is not executed
+    return false;
     });
-});
-new Mmenu(document.querySelector('#menu'), {
-      "extensions": [
-        "pagedim-black"
-      ]
-  });
+    });
+    new Mmenu(document.querySelector('#menu'), {
+    "extensions": [
+    "pagedim-black"
+    ]
+    });
 
-  document.addEventListener('click', function (evnt) {
-      var anchor = evnt.target.closest('a[href^="#/"]');
-      if (anchor) {
-          evnt.preventDefault();
-      }
-});
+    document.addEventListener('click', function (evnt) {
+    var anchor = evnt.target.closest('a[href^="#/"]');
+    if (anchor) {
+    evnt.preventDefault();
+    }
+    });
 
-  // Add smooth scrolling to all links
-  $(".nav-link").on('click', function(event) {
+    // Add smooth scrolling to all links
+    $(".nav-link").on('click', function(event) {
 
     // Make sure this.hash has a value before overriding default behavior
     if (this.hash !== "") {
-      // Prevent default anchor click behavior
-      event.preventDefault();
-      var hash = this.hash;
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 800, function(){
+    // Prevent default anchor click behavior
+    event.preventDefault();
+    var hash = this.hash;
+    $('html, body').animate({
+    scrollTop: $(hash).offset().top
+    }, 800, function(){
 
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = hash;
-      });
+    // Add hash (#) to URL when done scrolling (default click behavior)
+    window.location.hash = hash;
+    });
     } // End if
-  });
+    });
     window.onscroll = function() {
-        scrollLineTab();
-        var x = window.matchMedia("(min-width: 768px)");
-        if (x.matches) {
-        scrollTHCSSidebar();
-        }
+    scrollLineTab();
+    var x = window.matchMedia("(min-width: 768px)");
+    if (x.matches) {
+    scrollTHCSSidebar();
+    }
     };
 
     // Get the header
@@ -151,80 +620,117 @@ new Mmenu(document.querySelector('#menu'), {
     var sticky = header.offsetTop-20;
     // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
     function scrollLineTab() {
-        if (window.pageYOffset > sticky) {
-            header.classList.add("sticky");
-        } else {
-            header.classList.remove("sticky");
-        }
+    if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+    } else {
+    header.classList.remove("sticky");
+    }
     }
     var thcsSide = document.getElementById("thcs-sidebar");
     var thcsTop = 288;
     var isShow=true;
     var duration=1500;
     function scrollTHCSSidebar(){
-/*        if (window.pageYOffset > thcsTop) {
-            thcsSide.classList.add("sticky");
-        } else {
-            thcsSide.classList.remove("sticky");
-        }
-        if( window.pageYOffset > 1060){
-            thcsSide.classList.remove("sticky");
-        }
-        if (window.pageYOffset> 1060){
-            if(!isShow){
-                $(".card-ltv10").animate({
-                    opacity: '1'
-                    },duration);
-                $(".card-thcs").animate({
-                    opacity: '0'
-                    },duration);
-                isShow=true;
-            }
-        } else {
-            if(isShow){
-                $(".card-ltv10").animate({
-                    opacity: '0',
-                    },duration);
-                $(".card-thcs").animate({
-                    opacity: '1'
-                    },duration);
-                isShow=false;
-            }
-        }
-*/
+    /*        if (window.pageYOffset > thcsTop) {
+    thcsSide.classList.add("sticky");
+    } else {
+    thcsSide.classList.remove("sticky");
+    }
+    if( window.pageYOffset > 1060){
+    thcsSide.classList.remove("sticky");
+    }
+    if (window.pageYOffset> 1060){
+    if(!isShow){
+    $(".card-ltv10").animate({
+    opacity: '1'
+    },duration);
+    $(".card-thcs").animate({
+    opacity: '0'
+    },duration);
+    isShow=true;
+    }
+    } else {
+    if(isShow){
+    $(".card-ltv10").animate({
+    opacity: '0',
+    },duration);
+    $(".card-thcs").animate({
+    opacity: '1'
+    },duration);
+    isShow=false;
+    }
+    }
+    */
     }
     tippy('[data-tippy-content]', {
-        duration: [300, 500],
-        placement: 'left',
-        maxWidth: 200,
-        arrow: true,
-        onMount(instance) {
-            const box = instance.popper.firstElementChild;
-            requestAnimationFrame(() => {
-            box.classList.add('backInUp');
-            });
-        },
-        onHidden(instance) {
-            const box = instance.popper.firstElementChild;
-            box.classList.remove('backInUp');
-        },
-        popperOptions: {
-            strategy: 'fixed',
-            modifiers: [
-            {
-                name: 'flip',
-                options: {
-                fallbackPlacements: ['bottom', 'right'],
-                },
-            },
-            {
-                name: 'preventOverflow',
-                options: {
-                altAxis: true,
-                tether: false,
-                },
-            },
-            ],
-        },
+    duration: [300, 500],
+    placement: 'left',
+    maxWidth: 200,
+    arrow: true,
+    onMount(instance) {
+    const box = instance.popper.firstElementChild;
+    requestAnimationFrame(() => {
+    box.classList.add('backInUp');
+    });
+    },
+    onHidden(instance) {
+    const box = instance.popper.firstElementChild;
+    box.classList.remove('backInUp');
+    },
+    popperOptions: {
+    strategy: 'fixed',
+    modifiers: [
+    {
+    name: 'flip',
+    options: {
+    fallbackPlacements: ['bottom', 'right'],
+    },
+    },
+    {
+    name: 'preventOverflow',
+    options: {
+    altAxis: true,
+    tether: false,
+    },
+    },
+    ],
+    },
+    });
+
+
+    $("#form_update_phone").submit(function(event){
+    event.preventDefault();
+    var phone = $('#phone').val();
+    var wanturl = $('#wanturl').val();
+    var send_data = {"phone":phone,"wanturl":wanturl};
+    $.ajax({
+    url: "/local/sm/course_popup.php",
+    type: 'POST',
+    data: send_data,
+    success: function (res, textStatus, jqXHR) {
+    var res = JSON.parse(res);
+    if(res.status ==="success"){
+    swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Cập nhật thành công',
+    showConfirmButton: false,
+    timer: 2000
+    }).then((result)=>{
+    $('.imgstyle').css("display", "none");
+    $('.step2').css("display", "block");
+    });
+    }else{
+    swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: 'Cập nhật thất bại',
+    showConfirmButton: false,
+    timer: 2000
+    });
+    }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {}
+    });
     });
 {{/js}}

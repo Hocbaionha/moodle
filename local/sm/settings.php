@@ -39,3 +39,4 @@ $ADMIN->add('schools', new admin_category('custom_course', new lang_string('cour
 $ADMIN->add('custom_course', new admin_externalpage('restrict_access', new lang_string('restrict_access','local_sm'), "$CFG->wwwroot/local/sm/restrict_access.php"));
 $ADMIN->add('schools', new admin_externalpage('home_popup_management', new lang_string('home_popup_management','local_sm'), "$CFG->wwwroot/local/sm/home_popup_management.php"));
 $ADMIN->add('class_regist', new admin_externalpage('list_class', new lang_string('list_class','local_sm'), "$CFG->wwwroot/local/class_regist/list_class.php"));
+$ADMIN->add('class_regist', new admin_externalpage('list_regist_regist', new lang_string('list_regist_report','local_sm'), "$CFG->wwwroot/local/sm/phone_collect.php"));
