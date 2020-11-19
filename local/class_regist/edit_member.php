@@ -4,12 +4,18 @@ require(__DIR__ . '/../../config.php');
 require("member_form.php");
 require_login();
 
-global $USER;
+global $USER,$DB;
 $id = optional_param('id', 0, PARAM_INT);
 $classid = optional_param('classid', 0, PARAM_INT);
 $site = get_site();
 $user = $USER->id;
-$accept_user = [27774];
+
+$sql_permission = $DB->get_record('hbon_classes',array('id'=>$classid));
+if(isset($sql_permission->is_accept)){
+    $accept_user = explode(',', $sql_permission->is_accept);
+}else{
+    $accept_user=[];
+}
 
 $context = context_system::instance();
 $PAGE->set_context($context);
