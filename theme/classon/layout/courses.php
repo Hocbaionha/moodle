@@ -50,6 +50,7 @@ foreach($course_categorie as $cc){
 }
 
 $showpopup = false;
+$showsurvey =false;
 if (isloggedin() && !isguestuser()) {
     $uid = $USER->id;
     if (!(cohort_is_member(1, $uid) || cohort_is_member(2, $uid) || cohort_is_member(3, $uid))) {
@@ -59,9 +60,14 @@ if (isloggedin() && !isguestuser()) {
     $sql = "select u.id,u.username,ud.data from mdl_user u join mdl_user_info_data ud on ud.userid=u.id
         join mdl_user_info_field uf on uf.id=ud.fieldid where u.id=? and uf.shortname='phone' and ud.data is not null and ud.data !=''";
     $phone = $DB->get_record_sql($sql, array("id" => $uid));
-
     if (!$phone) {
         $showpopup = true;
+    }
+    $check_survey = $DB->get_record('hbon_collect_info', array('userid'=>$USER->id));
+    if(isset($check_survey)){
+        if(!isset($check_survey->status_survey)){
+            $showsurvey = true;
+        }
     }
 }
 //print_object($course_categories);die;
@@ -81,9 +87,9 @@ $templatecontext = [
     'isloggedin' =>isloggedin(),
     'loginurl'=>$loginurl,
     'signupurl'=>$signupurl,
-    'showpopup'=>$showpopup
+    'showpopup'=>$showpopup,
+    'showsurvey'=>$showsurvey
 ];
-
 $PAGE->requires->js_call_amd('theme_classon/classon_homepage', 'classon_homepage');
 $PAGE->requires->js('/theme/classon/amd/src/mmenu.js');
 //$PAGE->requires->js_call_amd('theme_classon/classon_courses', 'classon_courses');

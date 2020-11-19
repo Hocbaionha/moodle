@@ -346,8 +346,79 @@
             margin: 0;
         }
 
+        .radio-toolbar input[type="radio"] {
+            opacity: 0;
+            position: fixed;
+            width: 0;
+        }
+
+        .radio-toolbar label {
+            display: inline-block;
+            background-color: white!important;
+            color: #473e9b;
+            padding: 0px 6px;
+            font-family: sans-serif, Arial;
+            font-size: 12px;
+            border: 2px solid #473e9b;
+            border-radius: 4px;
+        }
+
+        .radio-toolbar label:hover {
+            background-color: #dfd;
+        }
+
+        .radio-toolbar input[type="radio"]:focus + label {
+            border: 2px dashed #444;
+            color: #4c4;
+        }
+
+        .radio-toolbar input[type="radio"]:checked + label {
+            background-color: #bfb;
+            border-color: #4c4;
+            color: #4c4;
+        }
+        .custom-radio{
+            display: inline-block;
+            color: #473e9b;
+        }
+        .step2{
+            text-align: left;
+            background-image: url({{{ config.wwwroot }}}/theme/classon/pix/backgrounds/phone-popup-bg2.png);
+            background-color: white;
+            background-size: contain;
+            padding: 20px;
+            height: 400px;
+            width: 400px;
+            border-radius: 25px;
+            text-align: center;
+            background-repeat: no-repeat;
+        }
+        #complete_survey{
+            width: 100px;
+            text-align: center!important;
+            line-height: unset;
+            margin-top: -10px;
+        }
+        .modal_title{
+            font-weight: bold;
+            color: #473e9b;
+            font-size: 13px;
+            font-family: sans-serif, Arial;
+        }
+        .text_label{
+            color: #473e9b;
+            font-size: 13px;
+        }
+        .survey_form{
+            padding-top: 10px;
+            text-align: left;
+        }
         @media only screen and (max-width: 600px) {
             .imgstyle {
+                width: 360px;
+                height: 360px;
+            }
+            .step2{
                 width: 360px;
                 height: 360px;
             }
@@ -355,7 +426,9 @@
             .popup_title {
                 font-size: 12px;
             }
-
+            .modal_title{
+                font-size: 12px;
+            }
             .wrap {
                 padding-top: 125px;
             }
@@ -363,7 +436,6 @@
             .wrap_title {
                 font-size: 14px;
             }
-
             .phone {
                 border: 2px solid #797979;
                 background-color: #EFEFEF;
@@ -388,58 +460,6 @@
                 font-size: 20px;
             }
         }
-
-        .step2 {
-            display: none;
-        }
-
-        /*.radio-toolbar {*/
-        /*    margin: 10px;*/
-        /*}*/
-
-        .radio-toolbar input[type="radio"] {
-            opacity: 0;
-            position: fixed;
-            width: 0;
-        }
-
-        .radio-toolbar label {
-            display: inline-block;
-            background-color: white!important;
-            color: #473e9b;
-            padding: 5px 10px;
-            font-family: sans-serif, Arial;
-            font-size: 12px;
-            border: 2px solid #473e9b;
-            border-radius: 4px;
-        }
-
-        .radio-toolbar label:hover {
-            background-color: #dfd;
-        }
-
-        .radio-toolbar input[type="radio"]:focus + label {
-            border: 2px dashed #444;
-            color: #4c4;
-        }
-
-        .radio-toolbar input[type="radio"]:checked + label {
-            background-color: #bfb;
-            border-color: #4c4;
-            color: #4c4;
-        }
-        .custom-radio{
-            display: inline-block
-        }
-        .step2{
-            text-align: left;
-        }
-        #complete_survey{
-            width: 100px;
-            text-align: center!important;
-            line-height: unset;
-            float: right;
-        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
@@ -449,10 +469,6 @@
         <div class="popup__overlay"></div>
         <div class="reveal-modal">
             <div class="imgstyle">
-                <!--                <div>-->
-                <!--                    <h3 class="wrap_title">THÊM SỐ ĐIỆN THOẠI</h3>-->
-                <!--                    <p class="popup_title">Hocbaionha cần số điện thoại của bạn để hỗ trợ tốt hơn!</p>-->
-                <!--                </div>-->
                 <div class="wrap">
                     <p class="wrap_title">Vui lòng nhập SỐ ĐIỆN THOẠI của bạn để:</p>
                     <p class="popup_title">-Nhận được sự hỗ trợ nhanh chóng khi tài khoản của bạn có vấn đề</p>
@@ -467,59 +483,123 @@
                         <button class="send" id="add_phone">THÊM</button>
                     </form>
                 </div>
-                <div class="step2">
-                    <form>
-                        <div class="form-group row">
-                            <label class="col-md-3">Bạn là </label>
-                            <div class="radio-toolbar col-md-9">
-                                <input  type="radio" id="radioOHS" name="object" value="1" checked>
-                                <label class="custom-radio" for="radioOHS">Học sinh</label>
-                                <input type="radio" id="radioOGV" name="object" value="2">
-                                <label class="custom-radio" for="radioOGV">Giáo Viên</label>
-                                <input type="radio" id="radioOPH" name="object" value="3">
-                                <label class="custom-radio" for="radioOPH">Phụ Huynh</label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3">Lớp </label>
-                            <div class="radio-toolbar col-md-9">
-                                <input  type="radio" id="radioC6" name="class" value="6" checked>
-                                <label class="custom-radio" for="radioC6">Lớp 6</label>
-                                <input type="radio" id="radioC7" name="class" value="7">
-                                <label class="custom-radio" for="radioC7">Lớp 7</label>
-                                <input type="radio" id="radioC8" name="class" value="8">
-                                <label class="custom-radio" for="radioC8">Lớp 8</label>
-                                <input type="radio" id="radioC9" name="class" value="9">
-                                <label class="custom-radio" for="radioC9">Lớp 9</label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3">Môn</label>
-                            <div class="radio-toolbar col-md-9">
-                                <input  type="radio" id="radioST" name="subject" value="1" checked>
-                                <label class="custom-radio" for="radioST">Toán</label>
-                                <input type="radio" id="radioSV" name="subject" value="2">
-                                <label class="custom-radio" for="radioSV">Văn</label>
-                                <input type="radio" id="radioSTA" name="subject" value="3">
-                                <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3">Mức độ bài học ưa thích</label>
-                            <div class="radio-toolbar col-md-9">
-                                <input  type="radio" id="radioLB" name="level" value="1" checked>
-                                <label class="custom-radio" for="radioLB">Chương trình cơ bản</label>
-                                <input type="radio" id="radioLA" name="level" value="2">
-                                <label class="custom-radio" for="radioLA">Chương trình nâng cao</label>
-                            </div>
-                        </div>
-                        <button class="send" id="complete_survey">GỬI</button>
-                    </form>
+            </div>
+            <div class="step2" style="display: none">
+                <div class="modal_title">
+                    Hãy cho Hocbaionha biết mối quan tâm của bạn để chúng tôi đưa ra chương trình cũng như gửi các thông báo thật sự phù hợp với cá nhân bạn! Xin cảm ơn.
                 </div>
+                <hr>
+                <form class="survey_form">
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Bạn là :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioOHS" name="object" value="1" checked>
+                            <label class="custom-radio" for="radioOHS">Học sinh</label>
+                            <input type="radio" id="radioOGV" name="object" value="2">
+                            <label class="custom-radio" for="radioOGV">Giáo Viên</label>
+                            <input type="radio" id="radioOPH" name="object" value="3">
+                            <label class="custom-radio" for="radioOPH">Phụ Huynh</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Lớp :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioC6" name="class" value="6" checked>
+                            <label class="custom-radio" for="radioC6">Lớp 6</label>
+                            <input type="radio" id="radioC7" name="class" value="7">
+                            <label class="custom-radio" for="radioC7">Lớp 7</label>
+                            <input type="radio" id="radioC8" name="class" value="8">
+                            <label class="custom-radio" for="radioC8">Lớp 8</label>
+                            <input type="radio" id="radioC9" name="class" value="9">
+                            <label class="custom-radio" for="radioC9">Lớp 9</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Môn :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioST" name="subject" value="1" checked>
+                            <label class="custom-radio" for="radioST">Toán</label>
+                            <input type="radio" id="radioSV" name="subject" value="2">
+                            <label class="custom-radio" for="radioSV">Văn</label>
+                            <input type="radio" id="radioSTA" name="subject" value="3">
+                            <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Mức độ bài học ưa thích :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioLB" name="level" value="1" checked>
+                            <label class="custom-radio" for="radioLB">Chương trình cơ bản</label>
+                            <input type="radio" id="radioLA" name="level" value="2">
+                            <label class="custom-radio" for="radioLA">Chương trình nâng cao</label>
+                        </div>
+                    </div>
+                </form>
+                <button class="send" id="complete_survey">GỬI</button>
             </div>
         </div>
     </div>
 {{/showpopup}}
+{{#showsurvey}}
+    <div id="overlay">
+        <div class="popup__overlay"></div>
+        <div class="reveal-modal">
+            <div class="step2">
+                <div class="modal_title">
+                    Hãy cho Hocbaionha biết mối quan tâm của bạn để chúng tôi đưa ra chương trình cũng như gửi các thông báo thật sự phù hợp với cá nhân bạn! Xin cảm ơn.
+                </div>
+                <hr>
+                <form class="survey_form">
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Bạn là :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioOHS" name="object" value="1" checked>
+                            <label class="custom-radio" for="radioOHS">Học sinh</label>
+                            <input type="radio" id="radioOGV" name="object" value="2">
+                            <label class="custom-radio" for="radioOGV">Giáo Viên</label>
+                            <input type="radio" id="radioOPH" name="object" value="3">
+                            <label class="custom-radio" for="radioOPH">Phụ Huynh</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Lớp :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioC6" name="class" value="6" checked>
+                            <label class="custom-radio" for="radioC6">Lớp 6</label>
+                            <input type="radio" id="radioC7" name="class" value="7">
+                            <label class="custom-radio" for="radioC7">Lớp 7</label>
+                            <input type="radio" id="radioC8" name="class" value="8">
+                            <label class="custom-radio" for="radioC8">Lớp 8</label>
+                            <input type="radio" id="radioC9" name="class" value="9">
+                            <label class="custom-radio" for="radioC9">Lớp 9</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Môn :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioST" name="subject" value="1" checked>
+                            <label class="custom-radio" for="radioST">Toán</label>
+                            <input type="radio" id="radioSV" name="subject" value="2">
+                            <label class="custom-radio" for="radioSV">Văn</label>
+                            <input type="radio" id="radioSTA" name="subject" value="3">
+                            <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text_label">Mức độ bài học ưa thích :</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input  type="radio" id="radioLB" name="level" value="1" checked>
+                            <label class="custom-radio" for="radioLB">Chương trình cơ bản</label>
+                            <input type="radio" id="radioLA" name="level" value="2">
+                            <label class="custom-radio" for="radioLA">Chương trình nâng cao</label>
+                        </div>
+                    </div>
+                </form>
+                <button class="send" id="complete_survey">GỬI</button>
+            </div>
+        </div>
+    </div>
+{{/showsurvey}}
 <!-- Vertically centered scrollable modal -->
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     ...
@@ -733,4 +813,43 @@
     error: function (jqXHR, textStatus, errorThrown) {}
     });
     });
+
+
+    $('#complete_survey').on('click',function(event){
+    event.preventDefault();
+    var object = $('input[name="object"]:checked').val();
+    var classes = $('input[name="class"]:checked').val();
+    var subject = $('input[name="subject"]:checked').val();
+    var level = $('input[name="level"]:checked').val();
+    var send_data = {"object":object,"class":classes,"subject":subject,"level":level};
+    $.ajax({
+    url: "/local/sm/complete_survey.php",
+    type: 'POST',
+    data: send_data,
+    success: function (res, textStatus, jqXHR) {
+    var res = JSON.parse(res);
+    if(res.status ==="success"){
+    swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Cập nhật thành công',
+    showConfirmButton: false,
+    timer: 2000
+    }).then((result)=>{
+    $('#overlay').css("display", "none");
+    });
+    }else{
+    swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: 'Cập nhật thất bại',
+    showConfirmButton: false,
+    timer: 2000
+    });
+    }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {}
+    });
+    });
+
 {{/js}}
