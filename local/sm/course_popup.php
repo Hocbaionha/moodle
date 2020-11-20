@@ -27,9 +27,9 @@ if ($USER->id > 2) {
                 $has_phone["phone"]=$phone;
                 $has_data = $DB->insert_record('hbon_collect_info', (object)$has_phone);
             }
-            result(1, "Update success", $SESSION->wantsurl,$has_data);
+            result(1, "Update success");
         }else{
-            result(2, "Update false", $SESSION->wantsurl);
+            result(2, "Update false");
         }
     } else {
         $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=(select id from mdl_user_info_field where shortname='phone')";
@@ -48,9 +48,9 @@ if ($USER->id > 2) {
                 $has_phone["phone"]=$phone;
                 $has_data = $DB->insert_record('hbon_collect_info', (object)$has_phone);
             }
-            result(1, "Update success", $SESSION->wantsurl);
+            result(1, "Update success");
         }else{
-            result(2, "Update false", $SESSION->wantsurl);
+            result(2, "Update false");
         }
     }
 }
