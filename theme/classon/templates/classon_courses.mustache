@@ -354,7 +354,7 @@
 
         .radio-toolbar label {
             display: inline-block;
-            background-color: white!important;
+            background-color: white !important;
             color: #473e9b;
             padding: 0px 6px;
             font-family: sans-serif, Arial;
@@ -377,11 +377,13 @@
             border-color: #bc2f40;
             color: #bc2f40;
         }
-        .custom-radio{
+
+        .custom-radio {
             display: inline-block;
             color: #473e9b;
         }
-        .step2{
+
+        .step2 {
             text-align: left;
             background-image: url({{{ config.wwwroot }}}/theme/classon/pix/backgrounds/phone-popup-bg-1.png);
             background-color: white;
@@ -393,42 +395,51 @@
             text-align: center;
             background-repeat: no-repeat;
         }
-        #complete_survey{
+
+        #complete_survey {
             width: 100px;
-            text-align: center!important;
+            text-align: center !important;
             line-height: unset;
         }
-        .modal_title{
+
+        .modal_title {
             font-weight: bold;
             color: #473e9b;
             font-size: 16px;
             font-family: sans-serif, Arial;
         }
-        .text_label{
+
+        .text_label {
             color: black;
             font-size: 13px;
         }
-        .survey_form{
+
+        .survey_form {
             padding-top: 10px;
             text-align: left;
         }
-        .col-md-3{
+
+        .col-md-3 {
             width: 25%;
-            padding: 0px!important;
+            padding: 0px !important;
         }
-        .col-md-9{
+
+        .col-md-9 {
             width: 75%;
-            padding: 0px!important;
+            padding: 0px !important;
         }
-        .row{
+
+        .row {
             margin: 0px;
         }
+
         @media only screen and (max-width: 600px) {
             .imgstyle {
                 width: 360px;
                 height: 360px;
             }
-            .step2{
+
+            .step2 {
                 width: 360px;
                 height: 360px;
             }
@@ -436,9 +447,11 @@
             .popup_title {
                 font-size: 12px;
             }
-            .modal_title{
+
+            .modal_title {
                 font-size: 14px;
             }
+
             .wrap {
                 padding-top: 125px;
             }
@@ -446,6 +459,7 @@
             .wrap_title {
                 font-size: 14px;
             }
+
             .phone {
                 border: 2px solid #797979;
                 background-color: #EFEFEF;
@@ -457,6 +471,7 @@
                 text-align: center;
                 font-size: 10pt;
             }
+
             .send {
                 width: 200px;
                 border: 2px solid #797979;
@@ -468,15 +483,18 @@
                 font-weight: bold;
                 font-size: 20px;
             }
-            .col-md-3{
+
+            .col-md-3 {
                 width: 25%;
-                padding: 0px!important;
+                padding: 0px !important;
             }
-            .col-md-9{
+
+            .col-md-9 {
                 width: 75%;
-                padding: 0px!important;
+                padding: 0px !important;
             }
-            .row{
+
+            .row {
                 margin: 0px;
             }
         }
@@ -506,14 +524,15 @@
             </div>
             <div class="step2" style="display: none">
                 <div class="modal_title">
-                    Hãy cho Hocbaionha biết mối quan tâm của bạn để chúng tôi đưa ra chương trình cũng như gửi các thông báo thật sự phù hợp với cá nhân bạn! Xin cảm ơn.
+                    Hãy cho Hocbaionha biết mối quan tâm của bạn để chúng tôi đưa ra chương trình cũng như gửi các thông
+                    báo thật sự phù hợp với cá nhân bạn! Xin cảm ơn.
                 </div>
                 <hr>
                 <form class="survey_form">
                     <div class="row">
                         <label class="col-md-3 text_label">Bạn là</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioOHS" name="object" value="1" checked>
+                            <input type="radio" id="radioOHS" name="object" value="1" checked>
                             <label class="custom-radio" for="radioOHS">Học sinh</label>
                             <input type="radio" id="radioOGV" name="object" value="2">
                             <label class="custom-radio" for="radioOGV">Giáo Viên</label>
@@ -524,7 +543,7 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Lớp</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioC6" name="class" value="6" checked>
+                            <input type="radio" id="radioC6" name="class" value="6" checked>
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
                             <input type="radio" id="radioC7" name="class" value="7">
                             <label class="custom-radio" for="radioC7">Lớp 7</label>
@@ -537,7 +556,7 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Môn học</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioST" name="subject" value="1" checked>
+                            <input type="radio" id="radioST" name="subject" value="1" checked>
                             <label class="custom-radio" for="radioST">Toán</label>
                             <input type="radio" id="radioSV" name="subject" value="2">
                             <label class="custom-radio" for="radioSV">Văn</label>
@@ -546,9 +565,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label" >Độ khó</label>
-                        <div class="radio-toolbar col-md-9" >
-                            <input  type="radio" id="radioLB" name="level" value="1" checked>
+                        <label class="col-md-3 text_label">Độ khó</label>
+                        <div class="radio-toolbar col-md-9">
+                            <input type="radio" id="radioLB" name="level" value="1" checked>
                             <label class="custom-radio" for="radioLB">Cơ bản</label>
                             <input type="radio" id="radioLA" name="level" value="2">
                             <label class="custom-radio" for="radioLA">Nâng cao</label>
@@ -567,14 +586,15 @@
         <div class="reveal-modal">
             <div class="step2">
                 <div class="modal_title">
-                    Hãy cho Hocbaionha biết mối quan tâm của bạn để chúng tôi đưa ra chương trình cũng như gửi các thông báo thật sự phù hợp với cá nhân bạn! Xin cảm ơn.
+                    Hãy cho Hocbaionha biết mối quan tâm của bạn để chúng tôi đưa ra chương trình cũng như gửi các thông
+                    báo thật sự phù hợp với cá nhân bạn! Xin cảm ơn.
                 </div>
                 <hr>
                 <form class="survey_form">
                     <div class="row">
                         <label class="col-md-3 text_label">Bạn là</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioOHS" name="object" value="1" checked>
+                            <input type="radio" id="radioOHS" name="object" value="1" checked>
                             <label class="custom-radio" for="radioOHS">Học sinh</label>
                             <input type="radio" id="radioOGV" name="object" value="2">
                             <label class="custom-radio" for="radioOGV">Giáo Viên</label>
@@ -585,7 +605,7 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Lớp</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioC6" name="class" value="6" checked>
+                            <input type="radio" id="radioC6" name="class" value="6" checked>
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
                             <input type="radio" id="radioC7" name="class" value="7">
                             <label class="custom-radio" for="radioC7">Lớp 7</label>
@@ -598,7 +618,7 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Môn học</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioST" name="subject" value="1" checked>
+                            <input type="radio" id="radioST" name="subject" value="1" checked>
                             <label class="custom-radio" for="radioST">Toán</label>
                             <input type="radio" id="radioSV" name="subject" value="2">
                             <label class="custom-radio" for="radioSV">Văn</label>
@@ -609,7 +629,7 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Chương trình</label>
                         <div class="radio-toolbar col-md-9">
-                            <input  type="radio" id="radioLB" name="level" value="1" checked>
+                            <input type="radio" id="radioLB" name="level" value="1" checked>
                             <label class="custom-radio" for="radioLB">Cơ bản</label>
                             <input type="radio" id="radioLA" name="level" value="2">
                             <label class="custom-radio" for="radioLA">Nâng cao</label>
@@ -627,13 +647,9 @@
     ...
 </div>
 {{{ output.standard_top_of_body_html }}}
-
 {{> theme_classon/classon_hp_header }}
-
-
 {{> theme_classon/classon_page_header }}
 {{> theme_classon/classon_courses_section_01 }}
-
 {{> theme_classon/classon_hp_footer }}
 
 <div style="display:none;">
@@ -644,8 +660,6 @@
 {{{ output.standard_end_of_body_html }}}
 {{> theme_classon/class_facebook_chat }}
 </body>
-
-</html>
 {{#js}}
     M.util.js_pending('theme_boost/loader');
     require(['theme_boost/loader'], function() {
@@ -657,24 +671,24 @@
     M.util.js_complete('theme_boost/drawer');
     });
     $(document).ready(function(){
-    //  When user clicks on tab, this code will be executed
+    // When user clicks on tab, this code will be executed
     $("[role=tab]").click(function() {
-    //  First remove class "active" from currently active tab
+    // First remove class "active" from currently active tab
     $("[role=tab]").removeClass('active');
 
-    //  Now add class "active" to the selected/clicked tab
+    // Now add class "active" to the selected/clicked tab
     $(this).addClass("active");
 
-    //  Hide all tab content
+    // Hide all tab content
     $("[role=tabpanel]").hide();
 
-    //  Here we get the href value of the selected tab
+    // Here we get the href value of the selected tab
     var selected_tab = $(this).find("a").attr("href");
 
-    //  Show the selected tab content
+    // Show the selected tab content
     $(selected_tab).fadeIn();
 
-    //  At the end, we add return false so that the click on the link is not executed
+    // At the end, we add return false so that the click on the link is not executed
     return false;
     });
     });
@@ -721,7 +735,8 @@
 
     // Get the offset position of the navbar
     var sticky = header.offsetTop-20;
-    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll
+    position
     function scrollLineTab() {
     if (window.pageYOffset > sticky) {
     header.classList.add("sticky");
@@ -734,7 +749,7 @@
     var isShow=true;
     var duration=1500;
     function scrollTHCSSidebar(){
-    /*        if (window.pageYOffset > thcsTop) {
+    /* if (window.pageYOffset > thcsTop) {
     thcsSide.classList.add("sticky");
     } else {
     thcsSide.classList.remove("sticky");
@@ -876,3 +891,4 @@
     });
 
 {{/js}}
+</html>
