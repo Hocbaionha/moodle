@@ -397,12 +397,11 @@
             width: 100px;
             text-align: center!important;
             line-height: unset;
-            margin-top: -10px;
         }
         .modal_title{
             font-weight: bold;
             color: #473e9b;
-            font-size: 13px;
+            font-size: 16px;
             font-family: sans-serif, Arial;
         }
         .text_label{
@@ -427,7 +426,7 @@
                 font-size: 12px;
             }
             .modal_title{
-                font-size: 12px;
+                font-size: 14px;
             }
             .wrap {
                 padding-top: 125px;
@@ -465,7 +464,13 @@
                 width: 78%;
             }
             .row{
-                margin: 5px;
+                margin: 0px;
+            }
+
+            element.style {
+            }
+            #complete_survey {
+                margin: -10px;
             }
         }
     </style>
@@ -498,8 +503,8 @@
                 </div>
                 <hr>
                 <form class="survey_form">
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Bạn là :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Bạn là </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioOHS" name="object" value="1" checked>
                             <label class="custom-radio" for="radioOHS">Học sinh</label>
@@ -509,8 +514,8 @@
                             <label class="custom-radio" for="radioOPH">Phụ Huynh</label>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Lớp :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Lớp </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioC6" name="class" value="6" checked>
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
@@ -522,8 +527,8 @@
                             <label class="custom-radio" for="radioC9">Lớp 9</label>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Môn :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Môn học quan tâm </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioST" name="subject" value="1" checked>
                             <label class="custom-radio" for="radioST">Toán</label>
@@ -533,13 +538,13 @@
                             <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Mức độ bài học ưa thích :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Độ khó quan tâm </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioLB" name="level" value="1" checked>
-                            <label class="custom-radio" for="radioLB">Chương trình cơ bản</label>
+                            <label class="custom-radio" for="radioLB">Cơ bản</label>
                             <input type="radio" id="radioLA" name="level" value="2">
-                            <label class="custom-radio" for="radioLA">Chương trình nâng cao</label>
+                            <label class="custom-radio" for="radioLA">Nâng cao</label>
                         </div>
                     </div>
                 </form>
@@ -558,8 +563,8 @@
                 </div>
                 <hr>
                 <form class="survey_form">
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Bạn là :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Bạn là </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioOHS" name="object" value="1" checked>
                             <label class="custom-radio" for="radioOHS">Học sinh</label>
@@ -569,8 +574,8 @@
                             <label class="custom-radio" for="radioOPH">Phụ Huynh</label>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Lớp :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Lớp </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioC6" name="class" value="6" checked>
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
@@ -582,8 +587,8 @@
                             <label class="custom-radio" for="radioC9">Lớp 9</label>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Môn :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Môn học quan tâm </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioST" name="subject" value="1" checked>
                             <label class="custom-radio" for="radioST">Toán</label>
@@ -593,13 +598,13 @@
                             <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 text_label">Mức độ bài học ưa thích :</label>
+                    <div class="row">
+                        <label class="col-md-3 text_label">Độ khó quan tâm </label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioLB" name="level" value="1" checked>
-                            <label class="custom-radio" for="radioLB">Chương trình cơ bản</label>
+                            <label class="custom-radio" for="radioLB">Cơ bản</label>
                             <input type="radio" id="radioLA" name="level" value="2">
-                            <label class="custom-radio" for="radioLA">Chương trình nâng cao</label>
+                            <label class="custom-radio" for="radioLA">Nâng cao</label>
                         </div>
                     </div>
                 </form>
