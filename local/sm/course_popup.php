@@ -2,7 +2,6 @@
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 global $USER, $CFG, $DB;
-$PAGE->requires->jquery(new moodle_url('/theme/jquery.php/core/jquery-3.4.1.js'));
 $phone = optional_param('phone', "", PARAM_TEXT);
 //if(!isset($SESSION->wantsurl)){
 $SESSION->wantsurl = optional_param('wanturl', "", PARAM_TEXT);
