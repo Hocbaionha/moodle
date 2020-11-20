@@ -64,7 +64,7 @@ if (isloggedin() && !isguestuser()) {
         $showpopup = true;
     }
     $check_survey = $DB->get_record('hbon_collect_info', array('userid'=>$USER->id));
-    if(isset($check_survey)){
+    if(!empty($check_survey)){
         if($check_survey->status_survey === NULL){
             $showsurvey = true;
         }
