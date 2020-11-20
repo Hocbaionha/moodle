@@ -1,6 +1,7 @@
 <?php
 
 require(__DIR__ . '/../../config.php');
+require(__DIR__ . '/helper.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 
@@ -13,8 +14,8 @@ $url = new moodle_url('/local/sm/phone_collect.php');
 $PAGE->set_context($sitecontext);
 $PAGE->set_url($url);
 
-$PAGE->set_title("Thu thập số điện thoại");
-$PAGE->set_heading(get_string("class", "local_class_regist"));
+$PAGE->set_title("Get info customer");
+$PAGE->set_heading("Get info customer");
 
 if (!has_capability('local/school:write', $sitecontext) && $user!==0 ) {
     echo $OUTPUT->header();
@@ -37,6 +38,10 @@ echo $OUTPUT->header();
 $hcolumns = array('id' => "ID",
     'userid' => "User ID",
     'phone' => "Số điện thoại",
+    'object' => "Đối tượng",
+    'class' => "Lớp",
+    'subject' => "Môn",
+    'level' => "Chương trình",
     'timecreated' => "Ngày nhập",
     'timemodified' => "Ngày cập nhật"
 );
@@ -47,11 +52,11 @@ $strdownload = get_string('download');
 $view_part= "Danh sách thành viên";
 
 $table = new html_table();
-$table->head = array($hcolumns['id'], $hcolumns['userid'], $hcolumns['phone'], $hcolumns['timecreated'], $hcolumns['timemodified']);
+$table->head = array($hcolumns['id'], $hcolumns['userid'], $hcolumns['phone'],$hcolumns['object'],$hcolumns['class'],$hcolumns['subject'],$hcolumns['level'], $hcolumns['timecreated'], $hcolumns['timemodified']);
 $table->colclasses = array('leftalign date', 'leftalign name', 'leftalign plugin', 'leftalign setting', 'leftalign newvalue', 'leftalign originalvalue');
 $table->attributes['class'] = 'admintable generaltable';
 
-$sql = "SELECT * FROM mdl_hbon_has_check_phone";
+$sql = "SELECT * FROM mdl_hbon_collect_info";
 $rs = $DB->get_recordset_sql($sql, array(), $page * $perpage, $perpage);
 $result = array();
 foreach ($rs as $s) {
@@ -59,6 +64,10 @@ foreach ($rs as $s) {
     $row[] = $s->id;
     $row[] = $s->userid;
     $row[] = $s->phone;
+    $row[] = display_object((int)$s->object);
+    $row[] = display_class((int)$s->class);
+    $row[] = display_subject((int)$s->subject);
+    $row[] = display_level((int)$s->level);
     $row[] = date('d-m-Y h:i:s',$s->timecreated);
     $row[] = isset($s->timemodified)?date('d-m-Y h:i:s',$s->timemodified):'';
     $table->data[] = $row;
@@ -72,6 +81,6 @@ echo html_writer::link($back, "Back", array("class"=>"btn btn-secondary float-ri
 echo "</div></div><br/>";
 
 echo html_writer::table($table);
-$count = $DB->count_records('hbon_has_check_phone');
+$count = $DB->count_records('hbon_collect_info');
 echo $OUTPUT->paging_bar($count, $page, $perpage, $returnurl);
 echo $OUTPUT->footer();
