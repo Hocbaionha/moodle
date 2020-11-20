@@ -30,7 +30,6 @@
     <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/style.css"/>
     <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/classon.css"/>
     <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/classon/style/mmenu.css"/>
-    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/jquery.php/core/jquery-3.4.1.js"/>
 
     <style>
         .tippy-box {
@@ -413,6 +412,17 @@
             padding-top: 10px;
             text-align: left;
         }
+        .col-md-3{
+            width: 25%;
+            padding: 0px!important;
+        }
+        .col-md-9{
+            width: 75%;
+            padding: 0px!important;
+        }
+        .row{
+            margin: 0px;
+        }
         @media only screen and (max-width: 600px) {
             .imgstyle {
                 width: 360px;
@@ -459,19 +469,15 @@
                 font-size: 20px;
             }
             .col-md-3{
-                width: 22%;
+                width: 25%;
+                padding: 0px!important;
             }
             .col-md-9{
-                width: 78%;
+                width: 75%;
+                padding: 0px!important;
             }
             .row{
                 margin: 0px;
-            }
-
-            element.style {
-            }
-            #complete_survey {
-                margin: -10px;
             }
         }
     </style>
@@ -505,7 +511,7 @@
                 <hr>
                 <form class="survey_form">
                     <div class="row">
-                        <label class="col-md-3 text_label">Bạn là </label>
+                        <label class="col-md-3 text_label">Bạn là</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioOHS" name="object" value="1" checked>
                             <label class="custom-radio" for="radioOHS">Học sinh</label>
@@ -516,7 +522,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label">Lớp </label>
+                        <label class="col-md-3 text_label">Lớp</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioC6" name="class" value="6" checked>
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
@@ -529,7 +535,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label">Môn học </label>
+                        <label class="col-md-3 text_label">Môn học</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioST" name="subject" value="1" checked>
                             <label class="custom-radio" for="radioST">Toán</label>
@@ -540,8 +546,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label">Độ khó </label>
-                        <div class="radio-toolbar col-md-9">
+                        <label class="col-md-3 text_label" >Độ khó</label>
+                        <div class="radio-toolbar col-md-9" >
                             <input  type="radio" id="radioLB" name="level" value="1" checked>
                             <label class="custom-radio" for="radioLB">Cơ bản</label>
                             <input type="radio" id="radioLA" name="level" value="2">
@@ -549,6 +555,7 @@
                         </div>
                     </div>
                 </form>
+                <br>
                 <button class="send" id="complete_survey">GỬI</button>
             </div>
         </div>
@@ -565,7 +572,7 @@
                 <hr>
                 <form class="survey_form">
                     <div class="row">
-                        <label class="col-md-3 text_label">Bạn là </label>
+                        <label class="col-md-3 text_label">Bạn là</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioOHS" name="object" value="1" checked>
                             <label class="custom-radio" for="radioOHS">Học sinh</label>
@@ -576,7 +583,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label">Lớp </label>
+                        <label class="col-md-3 text_label">Lớp</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioC6" name="class" value="6" checked>
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
@@ -589,7 +596,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label">Môn học </label>
+                        <label class="col-md-3 text_label">Môn học</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioST" name="subject" value="1" checked>
                             <label class="custom-radio" for="radioST">Toán</label>
@@ -600,7 +607,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 text_label">Chương trình </label>
+                        <label class="col-md-3 text_label">Chương trình</label>
                         <div class="radio-toolbar col-md-9">
                             <input  type="radio" id="radioLB" name="level" value="1" checked>
                             <label class="custom-radio" for="radioLB">Cơ bản</label>
@@ -609,6 +616,7 @@
                         </div>
                     </div>
                 </form>
+                <br>
                 <button class="send" id="complete_survey">GỬI</button>
             </div>
         </div>
