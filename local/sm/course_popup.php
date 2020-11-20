@@ -2,7 +2,6 @@
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 global $USER, $CFG, $DB;
-$PAGE->requires->jquery();
 $phone = optional_param('phone', "", PARAM_TEXT);
 //if(!isset($SESSION->wantsurl)){
 $SESSION->wantsurl = optional_param('wanturl', "", PARAM_TEXT);
