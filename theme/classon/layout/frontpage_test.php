@@ -55,8 +55,12 @@ if (false) {// alway redirect to homepage
 
 
 } else {
-
-
+$quiz = optional_param('quiz', "", PARAM_TEXT);
+$c = optional_param('class', "", PARAM_TEXT);
+$l = optional_param('level', "", PARAM_TEXT);
+    if($quiz=="1"){
+        redirect($CFG->wwwroot."/local/sm/do_quiz.php?class=$c&level=$l");
+    }
     //$setting = $PAGE->theme->settings->custommenuitems;
     //$setting = 'Hi test';
 
