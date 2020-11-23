@@ -24,6 +24,7 @@ $url = parse_url($PAGE->url);
 $path = $url["path"];
 $showpopup = false;
 $popupimg = "";
+$showsurvey =false;
 
 if (isloggedin() && !isguestuser()) {
     $uid = $USER->id;
@@ -42,7 +43,17 @@ if (isloggedin() && !isguestuser()) {
         $showpopup = true;
 //        }
     }
-} else {
+    else{
+        $check_survey = $DB->get_record('hbon_collect_info', array('userid'=>$USER->id));
+        if(!empty($check_survey)){
+            if($check_survey->status_survey === NULL){
+                $showsurvey = true;
+            }
+        }
+    }
+
+}
+else {
     if ($path == "/course/view.php" && !isset($_SESSION["registed"])) {
         $courseid = explode("=", $url["query"])[1];
         $coursedesc = $DB->get_record('course_desc', array('courseid' => $courseid));
@@ -84,6 +95,7 @@ $templatecontext = [
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'uid' => $USER->id,
     'showpopup' => $showpopup,
+    'showsurvey'=>$showsurvey,
     'wanturl' => $PAGE->url,
     'popup_img' => $popupimg
 //    'fb_id'=>$USER->uid

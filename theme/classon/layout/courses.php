@@ -62,15 +62,16 @@ if (isloggedin() && !isguestuser()) {
     $phone = $DB->get_record_sql($sql, array("id" => $uid));
     if (!$phone) {
         $showpopup = true;
-    }
-    $check_survey = $DB->get_record('hbon_collect_info', array('userid'=>$USER->id));
-    if(!empty($check_survey)){
-        if($check_survey->status_survey === NULL){
-            $showsurvey = true;
+    }else{
+        $check_survey = $DB->get_record('hbon_collect_info', array('userid'=>$USER->id));
+        if(!empty($check_survey)){
+            if($check_survey->status_survey === NULL){
+                $showsurvey = true;
+            }
         }
     }
 }
-//print_object($course_categories);die;
+
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
