@@ -828,16 +828,10 @@
     success: function (res, textStatus, jqXHR) {
 
     if(res.status ==="success"){
-    swal.fire({
-    position: 'center',
-    icon: 'success',
-    title: 'Cập nhật thành công',
-    showConfirmButton: false,
-    timer: 2000
-    }).then((result)=>{
+
     $('.imgstyle').css("display", "none");
     $('.step2').css("display", "block");
-    });
+
     }else{
     swal.fire({
     position: 'center',
