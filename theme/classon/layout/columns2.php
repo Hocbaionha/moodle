@@ -19,7 +19,7 @@ if (isloggedin()) {
 
 /*Begin- add cohort */
 require_once($CFG->dirroot . '/cohort/locallib.php');
-global $USER, $PAGE, $DB;
+global $USER, $PAGE, $DB, $COURSE,$_REQUEST;
 $url = parse_url($PAGE->url);
 $path = $url["path"];
 $showpopup = false;
@@ -80,7 +80,28 @@ $hasblocks = strpos($blockshtml, 'data-block=') !== false;
 $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions();
 // If the settings menu will be included in the header then don't add it here.
 $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settings_menu() : false;
-// print_object($OUTPUT);die;
+
+//infor course for activities firebase
+if(isset($_REQUEST['id'])){
+    $context_activity_id = (int)$_REQUEST['id'];
+}else{
+    if(isset($_REQUEST['cmid'])){
+        $context_activity_id =  (int)$_REQUEST['cmid'];
+    }else{
+        $context_activity_id=null;
+    }
+}
+if($COURSE && $context_activity_id!==null){
+    $section= $DB->get_records('course_sections', ["course" => $COURSE->id ], 'section ASC', 'id,name,section,visible');
+    $activitys = get_array_of_activities($COURSE->id);
+    $sectionid = $activitys[$context_activity_id]->sectionid;
+    if($section[$sectionid]->section !== ''){
+        $fb_topic_name_in = $section[$sectionid]->name;
+    }else{
+        $fb_topic_name_in = "Topic ". $section[$sectionid]->section;
+    }
+}
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'logo' => $OUTPUT->image_url('LogoHBON', 'theme'),
@@ -97,7 +118,10 @@ $templatecontext = [
     'showpopup' => $showpopup,
     'showsurvey'=>$showsurvey,
     'wanturl' => $PAGE->url,
-    'popup_img' => $popupimg
+    'popup_img' => $popupimg,
+    'fb_course_id'=>!empty($COURSE)?$COURSE->shortname:'',
+    'fb_course_name'=>!empty($COURSE)?$COURSE->fullname:'',
+    'fb_topic_name_in'=>$fb_topic_name_in
 //    'fb_id'=>$USER->uid
 ];
 
@@ -166,6 +190,7 @@ if (isloggedin() && !isguestuser()) {
 /* \Add to accquire user data */
 // $role = $DB->get_records("mdl_")
 // $role = $DB->get_record("role_assignments",array("userid"=>$USER->id));
+//print_object($COURSE);die();
 
 if ($USER->id != 2) {
 

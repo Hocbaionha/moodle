@@ -7,7 +7,7 @@ $class = optional_param('class', 0, PARAM_INT);
 $subject = optional_param('subject', 0, PARAM_INT);
 $level = optional_param('level', 0, PARAM_INT);
 
-if ($USER->id > 2) {
+if ($USER->id > 0) {
   if($object == 0 or $class ==0 or $subject == 0 or $level == 0){
       result(2, "Update false");
   }else{

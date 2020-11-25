@@ -91,6 +91,7 @@ $templatecontext = [
     'showpopup'=>$showpopup,
     'showsurvey'=>$showsurvey
 ];
+
 $PAGE->requires->js_call_amd('theme_classon/classon_homepage', 'classon_homepage');
 $PAGE->requires->js('/theme/classon/amd/src/mmenu.js');
 //$PAGE->requires->js_call_amd('theme_classon/classon_courses', 'classon_courses');

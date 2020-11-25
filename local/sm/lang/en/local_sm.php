@@ -34,3 +34,13 @@ $string['eed_province'] = 'Tỉnh';
 $string['eed_phone'] = 'Số điện thoại';
 $string['created_at'] = 'Ngày tạo';
 $string['list_regist_report'] = 'Danh sách thu thập số điện thoại';
+
+//mapping
+$string['id'] = "ID";
+$string['url_input'] = "Nguồn vào";
+$string['url_output'] = "Nguồn trỏ tới";
+$string['class'] = "Lớp";
+$string['subject'] = "Môn học";
+$string['timecreated'] = "Ngày tạo";
+$string['timemodified'] = "Ngày sửa";
+$string['mapping_test'] = "Mapping test";

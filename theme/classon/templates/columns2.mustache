@@ -639,6 +639,12 @@
     </div>
 {{/showsurvey}}
 <div id="page-wrapper" class="d-print-block">
+    {{#fb_course_id}}
+        <input type="hidden" id="fb_course_id" value="{{fb_course_id}}">
+    {{/fb_course_id}}
+    {{#fb_topic_name_in}}
+        <input type="hidden" id="fb_topic_name_in" value="{{fb_topic_name_in}}">
+    {{/fb_topic_name_in}}
 
     {{{ output.standard_top_of_body_html }}}
 
@@ -695,9 +701,9 @@
     if(path == '/mod/quiz/attempt.php'){
     setInterval(function(){
     var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+    var course = $('#fb_course_id').val();
     var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+    var topic = $('#fb_topic_name_in').val();
 
     var id = {{uid}};
     var uid = $('#fb_id').val();
@@ -712,6 +718,7 @@
     'topic': topic,
     'topic_link': topic_link
     };
+    console.log(course);
     console.log(topic);
     $.ajax({
     url: "/local/sm/log.php",
@@ -730,9 +737,9 @@
     e.returnValue = "Write something clever here..";
 
     var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-    var course = $('ol.breadcrumb li:nth-child(3n) a').html();
+    var course = $('#fb_course_id').val();
     var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-    var topic = $('ol.breadcrumb li:nth-child(4n) a').html();
+    var topic = $('#fb_topic_name_in').val();
     console.log("for link",topic_link);
     console.log("for topic",topic);
 

@@ -1,6 +1,6 @@
 <?php
 
-function display_object($object){
+function display_object($object=null){
     $list = [
         1=>"Học sinh",
         2=>"Giáo Viên",
@@ -16,12 +16,12 @@ function display_object($object){
         return $list;
     }
 }
-function display_class($object){
+function display_class($object=null){
     $list = [
-        6=>"Lớp 6",
-        7=>"Lớp 7",
-        8=>"Lớp 8",
-        9=>"Lớp 9"
+        6=>'Lớp 6',
+        7=>'Lớp 7',
+        8=>'Lớp 8',
+        9=>'Lớp 9'
     ];
     if($object){
         foreach ($list as $key=>$item){
@@ -33,11 +33,11 @@ function display_class($object){
         return $list;
     }
 }
-function display_subject($object){
+function display_subject($object=null){
     $list = [
-        1=>"Môn Toán",
-        2=>"Môn Văn",
-        3=>"Môn Tiếng Anh"
+        1=>'Môn Toán',
+        2=>'Môn Ngữ Văn',
+        3=>'Môn Tiếng Anh'
     ];
     if($object){
         foreach ($list as $key=>$item){
@@ -49,7 +49,7 @@ function display_subject($object){
         return $list;
     }
 }
-function display_level($object){
+function display_level($object=null){
     $list = [
         1=>"Cơ bản",
         2=>"Nâng Cao"
@@ -62,5 +62,21 @@ function display_level($object){
         }
     }else{
         return $list;
+    }
+}
+
+function ladipage_origin_url($context_url=null){
+    $list_url = [
+        1=>"https://pages.hocbaionha.com/hbonthcs",
+        2=>"https://hocbaionha.com",
+    ];
+    if($context_url){
+        foreach ($list_url as $key=>$item){
+            if($key === $context_url){
+                return $item;
+            }
+        }
+    }else{
+        return $list_url;
     }
 }
