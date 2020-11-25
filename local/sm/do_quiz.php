@@ -3,7 +3,7 @@
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_once(__DIR__.'/helper.php');
 global $USER, $CFG, $DB,$HTTP_SERVER_VARS;
-
+echo "expired";die();
 $class = optional_param('class', "", PARAM_TEXT);
 $subject = optional_param('subject', "", PARAM_TEXT);
 $name = optional_param('name', "", PARAM_TEXT);

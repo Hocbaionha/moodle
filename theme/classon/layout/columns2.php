@@ -91,6 +91,7 @@ if(isset($_REQUEST['id'])){
         $context_activity_id=null;
     }
 }
+$fb_topic_name_in= '';
 if($COURSE && $context_activity_id!==null){
     $section= $DB->get_records('course_sections', ["course" => $COURSE->id ], 'section ASC', 'id,name,section,visible');
     $activitys = get_array_of_activities($COURSE->id);
