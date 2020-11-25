@@ -95,11 +95,13 @@ $fb_topic_name_in= '';
 if($COURSE && $context_activity_id!==null){
     $section= $DB->get_records('course_sections', ["course" => $COURSE->id ], 'section ASC', 'id,name,section,visible');
     $activitys = get_array_of_activities($COURSE->id);
-    $sectionid = $activitys[$context_activity_id]->sectionid;
-    if($section[$sectionid]->section !== ''){
-        $fb_topic_name_in = $section[$sectionid]->name;
-    }else{
-        $fb_topic_name_in = "Topic ". $section[$sectionid]->section;
+    if(array_key_exists($context_activity_id, $activitys)){
+        $sectionid = $activitys[$context_activity_id]->sectionid;
+        if($section[$sectionid]->section !== ''){
+            $fb_topic_name_in = $section[$sectionid]->name;
+        }else{
+            $fb_topic_name_in = "Topic ". $section[$sectionid]->section;
+        }
     }
 }
 
