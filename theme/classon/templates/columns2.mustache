@@ -345,6 +345,12 @@
         width: 0;
     }
 
+    .radio-toolbar input[type="checkbox"] {
+        opacity: 0;
+        position: fixed;
+        width: 0;
+    }
+
     .radio-toolbar label {
         display: inline-block;
         background-color: white !important;
@@ -352,7 +358,7 @@
         padding: 0px 6px;
         font-family: sans-serif, Arial;
         font-size: 12px;
-        border: 2px solid #473e9b;
+        border: 1px solid #473e9b;
         border-radius: 4px;
     }
 
@@ -366,6 +372,11 @@
     }
 
     .radio-toolbar input[type="radio"]:checked + label {
+        background-color: #bfb;
+        border-color: #bc2f40;
+        color: #bc2f40;
+    }
+    .radio-toolbar input[type="checkbox"]:checked + label {
         background-color: #bfb;
         border-color: #bc2f40;
         color: #bc2f40;
