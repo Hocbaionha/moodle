@@ -3,9 +3,9 @@
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 global $USER, $CFG, $DB;
 $object = optional_param('object', 0, PARAM_INT);
-$class = optional_param('class', 0, PARAM_INT);
-$subject = optional_param('subject', 0, PARAM_INT);
-$level = optional_param('level', 0, PARAM_INT);
+$class = optional_param('class', 0, PARAM_TEXT);
+$subject = optional_param('subject', 0, PARAM_TEXT);
+$level = optional_param('level', 0, PARAM_TEXT);
 
 if ($USER->id > 0) {
   if($object == 0 or $class ==0 or $subject == 0 or $level == 0){

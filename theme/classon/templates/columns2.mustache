@@ -539,33 +539,33 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Lớp</label>
                         <div class="radio-toolbar col-md-9">
-                            <input type="radio" id="radioC6" name="class" value="6" checked>
+                            <input type="checkbox" id="radioC6" name="class" value="6">
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
-                            <input type="radio" id="radioC7" name="class" value="7">
+                            <input type="checkbox" id="radioC7" name="class" value="7">
                             <label class="custom-radio" for="radioC7">Lớp 7</label>
-                            <input type="radio" id="radioC8" name="class" value="8">
+                            <input type="checkbox" id="radioC8" name="class" value="8">
                             <label class="custom-radio" for="radioC8">Lớp 8</label>
-                            <input type="radio" id="radioC9" name="class" value="9">
+                            <input type="checkbox" id="radioC9" name="class" value="9">
                             <label class="custom-radio" for="radioC9">Lớp 9</label>
                         </div>
                     </div>
                     <div class="row">
                         <label class="col-md-3 text_label">Môn học</label>
                         <div class="radio-toolbar col-md-9">
-                            <input type="radio" id="radioST" name="subject" value="1" checked>
+                            <input type="checkbox" id="radioST" name="subject" value="1" >
                             <label class="custom-radio" for="radioST">Toán</label>
-                            <input type="radio" id="radioSV" name="subject" value="2">
+                            <input type="checkbox" id="radioSV" name="subject" value="2">
                             <label class="custom-radio" for="radioSV">Văn</label>
-                            <input type="radio" id="radioSTA" name="subject" value="3">
+                            <input type="checkbox" id="radioSTA" name="subject" value="3">
                             <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
                         </div>
                     </div>
                     <div class="row">
                         <label class="col-md-3 text_label">Độ khó</label>
                         <div class="radio-toolbar col-md-9">
-                            <input type="radio" id="radioLB" name="level" value="1" checked>
+                            <input type="checkbox" id="radioLB" name="level" value="1" >
                             <label class="custom-radio" for="radioLB">Cơ bản</label>
-                            <input type="radio" id="radioLA" name="level" value="2">
+                            <input type="checkbox" id="radioLA" name="level" value="2">
                             <label class="custom-radio" for="radioLA">Nâng cao</label>
                         </div>
                     </div>
@@ -601,33 +601,33 @@
                     <div class="row">
                         <label class="col-md-3 text_label">Lớp</label>
                         <div class="radio-toolbar col-md-9">
-                            <input type="radio" id="radioC6" name="class" value="6" checked>
+                            <input type="checkbox" id="radioC6" name="class" value="6" >
                             <label class="custom-radio" for="radioC6">Lớp 6</label>
-                            <input type="radio" id="radioC7" name="class" value="7">
+                            <input type="checkbox" id="radioC7" name="class" value="7">
                             <label class="custom-radio" for="radioC7">Lớp 7</label>
-                            <input type="radio" id="radioC8" name="class" value="8">
+                            <input type="checkbox" id="radioC8" name="class" value="8">
                             <label class="custom-radio" for="radioC8">Lớp 8</label>
-                            <input type="radio" id="radioC9" name="class" value="9">
+                            <input type="checkbox" id="radioC9" name="class" value="9">
                             <label class="custom-radio" for="radioC9">Lớp 9</label>
                         </div>
                     </div>
                     <div class="row">
                         <label class="col-md-3 text_label">Môn học</label>
                         <div class="radio-toolbar col-md-9">
-                            <input type="radio" id="radioST" name="subject" value="1" checked>
+                            <input type="checkbox" id="radioST" name="subject" value="1" >
                             <label class="custom-radio" for="radioST">Toán</label>
-                            <input type="radio" id="radioSV" name="subject" value="2">
+                            <input type="checkbox" id="radioSV" name="subject" value="2">
                             <label class="custom-radio" for="radioSV">Văn</label>
-                            <input type="radio" id="radioSTA" name="subject" value="3">
+                            <input type="checkbox" id="radioSTA" name="subject" value="3">
                             <label class="custom-radio" for="radioSTA">Tiếng Anh</label>
                         </div>
                     </div>
                     <div class="row">
                         <label class="col-md-3 text_label">Chương trình</label>
                         <div class="radio-toolbar col-md-9">
-                            <input type="radio" id="radioLB" name="level" value="1" checked>
+                            <input type="checkbox" id="radioLB" name="level" value="1" >
                             <label class="custom-radio" for="radioLB">Cơ bản</label>
-                            <input type="radio" id="radioLA" name="level" value="2">
+                            <input type="checkbox" id="radioLA" name="level" value="2">
                             <label class="custom-radio" for="radioLA">Nâng cao</label>
                         </div>
                     </div>
@@ -807,20 +807,42 @@
     });
 
 
+
     $('#complete_survey').on('click',function(event){
     event.preventDefault();
     var object = $('input[name="object"]:checked').val();
-    var classes = $('input[name="class"]:checked').val();
-    var subject = $('input[name="subject"]:checked').val();
-    var level = $('input[name="level"]:checked').val();
-    var send_data = {"object":object,"class":classes,"subject":subject,"level":level};
+    var classes = [];
+    $('input[name="class"]:checked').each(function(){classes.push($(this).val());});
+    var subject = [];
+    $('input[name="subject"]:checked').each(function(){subject.push($(this).val());});
+    var level = [];
+    $('input[name="level"]:checked').each(function(){level.push($(this).val());});
+    var send_data = {"object":object,"class":classes.toString(),"subject":subject.toString(),"level":level.toString()};
+    if(classes.length<=0 || subject.length<=0 || level.length<=0){
+    var message = '';
+    if(classes.length==0){
+    message += " Lớp "
+    }
+    if(subject.length==0){
+    message += " Môn "
+    }
+    if(level.length==0){
+    message += " Chương trình "
+    }
+    swal.fire({
+    position: 'center',
+    icon: 'warning',
+    title: 'Chọn thiếu thông tin:' + message,
+    showConfirmButton: false,
+    timer: 3000
+    });
+    }else{
     $.ajax({
     url: "/local/sm/complete_survey.php",
     type: 'POST',
     data: send_data,
     dataType: "json",
     success: function (res, textStatus, jqXHR) {
-
     if(res.status ==="success"){
     swal.fire({
     position: 'center',
@@ -843,6 +865,7 @@
     },
     error: function (jqXHR, textStatus, errorThrown) {}
     });
+    }
     });
 
 {{/js}}
