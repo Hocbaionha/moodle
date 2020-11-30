@@ -842,8 +842,7 @@ function off() {
 const shortname='{{{fb_course_id}}}';
          console.log(shortname)
          $.ajax({
-            url: "https://us-central1-hbon-dev.cloudfunctions.net/getAds",
-            //url: "http://localhost:5000/hbon-dev/us-central1/getAds",
+            url: "https://us-central1-hbon-sso.cloudfunctions.net/getAds",
             type: 'GET',
              headers: {  'Access-Control-Allow-Origin':'*'},
              crossDomain: true,
@@ -994,8 +993,7 @@ const shortname='{{{fb_course_id}}}';
     },
     error: function (jqXHR, textStatus, errorThrown) {}
     });
-        
-}
+    }
     });
 
 {{/js}}
