@@ -426,6 +426,55 @@
         margin: 0px!important;
     }
 
+    #ad-overlay{
+        position:fixed;
+        z-index: 1000;
+        bottom: 10px;
+        width:100%;
+    }
+    .popup__close-btn {
+        left:745px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        line-height: 2.5rem;
+        height: 1.875rem;
+        width: 1.875rem;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        position: absolute;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background-color: #5a5a5a;
+        top: -.625rem;
+        right: -.625rem;
+        border-radius: 1.25rem;
+        border: 3px solid #fff;
+    }
+    .svg-icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        position: relative;
+        font-size: .75rem;
+        color: #fff;
+    }
     @media only screen and (max-width: 600px) {
         .imgstyle {
             width: 360px;
@@ -489,6 +538,33 @@
 
         .row {
             margin: 0px!important;
+        }
+        #ad-overlay img{
+            width:370px;
+        }
+        .closed .ad-modal{
+            
+            transition: right .5s ease,left .5s ease;
+        }
+
+         #ad-overlay{
+             left:5%;
+         }
+        .popup__close-btn {
+            left:355px;
+        }
+    }
+
+    @media only screen and (min-width: 601px) {
+        .ad-modal{
+            position:relative;
+            left:50%;
+            margin-left:-390px;
+        }
+        .closed .ad-modal{
+            margin-left:-105px;
+            transition: right .5s ease,left .5s ease;
+
         }
     }
 </style>
@@ -686,6 +762,25 @@
     {{> theme_classon/classon_hp_footer_inside }}
 </div>
 </body>
+<script>
+    function changeAds(arr,i) {
+    if(i>=arr.length){
+        i=i-arr.length
+    }
+
+    var x = document.getElementById("ads");
+    x.src = arr[i].img;
+    x.onclick = function(){
+        window.location=arr[i].url;
+    }
+    const time=arr[i].switch_time;
+    setTimeout(changeAds, time*1000,arr,i+1); // Change image every 2 seconds
+    }
+function off() {
+    document.getElementById("ad-overlay").style.display = "none";
+    
+}
+</script>
 </html>
 {{#js}}
     M.util.js_pending('theme_boost/loader');
@@ -732,6 +827,29 @@
     }, 30000);
     }else{
     $(document).ready(function() {
+
+const shortname='{{{fb_course_id}}}';
+         console.log(shortname)
+         $.ajax({
+            url: "https://us-central1-hbon-dev.cloudfunctions.net/getAds",
+            //url: "http://localhost:5000/hbon-dev/us-central1/getAds",
+            type: 'GET',
+             headers: {  'Access-Control-Allow-Origin':'*'},
+             crossDomain: true,
+            data: {tag:shortname},
+            success: function (data, textStatus, jqXHR) {
+                if(data.length>0){
+                    $("#ad-overlay").show();
+                    changeAds(data,0);
+                }
+                    
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            },
+            async: true
+        })
+
     var start = new Date();
     $(window).on('beforeunload',function(e) {
     e.returnValue = "Write something clever here..";
@@ -843,6 +961,10 @@
     },
     error: function (jqXHR, textStatus, errorThrown) {}
     });
+
+
+         
+
     });
 
 {{/js}}
