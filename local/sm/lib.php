@@ -204,6 +204,15 @@ function generate_student_code($uid,$moodleUserId,$codeField){
             $stuSnapshot = $stuRef->snapshot();
             if ($stuSnapshot->exists()) {
                 $student = $stuSnapshot->data();
+                if(array_key_exists("code",$student)){
+                    if(array_key_exists("code",$student['code'])){
+                        $student["code"]['student_code']=$student["code"]['code'];
+                    }
+                } else {
+                    $student["code"]=generateStudentCode($fdb);
+                    $fdb->collection('students')->document($uid)->update([["path"=>"code","value"=>$student["code"]]]);
+                    $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                }
                 serviceErrorLog("code:" . json_encode($student["code"]['student_code']));
                 if(property_exists($check,"data") && $check->data==""){
                     $DB->execute($updatesql,array('data' => $student["code"]["student_code"],'userid' => $moodleUserId,
