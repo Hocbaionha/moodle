@@ -239,7 +239,7 @@ function generateStudentCode($fdb){
     $date = new DateTime();
     $time = $date->getTimestamp();
     $expired_time = $time + (365*24*60*60); 
-    return array("code"=>$code,"expired_time"=>$expired_time*1000);
+    return array("student_code"=>$code,"expired_time"=>$expired_time*1000);
 }
 function insertGroup($shortname, $group_name, $userid)
 {
