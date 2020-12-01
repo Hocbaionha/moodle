@@ -204,7 +204,7 @@ function generate_student_code($uid,$moodleUserId,$codeField){
             $stuSnapshot = $stuRef->snapshot();
             if ($stuSnapshot->exists()) {
                 $student = $stuSnapshot->data();
-                serviceErrorLog("code:" . json_encode($student["code"]['code']));
+                serviceErrorLog("code:" . json_encode($student["code"]['student_code']));
                 if(property_exists($check,"data") && $check->data==""){
                     $DB->execute($updatesql,array('data' => $student["code"]["student_code"],'userid' => $moodleUserId,
                     'fieldid' => $codeField ));
