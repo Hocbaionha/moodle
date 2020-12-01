@@ -172,8 +172,8 @@ $fdb = $firestore->database();
                                     if (!$stuSnapshot->exists()) {
                                         $batch->set($fdb->collection('students')->document($uid),$student);
                                         $batch->update($fdb->collection('classes')->document($classid),[["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
-                                        $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
-                                        updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
+                                        $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                        updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
                                     } else {
                                         //do nothing if found student
                                         // $datas = array();
@@ -206,8 +206,8 @@ $fdb = $firestore->database();
                                     $stuSnapshot = $stuRef->snapshot();
                                     if (!$stuSnapshot->exists()) {
                                         $batch->set($fdb->collection('students')->document($uid),$student);
-                                        $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
-                                        updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
+                                        $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                        updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
                                     }
                                 } else if(startsWith($uname,"gv")){
                                     $teaRef = $fdb->collection('teachers')->document($uid);
@@ -235,8 +235,8 @@ $fdb = $firestore->database();
                             $student = $user;
                             $student["code"]=generateStudentCode();
                             $batch->set($fdb->collection('students')->document($uid),$student);
-                            $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
-                            updateStudentData($student["moodleUserId"],$uid,$student["code"]["code"]);
+                            $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                            updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
                         } else {
                             //not update
                         }

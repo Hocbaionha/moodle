@@ -92,7 +92,7 @@ function local_sm_enrole($uid)
                 }
             }
             if(array_key_exists("code",$student)){
-                $code = $student["code"]["code"];
+                $code = $student["code"]["student_code"];
                 $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
                 $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
                 $check = $DB->get_record("user_info_data",array("userid"=>$USER->id,"fieldid"=>$uidField));
@@ -170,25 +170,25 @@ function generate_student_code($uid,$moodleUserId,$codeField){
                 $student["code"]=generateStudentCode($fdb);
                 $batch->set($fdb->collection('students')->document($uid),$student);
                 
-                $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                 if($check && property_exists($check,"data") && $check->data==""){
-                    $DB->execute($updatesql,array('data' => $student["code"]["code"],'userid' => $moodleUserId,
+                    $DB->execute($updatesql,array('data' => $student["code"]["student_code"],'userid' => $moodleUserId,
                     'fieldid' => $codeField ));
                 } else {
                     $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
+                        'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
                 }
             } else {
                 $student = $user;
                 $student["code"]=generateStudentCode($fdb);
                 $batch->update($fdb->collection('students')->document($uid),[["path"=>"code","value"=>$student["code"]]]);
-                $batch->set($fdb->collection('student_code')->document($student["code"]["code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                 if(property_exists($check,"data") && $check->data==""){
-                    $DB->execute($updatesql,array('data' => $student["code"]["code"],'userid' => $moodleUserId,
+                    $DB->execute($updatesql,array('data' => $student["code"]["student_code"],'userid' => $moodleUserId,
                     'fieldid' => $codeField ));
                 } else {
                 $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
+                        'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
                 }
             }
             $userRef = $fdb->collection('users')->document($uid);
@@ -206,11 +206,11 @@ function generate_student_code($uid,$moodleUserId,$codeField){
                 $student = $stuSnapshot->data();
                 serviceErrorLog("code:" . json_encode($student["code"]['code']));
                 if(property_exists($check,"data") && $check->data==""){
-                    $DB->execute($updatesql,array('data' => $student["code"]["code"],'userid' => $moodleUserId,
+                    $DB->execute($updatesql,array('data' => $student["code"]["student_code"],'userid' => $moodleUserId,
                     'fieldid' => $codeField ));
                 }  else {
                 $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]["code"]));
+                        'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
                 }
                 $userRef = $fdb->collection('users')->document($uid);
                 $userSnapshot = $userRef->snapshot();
