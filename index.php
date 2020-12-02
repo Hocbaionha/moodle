@@ -30,7 +30,9 @@ if (!file_exists('./config.php')) {
 require_once('config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
+require_once(__DIR__.'/local/qualified_leads/script_add.php');
 
+global $USER;
 redirect_if_major_upgrade_required();
 
 $urlparams = array();
@@ -42,6 +44,19 @@ $PAGE->set_url('/', $urlparams);
 $detail = optional_param('course_detail', "", PARAM_TEXT);
 $courses = optional_param('courses', 0, PARAM_INT);
 $page = optional_param('page', "", PARAM_TEXT);
+$camp =  optional_param('camp', "", PARAM_TEXT);
+
+if($camp !=="" && $camp !== null){
+    $leads_param =  array();
+    $leads_param['camp'] = $camp;
+    $leads_param['url']=$_SERVER['REQUEST_URI'];
+    $leads_param['ip']=$_SERVER['REMOTE_ADDR'];
+    $leads_param['device']=$_SERVER['HTTP_USER_AGENT'];
+    $leads_param['time_created']=time();
+    $leads_param['has_user']=$USER->id;
+    collect_leads_infomation($leads_param);
+}
+//
 if ($courses == 1) {
     $PAGE->set_pagelayout('courses');
 } else {
