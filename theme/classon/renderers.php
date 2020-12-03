@@ -169,7 +169,7 @@ class theme_classon_core_renderer extends core_renderer {
             $check = $DB->get_record("user_info_data",array("userid"=>$user->id,"fieldid"=>$codeField));
             if($check){
                 $code=$check->data;
-                $bosung='{"itemtype":"link","title":"Mã: '.$code.'","titleidentifier":"B\u1ed5-sung","url":{}}';
+                $bosung='{"itemtype":"link","title":"Mã liên kết:<br/> '.$code.'","titleidentifier":"B\u1ed5-sung","url":{}}';
                 $bosung = json_decode($bosung);
                 $bosung->url = $add_url;
                 $opts->navitems[] = $bosung;
