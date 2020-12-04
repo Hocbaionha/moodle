@@ -20,6 +20,8 @@ if (isloggedin()) {
 /*Begin- add cohort */
 require_once($CFG->dirroot . '/cohort/locallib.php');
 global $USER, $PAGE, $DB, $COURSE,$_REQUEST;
+global $SESSION;
+$SESSION->wantsurl = qualified_me();
 $url = parse_url($PAGE->url);
 $path = $url["path"];
 $showpopup = false;

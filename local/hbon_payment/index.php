@@ -21,6 +21,8 @@ $list_product = $DB->get_records_sql($sql);
 
 $login_url = new moodle_url('/login/index.php');
 
+global $SESSION;
+$SESSION->wantsurl = qualified_me();
 require_login();
 
 if($getlist === 'getlist'){
