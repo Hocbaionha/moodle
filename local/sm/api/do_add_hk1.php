@@ -35,5 +35,5 @@ foreach($arrSn as $s) {
 }
 $time_end = microtime(true);
 $execution_time = ($time_end - $time_start);
-echo "DONE !!!<br/> Execution time:" . $execution_time;
+echo "DONE !!!<br/> Execution time:" . round($execution_time).'s';
 // cohort_add_member($cohort->id, $userid); 
