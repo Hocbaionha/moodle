@@ -4,7 +4,10 @@ require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/formslib.php');
 require_once('restrict_access_form.php');
 require_login();
-
+global $USER;
+if($USER->id!=2){
+    redirect("/login/index.php");
+}
 $PAGE->set_url('/local/sm/restrict_access.php');
 
 $PAGE->requires->jquery();
@@ -74,7 +77,7 @@ echo $OUTPUT->footer();
 function changeActivity($cra,$mod,$isChangeSession){
     global $DB;
     if($isChangeSession){
-        $sql = "update mdl_course_sections set availability=? where course=? and visible=1 and availability is not null";
+        $sql = "update mdl_course_sections set availability=? where course=? and visible=1 and availability like '%TVA%'";
         $DB->execute($sql,array("availability"=>$cra->availability,"course"=>$cra->course));
         // print_object($cra);die;
     }
@@ -82,6 +85,6 @@ function changeActivity($cra,$mod,$isChangeSession){
         return;
     }
     $moduleids = implode(",", $mod);
-    $sql = "update mdl_course_modules set availability=? where course=? and visible=1 and module in($moduleids) and availability is not null";
+    $sql = "update mdl_course_modules set availability=? where course=? and visible=1 and module in($moduleids) and availability like '%TVA%'";
     $DB->execute($sql,array("availability"=>$cra->availability,"course"=>$cra->course));
 }
