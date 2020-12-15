@@ -9,28 +9,31 @@ global $USER,$DB;
 if($USER->id!=2){
     redirect("/login/index.php");
 }
+
+$sn = optional_param('sn', '', PARAM_TEXT); 
+$arrSn = explode(",",$sn);
+var_dump($arrSn);
 $time_start = microtime(true);
 if (ob_get_level() == 0)
     ob_start();
-$paging=1000;
-$sql = "select count(*) from mdl_user where deleted=0 and email not like 'fb%' and (email like '%hocbaionha.com' or email like '%dschool.vn')";
-            $size = $DB->count_records_sql($sql);
+
+
 $cohort = $DB->get_record('cohort', array('idnumber' => "Hbon_ky1"), '*', MUST_EXIST);
-for($i=0;$i<$size;$i+$paging){
-    $sql = "select id,username,email,timecreated,lastaccess from mdl_user where deleted=0 and email not like 'fb%' and (email like '%hocbaionha.com' or email like '%dschool.vn') limit $paging offset $i";
+foreach($arrSn as $s) {
+    $percent = 1;
+    $sql = "select id,username,email,timecreated,lastaccess from mdl_user where deleted=0 and email not like 'fb%' and (email like '%hocbaionha.com' or email like '%dschool.vn') and email like '$s%'";
     $users = $DB->get_records_sql($sql);
-    $percent = intval($i / $size * 100) . "%";
     foreach($users as $user){
         cohort_add_member($cohort->id, $user->id);
         echo "add to Hbon_hk1 userid:$user->id,   email:$user->email<br/>";
         echo '<script>
     parent.document.getElementById("progressbar").innerHTML="<div style=\"width:' . $percent . ';background:#1177d1; ;height:35px;\">&nbsp;</div>";
-    parent.document.getElementById("information").innerHTML="<div style=\"text-align:center; font-weight:bold\">' . $percent . ' - Processing ...</div>";</script>';
+    parent.document.getElementById("information").innerHTML="<div style=\"text-align:center; font-weight:bold\">' . $percent . '% - Processing ...</div>";</script>';
 
         doFlush();
     }
 }
 $time_end = microtime(true);
 $execution_time = ($time_end - $time_start);
-echo "<br/> Execution time:" . $execution_time;
+echo "DONE !!!<br/> Execution time:" . $execution_time;
 // cohort_add_member($cohort->id, $userid); 

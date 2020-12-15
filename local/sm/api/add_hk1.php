@@ -24,7 +24,7 @@ echo "<div class='row'><div class='col-12'>";
 echo html_writer::link($back, "Back", array("class"=>"btn btn-secondary float-right"));
 echo "</div></div><br/>";
 echo '<div class="form-group row">';
-
+echo '<textarea id="schoolnames" name="schoolnames" cols="50" rows="4"></textarea>';
 echo '<div class="col-md-6"><button id="approvebtn" class="btn btn-primary ">Add to Hbon_hk1</button> </div>';
 //echo html_writer::tag("button", "Approve", array("id"=>"approvebtn","class"=>"btn btn-primary ","style"=>"float:right"));
 echo '</div>';
@@ -42,7 +42,9 @@ $script = '
     <script>
        
         $("#approvebtn").click(function(){
-            document.getElementById("loadarea").src = "'.$approve_url.'";
+            let sn = $("#schoolnames").val();
+            console.log("'.$approve_url.'?sn="+encodeURI(sn));
+            document.getElementById("loadarea").src = "'.$approve_url.'?sn="+encodeURI(sn);
             document.getElementById("progressbar").style.display="block";
             document.getElementById("loadarea").style.display="block";
             $(this).attr("disabled", "disabled");
