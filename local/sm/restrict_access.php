@@ -77,7 +77,7 @@ echo $OUTPUT->footer();
 function changeActivity($cra,$mod,$isChangeSession){
     global $DB;
     if($isChangeSession){
-        $sql = "update mdl_course_sections set availability=? where course=? and visible=1 and availability like '%TVA%'";
+        $sql = "update mdl_course_sections set availability=? where course=? and visible=1 and availability like '%cohort%'";
         $DB->execute($sql,array("availability"=>$cra->availability,"course"=>$cra->course));
         // print_object($cra);die;
     }
@@ -85,6 +85,6 @@ function changeActivity($cra,$mod,$isChangeSession){
         return;
     }
     $moduleids = implode(",", $mod);
-    $sql = "update mdl_course_modules set availability=? where course=? and visible=1 and module in($moduleids) and availability like '%TVA%'";
+    $sql = "update mdl_course_modules set availability=? where course=? and visible=1 and module in($moduleids) and availability like '%cohort%'";
     $DB->execute($sql,array("availability"=>$cra->availability,"course"=>$cra->course));
 }
