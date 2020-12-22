@@ -377,25 +377,26 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         $db->collection('students')->document($USER->uid)->collection('complete_activities')->document('hbon-' . $course->shortname . '-' . $complete_activities ['topic_id'] . "-" . $quiz->cmid)->set($complete_activities);
 //        $check_assignment = $db->collection('users')->document($USER->uid)->collection('assignments')->where("activity_id", "==",$quiz->cmid )->where("activity_mod", "==", "quiz")->getValue();
         //update grade assignment
-        $citiesRef = $db->collection('users')->document($USER->uid)->collection('assignments');
-        $query = $citiesRef->where('activity_id', '=', $quiz->cmid)->where('activity_mod', '=', 'quiz')->where('status', '=', 0);
+        $assignmentsRef = $db->collection('users')->document($USER->uid)->collection('assignments');
+        $query = $assignmentsRef->where('activity_id', '=', $quiz->cmid)->where('activity_mod', '=', 'quiz')->where('status', '=', 0);
         $documents = $query->documents();
         foreach ($documents as $document) {
             if ($document->exists()) {
 //                printf('Document data for document %s:' . PHP_EOL, $document->id());
 //                print_r($document->data());die();
-                $groups_data = $document->data();
-                $send_to = $groups_data["created_by"];
+                $assignment_data = $document->data();
+                $send_to = $assignment_data["created_by"];
+                $title = $assignment_data["title"];
                 $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
                     [
                         ['path' => 'grade', 'value' => $send_data['grade']],
                         ['path' => 'status', 'value' => 1],
                     ]
                 );
-                $groups_data = (array)$groups_data;
-                $groups_data["grade"] = $send_data['grade'];
-                $groups_data["status"] = 1;
-                $db->collection('groups')->document($groups_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($groups_data);
+                $assignment_data = (array)$assignment_data;
+                $assignment_data["grade"] = $send_data['grade'];
+                $assignment_data["status"] = 1;
+                $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
                 $userRef= $db->collection('users')->document($send_to)->snapshot();
                 //
                 if($userRef->exists()){
@@ -403,8 +404,8 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                     if($firebase_user["last_device"]["device_token"]){
                         $token_id =$firebase_user["last_device"]["device_token"];
                         $message = new stdClass();
-                        $message->title = $USER->firstname ." ".$USER->lastname."đã nộp bài";
-                        $message->body = $USER->firstname ." ".$USER->lastname."đã nộp bài";
+                        $message->title = $title;
+                        $message->body = $USER->firstname ." ".$USER->lastname." đã nộp bài";
 //                        deep_link: "https://dschool.vn/question_viewer?question_id=" + questionID + "&question_title=" + encodeURIComponent(question.title),
                         $message->deeplink = "https://dschool.vn/assignment_detail?assignment_id=".$document->id()."&assignment_title=".$USER->uid.urlencode( $message->title );
                         sendGCM($message, $token_id);
