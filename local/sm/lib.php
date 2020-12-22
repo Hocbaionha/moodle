@@ -112,7 +112,7 @@ function local_sm_enrole($uid)
                     $DB->execute($sql,array("data"=>$code,"userid"=>$USER->id,"fieldid"=>$codeField));
                 }
             }
-            
+
         } else {
             echo "not found" . $uid;
         }
@@ -124,18 +124,18 @@ function generate_student_code($uid,$moodleUserId,$codeField){
     global $CFG, $DB;
     global $SESSION;
     $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
-    
+
     $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$uidField));
     $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
     if(!$check){
-    //insert firebase uid 
+    //insert firebase uid
         $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
                     'fieldid' => $uidField, 'data' => $uid));
     }
-    // check stcode 
+    // check stcode
     $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$codeField));
     if(!$check||$check->data==""){
-        //create code 
+        //create code
         $fb_token = $CFG->hbon_uid_admin;
         // $db = new FirestoreClient($CFG->firebase_config);
         //check student
@@ -153,7 +153,7 @@ function generate_student_code($uid,$moodleUserId,$codeField){
 
         $username=$mdluser->username;
         $userArr = explode("-",$username);
-        $uname = array_pop($userArr);  
+        $uname = array_pop($userArr);
         if($uname=="bgh" || $uname=="admin") {
             return;
         }
@@ -169,7 +169,7 @@ function generate_student_code($uid,$moodleUserId,$codeField){
                 $student = $user;
                 $student["code"]=generateStudentCode($fdb);
                 $batch->set($fdb->collection('students')->document($uid),$student);
-                
+
                 $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]),array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
                 if($check && property_exists($check,"data") && $check->data==""){
                     $DB->execute($updatesql,array('data' => $student["code"]["student_code"],'userid' => $moodleUserId,
@@ -229,7 +229,7 @@ function generate_student_code($uid,$moodleUserId,$codeField){
             }
         }
     }
- 
+
 }
 
 function generateStudentCode($fdb){
@@ -244,10 +244,10 @@ function generateStudentCode($fdb){
             $code = substr(md5(microtime()),rand(0,26),6);
         }
     }
-    
+
     $date = new DateTime();
     $time = $date->getTimestamp();
-    $expired_time = $time + (365*24*60*60); 
+    $expired_time = $time + (365*24*60*60);
     return array("student_code"=>$code,"expired_time"=>$expired_time*1000);
 }
 function insertGroup($shortname, $group_name, $userid)
@@ -371,6 +371,29 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
             }
         }
         $db->collection('students')->document($USER->uid)->collection('complete_activities')->document( 'hbon-'.$course->shortname.'-'.$complete_activities ['topic_id']."-".$quiz->cmid)->set($complete_activities);
+//        $check_assignment = $db->collection('users')->document($USER->uid)->collection('assignments')->where("activity_id", "==",$quiz->cmid )->where("activity_mod", "==", "quiz")->getValue();
+        //update grade assignment
+        $citiesRef = $db->collection('users')->document($USER->uid)->collection('assignments');
+        $query = $citiesRef->where('activity_id', '=', $quiz->cmid )->where('activity_mod', '=', 'quiz')->where('status', '=', 0);
+        $documents = $query->documents();
+        foreach ($documents as $document) {
+            if ($document->exists()) {
+//                printf('Document data for document %s:' . PHP_EOL, $document->id());
+//                print_r($document->data());die();
+                $groups_data = $document->data();
+                $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
+                [
+                    ['path' => 'grade', 'value' => $send_data['grade']],
+                    ['path' => 'status', 'value' => 1],
+                    ]
+                );
+                $groups_data = (array)$groups_data;
+                $groups_data["grade"] = $send_data['grade'];
+                $groups_data["status"] = 1;
+                $db->collection('groups')->document($groups_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($groups_data);
+            }
+        }
+
         return true;
     } catch (Exception $exception) {
         if($CFG->wwwroot === 'https://moodledev.classon.vn'){
