@@ -24,33 +24,32 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(dirname(__DIR__)) . '/config.php');
-global $USER,$CFG;
+global $USER, $CFG;
 
-if($USER->auth!=="oauth2"){
+if ($USER->auth !== "oauth2") {
     redirect(new moodle_url("/login/change_password.php"));
 }
-require_once($CFG->dirroot.'/user/lib.php');
+require_once($CFG->dirroot . '/user/lib.php');
 require_once('change_password_form.php');
-require_once($CFG->libdir.'/authlib.php');
-require_once($CFG->dirroot.'/webservice/lib.php');
+require_once($CFG->libdir . '/authlib.php');
+require_once($CFG->dirroot . '/webservice/lib.php');
 
-require_once($CFG->dirroot.'/login/lib.php');
+require_once($CFG->dirroot . '/login/lib.php');
 
-$id     = optional_param('id', SITEID, PARAM_INT); // current course
+$id = optional_param('id', SITEID, PARAM_INT); // current course
 $return = optional_param('return', 0, PARAM_BOOL); // redirect after password change
 
 $systemcontext = context_system::instance();
 
-$PAGE->set_url('/login/change_password.php', array('id'=>$id));
+$PAGE->set_url('/login/change_password.php', array('id' => $id));
 
 $PAGE->set_context($systemcontext);
-
 //anhnn disable change password form
 if ($return) {
 // if(true){
     // this redirect prevents security warning because https can not POST to http pages
     if (empty($SESSION->wantsurl)
-            or stripos(str_replace('https://', 'http://', $SESSION->wantsurl), str_replace('https://', 'http://', $CFG->wwwroot.'/login/change_password.php')) === 0) {
+        or stripos(str_replace('https://', 'http://', $SESSION->wantsurl), str_replace('https://', 'http://', $CFG->wwwroot . '/login/change_password.php')) === 0) {
         $returnto = "$CFG->wwwroot/user/preferences.php?userid=$USER->id&course=$id";
     } else {
         $returnto = $SESSION->wantsurl;
@@ -66,7 +65,7 @@ $strparticipants = get_string('participants');
 // require proper login; guest user can not change password
 if (!isloggedin() or isguestuser()) {
     if (empty($SESSION->wantsurl)) {
-        $SESSION->wantsurl = $CFG->wwwroot.'/local/sm/change_password.php';
+        $SESSION->wantsurl = $CFG->wwwroot . '/local/sm/change_password.php';
     }
     redirect(get_login_url());
 }
@@ -90,15 +89,15 @@ $mform = new login_change_password_form();
 $navlinks = array();
 
 if ($mform->is_cancelled()) {
-    redirect($CFG->wwwroot.'/my');
+    redirect($CFG->wwwroot . '/my');
 
 } else if ($data = $mform->get_data()) {
-    
+
     if (!$userauth->user_update_password($USER, $data->newpassword1)) {
         print_error('errorpasswordupdate', 'auth');
     }
-    //AnhNN call firebase 
-    firebasechangepass($USER->uid,$data->newpassword1);
+    //AnhNN call firebase
+    firebasechangepass($USER->email, $data->newpassword1, $data->oldpassword);
     user_add_password_history($USER->id, $data->newpassword1);
 
     if (!empty($CFG->passwordchangelogout)) {
@@ -108,8 +107,8 @@ if ($mform->is_cancelled()) {
     if (!empty($data->signoutofotherservices)) {
         webservice::delete_user_ws_tokens($USER->id);
     }
-    
-    
+
+
     // Reset login lockout - we want to prevent any accidental confusion here.
     login_unlock_account($USER);
 
@@ -128,7 +127,7 @@ if ($mform->is_cancelled()) {
     $PAGE->set_heading(fullname($USER));
     echo $OUTPUT->header();
 
-    notice($strpasswordchanged, new moodle_url($PAGE->url, array('return'=>1)));
+    notice($strpasswordchanged, new moodle_url($PAGE->url, array('return' => 1)));
 
     echo $OUTPUT->footer();
     exit;
@@ -148,24 +147,40 @@ if (get_user_preferences('auth_forcepasswordchange')) {
 $mform->display();
 echo $OUTPUT->footer();
 
-function httpPost($url, $data) {
-    $curl = curl_init($url);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, '', '&'));
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0); //ssl stuff
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-    $response = curl_exec($curl);
-    curl_close($curl);
-    return $response;
-}
 
-function firebasechangepass($uid,$password){
-    global $USER,$CFG;
-    $url =  $CFG->changepass;
-    if(!isset($url)){
-        $url="https://localhost:5000/change_pass";
+function firebasechangepass($email, $newPassword, $oldPassword)
+{
+    global $USER, $CFG;
+    $url = $CFG->changepass;
+    $apiKey = $CFG->apiKey;
+    if (!isset($url)) {
+        $url = "https://id.hocbaionha.com/update-user";
     }
-    $data=array("uid"=>$uid,'password'=>$password);
-    $result = httpPost($url, $data);
+    if (!isset($apiKey)) {
+        $apiKey = "hmnc057eblai3uozo6r8okyir8hs51qaups6806rs3hhoyo54h4ufepu3n0jx54j";
+    }
+
+    $fields = array(
+        'apiKey' => $apiKey,
+        'newInfo' =>array(
+            'email'=>$email,
+            "newPassword"=>$newPassword,
+            "oldPassword"=>$oldPassword
+        )
+    );
+    $fields = json_encode($fields);
+    $headers = array(
+        'Content-Type: application/json'
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
 }

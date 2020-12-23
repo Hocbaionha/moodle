@@ -53,6 +53,9 @@ class login_change_password_form extends moodleform {
         if ($policies) {
             $mform->addElement('static', 'passwordpolicyinfo', '', implode('<br />', $policies));
         }
+        $mform->addElement('password', 'oldpassword', "Mật khẩu cũ");
+        $mform->addRule('oldpassword', get_string('required'), 'required', null, 'client');
+        $mform->setType('oldpassword', PARAM_RAW);
 
         $mform->addElement('password', 'newpassword1', get_string('newpassword'));
         $mform->addRule('newpassword1', get_string('required'), 'required', null, 'client');

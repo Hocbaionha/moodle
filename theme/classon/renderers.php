@@ -162,6 +162,15 @@ class theme_classon_core_renderer extends core_renderer {
         $am->set_alignment(action_menu::TR, action_menu::BR);
         $am->set_nowrap_on_items();
         if ( isloggedin() && !isguestuser() ) {
+
+            //cuongpt add function change password
+            $link_change_password =$CFG->wwwroot .'/local/sm/change_password.php';
+            $new_url = new moodle_url($link_change_password);
+            $change_password = '{"itemtype":"link","title":"Đổi mật khẩu","titleidentifier":"B\u1ed5-sung","url":{},"pix":"t\/edit"}';
+            $change_password =  json_decode($change_password);
+            $change_password->url = $new_url;
+            $opts->navitems[] = $change_password;
+
             //anhnn add student_code
             $add_url = new moodle_url("#");
             global $DB;
@@ -169,19 +178,23 @@ class theme_classon_core_renderer extends core_renderer {
             $check = $DB->get_record("user_info_data",array("userid"=>$user->id,"fieldid"=>$codeField));
             if($check){
                 $code=$check->data;
-                $bosung='{"itemtype":"link","title":"Mã liên kết:<br/> '.$code.'","titleidentifier":"B\u1ed5-sung","url":{}}';
+                $bosung='{"itemtype":"link",
+                          "title":"Mã liên kết:<br/> '.$code.'",
+                          "titleidentifier":"B\u1ed5-sung",
+                          "url":{}}';
                 $bosung = json_decode($bosung);
                 $bosung->url = $add_url;
                 $opts->navitems[] = $bosung;
             }
-            // $checkadd=0;    
+
+            // $checkadd=0;
             // $uid = $USER->id;
             // $table = 'hbon_add_info_user';
             // global $DB;
-            
+
             // $has_add_phone = $DB->record_exists($table, array('user_id' => $uid , 'signup_method' => 'phone'));
-        
-        
+
+
             // if(!$has_add_phone) {
             //     $checkadd=1;
             // }else {
@@ -190,17 +203,17 @@ class theme_classon_core_renderer extends core_renderer {
             //         $checkadd=1;
             //     }else {
             //         $has_add_email = $DB->record_exists($table, array('user_id' => $uid , 'signup_method' => 'email'));
-                    
+
             //         if(!$has_add_email) {
             //             $checkadd=1;
             //         }else {
             //             $user_email_info =  $DB->get_record($table, array('user_id'=>$uid, 'signup_method' => 'email'));
-                        
+
             //             if($user_email_info->has_confirm == 0) {
             //                 $checkadd=1;
             //             }
             //         }
-            //     }        
+            //     }
             // }
             // if($checkadd){
             //     $add_url = new moodle_url("/?page=additional");
@@ -210,7 +223,7 @@ class theme_classon_core_renderer extends core_renderer {
             //     $opts->navitems[] = $bosung;
             // }
         }
-        
+
         // Bổ sung|/?page=additional
         if ($withlinks) {
             $navitemcount = count($opts->navitems);
