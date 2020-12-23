@@ -166,7 +166,7 @@ class theme_classon_core_renderer extends core_renderer {
             //cuongpt add function change password
             $link_change_password =$CFG->wwwroot .'/local/sm/change_password.php';
             $new_url = new moodle_url($link_change_password);
-            $change_password = '{"itemtype":"link","title":"Đổi mật khẩu","titleidentifier":"B\u1ed5-sung","url":{},"pix":"t\/edit"}';
+            $change_password = '{"itemtype":"link","title":"Đổi mật khẩu","titleidentifier":"changepass","url":{},"pix":"t\/edit"}';
             $change_password =  json_decode($change_password);
             $change_password->url = $new_url;
             $opts->navitems[] = $change_password;
