@@ -399,6 +399,8 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                 $assignment_data = (array)$assignment_data;
                 $assignment_data["grade"] = $send_data['grade'];
                 $assignment_data["status"] = 1;
+                $assignment_data["created_at"] = FieldValue::serverTimestamp();
+                $assignment_data["created_by"] = $USER->uid;
                 $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
                 $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
 //                $userRef= $db->collection('users')->document($send_to)->snapshot();
