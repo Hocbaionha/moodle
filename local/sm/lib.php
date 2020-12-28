@@ -399,21 +399,20 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                 $assignment_data = (array)$assignment_data;
                 $assignment_data["grade"] = $send_data['grade'];
                 $assignment_data["status"] = 1;
+                $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
                 $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
-                $userRef= $db->collection('users')->document($send_to)->snapshot();
-                //
-                if($userRef->exists()){
-                    $firebase_user = $userRef->data();
-                    if($firebase_user["last_device"]["device_token"]){
-                        $token_id =$firebase_user["last_device"]["device_token"];
-                        $message = new stdClass();
-                        $message->title = $title;
-                        $message->body = $USER->firstname ." ".$USER->lastname." đã nộp bài";
-//                        deep_link: "https://dschool.vn/question_viewer?question_id=" + questionID + "&question_title=" + encodeURIComponent(question.title),
-                        $message->deeplink = "https://dschool.vn/assignment_detail?assignment_id=".$document->id()."&assignment_title=".$USER->uid.urlencode( $message->title );
-                        sendGCM($message, $token_id);
-                    }
-                }
+//                $userRef= $db->collection('users')->document($send_to)->snapshot();
+//                if($userRef->exists()){
+//                    $firebase_user = $userRef->data();
+//                    if($firebase_user["last_device"]["device_token"]){
+//                        $token_id =$firebase_user["last_device"]["device_token"];
+//                        $message = new stdClass();
+//                        $message->title = $title;
+//                        $message->body = $USER->firstname ." ".$USER->lastname." đã nộp bài";
+//                        $message->deeplink = "https://dschool.vn/assignment_detail?assignment_id=".$document->id()."&assignment_title=".$USER->uid.urlencode( $message->title );
+//                        sendGCM($message, $token_id);
+//                    }
+//                }
             }
         }
 
