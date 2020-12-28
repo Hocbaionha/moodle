@@ -385,7 +385,8 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
             if ($document->exists()) {
                 $assignment_data = $document->data();
                 $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->update([
-                    ['path' => 'grades', 'value' => FieldValue::arrayUnion([$USER->uid])]
+                    ['path' => 'grades', 'value' => FieldValue::arrayUnion([$USER->uid])],
+                    ['path' => 'submits', 'value' => FieldValue::arrayUnion([$USER->uid])]
                 ]);
                 $send_to = $assignment_data["created_by"];
                 $title = $assignment_data["title"];
