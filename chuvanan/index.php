@@ -27,7 +27,7 @@ require_once("../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 
 //$categoryid = optional_param('categoryid', 0, PARAM_INT); // Category id
-$categoryid = 16;
+$categoryid = 2;
 $site = get_site();
 
 if ($CFG->forcelogin) {
