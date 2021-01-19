@@ -1751,7 +1751,7 @@ class core_course_renderer extends plugin_renderer_base {
             if (count($categorieslist) > 1) {
                 $output .= html_writer::start_tag('div', array('class' => 'categorypicker'));
                 $select = new single_select(new moodle_url('/course/index.php'), 'categoryid',
-                        core_course_category::make_categories_list(), $coursecat->id, null, 'switchcategory');
+                    core_course_category::make_categories_list(), $coursecat->id, null, 'switchcategory');
                 $select->set_label(get_string('categories').':');
                 $output .= $this->render($select);
                 $output .= html_writer::end_tag('div'); // .categorypicker
