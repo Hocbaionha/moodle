@@ -59,7 +59,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6" id="label_product_desciption"><?php echo $product->description ?></div>
+                    <div  id="label_product_desciption"><?php echo $product->description ?></div>
                 </div>
                 <input type="hidden" id="list_product" value='<?php echo json_encode($list_product); ?>'>
             </div>
