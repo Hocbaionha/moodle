@@ -18458,4 +18458,5 @@ body .furgan-mapper .text__area {
     color: white;
     -webkit-transform: scale(1.1);
     -webkit-box-shadow: 0px 15px 20px -20px #000;
+    z-index:999;
 }
