@@ -2,7 +2,7 @@
 <div class="container">
     <div class="block-heading">
         <h2 class="text-info" >
-            Thanh toán đơn hàng
+            Chọn phương thức thanh toán
         </h2>
     </div>
     <div class="row">
@@ -50,6 +50,52 @@
         </div>
     </div>
 
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="pricing ui-ribbon-container">
+            <div class="title" style="margin-top: 30px;">
+                <h3>Thanh toán chuyển khoản qua ngân hàng </h3>
+            </div>
+            <div class="x_content" >
+                <div class="">
+                    <div class="pricing_features">
+                        <p>Thực hiện theo các bước sau:</p>
+                        <ul class="list-unstyled text-left">
+                            <li><i class="fa fa-check text-success"></i> Chuyển khoản theo thông tin:
+                                <ul >
+                                    <li style="padding-left: 15px; margin-left: 18px;">Tên tài khoản: Công ty TNHH Công nghệ và Giáo dục Đông Phương</li>
+                                    <li style="padding-left: 15px; margin-left: 18px; ">Số tài khoản: 1005299093</li>
+                                    <li style="padding-left: 15px; margin-left: 18px; ">Ngân hàng: TMCP Sài gòn Hà Nội(SHB) - chi nhánh Hà Nội</li>
+                                    <li style="padding-left: 15px; margin-left: 18px; ">Số tiền: <?php echo number_format($product->price,0,",","."). ' đồng' ;  ?></li>
+                                    <li style="padding-left: 15px; margin-left: 18px; ">
+                                        Nội dung chuyển khoản: <strong>Tên khóa học - Tên đăng nhập của tài khoản - Số điện thoại liên hệ</strong>
+                                        <!--                                            Nội dung: <em>Thanh toán khoá học: <strong>--><?php //echo $product->name ?><!--</strong>,-->
+                                        <!--                                              tên đăng nhập: <strong>--><?php //echo $USER->username ?><!--</strong>, số điện thoại học sinh <strong>--><?php //echo $USER->firstname. ' '.$USER->lastname;  ?><!--</strong>-->
+                                        <!--                                            </em>-->
+                                    </li>
+                                    <li style="padding-left: 15px; margin-left: 18px;">
+                                        <?php if($product->id == 1) echo 'Ví dụ: <span  class="pay_syntax">Luyện thi Toán – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        <?php if($product->id == 2) echo 'Ví dụ: <span  class="pay_syntax">Luyện thi Văn  – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        <?php if($product->id == 3) echo 'Ví dụ: <span  class="pay_syntax">Luyện thi Anh – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        <?php if($product->id == 7) echo 'Ví dụ: <span  class="pay_syntax">Luyện thi Toán Văn Anh – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        <?php if($product->id == 9) echo 'Ví dụ: <span  class="pay_syntax">HBON Math – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        <?php if($product->id == 11) echo 'Ví dụ: <span  class="pay_syntax">ON Math Live  – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        <?php if($product->id == 15) echo 'Ví dụ: <span  class="pay_syntax">Skills Builder  – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><i class="fa fa-check text-success"></i> Chụp ảnh hóa đơn gửi đến email: <a href="mailto:info@hocbaionha.com">info@hocbaionha.com </a> hoặc chat trực tiếp trên trang web.
+                            </li>
+                            <li><i class="fa fa-check text-success"></i> Mọi thắc mắc liên hệ số hotline: 024 7100 5858 hoặc chat trực tiếp trên trang web.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
     <div class="row" style="margin-top: 30px;">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="pricing ui-ribbon-container">
@@ -78,40 +124,6 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="pricing ui-ribbon-container">
-                <div class="title" style="margin-top: 30px;">
-                    <h3>Thanh toán chuyển khoản qua ngân hàng </h3>
-                </div>
-                <div class="x_content" >
-                    <div class="">
-                        <div class="pricing_features">
-                            <p>Thực hiện theo các bước sau:</p>
-                            <ul class="list-unstyled text-left">
-                                <li><i class="fa fa-check text-success"></i> Chuyển khoản theo thông tin:
-                                    <ul >
-                                        <li style="padding-left: 15px; margin-left: 18px;">Tên tài khoản: Công ty TNHH Công nghệ và Giáo dục Đông Phương</li>
-                                        <li style="padding-left: 15px; margin-left: 18px; ">Số tài khoản: 1005299093</li>
-                                        <li style="padding-left: 15px; margin-left: 18px; ">Ngân hàng: TMCP Sài gòn Hà Nội(SHB) - chi nhánh Hà Nội</li>
-                                        <li style="padding-left: 15px; margin-left: 18px; ">Số tiền: <?php echo number_format($product->price,0,",","."). ' đồng' ;  ?></li>
-                                        <li style="padding-left: 15px; margin-left: 18px; ">
-                                            Nội dung chuyển khoản: <strong>Tên khóa học - Tên đăng nhập của tài khoản - Số điện thoại liên hệ</strong>
-<!--                                            Nội dung: <em>Thanh toán khoá học: <strong>--><?php //echo $product->name ?><!--</strong>,-->
-<!--                                              tên đăng nhập: <strong>--><?php //echo $USER->username ?><!--</strong>, số điện thoại học sinh <strong>--><?php //echo $USER->firstname. ' '.$USER->lastname;  ?><!--</strong>-->
-<!--                                            </em>-->
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><i class="fa fa-check text-success"></i> Chụp ảnh phiếu uỷ nhiệm chi gửi email tới info@hocbaionha.com</li>
-                                <li><i class="fa fa-check text-success"></i> Mọi thắc mắc liên hệ số hot line: 024.7100.5858</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
     </div>
 </div>
 <div class="modal fade in" id="payment_by_nganluong" role = "dialog">
