@@ -157,3 +157,8 @@
     font-weight: 900;
 }
 /* ********* ********* */
+
+li .pay_syntax{
+    color: orangered!important;
+    font-weight: bold!important;
+}

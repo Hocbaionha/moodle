@@ -2,7 +2,7 @@
 <div class="container">
     <div class="block-heading">
         <h2 class="text-info text-center">
-            Thanh toán đơn hàng
+           Chọn phương thức thanh toán
         </h2>
     </div>
     <hr>
@@ -69,40 +69,6 @@
     <div class="row" style="margin-top: 30px;">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="pricing ui-ribbon-container">
-                <div class="title">
-                    <h3>Thanh toán qua Ngân Lượng </h3>
-                </div>
-                <div class="x_content">
-                    <div class="">
-                        <div class="pricing_features">
-                            <ul class="list-unstyled text-left">
-                                <li><i class="fa fa-check text-success"></i> Được đảm bảo bởi <a
-                                            href="https://www.nganluong.vn" target="_blank">
-                                        <img style="width:120px;"
-                                             src="<?php echo new moodle_url('/local/hbon_payment/pix/nganluong-logo-color.svg'); ?>"/></a>
-                                </li>
-                                <li><i class="fa fa-check text-success"></i> Hỗ trợ nhiều phương thức thanh toán
-                                    (internet banking, VISA, MASTER, ...)
-                                </li>
-                                <li><i class="fa fa-check text-success"></i> Quyền truy cập sẽ được kích hoạt ngay sau
-                                    khi thanh toán thành công
-                                </li>
-                            </ul>
-                        </div>
-                        <button type="button"
-                                style="width: 50%; float: right;"
-                                class="btn btn-primary rounded"
-                                id="charge_money"
-
-                                data-target="#payment_by_nganluong">
-                            Thực hiện ngay
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="pricing ui-ribbon-container">
                 <div class="title" style="margin-top: 30px;">
                     <h3>Thanh toán chuyển khoản qua ngân hàng </h3>
                 </div>
@@ -133,13 +99,18 @@
                                             <?php //echo $USER->firstname. ' '.$USER->lastname;  ?><!--</strong>-->
                                             <!--                                            </em>-->
                                         </li>
+                                        <li style="padding-left: 15px; margin-left: 18px;">
+                                            <?php if($product->id == 8) echo 'Ví dụ: <span  class="pay_syntax">Toán Văn Anh 12 tháng – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                            <?php if($product->id == 10) echo 'Ví dụ: <span  class="pay_syntax">Toán Văn 12 tháng – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                            <?php if($product->id == 12) echo 'Ví dụ: <span  class="pay_syntax">Tiếng Anh 12 tháng  – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                            <?php if($product->id == 13) echo 'Ví dụ: <span  class="pay_syntax">Toán Văn Anh 6 tháng – thutrang2020 – 0989.xxx.xxx </span>';?>
+                                            <?php if($product->id == 14) echo 'Ví dụ: <span  class="pay_syntax">Toán Văn 6 tháng – thutrang2020 – 0989.xxx.xxx</span>';?>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li><i class="fa fa-check text-success"></i> Chụp ảnh phiếu uỷ nhiệm chi gửi email tới
-                                    info@hocbaionha.com
+                                <li><i class="fa fa-check text-success"></i> Chụp ảnh hóa đơn gửi đến email: <a href="mailto:info@hocbaionha.com">info@hocbaionha.com </a> hoặc chat trực tiếp trên trang web.
                                 </li>
-                                <li><i class="fa fa-check text-success"></i> Mọi thắc mắc liên hệ số hot line:
-                                    024.7100.5858
+                                <li><i class="fa fa-check text-success"></i> Mọi thắc mắc liên hệ số hotline: 024 7100 5858 hoặc chat trực tiếp trên trang web.
                                 </li>
                             </ul>
                         </div>
@@ -147,6 +118,40 @@
                 </div>
 
 
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="pricing ui-ribbon-container">
+                <div class="title">
+                    <h3>Thanh toán qua Ngân Lượng </h3>
+                </div>
+                <div class="x_content">
+                    <div class="">
+                        <div class="pricing_features">
+                            <ul class="list-unstyled text-left">
+                                <li><i class="fa fa-check text-success"></i> Được đảm bảo bởi <a
+                                            href="https://www.nganluong.vn" target="_blank">
+                                        <img style="width:120px;"
+                                             src="<?php echo new moodle_url('/local/hbon_payment/pix/nganluong-logo-color.svg'); ?>"/></a>
+                                </li>
+                                <li><i class="fa fa-check text-success"></i> Hỗ trợ nhiều phương thức thanh toán
+                                    (internet banking, VISA, MASTER, ...)
+                                </li>
+                                <li><i class="fa fa-check text-success"></i> Quyền truy cập sẽ được kích hoạt ngay sau
+                                    khi thanh toán thành công
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button"
+                                style="width: 50%; float: right;"
+                                class="btn btn-primary rounded"
+                                id="charge_money"
+
+                                data-target="#payment_by_nganluong">
+                            Thực hiện ngay
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -216,6 +221,18 @@
         $('#product_name').val(obj[product].name);
         $('#money_trans').val(obj[product].price);
         $('#modal_code').html(obj[product].code);
+        if(product == 8){
+            $('.pay_syntax').html('Toán Văn Anh 12 tháng – thutrang2020 – 0989.xxx.xxx');
+        }if(product == 10){
+            $('.pay_syntax').html('Toán Văn 12 tháng – thutrang2020 – 0989.xxx.xxx');
+        }if(product == 12){
+            $('.pay_syntax').html('Tiếng Anh 12 tháng  – thutrang2020 – 0989.xxx.xxx');
+        }if(product == 13){
+            $('.pay_syntax').html('Toán Văn Anh 6 tháng – thutrang2020 – 0989.xxx.xxx');
+        }if(product == 14){
+            $('.pay_syntax').html('Toán Văn 6 tháng – thutrang2020 – 0989.xxx.xxx');
+        }
+       console.log(product);
     });
     $('#charge_money').on('click', function (event) {
         event.preventDefault();
