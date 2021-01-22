@@ -384,25 +384,48 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         foreach ($documents as $document) {
             if ($document->exists()) {
                 $assignment_data = $document->data();
-                $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->update([
-                    ['path' => 'grades', 'value' => FieldValue::arrayUnion([$USER->uid])],
-                    ['path' => 'submits', 'value' => FieldValue::arrayUnion([$USER->uid])]
-                ]);
-                $send_to = $assignment_data["created_by"];
-                $title = $assignment_data["title"];
-                $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
-                    [
-                        ['path' => 'grade', 'value' => $send_data['grade']],
-                        ['path' => 'status', 'value' => 1],
-                    ]
-                );
-                $assignment_data = (array)$assignment_data;
-                $assignment_data["grade"] = $send_data['grade'];
-                $assignment_data["status"] = 1;
-                $assignment_data["created_at"] = FieldValue::serverTimestamp();
-                $assignment_data["created_by"] = $USER->uid;
-                $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
-                $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                if(isset($assignment_data['group'])){
+                    $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->update([
+                        ['path' => 'grades', 'value' => FieldValue::arrayUnion([$USER->uid])],
+                        ['path' => 'submits', 'value' => FieldValue::arrayUnion([$USER->uid])]
+                    ]);
+                    $send_to = $assignment_data["created_by"];
+                    $title = $assignment_data["title"];
+                    $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
+                        [
+                            ['path' => 'grade', 'value' => $send_data['grade']],
+                            ['path' => 'status', 'value' => 1],
+                        ]
+                    );
+                    $assignment_data = (array)$assignment_data;
+                    $assignment_data["grade"] = $send_data['grade'];
+                    $assignment_data["status"] = 1;
+                    $assignment_data["created_at"] = FieldValue::serverTimestamp();
+                    $assignment_data["created_by"] = $USER->uid;
+                    $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
+                    $db->collection('groups')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                }
+                if(isset($assignment_data['class'])){
+                    $db->collection('classes')->document($assignment_data["class"])->collection('assignments')->document($document->id())->update([
+                        ['path' => 'grades', 'value' => FieldValue::arrayUnion([$USER->uid])],
+                        ['path' => 'submits', 'value' => FieldValue::arrayUnion([$USER->uid])]
+                    ]);
+                    $send_to = $assignment_data["created_by"];
+                    $title = $assignment_data["title"];
+                    $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
+                        [
+                            ['path' => 'grade', 'value' => $send_data['grade']],
+                            ['path' => 'status', 'value' => 1],
+                        ]
+                    );
+                    $assignment_data = (array)$assignment_data;
+                    $assignment_data["grade"] = $send_data['grade'];
+                    $assignment_data["status"] = 1;
+                    $assignment_data["created_at"] = FieldValue::serverTimestamp();
+                    $assignment_data["created_by"] = $USER->uid;
+                    $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
+                    $db->collection('classes')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                }
 //                $userRef= $db->collection('users')->document($send_to)->snapshot();
 //                if($userRef->exists()){
 //                    $firebase_user = $userRef->data();
