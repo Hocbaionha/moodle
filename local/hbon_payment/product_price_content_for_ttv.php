@@ -87,7 +87,7 @@
                                         <li style="padding-left: 15px; margin-left: 18px; ">Ngân hàng: TMCP Sài gòn Hà
                                             Nội(SHB) - chi nhánh Hà Nội
                                         </li>
-                                        <li style="padding-left: 15px; margin-left: 18px; ">Số
+                                        <li style="padding-left: 15px; margin-left: 18px; " id="price">Số
                                             tiền: <?php echo number_format($product->price, 0, ",", ".") . ' đồng'; ?></li>
                                         <li style="padding-left: 15px; margin-left: 18px; ">
                                             Nội dung chuyển khoản: <strong>Tên khóa học - Tên đăng nhập của tài khoản -
@@ -221,6 +221,7 @@
         $('#product_name').val(obj[product].name);
         $('#money_trans').val(obj[product].price);
         $('#modal_code').html(obj[product].code);
+        $('#price').html('Số tiền: '+parseInt(obj[product].price)+' đồng');
         if(product == 8){
             $('.pay_syntax').html('Toán Văn Anh 12 tháng – thutrang2020 – 0989.xxx.xxx');
         }if(product == 10){
