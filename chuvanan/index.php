@@ -28,7 +28,7 @@ require_once($CFG->dirroot. '/course/lib.php');
 $PAGE->requires->css(new moodle_url('/chuvanan/templates/css/custom.css'));
 
 //$categoryid = optional_param('categoryid', 0, PARAM_INT); // Category id
-$categoryid = 2;
+$categoryid = 16;
 $site = get_site();
 
 if ($CFG->forcelogin) {
