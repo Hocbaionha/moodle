@@ -378,7 +378,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         $db->collection('students')->document($USER->uid)->collection('complete_activities')->document('hbon-' . $course->shortname . '-' . $complete_activities ['topic_id'] . "-" . $quiz->cmid)->set($complete_activities);
 //        $check_assignment = $db->collection('users')->document($USER->uid)->collection('assignments')->where("activity_id", "==",$quiz->cmid )->where("activity_mod", "==", "quiz")->getValue();
         //update grade assignment
-        $assignmentsRef = $db->collection('users')->document($USER->uid)->collection('assignments');
+        $assignmentsRef = $db->collection('students')->document($USER->uid)->collection('assignments');
         $query = $assignmentsRef->where('activity_id', '=', (string)$quiz->cmid)->where('activity_mod', '=', 'quiz')->where('status', '=', 0);
         $documents = $query->documents();
         foreach ($documents as $document) {
@@ -391,7 +391,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                     ]);
                     $send_to = $assignment_data["created_by"];
                     $title = $assignment_data["title"];
-                    $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
+                    $db->collection('students')->document($USER->uid)->collection('assignments')->document($document->id())->update(
                         [
                             ['path' => 'grade', 'value' => $send_data['grade']],
                             ['path' => 'status', 'value' => 1],
@@ -412,7 +412,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                     ]);
                     $send_to = $assignment_data["created_by"];
                     $title = $assignment_data["title"];
-                    $db->collection('users')->document($USER->uid)->collection('assignments')->document($document->id())->update(
+                    $db->collection('students')->document($USER->uid)->collection('assignments')->document($document->id())->update(
                         [
                             ['path' => 'grade', 'value' => $send_data['grade']],
                             ['path' => 'status', 'value' => 1],
