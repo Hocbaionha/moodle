@@ -55,19 +55,30 @@ if ($mform->is_cancelled()) {
     $schoolurl = new moodle_url('/local/sm/school_enrole.php');
     redirect($schoolurl);
 } else if ($fromform = $mform->get_data()) {
-    try{
-    $cohortId = $fromform->cohort;
-    $userids = $DB->get_records("cohort_members",array("cohortid"=>$fromform->school));
-    foreach($userids as $member){
-        $userid = $member->userid;
-        cohort_add_member($cohortId,$userid);
-    }
     echo $OUTPUT->header();
-    echo "Enrole success $fromform->cohort - $fromform->school";
-    echo $OUTPUT->footer();
-    } catch (Exception $e) {
-        serviceErrorLog("school_enrole error:" . json_encode($e->getTrace()));
-    }
+    $cohortId = $fromform->cohort;
+    
+    echo '<div class="col-md-12">
+		<div id="progressbar" style="border:1px solid #1177d1; border-radius: 5px; display:none"></div>
+		<!-- Progress information -->
+		<br>
+		<div id="information" ></div>
+	</div>';
+echo '<iframe id="loadarea" style="display:none;width:100%;height:200px;"></iframe><br />';
+echo html_writer::tag("BR", null);
+$approve_url = new moodle_url('/local/sm/do_school_enrole.php');
+$script = '
+    <script>
+      console.log("'.$approve_url.'?cohortid='.$fromform->cohort.'&schoolid='.$fromform->school.'");
+            document.getElementById("loadarea").src = "'.$approve_url.'?cohortid='.$fromform->cohort.'&schoolid='.$fromform->school.'";
+            document.getElementById("progressbar").style.display="block";
+            document.getElementById("loadarea").style.display="block";
+      
+    </script>';
+echo $script;
+echo $OUTPUT->footer();
+
+    
 }
 else {
     $url = new moodle_url('/local/sm/school_enrole.php');
