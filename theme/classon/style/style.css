@@ -18453,3 +18453,10 @@ body .furgan-mapper .text__area {
     height: 100%;
 }
 
+.product-card:hover{
+    background-color: #3e8e41;
+    color: white;
+    -webkit-transform: scale(1.1);
+    -webkit-box-shadow: 0px 15px 20px -20px #000;
+    z-index:2;
+}

@@ -366,7 +366,14 @@
                     $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', $stredit));
                 }
             }
-
+            //sso change password
+            if (has_capability('moodle/user:update', $sitecontext)) {
+                // prevent editing of admins by non-admins
+                if (is_siteadmin($USER) or !is_siteadmin($user)) {
+                    $url = new moodle_url('/local/sm/admin_changepassword.php', array('email'=>$user->email));
+                    $buttons[] = html_writer::link($url, $OUTPUT->pix_icon('t/edit', "Đổi mạt khẩu"));
+                }
+            }
             // the last column - confirm or mnet info
             if (is_mnet_remote_user($user)) {
                 // all mnet users are confirmed, let's print just the name of the host there

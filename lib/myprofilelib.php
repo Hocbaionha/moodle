@@ -329,6 +329,14 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
             }
         }
     }
+    if (is_siteadmin()) {
+        $param_user = optional_param('id', 0, PARAM_INT);
+        if($param_user!==0){
+            $refUser = $DB->get_record('user', array('id'=>$param_user));
+            $node = new core_user\output\myprofile\node('contact', 'icqnumber', 'Admin reset password', null, null, html_writer::link($CFG->wwwroot.'/local/sm/admin_changepassword.php?email='.$refUser->email, "Reset password"));
+            $tree->add_node($node);
+        }
+    }
 
     if ($user->icq && !isset($hiddenfields['icqnumber'])) {
         $imurl = new moodle_url('http://web.icq.com/wwp', array('uin' => $user->icq) );
