@@ -144,15 +144,15 @@ class local_sm_user_external extends external_api{
         serviceErrorLog("start...");
         global $DB;
          $school_id  = $params["school_id"];
-        //  ob_end_clean();
-        // header("Connection: close");
-        //  ob_start();
-        //  echo json_encode(["status"=>"doing:".$params['command_id']."-".$params['year']]);
-        //  $size = ob_get_length();
-        //  header("Content-Length: $size");
-        //  ob_end_flush(); // Strange behaviour, will not work
-        //  flush();            // Unless both are called !
-        //  session_write_close();
+         ob_end_clean();
+        header("Connection: close");
+         ob_start();
+         echo json_encode(["status"=>"doing:".$params['command_id']."-".$params['year']]);
+         $size = ob_get_length();
+         header("Content-Length: $size");
+         ob_end_flush(); // Strange behaviour, will not work
+         flush();            // Unless both are called !
+         session_write_close();
 
          serviceErrorLog("start upload_school:".$school_id);
          $hs = json_decode($params["hs"]);
@@ -176,7 +176,6 @@ class local_sm_user_external extends external_api{
 
         foreach($hs as $hs_row){
 
-            break;
             if($r==0) {
                 $r++;
                 continue;
@@ -334,7 +333,6 @@ class local_sm_user_external extends external_api{
         $r=0;
         foreach($gv as $gv_row){
 
-            break;
             if($r==0) {
                 $r++;
                 continue;
@@ -377,6 +375,7 @@ class local_sm_user_external extends external_api{
                         serviceErrorLog("found teacher data:".json_encode($data));
                         $teracherRef = $fdb->collection('teachers')->document($uid);
                         $teacher = $user;
+                        $teacher["subject"]=$subject_raw;
                         if (!$teracherRef->snapshot()->exists()) {
                             //create teacher if not exist
                             serviceErrorLog(" teacher not exist".$uid);
@@ -428,7 +427,7 @@ class local_sm_user_external extends external_api{
                     //create teacher if not exist
                     serviceErrorLog(" teacher not exist".$uid);
 
-                
+                    $teacher["subject"]=$subject_raw;
                     $fdb->collection('teachers')->document($uid)->set($teacher);
                     //add to school
                     $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
@@ -467,6 +466,7 @@ class local_sm_user_external extends external_api{
                         //assign teacher for each class
                         serviceErrorLog("assign 1: $gvcn for $classid in $school_id".$data['name']);
                         self::insert_assignment($fdb,$gvcn,$classid,$data['name'],"gvcn",$school_id);
+                        
 
                         serviceErrorLog("assign 2: $gvtoan1 for $classid in $school_id".$data['name']);
                         self::insert_assignment($fdb,$gvtoan1,$classid,$data['name'],"toan",$school_id);
@@ -635,6 +635,9 @@ class local_sm_user_external extends external_api{
                     $teacherid=$document->id();
                     $teracherRef = $fdb->collection('teachers')->document($teacherid);
                     serviceErrorLog("assigning teacher $teacherid: ".json_encode($data));
+                    // $teracherRef->update([
+                    //     ['path' => 'classes', 'value' => FieldValue::deleteField()]
+                    // ]);
                     if(array_key_exists("classes",$data)){
                         $classes = $data['classes'];
                         $rolefound=0;
@@ -658,18 +661,19 @@ class local_sm_user_external extends external_api{
                             $newclass = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject));
                             $classes = array_unique(array_merge($classes,$newclass));
                         }
-                        serviceErrorLog("=4");
-                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>$classes]]);
-                        serviceErrorLog("=5");
                     } else {
-                        serviceErrorLog("=6");
+                        serviceErrorLog("=6 ".$teacherid);
                         $classes = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject));
-                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>$classes]]);
+                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>array($classes)]]);
                         serviceErrorLog("=7");
                     }
                     serviceErrorLog("=8");
                     $fdb->collection('classes')->document($classid)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                     serviceErrorLog("=9");
+                    if($subject=="gvcn"){
+                        serviceErrorLog("=10");
+                        $fdb->collection('classes')->document($classid)->update([["path"=>"gvcn","value"=>$teacherid]]);
+                    }
                    
                 }
             }
