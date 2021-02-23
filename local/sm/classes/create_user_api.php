@@ -465,20 +465,20 @@ class local_sm_user_external extends external_api{
                         serviceErrorLog("found class:$classid ".json_encode($data));
                         //assign teacher for each class
                         serviceErrorLog("assign 1: $gvcn for $classid in $school_id".$data['name']);
-                        self::insert_assignment($fdb,$gvcn,$classid,$data['name'],"gvcn",$school_id);
+                        self::insert_assignment($fdb,$gvcn,$classid,$data['name'],$data['years'],"gvcn",$school_id);
                         
 
                         serviceErrorLog("assign 2: $gvtoan1 for $classid in $school_id".$data['name']);
-                        self::insert_assignment($fdb,$gvtoan1,$classid,$data['name'],"toan",$school_id);
+                        self::insert_assignment($fdb,$gvtoan1,$classid,$data['name'],$data['years'],"toan",$school_id);
 
                         serviceErrorLog("assign 3: $gvtoan2 for $classid in $school_id".$data['name']);
-                        self::insert_assignment($fdb,$gvtoan2,$classid,$data['name'],"toan",$school_id);
+                        self::insert_assignment($fdb,$gvtoan2,$classid,$data['name'],$data['years'],"toan",$school_id);
 
                         serviceErrorLog("assign 4: $gvta for $classid in $school_id".$data['name']);
-                        self::insert_assignment($fdb,$gvta,$classid,$data['name'],"anh",$school_id);
+                        self::insert_assignment($fdb,$gvta,$classid,$data['name'],$data['years'],"anh",$school_id);
 
                         serviceErrorLog("assign 5: $gvnv for $classid in $school_id".$data['name']);
-                        self::insert_assignment($fdb,$gvnv,$classid,$data['name'],"van",$school_id);
+                        self::insert_assignment($fdb,$gvnv,$classid,$data['name'],$data['years'],"van",$school_id);
 
                     }
                 }
@@ -620,7 +620,7 @@ class local_sm_user_external extends external_api{
         context_user::instance($user->id);
     }
 
-    private function insert_assignment($fdb,$fullname,$classid,$classname,$subject,$school_id){
+    private function insert_assignment($fdb,$fullname,$classid,$classname,$classyear,$subject,$school_id){
         serviceErrorLog("=>>>>start insert assignment $classid,$classname,$subject,$school_id: ".$fullname);
         $arrName = split_name($fullname);
         $query = $fdb->collection('teachers')->where("firstname","==",$arrName['first_name'])->where("lastname","==",$arrName['last_name'])->where("school_id","==",$school_id);
@@ -658,12 +658,12 @@ class local_sm_user_external extends external_api{
                         serviceErrorLog("=2");
                         if($rolefound==0){
                             serviceErrorLog("=3");
-                            $newclass = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject));
+                            $newclass = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
                             $classes = array_unique(array_merge($classes,$newclass));
                         }
                     } else {
                         serviceErrorLog("=6 ".$teacherid);
-                        $classes = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject));
+                        $classes = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
                         $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>array($classes)]]);
                         serviceErrorLog("=7");
                     }
