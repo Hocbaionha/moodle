@@ -45,24 +45,12 @@ function local_sm_enrole($uid)
         if ($snapshot->exists()) {
 
             $student = $snapshot->data();
-            $enddate = time();
             if (array_key_exists("class", $student)) {
                 $group_name = $student["class"]["name"];
                 foreach ($student["products"] as $productref) {
                     $snapshot = $productref->snapshot();
                     if ($snapshot->exists()) {
                         $product = $snapshot->data();
-                        $endtime = $product["endtime"];
-                        switch ($endtime) {
-                            case "0":
-                                $enddate = $product['enddate']->get()->getTimestamp();
-                                break;
-                            case "00":
-                                $enddate = strtotime("01/01/2100");
-                                break;
-                            default:
-                                $enddate = strtotime("+$endtime month", time());
-                        }
                         $courses = $product['courses'];
                         foreach ($courses as $course) {
                             $shortname = $course["shortname"];
@@ -186,7 +174,7 @@ function generate_student_code($uid, $moodleUserId, $codeField)
                 $student["code"] = generateStudentCode($fdb);
                 $batch->update($fdb->collection('students')->document($uid), [["path" => "code", "value" => $student["code"]]]);
                 $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]), array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
-                if (property_exists($check, "data") && $check->data == "") {
+                if ($check && property_exists($check, "data") && $check->data == "") {
                     $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
                         'fieldid' => $codeField));
                 } else {
@@ -217,7 +205,7 @@ function generate_student_code($uid, $moodleUserId, $codeField)
                     $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
                 }
                 serviceErrorLog("code:" . json_encode($student["code"]['student_code']));
-                if (property_exists($check, "data") && $check->data == "") {
+                if ($check && property_exists($check, "data") && $check->data == "") {
                     $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
                         'fieldid' => $codeField));
                 } else {
