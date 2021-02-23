@@ -499,7 +499,7 @@ class local_sm_user_external extends external_api{
             )
         );
     }
-    function create_moodle_user($user_row,$school_id){
+    static function  create_moodle_user($user_row,$school_id){
         global $DB,$CFG;
         
         $class_name=  $user_row[1];
@@ -598,7 +598,7 @@ class local_sm_user_external extends external_api{
         return $user;
     }
 
-    function insertUser($user) {
+    static function insertUser($user) {
         serviceErrorLog("start insert:".json_encode($user));
         $user->id = user_create_user($user, false, false);
 
@@ -620,7 +620,7 @@ class local_sm_user_external extends external_api{
         context_user::instance($user->id);
     }
 
-    private function insert_assignment($fdb,$fullname,$classid,$classname,$classyear,$subject,$school_id){
+    static private function insert_assignment($fdb,$fullname,$classid,$classname,$classyear,$subject,$school_id){
         serviceErrorLog("=>>>>start insert assignment $classid,$classname,$subject,$school_id: ".$fullname);
         $arrName = split_name($fullname);
         $query = $fdb->collection('teachers')->where("firstname","==",$arrName['first_name'])->where("lastname","==",$arrName['last_name'])->where("school_id","==",$school_id);
