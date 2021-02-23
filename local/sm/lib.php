@@ -237,7 +237,9 @@ function generate_student_code($uid, $moodleUserId, $codeField)
 
 function generateStudentCode($fdb)
 {
+    serviceErrorLog("start generateStudentCode");
     $code = substr(md5(microtime()), rand(0, 26), 6);
+    serviceErrorLog("code:".$code);
     $exist = true;
     while ($exist) {
         $docRef = $fdb->collection('student_code')->document($code);
@@ -252,6 +254,7 @@ function generateStudentCode($fdb)
     $date = new DateTime();
     $time = $date->getTimestamp();
     $expired_time = $time + (365 * 24 * 60 * 60);
+    serviceErrorLog("code generated:".$code);
     return array("student_code" => $code, "expired_time" => $expired_time * 1000);
 }
 
@@ -712,3 +715,26 @@ function local_sm_mod_url_course_module_viewed(mod_url\event\course_module_viewe
 }
 
 //function local_sm_
+function updateStudentData($moodleUserId,$uid,$code){
+    global $DB;
+
+    $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
+    $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
+    $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$uidField));
+    $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
+    if(!$check){
+        $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                    'fieldid' => $uidField, 'data' => $uid));
+    } else {
+        $DB->execute($sql,array("data"=>$uid,"userid"=>$moodleUserId,"fieldid"=>$uidField));
+    }
+    if($code!=null && $code!=""){
+        $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$codeField));
+        if(!$check){
+            $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                        'fieldid' => $codeField, 'data' => $code));
+        } else {
+            $DB->execute($sql,array("data"=>$code,"userid"=>$moodleUserId,"fieldid"=>$codeField));
+        }
+    }
+}
