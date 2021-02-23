@@ -144,16 +144,16 @@ class local_sm_user_external extends external_api{
         serviceErrorLog("start...");
         global $DB;
          $school_id  = $params["school_id"];
-         ob_end_clean();
-        header("Connection: close");
-         ob_start();
-         echo json_encode(["status"=>"doing:".$params['command_id']."-".$params['year']]);
-         $size = ob_get_length();
-         header("Content-Length: $size");
-         ob_end_flush(); // Strange behaviour, will not work
-         flush();            // Unless both are called !
-         session_write_close();
-
+        //  ob_end_clean();
+        // // header("Connection: close");
+        //  ob_start();
+        //  echo json_encode(["status"=>"doing:".$params['command_id']."-".$params['year']]);
+        // //  $size = ob_get_length();
+        // //  header("Content-Length: $size");
+        //  ob_end_flush(); // Strange behaviour, will not work
+        //  flush();            // Unless both are called !
+        //  session_write_close();
+        //  sleep(2);
          serviceErrorLog("start upload_school:".$school_id);
          $hs = json_decode($params["hs"]);
          $gv = json_decode($params["gv"]);
@@ -175,7 +175,7 @@ class local_sm_user_external extends external_api{
         $products = array($prodRef);
 
         foreach($hs as $hs_row){
-
+        break;
             if($r==0) {
                 $r++;
                 continue;
@@ -272,10 +272,15 @@ class local_sm_user_external extends external_api{
                                 $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
                                 //add to classmember
                                 serviceErrorLog(" set classmember:".json_encode($data));
+                                serviceErrorLog(" b1");
                                 $fdb->collection('classes')->document($classid)->collection("class_members")->document($uid)->set(array("email"=>$data['email'],"displayname"=>$data['displayname'],"username"=>$data['username']));
+                                serviceErrorLog(" b2");
                                 $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                serviceErrorLog(" b3");
                             }
+                            serviceErrorLog(" b4");
                             updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
+                            serviceErrorLog(" b5");
 
                             serviceErrorLog("created11:".$mdluser->username);
                             //update role student
@@ -384,8 +389,7 @@ class local_sm_user_external extends external_api{
                             $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         } else {
                             serviceErrorLog(" found teacher:".$uid);
-
-                            
+                            $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         }
 
                         $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"]]);
@@ -643,14 +647,12 @@ class local_sm_user_external extends external_api{
                         $rolefound=0;
                         foreach($classes as $key=>$class){
                             serviceErrorLog("found class: ".json_encode($class));
-                            serviceErrorLog("=01");
                             if($class['id']==$classid){
+                                $rolefound=1;
                                 if(array_key_exists("roles",$class)){
-                                    serviceErrorLog("=02");
                                     $roles = $class['roles'];
                                     $roles = array_unique(array_merge($roles,array($subject)));
                                     $classes[$key]['roles'] = $roles;
-                                    $rolefound=1;
                                     serviceErrorLog("=1");
                                 }
                             }
@@ -659,12 +661,14 @@ class local_sm_user_external extends external_api{
                         if($rolefound==0){
                             serviceErrorLog("=3");
                             $newclass = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
-                            $classes = array_unique(array_merge($classes,$newclass));
+                            $classes = array_merge($classes,array($newclass));
                         }
+                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>$classes]]);
+                        serviceErrorLog("update class done");
                     } else {
                         serviceErrorLog("=6 ".$teacherid);
-                        $classes = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
-                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>array($classes)]]);
+                        $class = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
+                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>array($class)]]);
                         serviceErrorLog("=7");
                     }
                     serviceErrorLog("=8");
