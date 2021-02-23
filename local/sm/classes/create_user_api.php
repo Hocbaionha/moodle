@@ -175,7 +175,6 @@ class local_sm_user_external extends external_api{
         $products = array($prodRef);
 
         foreach($hs as $hs_row){
-        break;
             if($r==0) {
                 $r++;
                 continue;
@@ -219,21 +218,23 @@ class local_sm_user_external extends external_api{
                 if($mdluser){
                     serviceErrorLog("found:".$mdluser->username);
                 } else {
-                    //create moodle user if not exits
-                    $mdluser = self::create_moodle_user($hs_row,$school_id);
                     
-                    serviceErrorLog("moodle created:".$mdluser->username);
-                    $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
-                    cohort_add_member($cohort->id, $mdluser->id);
-                    $cohort = $DB->get_record('cohort', array('idnumber' => "HBON-TVA"), '*', MUST_EXIST);
-                    serviceErrorLog("cohort:" . $cohort->idnumber."userid:".$mdluser->id);
-                    cohort_add_member($cohort->id, $mdluser->id);
+                    $mdluser = self::makeuser($hs_row);
+                    //create moodle user if not exits
+                    // $mdluser = self::create_moodle_user($hs_row,$school_id,"student");
+                    
+                    // serviceErrorLog("moodle created:".$mdluser->username);
+                    // $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
+                    // cohort_add_member($cohort->id, $mdluser->id);
+                    // $cohort = $DB->get_record('cohort', array('idnumber' => "HBON-TVA"), '*', MUST_EXIST);
+                    // serviceErrorLog("cohort:" . $cohort->idnumber."userid:".$mdluser->id);
+                    // cohort_add_member($cohort->id, $mdluser->id);
                 }
+                $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->firstname." ".$mdluser->lastname);
                 $docRefUser = $fdb->collection('users');
                 $query = $docRefUser->where('email', '==', $mdluser->email);
                 $documents = $query->documents();
                 serviceErrorLog("msg: ".$classid." find user:".$username);
-                $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->firstname." ".$mdluser->lastname);
                 if($documents->size()>0){
                     foreach ($documents as $document) {
                         if ($document->exists()) {
@@ -279,13 +280,14 @@ class local_sm_user_external extends external_api{
                                 serviceErrorLog(" b3");
                             }
                             serviceErrorLog(" b4");
-                            updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
+                            // updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
                             serviceErrorLog(" b5");
 
                             serviceErrorLog("created11:".$mdluser->username);
                             //update role student
                             $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                         }
                     }
                 } else {
@@ -316,6 +318,7 @@ class local_sm_user_external extends external_api{
                     //set role student
                     $user["role"] = "student";
                     $user["roles"] = array("student");
+                    $user["userId"] = $uid;
                     $docRefUser = $fdb->collection('users')->document($uid)->set($user);
                     
                     $student["class"]=array("id"=>$classid,"name"=>$classname);
@@ -329,7 +332,7 @@ class local_sm_user_external extends external_api{
                      $fdb->collection('classes')->document($classid)->collection("class_members")->document($uid)->set(array("email"=>$user['email'],"displayname"=>$user['displayname'],"username"=>$user['email']));
                      $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
 
-                     updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
+                    //  updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
                      serviceErrorLog("created 22:".$mdluser->username);
                 }
             }
@@ -361,7 +364,8 @@ class local_sm_user_external extends external_api{
                 $user_row[5]=$username;
                 $user_row[6]=$password;
                 serviceErrorLog("moodle user row:".json_encode($user_row));
-                $mdluser = self::create_moodle_user($user_row,$school_id);
+                $mdluser = self::makeuser($user_row);
+                // $mdluser = self::create_moodle_user($user_row,$school_id,"teacher");
                 
                 serviceErrorLog("moodle created:".$mdluser->username);
             }
@@ -424,7 +428,7 @@ class local_sm_user_external extends external_api{
                 $user["role"] = "teacher";
                 $user["roles"] = array("teacher");
                 $docRefUser = $fdb->collection('users')->document($uid)->set($user);
-                updateStudentData($mdluser->id,$uid,null);
+                // updateStudentData($mdluser->id,$uid,null);
                 $teracherRef = $fdb->collection('teachers')->document($uid);
                 
                 if (!$teracherRef->snapshot()->exists()) {
@@ -685,5 +689,20 @@ class local_sm_user_external extends external_api{
             serviceErrorLog(" not found teacher:".$arrName['last_name']." ".$arrName['first_name']);
         }
         serviceErrorLog("======== done:".$fullname);
+    }
+    static function makeuser($user_row){
+        $class_name=  $user_row[1];
+        $fullname=$user_row[2];
+        $birthdate=$user_row[3];
+        $gender=$user_row[4];
+        $username=$user_row[5];
+        $user = new stdClass();
+         $user->username = $user_row[5];
+         $user->password = $user_row[6];
+        $arrName = split_name($fullname);
+        $user->firstname = $arrName['first_name'];
+        $user->lastname = $arrName['last_name'];
+        $user->email = $username.'@hocbaionha.com';
+        return $user;
     }
 }

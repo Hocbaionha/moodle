@@ -69,12 +69,14 @@ $fdb = $firestore->database();
                 continue;
             }
             
-            
             $docRefUser = $fdb->collection('users');
             $query = $docRefUser->where('email', '==', $mdluser->email);
-            $role="student";
+            $role=false;
             if (strpos("-gv", $mdluser->email) !== false || str_starts_with($mdluser->email,"gv")) {
                 $role="teacher";
+            }
+            if (strpos("-hs", $mdluser->email) !== false || str_starts_with($mdluser->email,"hs")) {
+                $role="student";
             }
             $documents = $query->documents();
             if($documents->size()>0){
@@ -85,23 +87,29 @@ $fdb = $firestore->database();
 
                         try {
                              $user = $auth->getUser($uid);
+                             $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
+                             if($role){
+                                $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>$role]]);
+                                $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion([$role])]]);
+                             }
                             serviceErrorLog($mdluser->id."-verfied:".$uid);
                         } catch (\Kreait\Firebase\Exception\Auth\UserNotFound $e) {
-                            serviceErrorLog($mdluser->id."not-verfied:".$uid);
-                            $fdb->collection('users')->document($uid)->delete();        
-                            serviceErrorLog("===".$mdluser->id."-deleted:".$uid);
-                            
+                            serviceErrorLog($mdluser->id."==>not-verfied:".$uid);
                         }
                     }
                 }
             } else {
                 //not found old user
+                if(!$role){
+                    $role="student";
+                }
                 $user = array("moodleUserId"=>$userid,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"role"=>$role,"roles"=>array($role));
                 try {
                     if(isValidEmail($mdluser->email)){
                         serviceErrorLog($mdluser->email."-valid");
                         $providers = $auth->getUserByEmail($user['email']);
                         $uid=$providers->uid;
+                        $user['userId']=$uid;
                         $fdb->collection('users')->document($uid)->set($user);
                         updateStudentData($user['moodleUserId'],$uid);
                         serviceErrorLog("====>set ".$mdluser->id."-done:".$uid);
