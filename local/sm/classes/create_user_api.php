@@ -231,7 +231,7 @@ class local_sm_user_external extends external_api{
                     // serviceErrorLog("cohort:" . $cohort->idnumber."userid:".$mdluser->id);
                     // cohort_add_member($cohort->id, $mdluser->id);
                 }
-                $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->firstname." ".$mdluser->lastname);
+                $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->lastname." ".$mdluser->firstname);
                 $docRefUser = $fdb->collection('users');
                 $query = $docRefUser->where('email', '==', $mdluser->email);
                 $documents = $query->documents();
@@ -378,7 +378,7 @@ class local_sm_user_external extends external_api{
             $query = $docRefUser->where('email', '==', $mdluser->email);
             $documents = $query->documents();
             serviceErrorLog("msg: ".$classid." find user:".$username);
-            $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->firstname." ".$mdluser->lastname);
+            $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->lastname." ".$mdluser->firstname);
             if($documents->size()>0){
                 foreach ($documents as $document) {
                     if ($document->exists()) {
