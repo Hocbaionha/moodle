@@ -176,6 +176,7 @@ class local_sm_user_external extends external_api{
         $products = array($prodRef);
 
         foreach($hs as $hs_row){
+        
             if($r==0) {
                 $r++;
                 continue;
@@ -216,9 +217,7 @@ class local_sm_user_external extends external_api{
                 serviceErrorLog("search user:".$username."-".$classid.$classname);
                 $mdluser =  $DB->get_record("user",array("username"=>$username));
                 serviceErrorLog(json_encode($mdluser));
-                if($mdluser){
-                    serviceErrorLog("found:".$mdluser->username);
-                } else {
+                
                     
                     $mdluser = self::makeuser($hs_row);
                     //create moodle user if not exits
@@ -230,7 +229,7 @@ class local_sm_user_external extends external_api{
                     // $cohort = $DB->get_record('cohort', array('idnumber' => "HBON-TVA"), '*', MUST_EXIST);
                     // serviceErrorLog("cohort:" . $cohort->idnumber."userid:".$mdluser->id);
                     // cohort_add_member($cohort->id, $mdluser->id);
-                }
+                
                 $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->lastname." ".$mdluser->firstname);
                 $docRefUser = $fdb->collection('users');
                 $query = $docRefUser->where('email', '==', $mdluser->email);
@@ -360,11 +359,7 @@ class local_sm_user_external extends external_api{
             $username=$gv_row[4];
             $password=$gv_row[5];
             serviceErrorLog("search user:".$username."-".$school_id);
-            $mdluser =  $DB->get_record("user",array("username"=>$username));
-            serviceErrorLog(json_encode($mdluser));
-            if($mdluser){
-                serviceErrorLog("found:".$mdluser->username);
-            } else {
+            
                 //create moodle user if not exits
                 $user_row[1]="";
                 $user_row[2]=$fullname;
@@ -377,7 +372,7 @@ class local_sm_user_external extends external_api{
                 // $mdluser = self::create_moodle_user($user_row,$school_id,"teacher");
                 
                 serviceErrorLog("moodle created:".$mdluser->username);
-            }
+            
             $docRefUser = $fdb->collection('users');
             $query = $docRefUser->where('email', '==', $mdluser->email);
             $documents = $query->documents();
@@ -402,12 +397,13 @@ class local_sm_user_external extends external_api{
                             $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         } else {
                             serviceErrorLog(" found teacher:".$uid);
+                            $fdb->collection('teachers')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]]]);
                             $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         }
 
                         $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"]]);
                         $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["teacher"])]]);
-                        $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$teacher['displayname']]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]]]);
                         $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                     }
                 }
