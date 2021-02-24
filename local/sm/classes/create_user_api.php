@@ -174,6 +174,9 @@ class local_sm_user_external extends external_api{
         $fdb = $firestore->database();
         $prodRef = $fdb->collection('products')->document("HBON-TVA");
         $products = array($prodRef);
+        $schoolRef = $fdb->collection('schools')->document($school_id)->get();
+        $schoolData = $schoolRef->data();
+        $school = array("province"=>$schoolData["province"],"district"=>$schoolData["district"],"name"=>$schoolData["name"]);
 
         foreach($hs as $hs_row){
         
@@ -288,11 +291,10 @@ class local_sm_user_external extends external_api{
                             serviceErrorLog("created11:".$mdluser->username);
                             //update role student
                             $grade=$classname[0];
-                            $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"]]);
-                            $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
-                            $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$data['displayname']]]);
-                            $fdb->collection('users')->document($uid)->update([["path"=>"grade","value"=>$grade]]);
-                            $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"],["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$data['displayname']],["path"=>"grade","value"=>$grade],["path"=>"userId","value"=>$uid]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"school","value"=>$school],["path"=>"school_id","value"=>$school_id]]);
+                            
                         }
                     }
                 } else {
@@ -326,6 +328,7 @@ class local_sm_user_external extends external_api{
                     $grade=$classname[0];
                     $user["grade"] = $grade;
                     $user["userId"] = $uid;
+                    $user["school"] = $school;
                     $docRefUser = $fdb->collection('users')->document($uid)->set($user);
                     
                     $student["class"]=array("id"=>$classid,"name"=>$classname);
@@ -400,10 +403,10 @@ class local_sm_user_external extends external_api{
                             $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         }
 
-                        $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"]]);
-                        $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["teacher"])]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"],["path"=>"roles","value"=>FieldValue::arrayUnion(["teacher"])]]);
                         $fdb->collection('users')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]],["path"=>"school_id","value"=>$user["school_id"]]]);
-                        $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid],["path"=>"school","value"=>$school]]);
+
                     }
                 }
             } else {
@@ -432,6 +435,7 @@ class local_sm_user_external extends external_api{
                 $teacher = $user;
                 $user["role"] = "teacher";
                 $user["roles"] = array("teacher");
+                $user["school"] = $school;
                 $docRefUser = $fdb->collection('users')->document($uid)->set($user);
                 // updateStudentData($mdluser->id,$uid,null);
                 $teracherRef = $fdb->collection('teachers')->document($uid);
