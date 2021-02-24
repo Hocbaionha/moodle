@@ -270,9 +270,8 @@ class local_sm_user_external extends external_api{
                                 $student["class"]=array("id"=>$classid,"name"=>$classname);
                                 $student["products"] = $products;
                                 $student["code"]=generateStudentCode($fdb);
-                                $fdb->collection('students')->document($uid)->update([["path"=>"class","value"=>$student['class']]]);
-                                $fdb->collection('students')->document($uid)->update([["path"=>"products","value"=>$student['products']]]);
-                                $fdb->collection('students')->document($uid)->update([["path"=>"code","value"=>$student['code']]]);
+                                $fdb->collection('students')->document($uid)->update([["path"=>"class","value"=>$student['class']],["path"=>"products","value"=>$student['products']],["path"=>"code","value"=>$student['code']],["path"=>"school_id","value"=>$student['school_id']]]);
+                                
                                 $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
                                 //add to classmember
                                 serviceErrorLog(" set classmember:".json_encode($data));
@@ -397,13 +396,13 @@ class local_sm_user_external extends external_api{
                             $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         } else {
                             serviceErrorLog(" found teacher:".$uid);
-                            $fdb->collection('teachers')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]]]);
+                            $fdb->collection('teachers')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]],["path"=>"school_id","value"=>$user["school_id"]]]);
                             $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
                         }
 
                         $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"]]);
                         $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["teacher"])]]);
-                        $fdb->collection('users')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]],["path"=>"school_id","value"=>$user["school_id"]]]);
                         $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                     }
                 }
