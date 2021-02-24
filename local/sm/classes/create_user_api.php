@@ -144,6 +144,7 @@ class local_sm_user_external extends external_api{
         serviceErrorLog("start...");
         global $DB;
          $school_id  = $params["school_id"];
+         $commandid = $params["command_id"];
         //  ob_end_clean();
         // // header("Connection: close");
         //  ob_start();
@@ -287,6 +288,7 @@ class local_sm_user_external extends external_api{
                             //update role student
                             $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$student['displayname']]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                         }
                     }
@@ -398,7 +400,8 @@ class local_sm_user_external extends external_api{
 
                         $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"]]);
                         $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["teacher"])]]);
-
+                        $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$teacher['displayname']]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                     }
                 }
             } else {
@@ -493,10 +496,11 @@ class local_sm_user_external extends external_api{
             }
             $r++;
         }
-
+        
     } catch (Exception $e) {
         serviceErrorLog("error:" . json_encode($e->getTrace()));
     }
+    $fdb->collection("commands")->document($commandid)->update([["path"=>"statuus","value"=>2]]);//update command status to 2: done
         //  serviceErrorLog("created user:".gettype($assignment));
          return ["status"=>"success:".$school_id];
     }
