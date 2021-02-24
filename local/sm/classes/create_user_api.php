@@ -243,6 +243,9 @@ class local_sm_user_external extends external_api{
                             $uid=$document->id();
                             serviceErrorLog("found user:".$username."-".$uid);
                             $data = $document->data();
+                            if(!array_key_exists("displayname",$data)){
+                                $data['displayname']=$user["displayname"];
+                            }
                             serviceErrorLog("found data:".json_encode($data));
                             $stuRef = $fdb->collection('students')->document($uid);
                             $stuSnapshot = $stuRef->snapshot();
@@ -288,7 +291,7 @@ class local_sm_user_external extends external_api{
                             //update role student
                             $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
-                            $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$student['displayname']]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$data['displayname']]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                         }
                     }
@@ -500,7 +503,7 @@ class local_sm_user_external extends external_api{
     } catch (Exception $e) {
         serviceErrorLog("error:" . json_encode($e->getTrace()));
     }
-    $fdb->collection("commands")->document($commandid)->update([["path"=>"statuus","value"=>2]]);//update command status to 2: done
+    $fdb->collection("commands")->document($commandid)->update([["path"=>"status","value"=>2]]);//update command status to 2: done
         //  serviceErrorLog("created user:".gettype($assignment));
          return ["status"=>"success:".$school_id];
     }
