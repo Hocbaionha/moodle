@@ -289,9 +289,11 @@ class local_sm_user_external extends external_api{
 
                             serviceErrorLog("created11:".$mdluser->username);
                             //update role student
+                            $grade=$classname[0];
                             $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$data['displayname']]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"grade","value"=>$grade]]);
                             $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid]]);
                         }
                     }
@@ -323,6 +325,8 @@ class local_sm_user_external extends external_api{
                     //set role student
                     $user["role"] = "student";
                     $user["roles"] = array("student");
+                    $grade=$classname[0];
+                    $user["grade"] = $grade;
                     $user["userId"] = $uid;
                     $docRefUser = $fdb->collection('users')->document($uid)->set($user);
                     
