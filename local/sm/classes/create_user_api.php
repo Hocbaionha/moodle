@@ -174,8 +174,10 @@ class local_sm_user_external extends external_api{
         $fdb = $firestore->database();
         $prodRef = $fdb->collection('products')->document("HBON-TVA");
         $products = array($prodRef);
-        $schoolRef = $fdb->collection('schools')->document($school_id)->get();
+        
+        $schoolRef = $fdb->collection('schools')->document($school_id)->snapshot();
         $schoolData = $schoolRef->data();
+
         $school = array("province"=>$schoolData["province"],"district"=>$schoolData["district"],"name"=>$schoolData["name"]);
 
         foreach($hs as $hs_row){
