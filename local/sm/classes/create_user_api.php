@@ -510,6 +510,8 @@ class local_sm_user_external extends external_api{
         serviceErrorLog("error:" . json_encode($e->getTrace()));
     }
     $fdb->collection("commands")->document($commandid)->update([["path"=>"status","value"=>2]]);//update command status to 2: done
+
+    $fdb->collection("asynSchoolClass")->document($school_id)->set(array("schoolid"=>$school_id));
         //  serviceErrorLog("created user:".gettype($assignment));
          return ["status"=>"success:".$school_id];
     }
