@@ -438,6 +438,7 @@ class local_sm_user_external extends external_api{
                 $user["role"] = "teacher";
                 $user["roles"] = array("teacher");
                 $user["school"] = $school;
+                $user["userId"] = $uid;
                 $docRefUser = $fdb->collection('users')->document($uid)->set($user);
                 // updateStudentData($mdluser->id,$uid,null);
                 $teracherRef = $fdb->collection('teachers')->document($uid);
