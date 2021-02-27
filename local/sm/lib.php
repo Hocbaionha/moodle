@@ -386,7 +386,12 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                     $assignment_data["created_at"] = FieldValue::serverTimestamp();
                     $assignment_data["created_by"] = $USER->uid;
                     $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
-                    $db->collection('classes')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                    if(property_exists($USER,"uid")){
+                        $db->collection('classes')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                    } else {
+                        serviceErrorLog("not found uid:" . json_encode($USER));
+                    }
+                    
                 }
 //                $userRef= $db->collection('users')->document($send_to)->snapshot();
 //                if($userRef->exists()){
