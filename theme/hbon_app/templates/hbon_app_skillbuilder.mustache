@@ -1,0 +1,116 @@
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{{{ config.wwwroot }}}/theme/hbon_app/pix/favicon.ico" />
+    <link href="{{{ config.wwwroot }}}/theme/hbon_app/style/all.css" rel="stylesheet">
+    {{!--//ios_homescreen_icons (theme class function)--}}
+    {{{ output.ios_homescreen_icons}}}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    {{{ output.standard_head_html }}}
+
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/animate.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/mmenu.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/chosen.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/jquery.scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/lightbox.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/magnific-popup.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/fonts/flaticon.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/megamenu.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/dreaming-attribute.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/icons.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{{ config.wwwroot }}}/theme/hbon_app/style/hbon_app.css" />
+
+    <style>
+        .tooltip-inner {
+            /* background-color:#42BCED; */
+        }
+        @media(max-width:767px){
+            #iFrameID {
+                height:5000px;
+            }
+        }
+        @media(min-width:768px){
+            #iFrameID {
+                height:3800px;
+            }
+        }
+    </style>
+</head>
+
+<body {{{ bodyattributes }}}>
+    {{{ output.standard_top_of_body_html }}}
+
+    {{> theme_hbon_app/hbon_app_hp_header }}
+
+    <iframe src="https://pages.hocbaionha.com/skills-builder-ver3" width="100%"  marginheight="0" frameborder="0" id="iFrameID"></iframe>
+
+    {{> theme_hbon_app/hbon_app_hp_footer }}
+
+    <div style="display:none;">
+        {{{ a }}}
+    </div>
+    {{{ output.standard_end_of_body_html }}}
+    {{> theme_hbon_app/class_facebook_chat }}
+</body>
+
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+M.util.js_complete('theme_boost/loader');
+});
+M.util.js_pending('theme_boost/drawer');
+require(['theme_boost/drawer'], function(mod) {
+mod.init();
+M.util.js_complete('theme_boost/drawer');
+});
+$(document).ready(function(){
+// When user clicks on tab, this code will be executed
+$("[role=tab]").click(function() {
+// First remove class "active" from currently active tab
+$("[role=tab]").removeClass('active');
+
+// Now add class "active" to the selected/clicked tab
+$(this).addClass("active");
+
+// Hide all tab content
+$("[role=tabpanel]").hide();
+
+// Here we get the href value of the selected tab
+var selected_tab = $(this).find("a").attr("href");
+
+// Show the selected tab content
+$(selected_tab).fadeIn();
+
+// At the end, we add return false so that the click on the link is not executed
+return false;
+});
+});
+new Mmenu(document.querySelector('#menu'), {
+"extensions": [
+"pagedim-black"
+]
+});
+
+document.addEventListener('click', function (evnt) {
+var anchor = evnt.target.closest('a[href^="#/"]');
+if (anchor) {
+evnt.preventDefault();
+}
+});
+{{/js}}

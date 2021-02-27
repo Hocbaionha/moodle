@@ -1,0 +1,867 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_boost/columns2
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+<style>
+    i.fa {
+        top: 14px;
+    }
+
+    .furgan-socials .socials-list {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .furgan-socials.style-01 .social-title {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-weight: 600;
+        position: relative;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding-left: 45px;
+    }
+
+    .furgan-socials.style-01 .socials-list li {
+        display: inline-block;
+        height: 46px;
+        margin-right: 10px;
+        margin-top: 8px;
+    }
+
+    .furgan-socials.style-01 .socials-list li a {
+        display: block;
+        height: 46px;
+        width: 46px;
+        font-size: 17px;
+        line-height: 48px;
+        color: #fff;
+        background-color: #1e1e1e;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .furgan-socials.style-01 .socials-list li a::before {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        -webkit-transition: top 0.25s ease 0s;
+        -moz-transition: top 0.25s ease 0s;
+        -o-transition: top 0.25s ease 0s;
+        transition: top 0.25s ease 0s;
+        background-color: #9cc25d;
+    }
+
+    .furgan-socials.style-01 .socials-list li a i {
+        position: relative;
+    }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .fa-facebook-f:before, .fa-facebook:before {
+        content: "";
+    }
+
+    .furgan-listitem.style-01 .title, .furgan-listitem.style-02 .title {
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-weight: 700;
+        position: relative;
+        padding-left: 10px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    footer .furgan-listitem.style-01 li, footer .furgan-listitem.style-02 li {
+        margin-bottom: 5px;
+    }
+
+    .furgan-listitem.style-01 li, .furgan-listitem.style-02 li {
+        line-height: 34px;
+    }
+
+    .furgan-listitem a:not(:hover) {
+        color: inherit;
+    }
+
+    .furgan-listitem li a {
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-0281 {
+        padding-top: 65px;
+        padding-bottom: 55px;
+        background-color: #f4f4f4;
+        color: #868686;
+    }
+
+    .section-010 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background: #f4f4f4;
+        border-top: 1px solid #ebebeb;
+    }
+
+    .availabilityinfo.isrestricted ul {
+        display: none;
+    }
+
+    input.mod_quiz-redo_question_button {
+        display: none;
+    / / anhnn Bỏ nút làm lại trong bài quiz
+    }
+
+
+
+    #overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    #overlay:target {
+        visibility: visible;
+        display: block;
+    }
+
+    .close {
+        cursor: pointer;
+        font-size: 45px;
+        color: red;
+    }
+
+    .image_event {
+        margin: 0 auto;
+        width: 430px;
+        height: auto;
+    }
+
+    .reveal-modal {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        overflow: visible;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .popup__overlay {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .4);
+    }
+
+    .popup__close-btn {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        line-height: 2.5rem;
+        height: 1.875rem;
+        width: 1.875rem;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        position: absolute;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background-color: #5a5a5a;
+        top: -.625rem;
+        right: -.625rem;
+        border-radius: 1.25rem;
+        border: 3px solid #fff;
+    }
+
+    .svg-icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        position: relative;
+        font-size: .75rem;
+        color: #fff;
+    }
+
+    .imgstyle {
+        background-image: url({{{ config.wwwroot }}}/theme/classon/pix/backgrounds/phone-popup-bg2.png);
+        background-color: white;
+        background-size: contain;
+        padding: 20px;
+        height: 400px;
+        width: 400px;
+        border-radius: 19px;
+        text-align: center;
+        background-repeat: no-repeat;
+    }
+
+    .popup-text {
+        color: #545454;
+        font-weight: bold;
+        width: 350px;
+        margin: auto;
+    }
+
+    .phone {
+        border: 2px solid #797979 !important;
+        background-color: white !important;
+        border-radius: 4px !important;
+        height: 40px;
+        /*font-size:12px;*/
+        width: 250px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 13pt;
+    }
+
+    ::-webkit-input-placeholder {
+        text-align: center;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+        text-align: center;
+    }
+
+    ::-moz-placeholder { /* Firefox 19+ */
+        text-align: center;
+    }
+
+    :-ms-input-placeholder {
+        text-align: center;
+    }
+
+    .send {
+        width: 250px;
+        border: 2px solid #797979;
+        background-color: #473e9b;
+        border-radius: 4px;
+        height: 40px;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .wrap {
+        padding-top: 150px;
+    }
+
+    .popup_title {
+        font-size: 13px;
+        color: #473e9b;
+        font-weight: bold;
+        text-align: left;
+        margin: 0;
+    }
+
+    .wrap_title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #473e9b;
+        margin: 0;
+    }
+
+    .radio-toolbar input[type="radio"] {
+        opacity: 0;
+        position: fixed;
+        width: 0;
+    }
+
+    .radio-toolbar input[type="checkbox"] {
+        opacity: 0;
+        position: fixed;
+        width: 0;
+    }
+
+    .radio-toolbar label {
+        display: inline-block;
+        background-color: white !important;
+        color: #473e9b;
+        padding: 0px 6px;
+        font-family: sans-serif, Arial;
+        font-size: 12px;
+        border: 1px solid #473e9b;
+        border-radius: 4px;
+    }
+
+    .radio-toolbar label:hover {
+        background-color: #dfd;
+    }
+
+    .radio-toolbar input[type="radio"]:focus + label {
+        border-color: #bc2f40;
+        color: #bc2f40;
+    }
+
+    .radio-toolbar input[type="radio"]:checked + label {
+        background-color: #bfb;
+        border-color: #bc2f40;
+        color: #bc2f40;
+    }
+    .radio-toolbar input[type="checkbox"]:checked + label {
+        background-color: #bfb;
+        border-color: #bc2f40;
+        color: #bc2f40;
+    }
+
+    .custom-radio {
+        display: inline-block;
+        color: #473e9b;
+    }
+
+    .step2 {
+        text-align: left;
+        background-image: url({{{ config.wwwroot }}}/theme/classon/pix/backgrounds/phone-popup-bg-1.png);
+        background-color: white;
+        background-size: contain;
+        padding: 20px;
+        height: 400px;
+        width: 400px;
+        border-radius: 25px;
+        text-align: center;
+        background-repeat: no-repeat;
+    }
+
+    #complete_survey {
+        width: 100px;
+        text-align: center !important;
+        line-height: unset;
+    }
+
+    .modal_title {
+        font-weight: bold;
+        color: #473e9b;
+        font-size: 16px;
+        font-family: sans-serif, Arial;
+    }
+
+    .text_label {
+        color: black;
+        font-size: 13px;
+    }
+
+    .survey_form {
+        padding-top: 10px;
+        text-align: left;
+    }
+
+    .col-md-3 {
+        width: 25%;
+        padding: 0px !important;
+    }
+
+    .col-md-9 {
+        width: 75%;
+        padding: 0px !important;
+    }
+
+    .row {
+        margin: 0px!important;
+    }
+
+    #ad-overlay{
+        position:fixed;
+        z-index: 1000;
+        bottom: 10px;
+        width:100%;
+    }
+    .popup__close-btn {
+        left:745px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        line-height: 2.5rem;
+        height: 1.875rem;
+        width: 1.875rem;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        position: absolute;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background-color: #5a5a5a;
+        top: -.625rem;
+        right: -.625rem;
+        border-radius: 1.25rem;
+        border: 3px solid #fff;
+    }
+    .svg-icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        position: relative;
+        font-size: .75rem;
+        color: #fff;
+    }
+    @media only screen and (max-width: 600px) {
+        .imgstyle {
+            width: 360px;
+            height: 360px;
+        }
+
+        .step2 {
+            width: 360px;
+            height: 360px;
+        }
+
+        .popup_title {
+            font-size: 12px;
+        }
+
+        .modal_title {
+            font-size: 14px;
+        }
+
+        .wrap {
+            padding-top: 125px;
+        }
+
+        .wrap_title {
+            font-size: 14px;
+        }
+
+        .phone {
+            border: 2px solid #797979;
+            background-color: #EFEFEF;
+            border-radius: 4px;
+            height: 40px;
+            /*font-size:12px;*/
+            width: 200px;
+            margin: 6px;
+            text-align: center;
+            font-size: 10pt;
+        }
+
+        .send {
+            width: 200px;
+            border: 2px solid #797979;
+            background-color: #473e9b;
+            border-radius: 4px;
+            height: 40px;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .col-md-3 {
+            width: 25%!important;
+            padding: 0px !important;
+        }
+
+        .col-md-9 {
+            width: 75%!important;
+            padding: 0px !important;
+        }
+
+        .row {
+            margin: 0px!important;
+        }
+        #ad-overlay img{
+            width:370px;
+        }
+        .closed .ad-modal{
+
+            transition: right .5s ease,left .5s ease;
+        }
+
+         #ad-overlay{
+             left:5%;
+         }
+        .popup__close-btn {
+            left:355px;
+        }
+    }
+
+    @media only screen and (min-width: 601px) {
+        .ad-modal{
+            position:relative;
+            left:50%;
+            margin-left:-390px;
+        }
+        .closed .ad-modal{
+            margin-left:-105px;
+            transition: right .5s ease,left .5s ease;
+
+        }
+    }
+    .navbar{
+        display:none;
+    }
+    #page-navbar{
+        visibility:hidden;
+        height:0;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="d-print-block">
+    {{#fb_course_id}}
+        <input type="hidden" id="fb_course_id" value="{{fb_course_id}}">
+    {{/fb_course_id}}
+    {{#fb_topic_name_in}}
+        <input type="hidden" id="fb_topic_name_in" value="{{fb_topic_name_in}}">
+    {{/fb_topic_name_in}}
+
+    {{{ output.standard_top_of_body_html }}}
+
+
+    <div id="page" class="container-fluid d-print-block">
+        {{{ output.full_header }}}
+        <div id="page-content" class="row pb-3 d-print-block">
+            <input type="hidden" id="fb_id" value="{{fb_id}}">
+            <div id="region-main-box" class="col-12">
+                {{#hasregionmainsettingsmenu}}
+                    <div id="region-main-settings-menu" class="d-print-none {{#hasblocks}}has-blocks{{/hasblocks}}">
+                        <div> {{{ output.region_main_settings_menu }}} </div>
+                    </div>
+                {{/hasregionmainsettingsmenu}}
+                <section id="region-main"
+                         {{#hasblocks}}class="has-blocks mb-3"{{/hasblocks}} aria-label="{{#str}}content{{/str}}">
+
+                    {{#hasregionmainsettingsmenu}}
+                        <div class="region_main_settings_menu_proxy"></div>
+                    {{/hasregionmainsettingsmenu}}
+                    {{{ output.course_content_header }}}
+                    {{{ output.main_content }}}
+                    {{{ output.activity_navigation }}}
+                    {{{ output.course_content_footer }}}
+
+                </section>
+                {{#hasblocks}}
+                    <section data-region="blocks-column" class="d-print-none" aria-label="{{#str}}blocks{{/str}}">
+                        {{{ sidepreblocks }}}
+                    </section>
+                {{/hasblocks}}
+            </div>
+        </div>
+    </div>
+    {{{ output.standard_after_main_region_html }}}
+
+    
+</div>
+</body>
+<script>
+    function changeAds(arr,i) {
+    if(i>=arr.length){
+        i=i-arr.length
+    }
+
+    var x = document.getElementById("ads");
+    x.src = arr[i].img;
+    x.onclick = function(){
+        window.location=arr[i].url;
+    }
+    const time=arr[i].switch_time;
+    setTimeout(changeAds, time*1000,arr,i+1); // Change image every 2 seconds
+    }
+function off() {
+    document.getElementById("ad-overlay").style.display = "none";
+
+}
+</script>
+</html>
+{{#js}}
+    M.util.js_pending('theme_boost/loader');
+    require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+    });
+    M.util.js_pending('theme_boost/drawer');
+    require(['theme_boost/drawer'], function(mod) {
+    mod.init();
+    M.util.js_complete('theme_boost/drawer');
+    });
+    var path = window.location.pathname;
+    if(path == '/mod/quiz/attempt.php'){
+    setInterval(function(){
+    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+    var course = $('#fb_course_id').val();
+    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+    var topic = $('#fb_topic_name_in').val();
+
+    var id = {{uid}};
+    var uid = $('#fb_id').val();
+    var action = window.location.href;
+    var data = {
+    'timeSpent': 30000,
+    'uid': uid,
+    'id':id,
+    'action': action,
+    'course': course,
+    'course_link': course_link,
+    'topic': topic,
+    'topic_link': topic_link
+    };
+    console.log(course);
+    console.log(topic);
+    $.ajax({
+    url: "/local/sm/log.php",
+    type: 'POST',
+    data: data,
+    success: function (data, textStatus, jqXHR) {
+    console.log(data);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {},
+    })
+    }, 30000);
+    }else{
+    $(document).ready(function() {
+
+const shortname='{{{fb_course_id}}}';
+         console.log(shortname)
+         $.ajax({
+            url: "https://us-central1-hbon-sso.cloudfunctions.net/getContenta",
+            type: 'GET',
+             headers: {  'Access-Control-Allow-Origin':'*'},
+             crossDomain: true,
+            data: {tag:shortname},
+            success: function (data, textStatus, jqXHR) {
+                if(data.length>0){
+                    $("#ad-overlay").show();
+                    changeAds(data,0);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            },
+            async: true
+        })
+
+    var start = new Date();
+    $(window).on('beforeunload',function(e) {
+    e.returnValue = "Write something clever here..";
+
+    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
+    var course = $('#fb_course_id').val();
+    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
+    var topic = $('#fb_topic_name_in').val();
+    console.log("for link",topic_link);
+    console.log("for topic",topic);
+
+    var end = new Date();
+    var id = {{uid}};
+    var uid = $('#fb_id').val();
+    var action = window.location.href;
+    console.log("time",end-start);
+    var data = {
+    'timeSpent': end - start,
+    'uid': uid,
+    'id':id,
+    'action': action,
+    'course': course,
+    'course_link': course_link,
+    'topic': topic,
+    'topic_link': topic_link
+    };
+
+    $.ajax({
+    url: "/local/sm/log.php",
+    type: 'POST',
+    data: data,
+    success: function (data, textStatus, jqXHR) {
+    console.log(data);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {},
+    async: true
+    })
+
+    });
+
+    });
+    }
+
+    $("#form_update_phone").submit(function(event){
+    event.preventDefault();
+    var phone = $('#phone').val();
+    var wanturl = $('#wanturl').val();
+    var send_data = {"phone":phone,"wanturl":wanturl};
+    $.ajax({
+    url: "/local/sm/course_popup.php",
+    type: 'POST',
+    data: send_data,
+    dataType: "json",
+    success: function (res, textStatus, jqXHR) {
+
+    if(res.status ==="success"){
+
+    $('.imgstyle').css("display", "none");
+    $('.step2').css("display", "block");
+
+    }else{
+    swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: 'Cập nhật thất bại',
+    showConfirmButton: false,
+    timer: 2000
+    });
+    }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {}
+    });
+    });
+
+
+
+    $('#complete_survey').on('click',function(event){
+    event.preventDefault();
+    var object = $('input[name="object"]:checked').val();
+    var classes = [];
+    $('input[name="class"]:checked').each(function(){classes.push($(this).val());});
+    var subject = [];
+    $('input[name="subject"]:checked').each(function(){subject.push($(this).val());});
+    var level = [];
+    $('input[name="level"]:checked').each(function(){level.push($(this).val());});
+    var send_data = {"object":object,"class":classes.toString(),"subject":subject.toString(),"level":level.toString()};
+    if(classes.length<=0 || subject.length<=0 || level.length<=0){
+    var message = '';
+    if(classes.length==0){
+    message += " Lớp "
+    }
+    if(subject.length==0){
+    message += " Môn "
+    }
+    if(level.length==0){
+    message += " Chương trình "
+    }
+    swal.fire({
+    position: 'center',
+    icon: 'warning',
+    title: 'Chọn thiếu thông tin:' + message,
+    showConfirmButton: false,
+    timer: 3000
+    });
+    }else{
+    $.ajax({
+    url: "/local/sm/complete_survey.php",
+    type: 'POST',
+    data: send_data,
+    dataType: "json",
+    success: function (res, textStatus, jqXHR) {
+    if(res.status ==="success"){
+    swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Cập nhật thành công',
+    showConfirmButton: false,
+    timer: 2000
+    }).then((result)=>{
+    $('#overlay').css("display", "none");
+    });
+    }else{
+    swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: 'Cập nhật thất bại',
+    showConfirmButton: false,
+    timer: 2000
+    });
+    }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {}
+    });
+    }
+    });
+
+{{/js}}
+
+

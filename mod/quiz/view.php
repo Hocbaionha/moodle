@@ -29,6 +29,16 @@ require_once($CFG->libdir.'/gradelib.php');
 require_once($CFG->dirroot.'/mod/quiz/locallib.php');
 require_once($CFG->libdir . '/completionlib.php');
 require_once($CFG->dirroot . '/course/format/lib.php');
+require_once($CFG->dirroot . '/theme/hbon_app/lib.php');
+
+
+//anhnn login from app
+$idtokenfb = optional_param('idtokenfb', "", PARAM_TEXT);
+if($idtokenfb!=""){
+    if(empty($USER->id) || isguestuser()){
+    login_from_app($idtokenfb);
+}}
+    
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or ...
 $q = optional_param('q',  0, PARAM_INT);  // Quiz ID.

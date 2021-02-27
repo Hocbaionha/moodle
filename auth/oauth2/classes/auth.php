@@ -411,9 +411,13 @@ class auth extends \auth_plugin_base {
      * @param string $redirecturl
      * @return void Either redirects or throws an exception
      */
-    public function complete_login(client $client, $redirecturl) {
+    public function complete_login(client $client, $redirecturl,$fromapp="") {
         global $CFG, $SESSION, $PAGE;
-        $userinfo = $client->get_userinfo();
+        if($fromapp==""){
+            $userinfo = $client->get_userinfo();
+        } else {
+            $userinfo = $fromapp;
+        }
         $uid = $userinfo["uid"];
         $new = false;
         if (!$userinfo) {
