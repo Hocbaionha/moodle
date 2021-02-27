@@ -1,4 +1,10 @@
 <?php
+require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+
+use Google\Cloud\Core\Timestamp;
+use Google\Cloud\Firestore\FieldValue;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Firestore;
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -222,11 +228,24 @@ function login_from_app($idtokenfb=""){
     $issuerid=1;// sso oauth2
     if($idtokenfb!=""){
         if(empty($USER->id) || isguestuser()){
+
+            $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+            $auth = $factory->createAuth();
+            if (!isset($idtokenfb)) {
+                return;
+            }
+
+            $signInResult = $auth->verifyIdToken($idtokenfb);
+            $uid = $signInResult->getClaim('sub');
+            $firestore = $factory->createFirestore();
+            $fdb = $firestore->database();
+            $stuSnapshot = $fdb->collection("users")->document($uid)->snapshot();
+            if ($stuSnapshot->exists()) {
+                $fbinfo = $stuSnapshot->data();
+            }
             echo "3<br/>";
-            //do login TODO anhnn\
-            // var_dump($PAGE->url);
-            global $SESSION;
-            $SESSION->theme = "hbon_app";
+            // global $SESSION;
+            // $SESSION->theme = "hbon_app";
             $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $actual_link = $actual_link;
             $current = new moodle_url($actual_link);
@@ -234,7 +253,7 @@ function login_from_app($idtokenfb=""){
             $issuer = new \core\oauth2\issuer($issuerid);
             $client = \core\oauth2\api::get_user_oauth_client($issuer, $current);
             if ($client) {
-                $info =  ["email"=> "anhlucky18@gmail.com", "firstname"=> "Anh", "lastname"=> "Nguyen Ngoc", "username"=> "anhlucky18@gmail.com", "uid"=>  "yl9AnEV0tNdy8GkfQRLDHQpgAkf2" ];
+                $info =  ["email"=> $fbinfo['email'], "firstname"=> $fbinfo['firstname'], "lastname"=> $fbinfo["lastname"], "username"=> ["username"], "uid"=>  $uid ];
                 
                 $auth = new \auth_oauth2\auth();
                 $auth->complete_login($client, $current,$info);
