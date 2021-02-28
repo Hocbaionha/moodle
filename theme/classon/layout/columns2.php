@@ -11,6 +11,12 @@ defined('MOODLE_INTERNAL') || die();
 
 user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
 require_once($CFG->libdir . '/behat/lib.php');
+//anhnn login from app
+$idtokenfb = optional_param('idtokenfb', "", PARAM_TEXT);
+if($idtokenfb!=""){
+    if(empty($USER->id) || isguestuser()){
+    login_from_app($idtokenfb);
+}}
 if (isloggedin()) {
     $navdraweropen = (get_user_preferences('drawer-open-nav', 'true') == 'true');
 } else {

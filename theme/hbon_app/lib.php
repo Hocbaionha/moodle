@@ -243,9 +243,10 @@ function login_from_app($idtokenfb=""){
             if ($stuSnapshot->exists()) {
                 $fbinfo = $stuSnapshot->data();
             }
-            echo "3<br/>";
-            // global $SESSION;
-            // $SESSION->theme = "hbon_app";
+            //do login TODO anhnn\
+            // var_dump($PAGE->url);
+            global $SESSION;
+            $SESSION->theme = "hbon_app";
             $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $actual_link = $actual_link;
             $current = new moodle_url($actual_link);

@@ -578,7 +578,7 @@
 
         }
     }
-    .navbar{
+    .navbar,.activity-navigation{
         display:none;
     }
     #page-navbar{
@@ -635,8 +635,9 @@
         </div>
     </div>
     {{{ output.standard_after_main_region_html }}}
-
-    
+    <footer id="footer" class="footer style-01">
+        {{{ output.standard_end_of_body_html }}}
+    </footer>
 </div>
 </body>
 <script>
@@ -669,198 +670,7 @@ function off() {
     mod.init();
     M.util.js_complete('theme_boost/drawer');
     });
-    var path = window.location.pathname;
-    if(path == '/mod/quiz/attempt.php'){
-    setInterval(function(){
-    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-    var course = $('#fb_course_id').val();
-    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-    var topic = $('#fb_topic_name_in').val();
-
-    var id = {{uid}};
-    var uid = $('#fb_id').val();
-    var action = window.location.href;
-    var data = {
-    'timeSpent': 30000,
-    'uid': uid,
-    'id':id,
-    'action': action,
-    'course': course,
-    'course_link': course_link,
-    'topic': topic,
-    'topic_link': topic_link
-    };
-    console.log(course);
-    console.log(topic);
-    $.ajax({
-    url: "/local/sm/log.php",
-    type: 'POST',
-    data: data,
-    success: function (data, textStatus, jqXHR) {
-    console.log(data);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {},
-    })
-    }, 30000);
-    }else{
-    $(document).ready(function() {
-
-const shortname='{{{fb_course_id}}}';
-         console.log(shortname)
-         $.ajax({
-            url: "https://us-central1-hbon-sso.cloudfunctions.net/getContenta",
-            type: 'GET',
-             headers: {  'Access-Control-Allow-Origin':'*'},
-             crossDomain: true,
-            data: {tag:shortname},
-            success: function (data, textStatus, jqXHR) {
-                if(data.length>0){
-                    $("#ad-overlay").show();
-                    changeAds(data,0);
-                }
-
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-            },
-            async: true
-        })
-
-    var start = new Date();
-    $(window).on('beforeunload',function(e) {
-    e.returnValue = "Write something clever here..";
-
-    var course_link = $('ol.breadcrumb li:nth-child(3n) a').attr('href');
-    var course = $('#fb_course_id').val();
-    var topic_link = $('ol.breadcrumb li:nth-child(4n) a').attr('href');
-    var topic = $('#fb_topic_name_in').val();
-    console.log("for link",topic_link);
-    console.log("for topic",topic);
-
-    var end = new Date();
-    var id = {{uid}};
-    var uid = $('#fb_id').val();
-    var action = window.location.href;
-    console.log("time",end-start);
-    var data = {
-    'timeSpent': end - start,
-    'uid': uid,
-    'id':id,
-    'action': action,
-    'course': course,
-    'course_link': course_link,
-    'topic': topic,
-    'topic_link': topic_link
-    };
-
-    $.ajax({
-    url: "/local/sm/log.php",
-    type: 'POST',
-    data: data,
-    success: function (data, textStatus, jqXHR) {
-    console.log(data);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {},
-    async: true
-    })
-
-    });
-
-    });
-    }
-
-    $("#form_update_phone").submit(function(event){
-    event.preventDefault();
-    var phone = $('#phone').val();
-    var wanturl = $('#wanturl').val();
-    var send_data = {"phone":phone,"wanturl":wanturl};
-    $.ajax({
-    url: "/local/sm/course_popup.php",
-    type: 'POST',
-    data: send_data,
-    dataType: "json",
-    success: function (res, textStatus, jqXHR) {
-
-    if(res.status ==="success"){
-
-    $('.imgstyle').css("display", "none");
-    $('.step2').css("display", "block");
-
-    }else{
-    swal.fire({
-    position: 'center',
-    icon: 'error',
-    title: 'Cập nhật thất bại',
-    showConfirmButton: false,
-    timer: 2000
-    });
-    }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {}
-    });
-    });
-
-
-
-    $('#complete_survey').on('click',function(event){
-    event.preventDefault();
-    var object = $('input[name="object"]:checked').val();
-    var classes = [];
-    $('input[name="class"]:checked').each(function(){classes.push($(this).val());});
-    var subject = [];
-    $('input[name="subject"]:checked').each(function(){subject.push($(this).val());});
-    var level = [];
-    $('input[name="level"]:checked').each(function(){level.push($(this).val());});
-    var send_data = {"object":object,"class":classes.toString(),"subject":subject.toString(),"level":level.toString()};
-    if(classes.length<=0 || subject.length<=0 || level.length<=0){
-    var message = '';
-    if(classes.length==0){
-    message += " Lớp "
-    }
-    if(subject.length==0){
-    message += " Môn "
-    }
-    if(level.length==0){
-    message += " Chương trình "
-    }
-    swal.fire({
-    position: 'center',
-    icon: 'warning',
-    title: 'Chọn thiếu thông tin:' + message,
-    showConfirmButton: false,
-    timer: 3000
-    });
-    }else{
-    $.ajax({
-    url: "/local/sm/complete_survey.php",
-    type: 'POST',
-    data: send_data,
-    dataType: "json",
-    success: function (res, textStatus, jqXHR) {
-    if(res.status ==="success"){
-    swal.fire({
-    position: 'center',
-    icon: 'success',
-    title: 'Cập nhật thành công',
-    showConfirmButton: false,
-    timer: 2000
-    }).then((result)=>{
-    $('#overlay').css("display", "none");
-    });
-    }else{
-    swal.fire({
-    position: 'center',
-    icon: 'error',
-    title: 'Cập nhật thất bại',
-    showConfirmButton: false,
-    timer: 2000
-    });
-    }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {}
-    });
-    }
-    });
+    
 
 {{/js}}
 
