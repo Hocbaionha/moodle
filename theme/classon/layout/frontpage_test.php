@@ -107,17 +107,26 @@ $l = optional_param('level', "", PARAM_TEXT);
     $now =date("Y-m-d H:i:s");
     $sql = "select * from mdl_hbon_popup_home where status=1 and public_at <= ? order by public_at DESC limit 1";
     $popup_event = $DB->get_records_sql($sql,array("public_at"=>$now));
+
     if (count($popup_event)>0){
         $popup = new stdClass();
         foreach ($popup_event as $object){
+
             if($object->is_countdown != 0){
                 $object->expitime = strtotime($object->expitime);
                 $popup = $object;
             }else{
+
                 if($object->replay == 1){
+//                    print_object(date("H:i:s",strtotime($now)));echo "<br/>";
+//                    print_object(date("H:i:s",strtotime($object->expitime)));
+//                    die();
                     if(date("H:i:s",strtotime($object->public_at)) < date("H:i:s",strtotime($now)) && date("H:i:s",strtotime($now)) < date("H:i:s",strtotime($object->expitime))){
                         $object->expitime = null;
                         $popup = $object;
+
+                    }else{
+                        $popup = null;
                     }
                 }else{
                     if(strtotime($object->expitime) > strtotime($now)){
@@ -130,6 +139,9 @@ $l = optional_param('level', "", PARAM_TEXT);
             }
         }
     }else{
+        $popup = null;
+    }
+    if($USER->id == 2){
         $popup = null;
     }
     $templatecontext = [
