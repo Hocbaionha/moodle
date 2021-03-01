@@ -1,15 +1,20 @@
 <?PHP
-require dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
-require_once($CFG->dirroot . "/cohort/lib.php");
+require_once($CFG->dirroot .'/config.php');
 require_once($CFG->dirroot . "/lib/externallib.php");
+require_once($CFG->dirroot . "/vendor/autoload.php");
+
+
+require_once($CFG->dirroot . "/cohort/lib.php");
 require_once $CFG->libdir . '/hbonlib/string_util.php';
 require_once($CFG->dirroot . '/user/profile/lib.php');
 require_once($CFG->dirroot . '/user/lib.php');
 require_once($CFG->dirroot . '/group/lib.php');
 require_once(__DIR__ . '/../../../admin/tool/uploaduser/locallib.php');
+require_once($CFG->dirroot . '/local/sm/lib.php');
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
+use Google\Cloud\Firestore\FieldValue;
 
 $ccache = array();
 $manualcache = array();
@@ -93,7 +98,7 @@ class local_sm_user_external extends external_api{
                         $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
                         cohort_add_member($cohort->id, $userid);
                         $cohort = $DB->get_record('cohort', array('idnumber' => $product["idnumber"]), '*', MUST_EXIST);
-                        serviceErrorLog("cohort:" . $cohort."userid:".$userid);
+                        serviceErrorLog("cohort:" . $cohort->idnumber."userid:".$userid);
                         cohort_add_member($cohort->id, $userid);
                     }
                 }
@@ -128,78 +133,387 @@ class local_sm_user_external extends external_api{
                     'hs' => new external_value(PARAM_TEXT, 'hs'),
                     'gv' => new external_value(PARAM_TEXT, 'gv'),
                     'assignment' => new external_value(PARAM_TEXT, 'assignment'),
-                    ))
+                    'command_id' => new external_value(PARAM_TEXT, 'command_id'),
+                    'year' => new external_value(PARAM_TEXT, 'year')
+                        )
+                    )
             )
         );
     }
     public static function upload_school($params){
         serviceErrorLog("start...");
         global $DB;
-        $hsnum=0;
-        $gvnum=0;
          $school_id  = $params["school_id"];
-         echo $school_id;
+         $commandid = $params["command_id"];
+        //  ob_end_clean();
+        // // header("Connection: close");
+        //  ob_start();
+        //  echo json_encode(["status"=>"doing:".$params['command_id']."-".$params['year']]);
+        // //  $size = ob_get_length();
+        // //  header("Content-Length: $size");
+        //  ob_end_flush(); // Strange behaviour, will not work
+        //  flush();            // Unless both are called !
+        //  session_write_close();
+        //  sleep(2);
          serviceErrorLog("start upload_school:".$school_id);
-         die;
          $hs = json_decode($params["hs"]);
          $gv = json_decode($params["gv"]);
          $assignments = json_decode($params["assignment"]);
-         //check school_id
-         serviceErrorLog("start upload_school:");
+         
          try{
-         $sql = "select count(*) from mdl_user where email like '?%'";
-         serviceErrorLog("step a:");
-         $school_member = $DB->count_records_sql($sql,array("email"=>$school_id ));
-         serviceErrorLog("step b:");
-         if($school_member>0){
-            $sql = "select max(email) from mdl_user where email like '?%'";
-            $maxhs = $DB->count_records_sql($sql,array("start"=>$school_id."-hs" ));
-            if($maxhs){
-                $first = explode("@",$maxhs)[0];
-                $number = str_replace($maxhs,"",$first);
-                $hsnum = (int) $number;
-            }
-            $sql = "select max(email) from mdl_user where email like '?%'";
-            $maxgv = $DB->count_records_sql($sql,array("start"=>$school_id."-gv" ));
-            if($maxgv){
-                $first = explode("@",$maxhs)[0];
-                $number = str_replace($maxhs,"",$first);
-                $gvnum = (int) $number;
-            }
-         }
-         serviceErrorLog("step 1:");
-        // foreach($hs as $hs_row){
-        //     $hsnum++;
-        //     self:create_student($hs_row,$hsnum,$school_id);
 
-        // }
-        $arrgv = array();
-        foreach($gv as $gv_row){
-            $arrgv[$gv_row[1]] = array("phone"=>$gv_row[2]);
-        }
-        serviceErrorLog("step 2:");
-        serviceErrorLog("1111111:".json_encode($arrgv));
-        foreach($assignments as $assignment){
-            $class_code = $assignment[1];
-            $group_name = $class->code . "-" . $school_id;
-            $grade = $class->code[0];
-            for($i=2;$i<6;$i++){
-                $teachername = $assignment[$i];
-                $arrgv[$teachername]["groupname"] = $group_name;
-                $arrgv[$teachername]["grade"] = $grade;
-                if($i==2){
-                    $arrgv[$teachername]["rolename"]="gvcn";
+         serviceErrorLog("step 1: Kiểm tra có dấu ");
+         serviceErrorLog(json_encode($hs[0]));
+         serviceErrorLog(json_encode($hs[1]));
+         $r=0;
+        $classname="";
+        $classid="";
+        $factory = (new Factory)->withServiceAccount(dirname(dirname(dirname(__DIR__))) . '/firebasekey.json');
+        $auth = $factory->createAuth();
+        $firestore = $factory->createFirestore();
+        $fdb = $firestore->database();
+        $prodRef = $fdb->collection('products')->document("HBON-TVA");
+        $products = array($prodRef);
+        
+        $schoolRef = $fdb->collection('schools')->document($school_id)->snapshot();
+        $schoolData = $schoolRef->data();
+
+        $school = array("province"=>$schoolData["province"],"district"=>$schoolData["district"],"name"=>$schoolData["name"]);
+
+        foreach($hs as $hs_row){
+        
+            if($r==0) {
+                $r++;
+                continue;
+            };
+            if(""==$classname || $classname!=$hs_row[1]){
+                $classname=$hs_row[1];
+                
+                $docRef = $fdb->collection('classes');
+                $query = $docRef->where('school_id', '==', $school_id)->where('name', '==', $classname)->where("years","==",$params['year']);
+                $documents = $query->documents();
+                
+                if($documents->size()>0){
+                    foreach ($documents as $document) {
+                        serviceErrorLog("1");
+                        if ($document->exists()) {
+                            $classid=$document->id();
+                            serviceErrorLog("found class:".$classid);
+                        } 
+                    }
                 } else {
-                    $arrgv[$teachername]["rolename"]="gvbm";
+                    $batch = $fdb->batch();
+                    //create class if not found
+                    $classid= substr(md5(microtime()),rand(0,26),6);
+                    serviceErrorLog($school_id." msg: ".$classname." creating! ".$classid);
+                    $sclass = array("name"=>$classname,"school_id"=>$school_id,"years"=>"2020_2021","status"=>0);
+                    $classRef = $fdb->collection('classes')->document($classid);
+                    $batch->set($classRef,$sclass);
+                    $schoolRef = $fdb->collection('schools')->document($school_id);
+                    $batch->update($schoolRef,[["path"=>"classes","value"=>FieldValue::arrayUnion([$classRef])]]);
+                    if (!$batch->isEmpty()) {
+                        $batch->commit();
+                    }
+                    serviceErrorLog("class:".$classname." created! ");
                 }
-                insertTeacher($arrgv);
+            } 
+            if ($classid!="" && $classname!=""){
+                $username=$hs_row[5];
+                serviceErrorLog("search user:".$username."-".$classid.$classname);
+                $mdluser =  $DB->get_record("user",array("username"=>$username));
+                serviceErrorLog(json_encode($mdluser));
+                
+                    
+                    $mdluser = self::makeuser($hs_row);
+                    //create moodle user if not exits
+                    // $mdluser = self::create_moodle_user($hs_row,$school_id,"student");
+                    
+                    // serviceErrorLog("moodle created:".$mdluser->username);
+                    // $cohort = $DB->get_record('cohort', array('idnumber' => "Trial-User"), '*', MUST_EXIST);
+                    // cohort_add_member($cohort->id, $mdluser->id);
+                    // $cohort = $DB->get_record('cohort', array('idnumber' => "HBON-TVA"), '*', MUST_EXIST);
+                    // serviceErrorLog("cohort:" . $cohort->idnumber."userid:".$mdluser->id);
+                    // cohort_add_member($cohort->id, $mdluser->id);
+                
+                $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->lastname." ".$mdluser->firstname);
+                $docRefUser = $fdb->collection('users');
+                $query = $docRefUser->where('email', '==', $mdluser->email);
+                $documents = $query->documents();
+                serviceErrorLog("msg: ".$classid." find user:".$username);
+                if($documents->size()>0){
+                    foreach ($documents as $document) {
+                        if ($document->exists()) {
+                            //found firebase user
+                            $uid=$document->id();
+                            serviceErrorLog("found user:".$username."-".$uid);
+                            $data = $document->data();
+                            if(!array_key_exists("displayname",$data)){
+                                $data['displayname']=$user["displayname"];
+                            }
+                            serviceErrorLog("found data:".json_encode($data));
+                            $stuRef = $fdb->collection('students')->document($uid);
+                            $stuSnapshot = $stuRef->snapshot();
+                            $student = $user;
+                            if (!$stuSnapshot->exists()) {
+                                //if student not exist
+                                serviceErrorLog(" student not exist".$uid);
+                                
+                                $student["class"]=array("id"=>$classid,"name"=>$classname);
+                                $student["products"] = $products;
+                                serviceErrorLog(" student:".json_encode($student));
+                                $student["code"]=generateStudentCode($fdb);
+                                serviceErrorLog(" student:".json_encode($student));
+                                $fdb->collection('students')->document($uid)->set($student);
+                                //add to classclassId
+                                $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
+                                //add to classmember
+                                $fdb->collection('classes')->document($classid)->collection("class_members")->document($uid)->set(array("email"=>$data['email'],"displayname"=>$data['displayname'],"username"=>$data['username']));
+                                $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+
+                            } else {
+                                serviceErrorLog(" found student ".$uid);
+                                $student["class"]=array("id"=>$classid,"name"=>$classname);
+                                $student["products"] = $products;
+                                $student["code"]=generateStudentCode($fdb);
+                                $fdb->collection('students')->document($uid)->update([["path"=>"class","value"=>$student['class']],["path"=>"products","value"=>$student['products']],["path"=>"code","value"=>$student['code']],["path"=>"school_id","value"=>$student['school_id']]]);
+                                
+                                $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
+                                //add to classmember
+                                serviceErrorLog(" set classmember:".json_encode($data));
+                                serviceErrorLog(" b1");
+                                $fdb->collection('classes')->document($classid)->collection("class_members")->document($uid)->set(array("email"=>$data['email'],"displayname"=>$data['displayname'],"username"=>$data['username']));
+                                serviceErrorLog(" b2");
+                                $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+                                serviceErrorLog(" b3");
+                            }
+                            serviceErrorLog(" b4");
+                            // updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
+                            serviceErrorLog(" b5");
+
+                            serviceErrorLog("created11:".$mdluser->username);
+                            //update role student
+                            $grade=$classname[0];
+                            $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"student"],["path"=>"roles","value"=>FieldValue::arrayUnion(["student"])]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"displayname","value"=>$data['displayname']],["path"=>"grade","value"=>$grade],["path"=>"userId","value"=>$uid]]);
+                            $fdb->collection('users')->document($uid)->update([["path"=>"school","value"=>$school],["path"=>"school_id","value"=>$school_id]]);
+                            
+                        }
+                    }
+                } else {
+                    // create firebase user if not found
+                    serviceErrorLog("check email auth:".json_encode($user['email']));
+
+                    try {
+                        $providers = $auth->getUserByEmail($user['email']);
+                        $uid=$providers->uid;
+                        serviceErrorLog("provider:".json_encode($providers));
+                    } catch (\Kreait\Firebase\Exception\Auth\UserNotFound $e) {
+                        $user['password']=$hs_row[6];
+                        $fbuser = $auth->createUser($user);
+                        serviceErrorLog("fbuser:".json_encode($fbuser));
+                        $uid= $fbuser->uid;
+                        serviceErrorLog("verify student fbuser:".$uid);
+                        $auth->updateUser($uid,array("emailVerified"=>true));
+                        unset($user['password']);
+                        serviceErrorLog("created firebase auth:".$uid."".$user['email']);
+                        
+                    } finally {
+                        serviceErrorLog("uid firebase auth:".$uid);
+                    }
+
+                    
+
+                    $student=$user;
+                    //set role student
+                    $user["role"] = "student";
+                    $user["roles"] = array("student");
+                    $grade=$classname[0];
+                    $user["grade"] = $grade;
+                    $user["userId"] = $uid;
+                    $user["school"] = $school;
+                    $docRefUser = $fdb->collection('users')->document($uid)->set($user);
+                    
+                    $student["class"]=array("id"=>$classid,"name"=>$classname);
+                    $student["products"] = $products;
+                    $student["code"]=generateStudentCode($fdb);
+                    $fdb->collection('students')->document($uid)->set($student);
+                    $stuRef = $fdb->collection('students')->document($uid);
+                     //add to class
+                     $fdb->collection('classes')->document($classid)->update([["path"=>"students","value"=>FieldValue::arrayUnion([$stuRef])]]);
+                     //add to classmember
+                     $fdb->collection('classes')->document($classid)->collection("class_members")->document($uid)->set(array("email"=>$user['email'],"displayname"=>$user['displayname'],"username"=>$user['email']));
+                     $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time"=>$student["code"]["expired_time"],"student_id"=>$uid));
+
+                    //  updateStudentData($student["moodleUserId"],$uid,$student["code"]["student_code"]);
+                     serviceErrorLog("created 22:".$mdluser->username);
+                }
             }
         }
+        //add gv
+        $r=0;
+        foreach($gv as $gv_row){
+
+            if($r==0) {
+                $r++;
+                continue;
+            };
+            $fullname=$gv_row[1];
+            $phone=$gv_row[2];
+            $subject_raw=$gv_row[3];
+            $username=$gv_row[4];
+            $password=$gv_row[5];
+            serviceErrorLog("search user:".$username."-".$school_id);
+            
+                //create moodle user if not exits
+                $user_row[1]="";
+                $user_row[2]=$fullname;
+                $user_row[3]=null;
+                $user_row[4]=null;
+                $user_row[5]=$username;
+                $user_row[6]=$password;
+                serviceErrorLog("moodle user row:".json_encode($user_row));
+                $mdluser = self::makeuser($user_row);
+                // $mdluser = self::create_moodle_user($user_row,$school_id,"teacher");
+                
+                serviceErrorLog("moodle created:".$mdluser->username);
+            
+            $docRefUser = $fdb->collection('users');
+            $query = $docRefUser->where('email', '==', $mdluser->email);
+            $documents = $query->documents();
+            serviceErrorLog("msg: ".$classid." find user:".$username);
+            $user = array("moodleUserId"=>$mdluser->id,"email"=>$mdluser->email,"firstname"=>$mdluser->firstname,"lastname"=>$mdluser->lastname,"username"=>$mdluser->username,"status"=>0,"school_id"=>$school_id,"displayname"=>$mdluser->lastname." ".$mdluser->firstname);
+            if($documents->size()>0){
+                foreach ($documents as $document) {
+                    if ($document->exists()) {
+                        //found firebase user
+                        $uid=$document->id();
+                        serviceErrorLog("found teacher user:".$username."-".$uid);
+                        $data = $document->data();
+                        serviceErrorLog("found teacher data:".json_encode($data));
+                        $teracherRef = $fdb->collection('teachers')->document($uid);
+                        $teacher = $user;
+                        $teacher["subject"]=$subject_raw;
+                        if (!$teracherRef->snapshot()->exists()) {
+                            //create teacher if not exist
+                            serviceErrorLog(" teacher not exist".$uid);
+                            $fdb->collection('teachers')->document($uid)->set($teacher);
+                            //add to school
+                            $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
+                        } else {
+                            serviceErrorLog(" found teacher:".$uid);
+                            $fdb->collection('teachers')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]],["path"=>"school_id","value"=>$user["school_id"]]]);
+                            $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
+                        }
+
+                        $fdb->collection('users')->document($uid)->update([["path"=>"role","value"=>"teacher"],["path"=>"roles","value"=>FieldValue::arrayUnion(["teacher"])]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"firstname","value"=>$user["firstname"]],["path"=>"lastname","value"=>$user["lastname"]],["path"=>"displayname","value"=>$user["displayname"]],["path"=>"school_id","value"=>$user["school_id"]]]);
+                        $fdb->collection('users')->document($uid)->update([["path"=>"userId","value"=>$uid],["path"=>"school","value"=>$school]]);
+
+                    }
+                }
+            } else {
+                //create user,teacher
+                // create firebase user if not found
+                serviceErrorLog("check email auth:".json_encode($user['email']));
+
+                try {
+                    $providers = $auth->getUserByEmail($user['email']);
+                    $uid=$providers->uid;
+                    serviceErrorLog("provider:".json_encode($providers));
+                } catch (\Kreait\Firebase\Exception\Auth\UserNotFound $e) {
+                    $user['password']=$password;
+                    $fbuser = $auth->createUser($user);
+                    serviceErrorLog("teacher fbuser:".json_encode($fbuser));
+                    $uid= $fbuser->uid;
+                    serviceErrorLog("verify teacherr fbuser:".$uid);
+                    $auth->updateUser($uid,array("emailVerified"=>true));
+                    unset($user['password']);
+                    serviceErrorLog("created teacher firebase auth:".$uid."".$user['email']);
+
+                    
+                } finally {
+                    serviceErrorLog("uid firebase auth:".$uid);
+                }
+                $teacher = $user;
+                $user["role"] = "teacher";
+                $user["roles"] = array("teacher");
+                $user["school"] = $school;
+                $user["userId"] = $uid;
+                $docRefUser = $fdb->collection('users')->document($uid)->set($user);
+                // updateStudentData($mdluser->id,$uid,null);
+                $teracherRef = $fdb->collection('teachers')->document($uid);
+                
+                if (!$teracherRef->snapshot()->exists()) {
+                    //create teacher if not exist
+                    serviceErrorLog(" teacher not exist".$uid);
+
+                    $teacher["subject"]=$subject_raw;
+                    $fdb->collection('teachers')->document($uid)->set($teacher);
+                    //add to school
+                    $fdb->collection('schools')->document($school_id)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
+                } else {
+                    serviceErrorLog(" found teacher:".$uid);
+                }
+                serviceErrorLog("created 22:".$mdluser->username);
+            }
+
+        }
+        //assiign TODO
+        $r=0;
+        foreach($assignments as $assignment){
+            if($r==0) {
+                $r++;
+                continue;
+            };
+            serviceErrorLog("$r assign: ".$assignment[0]." ".json_encode($assignment));
+            $classname=$assignment[1];
+            $gvcn=$assignment[2];
+            $gvtoan1=$assignment[3];
+            $gvtoan2=$assignment[4];
+            $gvta=$assignment[5];
+            $gvnv=$assignment[6];
+            $docRef = $fdb->collection('classes');
+            $query = $docRef->where('school_id', '==', $school_id)->where('name', '==', $classname)->where("years","==",$params['year']);
+            $documents = $query->documents();
+            serviceErrorLog("search class:$school_id ".$classname."-".$params['year']);
+            if($documents->size()>0){
+                
+                foreach ($documents as $document) {
+                    if ($document->exists()) {
+                        $classid=$document->id();
+                        $data=$document->data();
+                        serviceErrorLog("found class:$classid ".json_encode($data));
+                        //assign teacher for each class
+                        serviceErrorLog("assign 1: $gvcn for $classid in $school_id".$data['name']);
+                        self::insert_assignment($fdb,$gvcn,$classid,$data['name'],$data['years'],"gvcn",$school_id);
+                        
+
+                        serviceErrorLog("assign 2: $gvtoan1 for $classid in $school_id".$data['name']);
+                        self::insert_assignment($fdb,$gvtoan1,$classid,$data['name'],$data['years'],"toan",$school_id);
+
+                        serviceErrorLog("assign 3: $gvtoan2 for $classid in $school_id".$data['name']);
+                        self::insert_assignment($fdb,$gvtoan2,$classid,$data['name'],$data['years'],"toan",$school_id);
+
+                        serviceErrorLog("assign 4: $gvta for $classid in $school_id".$data['name']);
+                        self::insert_assignment($fdb,$gvta,$classid,$data['name'],$data['years'],"anh",$school_id);
+
+                        serviceErrorLog("assign 5: $gvnv for $classid in $school_id".$data['name']);
+                        self::insert_assignment($fdb,$gvnv,$classid,$data['name'],$data['years'],"van",$school_id);
+
+                    }
+                }
+            }
+            $r++;
+        }
+        
     } catch (Exception $e) {
         serviceErrorLog("error:" . json_encode($e->getTrace()));
     }
-         serviceErrorLog("created user:".gettype($assignment));
-         return ["status"=>"success:".$firebase_uid];
+    $fdb->collection("commands")->document($commandid)->update([["path"=>"status","value"=>2]]);//update command status to 2: done
+
+    $fdb->collection("asynSchoolClass")->document($school_id)->set(array("schoolid"=>$school_id));
+        //  serviceErrorLog("created user:".gettype($assignment));
+         return ["status"=>"success:".$school_id];
     }
     public static function upload_school_returns() {
         return new external_single_structure(
@@ -208,20 +522,17 @@ class local_sm_user_external extends external_api{
             )
         );
     }
-    function create_student($hs_row,$hsnum,$school_id){
-        $class_code = $hs_row[1];
-        $fullname = $hs_row[2];
-        $birthdate = $hs_row[3];
-        $phone = $hs_row[4];
-
-
-    $cohortbgh = array($school_id,"HBON-TVA" ,"Trial-User");
-    $cohortgv = array("GV-" . $school_id, $school_id,"HBON-TVA" , "Trial-User");
-    $cohorths = array("HS-" . $school_id, $school_id,"HBON-TVA" , "Trial-User");
-
+    static function  create_moodle_user($user_row,$school_id){
+        global $DB,$CFG;
+        
+        $class_name=  $user_row[1];
+        $fullname=$user_row[2];
+        $birthdate=$user_row[3];
+        $gender=$user_row[4];
+        $username=$user_row[5];
         $user = new stdClass();
-         $user->username = $school_id . "-hs" . $hsnum;
-         $user->password = rand_string(4);
+         $user->username = $user_row[5];
+         $user->password = $user_row[6];
         $arrName = split_name($fullname);
         $user->firstname = $arrName['first_name'];
         $user->lastname = $arrName['last_name'];
@@ -230,10 +541,11 @@ class local_sm_user_external extends external_api{
 
         $s = explode("(", $firstname);
         $firstname = trim($s[0]);
-        $user->email = "hs" . $hsnum . "-" . $lastname . "-" . $firstname . "@" . $school_id . ".edu.vn";
+        $user->email = $username.'@hocbaionha.com';
 
         $user->username = core_user::clean_field($user->username, 'username');
         $user->mnethostid = $CFG->mnet_localhost_id;
+
         if ($existinguser = $DB->get_record('user', array('username' => $user->username, 'mnethostid' => $user->mnethostid))) {
             echo $existinguser->id . " user existed";
             return;
@@ -243,7 +555,9 @@ class local_sm_user_external extends external_api{
         $user->timecreated = time();
         $user->profile_field_type = "student";
         $user->profile_field_birthdate = $birthdate;
-        $user->profile_field_phone = $phone;
+        $user->profile_field_gender = $gender;
+        $user->profile_field_schoolid=$school_id;
+        $user->profile_field_classid=$class_name;
 
         if (!isset($user->suspended) or $user->suspended === '') {
             $user->suspended = 0;
@@ -254,7 +568,6 @@ class local_sm_user_external extends external_api{
         if (empty($user->auth)) {
             $user->auth = 'manual';
         }
-
         // do not insert record if new auth plugin does not exist!
         try {
             $auth = get_auth_plugin($user->auth);
@@ -293,19 +606,9 @@ class local_sm_user_external extends external_api{
         } else {
             $user->password = AUTH_PASSWORD_NOT_CACHED;
         }
-        insertUser($user);
-        insertCohort($cohorths, $user->id);
-        $group_name = $class_code . "-" . $school_id;
-        $grade = $class_code[0];
-        if ($grade == 6)
-            insertCourse("SH6", $group_name, $user->id);
-        else
-            insertCourse("DS" . $grade, $group_name, $user->id);
-        insertCourse("HH" . $grade, $group_name, $user->id);
-
-        insertCourse("TA" . $grade, $group_name, $user->id);
-
-        insertCourse("NV" . $grade, $group_name, $user->id);
+        serviceErrorLog("check:".json_encode($user));
+        self::insertUser($user);
+        serviceErrorLog("inserted");
         
         $validation[$user->username] = core_user::validate($user);
         if (!empty($validation)) {
@@ -315,11 +618,11 @@ class local_sm_user_external extends external_api{
                 }
             }
         }
-        serviceErrorLog("create_student error:" . json_encode($user));
+        return $user;
     }
 
-    function insertUser($user) {
-
+    static function insertUser($user) {
+        serviceErrorLog("start insert:".json_encode($user));
         $user->id = user_create_user($user, false, false);
 
         // pre-process custom profile menu fields data from csv file
@@ -332,150 +635,89 @@ class local_sm_user_external extends external_api{
         if ($user->password === 'to be generated') {
             set_user_preference('create_password', 1, $user);
         }
-
+        serviceErrorLog("create:".json_encode($user));
         // Trigger event.
         \core\event\user_created::create_from_userid($user->id)->trigger();
-
+        serviceErrorLog("make sure done:".json_encode($user));
         // make sure user context exists
         context_user::instance($user->id);
     }
 
-    function insertCohort($cohorts, $userid) {
-        global $DB;
-        foreach ($cohorts as $addcohort) {
-            if (is_number($addcohort)) {
-                // only non-numeric idnumbers!
-                $cohort = $DB->get_record('cohort', array('id' => $addcohort));
-            } else {
-                $cohort = $DB->get_record('cohort', array('idnumber' => $addcohort));
-                if (empty($cohort) && has_capability('moodle/cohort:manage', context_system::instance())) {
-                    // Cohort was not found. Create a new one.
-                    $cohortid = cohort_add_cohort((object) array(
-                                'idnumber' => $addcohort,
-                                'name' => $addcohort,
-                                'contextid' => context_system::instance()->id
-                    ));
-                    $cohort = $DB->get_record('cohort', array('id' => $cohortid));
+    static private function insert_assignment($fdb,$fullname,$classid,$classname,$classyear,$subject,$school_id){
+        serviceErrorLog("=>>>>start insert assignment $classid,$classname,$subject,$school_id: ".$fullname);
+        $arrName = split_name($fullname);
+        $query = $fdb->collection('teachers')->where("firstname","==",$arrName['first_name'])->where("lastname","==",$arrName['last_name'])->where("school_id","==",$school_id);
+        $documents = $query->documents();
+        serviceErrorLog("search teacher by name: ".$fullname);
+        if($documents->size()>0){
+            serviceErrorLog("found teachername");
+            foreach ($documents as $document) {
+                if ($document->exists()) {
+                    
+                    $data = $document->data();
+                    $teacherid=$document->id();
+                    $teracherRef = $fdb->collection('teachers')->document($teacherid);
+                    serviceErrorLog("assigning teacher $teacherid: ".json_encode($data));
+                    // $teracherRef->update([
+                    //     ['path' => 'classes', 'value' => FieldValue::deleteField()]
+                    // ]);
+                    if(array_key_exists("classes",$data)){
+                        $classes = $data['classes'];
+                        $rolefound=0;
+                        foreach($classes as $key=>$class){
+                            serviceErrorLog("found class: ".json_encode($class));
+                            if($class['id']==$classid){
+                                $rolefound=1;
+                                if(array_key_exists("roles",$class)){
+                                    $roles = $class['roles'];
+                                    $roles = array_unique(array_merge($roles,array($subject)));
+                                    $classes[$key]['roles'] = $roles;
+                                    serviceErrorLog("=1");
+                                }
+                            }
+                        }
+                        serviceErrorLog("=2");
+                        if($rolefound==0){
+                            serviceErrorLog("=3");
+                            $newclass = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
+                            $classes = array_merge($classes,array($newclass));
+                        }
+                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>$classes]]);
+                        serviceErrorLog("update class done");
+                    } else {
+                        serviceErrorLog("=6 ".$teacherid);
+                        $class = array("id"=>$classid,"name"=>$classname,"roles"=>array($subject),"year"=>$classyear);
+                        $fdb->collection('teachers')->document($teacherid)->update([["path"=>"classes","value"=>array($class)]]);
+                        serviceErrorLog("=7");
+                    }
+                    serviceErrorLog("=8");
+                    $fdb->collection('classes')->document($classid)->update([["path"=>"teachers","value"=>FieldValue::arrayUnion([$teracherRef])]]);
+                    serviceErrorLog("=9");
+                    if($subject=="gvcn"){
+                        serviceErrorLog("=10");
+                        $fdb->collection('classes')->document($classid)->update([["path"=>"gvcn","value"=>$teacherid]]);
+                    }
+                   
                 }
             }
-
-            if (empty($cohort)) {
-                $cohort = get_string('unknowncohort', 'core_cohort', s($addcohort));
-            } else if (!empty($cohort->component)) {
-                // cohorts synchronised with external sources must not be modified!
-                $cohort = get_string('external', 'core_cohort');
-            }
-            if (is_object($cohort)) {
-                if (!$DB->record_exists('cohort_members', array('cohortid' => $cohort->id, 'userid' => $userid))) {
-                    cohort_add_member($cohort->id, $userid);
-                }
-            } else {
-                // error message
-                echo 'enrolments error' . $cohorts[$addcohort];
-            }
+        } else {
+            serviceErrorLog(" not found teacher:".$arrName['last_name']." ".$arrName['first_name']);
         }
+        serviceErrorLog("======== done:".$fullname);
     }
-    function insertTeacher($teacher){
-        serviceErrorLog("created user:".json_encode($teacher));
-        print_object($teacher);die;
+    static function makeuser($user_row){
+        $class_name=  $user_row[1];
+        $fullname=$user_row[2];
+        $birthdate=$user_row[3];
+        $gender=$user_row[4];
+        $username=$user_row[5];
         $user = new stdClass();
-        $isBgh = false;
-
-        $arrName = split_name($teacher->name);
+         $user->username = $user_row[5];
+         $user->password = $user_row[6];
+        $arrName = split_name($fullname);
         $user->firstname = $arrName['first_name'];
         $user->lastname = $arrName['last_name'];
-
-        $firstname = strtolower(non_unicode($user->firstname));
-        $lastname = strtolower(preg_replace('/\s+/', '', non_unicode($user->lastname)));
-
-        if (strcasecmp($teacher->department, "Ban Giám Hiệu") == 0) {
-            $user->username = $school->code . "-bgh";
-            $user->email = "bgh@" . $school->code . ".edu.vn";
-            $user->firstname = "BGH";
-            $user->lastname = $school->name;
-            $isBgh = true;
-        } else {
-            $tid++;
-            $stt = sprintf("%02d", $tid);
-            $user->username = $school->code . "-gv" . $stt;
-            $s = explode("(", $firstname);
-            $firstname = trim($s[0]);
-            $user->email = "gv" . $stt . "-" . $lastname . "-" . $firstname . "@" . $school->code . ".edu.vn";
-        }
-        $teacher->username = $user->username;
-        $user->username = core_user::clean_field($user->username, 'username');
-        $user->mnethostid = $CFG->mnet_localhost_id;
-        if ($existinguser = $DB->get_record('user', array('username' => $user->username, 'mnethostid' => $user->mnethostid))) {
-            echo $existinguser->id . " user existed" . $user->username . "<br/>";
-            return;
-        }
-        $user->password = rand_string(4);
-        $teacher->password = $user->password;
-
-        $user->profile_field_schoolid = $teacher->schoolid;
-        $user->profile_field_type = "gvbm";
-        if ($isBgh) {
-            $user->profile_field_type = "bgh";
-        }
-        $user->profile_field_department = $teacher->department;
-        $user->profile_field_phone = $teacher->phone;
-        $user->confirmed = 1;
-        $user->timemodified = time();
-        $user->timecreated = time();
-        if (!isset($user->suspended) or $user->suspended === '') {
-            $user->suspended = 0;
-        } else {
-            $user->suspended = $user->suspended ? 1 : 0;
-        }
-
-        if (empty($user->auth)) {
-            $user->auth = 'manual';
-        }
-
-
-        // do not insert record if new auth plugin does not exist!
-        try {
-            $auth = get_auth_plugin($user->auth);
-        } catch (Exception $e) {
-            echo "auth error " . $user->auth;
-            return;
-        }
-
-        $isinternalauth = $auth->is_internal();
-
-        if (empty($user->email)) {
-            echo get_string('invalidemail') . $user->email;
-            return;
-        } else if ($DB->record_exists('user', array('email' => $user->email))) {
-            echo get_string('emailduplicate:') . $stremailduplicate;
-            return;
-        }
-        if (!validate_email($user->email)) {
-            $user->email = non_unicode($user->email);
-            if (!validate_email($user->email)) {
-                echo 'invalidemail:' . $user->email;
-                return;
-            }
-        }
-
-        if (empty($user->lang)) {
-            $user->lang = '';
-        } else if (core_user::clean_field($user->lang, 'lang') === '') {
-            echo 'cannotfindlang' . $user->lang;
-            $user->lang = '';
-        }
-
-
-        if ($isinternalauth) {
-            $user->password = hash_internal_user_password($user->password, true);
-        } else {
-            $user->password = AUTH_PASSWORD_NOT_CACHED;
-        }
-        insertUser($user);
-        if ($isBgh) {
-            insertCohort($cohortbgh, $user->id);
-        } else {
-            insertCohort($cohortgv, $user->id);
-        }
+        $user->email = $username.'@hocbaionha.com';
+        return $user;
     }
 }

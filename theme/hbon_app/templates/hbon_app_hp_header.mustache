@@ -1,0 +1,72 @@
+<div class="header">
+    <header id="header" class="header style-01 header-dark header-sticky">
+        <div class="header-wrap-stick">
+            <div class="header-position">
+                <div class="header-middle">
+                    <div class="header-middle-inner">
+                        <div class="header-logo2">
+                            <a href="/">
+                                <img alt="Hocbaionha" src="{{{ config.wwwroot }}}/theme/hbon_app/pix/LogoHBON.svg"
+                                    class="logo" style="max-width: 250px;min-height:20px;">
+                            </a>
+                        </div>
+                        <div class="header-logo-nav">
+                            <div class="header-logo">
+                                <a href="/">
+                                    <img alt="Hocbaionha" src="{{{ config.wwwroot }}}/theme/hbon_app/pix/LogoHBON.svg"
+                                        class="logo" style="max-width: 250px;min-height:20px;">
+                                </a>
+                            </div>
+                            <div class="box-header-nav">
+                                {{{ main_menu}}}
+                            </div>
+                            {{#isloggedin}}
+                            <span class="furgan-menu-item-title user-menu">
+                                {{{ output.user_menu }}}
+                            </span>
+                            {{/isloggedin}}
+                            {{^isloggedin}}
+                            <span class="login"> <a href="{{{loginurl}}}">Đăng nhập | Đăng ký</a></span>
+                            {{/isloggedin}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <nav id="menu">
+            {{{ main_menu}}}
+        </nav>
+        <div class="header-mobile ">
+            <div class="header-mobile-left">
+                <div class="block-menu-bar">
+                    <a class="menu-bar menu-toggle" href="#menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div>
+        </div>
+        <div class=" header-mobile-mid">
+            <a href="/">
+                <img alt="Hocbaionha" src="{{{ config.wwwroot }}}/theme/hbon_app/pix/LogoHBON.svg"
+                    class="logo" style="max-width: 250px;height:20px;">
+            </a>
+            <div class="header-control-inner">
+                <div class="meta-dreaming">
+                    <div class="menu-item block-user block-dreaming furgan-dropdown">
+                        {{#isloggedin}}
+                        {{{ output.user_menu }}}
+                        {{/isloggedin}}
+                        {{^isloggedin}}
+                        <span class="login" > <a
+                                href="{{{loginurl}}}">Đăng nhập</a></span>
+                        {{/isloggedin}}.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </header>
+</div>

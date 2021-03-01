@@ -45,24 +45,12 @@ function local_sm_enrole($uid)
         if ($snapshot->exists()) {
 
             $student = $snapshot->data();
-            $enddate = time();
             if (array_key_exists("class", $student)) {
                 $group_name = $student["class"]["name"];
                 foreach ($student["products"] as $productref) {
                     $snapshot = $productref->snapshot();
                     if ($snapshot->exists()) {
                         $product = $snapshot->data();
-                        $endtime = $product["endtime"];
-                        switch ($endtime) {
-                            case "0":
-                                $enddate = $product['enddate']->get()->getTimestamp();
-                                break;
-                            case "00":
-                                $enddate = strtotime("01/01/2100");
-                                break;
-                            default:
-                                $enddate = strtotime("+$endtime month", time());
-                        }
                         $courses = $product['courses'];
                         foreach ($courses as $course) {
                             $shortname = $course["shortname"];
@@ -124,6 +112,7 @@ function local_sm_enrole($uid)
 
 function generate_student_code($uid, $moodleUserId, $codeField)
 {
+    //check all user have uid
     global $CFG, $DB;
     global $SESSION;
     $uidField = $DB->get_record("user_info_field", array("shortname" => "uid"))->id;
@@ -150,7 +139,6 @@ function generate_student_code($uid, $moodleUserId, $codeField)
         $signInResult = $auth->signInAsUser($fb_token);
         $firestore = $factory->createFirestore();
         $fdb = $firestore->database();
-        $db = $firestore->database();
         $sql = "SELECT id,username,email,firstname,lastname from mdl_user where id=?";
         $mdluser = $DB->get_record_sql($sql, array("id" => $moodleUserId));
 
@@ -161,83 +149,56 @@ function generate_student_code($uid, $moodleUserId, $codeField)
             return;
         }
         $user = array("moodleUserId" => $moodleUserId, "email" => $mdluser->email, "firstname" => $mdluser->firstname, "lastname" => $mdluser->lastname, "username" => $mdluser->username, "status" => 0);
-        $query = $fdb->collection('student_code')->where("student_id", "==", $uid);
-        $documents = $query->documents();
-        $updatesql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
-        if ($documents->size() == 0) {
-            $batch = $fdb->batch();
-            $stuRef = $fdb->collection('students')->document($uid);
-            $stuSnapshot = $stuRef->snapshot();
-            if (!$stuSnapshot->exists()) {
-                $student = $user;
-                $student["code"] = generateStudentCode($fdb);
-                $batch->set($fdb->collection('students')->document($uid), $student);
+        
+        $userSnapshot = $fdb->collection('users')->document($uid)->snapshot();
+        
+        if ($userSnapshot->exists()) {
+            $data=$userSnapshot->data();
 
-                $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]), array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
-                if ($check && property_exists($check, "data") && $check->data == "") {
-                    $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
-                        'fieldid' => $codeField));
-                } else {
-                    $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
-                }
+            if (!array_key_exists("displayname", $data)||$data["displayname"]="") {
+                $fdb->collection('users')->document($uid)->update([["path" => "displayname", "value" => $data["lastname"]." ".$data["firstname"]]]);
+            }
+
+            $role = "student";
+            if (!array_key_exists("role", $data)) {
+                $fdb->collection('users')->document($uid)->update([["path" => "role", "value" => "student"]]);
             } else {
-                $student = $user;
-                $student["code"] = generateStudentCode($fdb);
-                $batch->update($fdb->collection('students')->document($uid), [["path" => "code", "value" => $student["code"]]]);
-                $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]), array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
-                if (property_exists($check, "data") && $check->data == "") {
-                    $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
-                        'fieldid' => $codeField));
-                } else {
-                    $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
-                }
+                $role=$data["role"];
             }
-            $userRef = $fdb->collection('users')->document($uid);
-            $userSnapshot = $userRef->snapshot();
-            if (!$userSnapshot->exists()) {
-                $batch->update($fdb->collection('users')->document($uid), [["path" => "role", "value" => "student"]]);
-            }
-            if (!$batch->isEmpty()) {
-                $batch->commit();
-            }
-        } else {
-            $stuRef = $fdb->collection('students')->document($uid);
-            $stuSnapshot = $stuRef->snapshot();
-            if ($stuSnapshot->exists()) {
-                $student = $stuSnapshot->data();
-                if (array_key_exists("code", $student)) {
-                    if (array_key_exists("code", $student['code'])) {
-                        $student["code"]['student_code'] = $student["code"]['code'];
+            if($role=="student"){
+                //check student code
+                $stuRef = $fdb->collection('students')->document($uid);
+                $stuSnapshot = $stuRef->snapshot();
+                if ($stuSnapshot->exists()) {
+                    $student = $stuSnapshot->data();
+                    if (!array_key_exists("code", $student)) {
+                        $student["code"] = generateStudentCode($fdb);
+                        $batch = $fdb->batch();
+        
+                        $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]), array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
+                        $batch->update($fdb->collection('students')->document($uid), [["path" => "code", "value" => $student["code"]]]);
+                        
+                        if ($check && property_exists($check, "data") && $check->data == "") {
+                            $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
+                                'fieldid' => $codeField));
+                        } else {
+                            $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                                'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
+                        }
                     }
-                } else {
-                    $student["code"] = generateStudentCode($fdb);
-                    $fdb->collection('students')->document($uid)->update([["path" => "code", "value" => $student["code"]]]);
-                    $fdb->collection('student_code')->document($student["code"]["student_code"])->set(array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
-                }
-                serviceErrorLog("code:" . json_encode($student["code"]['student_code']));
-                if (property_exists($check, "data") && $check->data == "") {
-                    $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
-                        'fieldid' => $codeField));
-                } else {
-                    $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
-                        'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
-                }
-                $userRef = $fdb->collection('users')->document($uid);
-                $userSnapshot = $userRef->snapshot();
-                if (!$userSnapshot->exists()) {
-                    $fdb->collection('users')->document($uid)->update([["path" => "role", "value" => "student"]]);
-                }
+                }    
             }
         }
+        
     }
 
 }
 
 function generateStudentCode($fdb)
 {
+    serviceErrorLog("start generateStudentCode");
     $code = substr(md5(microtime()), rand(0, 26), 6);
+    serviceErrorLog("code:".$code);
     $exist = true;
     while ($exist) {
         $docRef = $fdb->collection('student_code')->document($code);
@@ -252,6 +213,7 @@ function generateStudentCode($fdb)
     $date = new DateTime();
     $time = $date->getTimestamp();
     $expired_time = $time + (365 * 24 * 60 * 60);
+    serviceErrorLog("code generated:".$code);
     return array("student_code" => $code, "expired_time" => $expired_time * 1000);
 }
 
@@ -424,7 +386,12 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                     $assignment_data["created_at"] = FieldValue::serverTimestamp();
                     $assignment_data["created_by"] = $USER->uid;
                     $assignment_data["created_by_name"] = $USER->firstname ." ".$USER->lastname;
-                    $db->collection('classes')->document($assignment_data["group"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                    if(property_exists($USER,"uid")){
+                        $db->collection('classes')->document($assignment_data["class"])->collection('assignments')->document($document->id())->collection('submissions')->document($USER->uid)->set($assignment_data);
+                    } else {
+                        serviceErrorLog("not found uid:" . json_encode($USER));
+                    }
+                    
                 }
 //                $userRef= $db->collection('users')->document($send_to)->snapshot();
 //                if($userRef->exists()){
@@ -712,3 +679,26 @@ function local_sm_mod_url_course_module_viewed(mod_url\event\course_module_viewe
 }
 
 //function local_sm_
+function updateStudentData($moodleUserId,$uid,$code){
+    global $DB;
+
+    $codeField = $DB->get_record("user_info_field",array("shortname"=>"student_code"))->id;
+    $uidField = $DB->get_record("user_info_field",array("shortname"=>"uid"))->id;
+    $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$uidField));
+    $sql = "update mdl_user_info_data set data=? where userid=? and fieldid=?";
+    if(!$check){
+        $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                    'fieldid' => $uidField, 'data' => $uid));
+    } else {
+        $DB->execute($sql,array("data"=>$uid,"userid"=>$moodleUserId,"fieldid"=>$uidField));
+    }
+    if($code!=null && $code!=""){
+        $check = $DB->get_record("user_info_data",array("userid"=>$moodleUserId,"fieldid"=>$codeField));
+        if(!$check){
+            $DB->insert_record('user_info_data', array('userid' => $moodleUserId,
+                        'fieldid' => $codeField, 'data' => $code));
+        } else {
+            $DB->execute($sql,array("data"=>$code,"userid"=>$moodleUserId,"fieldid"=>$codeField));
+        }
+    }
+}

@@ -1,0 +1,41 @@
+// Post SCSS for the theme.
+/*
+body.pagelayout-login {
+    background-image: url([[pix:theme_hbon_app|loginbackgroundimage]]);
+    background-size: cover;
+}
+body.pagelayout-frontpage {
+    background-image: url([[pix:theme_hbon_app|frontpagebackgroundimage]]);
+    background-size: cover;
+}
+body.pagelayout-mydashboard {
+    background-image: url([[pix:theme_hbon_app|dashboardbackgroundimage]]);
+    background-size: cover;
+}
+body.pagelayout-course,
+body.pagelayout-incourse {
+    background-image: url([[pix:theme_hbon_app|incoursebackgroundimage]]);
+    background-size: cover;
+}
+body.pagelayout-embedded,
+body.pagelayout-popup,
+body.pagelayout-secure,
+body.pagelayout-print {
+    background-image: none;
+}
+body {
+    background-image: url([[pix:theme_hbon_app|defaultbackgroundimage]]);
+    background-size: cover;
+}
+*/
+
+
+.coursebox .content .courseimage img {
+
+    border-radius: 5px;
+}
+a:hover, .btn-link:hover {
+
+    text-decoration: none;
+}
+

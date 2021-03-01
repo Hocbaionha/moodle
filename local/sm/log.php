@@ -25,21 +25,24 @@ $listActivity = ["assign", "book", "feedback", "quiz", "wiki", "resource", "geog
 if (isset($topic) && $activity !== false && $activity_id !== false && in_array($activity, $listActivity)) {
     $checkexist = $DB->count_records('hbon_activity_one_hourse', array('user_id' => $USER->id, 'activity' => $activity, 'activity_id' => $activity_id));
     if ($checkexist === 0) {
-        $newData = array(
-            'user_id' => (int)$USER->id,
-            'activity' => $activity,
-            'activity_id' => (int)$activity_id,
-            'timespent' => $timeSpent,
-            'link' => $action,
-            'course_id' => (int)$course_id,
-            'course_name' => $course,
-            'uid' => $USER->uid,
-            'topic' => $topic
-        );
-        $DB->insert_record('hbon_activity_one_hourse', (object)$newData);
+        if($USER->uid && $USER->uid != null){
+            $newData = array(
+                'user_id' => (int)$USER->id,
+                'activity' => $activity,
+                'activity_id' => (int)$activity_id,
+                'timespent' => $timeSpent,
+                'link' => $action,
+                'course_id' => (int)$course_id,
+                'course_name' => $course,
+                'uid' => $USER->uid,
+                'topic' => $topic
+            );
+            $DB->insert_record('hbon_activity_one_hourse', (object)$newData);
+        }
     } else {
         $old = $DB->get_record('hbon_activity_one_hourse', array('user_id' => $USER->id, 'activity' => $activity, 'activity_id' => $activity_id));
         $newTime = $timeSpent + $old->timespent;
+        if($USER->uid && $USER->uid != null){
         $newData = array(
             'id' => (int)$old->id,
             'user_id' => (int)$USER->id,
@@ -52,6 +55,7 @@ if (isset($topic) && $activity !== false && $activity_id !== false && in_array($
             'uid' => $USER->uid,
             'topic' => $topic);
         $DB->update_record('hbon_activity_one_hourse', (object)$newData);
+        }
     }
 }
 

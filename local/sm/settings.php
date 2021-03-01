@@ -32,6 +32,7 @@ $ADMIN->add('schools', new admin_externalpage('course_desc', get_string('course_
 $ADMIN->add('schools', new admin_category('custom_users', get_string('users','admin')));
 $ADMIN->add('schools', new admin_category('class_regist', get_string('class_regist','local_sm')));
 $ADMIN->add('custom_users', new admin_externalpage('remove_user_from_cohort', new lang_string('remove_user_from_cohort','local_sm'), "$CFG->wwwroot/local/sm/remove_cohort.php"));
+$ADMIN->add('custom_users', new admin_externalpage('enrole_school', "Enrole theo trường", "$CFG->wwwroot/local/sm/school_enrole.php"));
 $ADMIN->add('custom_users', new admin_externalpage('registed_user_chart', new lang_string('registed_user_chart','local_sm'), "$CFG->wwwroot/local/sm/registed_user_chart.php"));
 
 $ADMIN->add('schools', new admin_category('custom_course', new lang_string('courses','admin')));
