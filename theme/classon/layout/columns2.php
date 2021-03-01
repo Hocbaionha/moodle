@@ -107,6 +107,39 @@ if($COURSE && $context_activity_id!==null){
     }
 }
 
+$now =date("Y-m-d H:i:s");
+$sql = "select * from mdl_hbon_popup_home where status=1 and public_at <= ? order by public_at DESC limit 1";
+$popup_event = $DB->get_records_sql($sql,array("public_at"=>$now));
+if (count($popup_event)>0){
+    $popup = new stdClass();
+    foreach ($popup_event as $object){
+        if($object->to_course!= null){
+            $in_course = json_decode($object->to_course);
+            if(!empty((array)$in_course)){
+                if( in_array($COURSE->shortname, (array)$in_course)){
+                    if($object->is_countdown != 0){
+                        $object->expitime = strtotime($object->expitime);
+                        $popup = $object;
+                    }else{
+                        if(strtotime($object->expitime) > strtotime($now)){
+                            $object->expitime = null;
+                            $popup = $object;
+                        }else{
+                            $popup = null;
+                        }
+                    }
+                }else{
+                    $popup = null;
+                }
+            }
+        }else{
+            $popup = null;
+        }
+    }
+}else{
+    $popup = null;
+}
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'logo' => $OUTPUT->image_url('LogoHBON', 'theme'),
@@ -126,17 +159,17 @@ $templatecontext = [
     'popup_img' => $popupimg,
     'fb_course_id'=>!empty($COURSE)?$COURSE->shortname:'',
     'fb_course_name'=>!empty($COURSE)?$COURSE->fullname:'',
-    'fb_topic_name_in'=>$fb_topic_name_in
+    'fb_topic_name_in'=>$fb_topic_name_in,
+    'popup_event' => $popup
 //    'fb_id'=>$USER->uid
 ];
 
+//die();
 $nav = $PAGE->flatnav;
 $templatecontext['flatnavigation'] = $nav;
 $templatecontext['firstcollectionlabel'] = $nav->get_collectionlabel();
 
 /* Add to accquire user data */
-
-global $DB;
 if (isloggedin() && !isguestuser()) {
     $uid = $USER->id;
     $table = 'hbon_add_info_user';
@@ -202,5 +235,6 @@ if ($USER->id != 2) {
     $PAGE->requires->css('/theme/classon/style/killCopy.css');
     $PAGE->requires->js('/theme/classon/amd/src/killCopy.js');
 }
+
 echo $OUTPUT->render_from_template('theme_classon/columns2', $templatecontext);
 

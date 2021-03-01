@@ -55,19 +55,22 @@ if ($mform->is_cancelled()) {
     } else {
         unset($fromform->image);
     }
+
     $fromform->public_at = date('Y-m-d H:i:s', $fromform->public_at);
     $fromform->expitime = date('Y-m-d H:i:s', $fromform->expitime);
+    $fromform->replay =  $fromform->replay;
     $schoolurl = new moodle_url('/local/sm/home_popup_management.php', array('id' => $id));
     $fromform->title = trim(preg_replace('/\s+/', ' ', $fromform->title));
     $fromform->created_at =date("Y-m-d H:i:s");
-
+    $fromform->to_course =  json_encode($fromform->to_course, JSON_FORCE_OBJECT);
+//    print_object( $fromform);die();
+//    print(gettype ($fromform->to_course));die();
     if ($fromform->id != 0) {
 
         if (!$DB->update_record('hbon_popup_home', $fromform)) {
             print_error('updateerror', 'sm popup');
         }
     } else {
-
         if (!$DB->insert_record('hbon_popup_home', $fromform)) {
             print_error('inserterror', 'sm popup');
         }

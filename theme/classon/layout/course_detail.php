@@ -95,7 +95,6 @@ foreach ($parents as $p) {
     }
 
 }
-
 $coursedesc = (array) $DB->get_record("course_desc", array("courseid" => $course->id));
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 $templatecontext = [

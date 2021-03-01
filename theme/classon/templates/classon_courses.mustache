@@ -512,7 +512,31 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
-<body {{{ bodyattributes }}}>
+<body onload="checkCookiePopup()" {{{ bodyattributes }}}>
+{{#popup_event}}
+    <div id="overlay" style="display: none">
+        <div class="popup__overlay"></div>
+        <div class="reveal-modal">
+            <H2 style="color: white;text-align:center;">
+            </H2>
+            {{#image}}
+                {{#link}}<a href="{{link}}"><img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}"></a>{{/link}}
+                {{^link}}<img class="image_event" src="{{{ config.wwwroot }}}/local/school/image.php?filename={{image}}">{{/link}}
+            {{/image}}
+            <div class="count_down" id="count_down">
+                <p class="event_time" id="event_time_days"></p>
+                <p class="event_time" id="event_time_hours"></p>
+                <p class="event_time" id="event_time_minutes"></p>
+                <p class="event_time" id="event_time_seconds"></p>
+            </div>
+            <div class="popup__close-btn" onclick="off()"><svg enable-background="new 0 0 11 11" viewBox="0 0 11 11" x="0" y="0" class="svg-icon "><path d="m10.7 9.2-3.8-3.8 3.8-3.7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0l-3.8 3.7-3.8-3.7c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3.8 3.7-3.8 3.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.3 0 .5-.1.7-.3l3.8-3.8 3.8 3.8c.2.2.4.3.7.3s.5-.1.7-.3c.4-.4.4-1 0-1.4z"></path></svg></div>
+            {{#expitime}}
+                <input type="hidden" value="{{expitime}}" id="expitime">
+            {{/expitime}}
+        </div>
+    </div>
+{{/popup_event}}
+
 {{#showpopup}}
     <div id="overlay">
         <div class="popup__overlay"></div>
