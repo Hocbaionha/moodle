@@ -15,20 +15,20 @@ class home_popup_management_form extends moodleform {
         $mform->addElement('hidden', 'id', null);
         $mform->setType('id', PARAM_INT);
         $mform->setConstant('id', $id);
-        $mform->addElement('text', 'title', get_string('title', 'local_sm'));
+        $mform->addElement('text', 'title', "Tiêu đề");
         $mform->setType('title', PARAM_TEXT);
         $mform->addElement('filepicker', 'image', "Ảnh", null, array('maxbytes' => $maxbytes, 'accepted_types' => array('web_image')));
-        $mform->addElement('text', 'link', get_string('link', 'local_sm'));
+        $mform->addElement('text', 'link', "Link");
         $mform->setType('link', PARAM_TEXT);
-        $mform->addElement('date_time_selector', 'public_at', "ngày active");
+        $mform->addElement('date_time_selector', 'public_at', "Ngày active");
         $mform->setType('public_at', PARAM_TEXT);
-        $mform->addElement('date_time_selector', 'expitime', "ngày hết hạn");
+        $mform->addElement('date_time_selector', 'expitime', "Ngày hết hạn");
         $mform->setType('expitime', PARAM_TEXT);
-        $mform->addElement('select', 'status', get_string('status', 'local_sm'), array(0,1));
+        $mform->addElement('select', 'status', "Trạng thái", array(0,1));
         $mform->setType('status', PARAM_TEXT);
         $mform->addElement('select', 'is_countdown', get_string('is_countdown', 'local_sm'), array(0,1));
         $mform->setType('is_countdown', PARAM_TEXT);
-        $mform->addElement('select', 'replay',"Hẹn giờ", array(0,1));
+        $mform->addElement('select', 'replay',"Chạy hàng ngày", array(0,1));
         $mform->setType('replay', PARAM_TEXT);
 
         $sql = "select shortname from mdl_course";
