@@ -282,6 +282,18 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
             }
             $coursecat = null;
         }
+        //anhnn check chuvananuser
+        global $USER;
+        if('chuvanan_cat'==$coursecat->idnumber && $USER->id!=2){
+            global $DB;
+            
+            $checksql = "select count(*) from mdl_cohort_members where cohortid=(select id from mdl_cohort where idnumber='ChuVanAnLB-HN') and userid=$USER->id";
+            $check = $DB->count_records_sql($checksql);
+            if($check==0){
+                throw new moodle_exception('cannotviewcategory');
+            }
+        }
+        
         return $coursecat;
     }
 
