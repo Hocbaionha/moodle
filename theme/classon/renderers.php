@@ -186,6 +186,20 @@ class theme_classon_core_renderer extends core_renderer {
                 $bosung->url = $add_url;
                 $opts->navitems[] = $bosung;
             }
+            //check userid chuvanan
+            $userid = $USER->id;
+            $sql_check = "select * from mdl_cohort_members where userid=? and cohortid=(select id from mdl_cohort where idnumber = 'ChuVanAnLB-HN')";
+            $ismember_of_chuvanan= $DB->get_records_sql($sql_check,array("userid"=>$userid));
+            if (count($ismember_of_chuvanan)>0 or $userid = 2){
+                //link chuvan lb
+                $link_chuvanan =$CFG->wwwroot .'/chuvanan/index.php';
+                $new_url = new moodle_url($link_chuvanan);
+                $s_chuvanan = '{"itemtype":"link","title":"Trường của tôi","titleidentifier":"chuvanan","url":{},"pix":"t\/edit","color":"red"}';
+                $s_chuvanan =  json_decode($s_chuvanan);
+                $s_chuvanan->url = $new_url;
+                array_splice( $opts->navitems, 1, 0, [$s_chuvanan] );
+//                $opts->navitems[] = $s_chuvanan;
+            }
 
             // $checkadd=0;
             // $uid = $USER->id;
