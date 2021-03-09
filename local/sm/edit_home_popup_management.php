@@ -56,8 +56,8 @@ if ($mform->is_cancelled()) {
         unset($fromform->image);
     }
 
-    $fromform->public_at = convertDateTime(date('Y-m-d H:i:s', $fromform->public_at));
-    $fromform->expitime = convertDateTime(date('Y-m-d H:i:s', $fromform->expitime));
+    $fromform->public_at = date('Y-m-d H:i:s', $fromform->public_at);
+    $fromform->expitime = date('Y-m-d H:i:s', $fromform->expitime);
     $fromform->replay =  $fromform->replay;
     $schoolurl = new moodle_url('/local/sm/home_popup_management.php', array('id' => $id));
     $fromform->title = trim(preg_replace('/\s+/', ' ', $fromform->title));
