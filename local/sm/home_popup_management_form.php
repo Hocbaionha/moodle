@@ -9,7 +9,7 @@ class home_popup_management_form extends moodleform {
 
     function definition() {
         $maxbytes = 10240000;
-        global $PAGE, $DB;
+        global $PAGE, $DB, $CFG;
         $mform = $this->_form;
         $id = $this->_customdata['id'];
         $mform->addElement('hidden', 'id', null);
@@ -18,6 +18,14 @@ class home_popup_management_form extends moodleform {
         $mform->addElement('text', 'title', "Tiêu đề");
         $mform->setType('title', PARAM_TEXT);
         $mform->addElement('filepicker', 'image', "Ảnh", null, array('maxbytes' => $maxbytes, 'accepted_types' => array('web_image')));
+        if(isset($id) && $id !==0 && $id!==''){
+            $hbon_popup_home = $DB->get_record('hbon_popup_home', array('id' => $id));
+            $image = $hbon_popup_home->image;
+            if($image && $image!==''){
+                $link = '/local/school/image.php?filename='.$image;
+                $mform->addElement('static', 'elementName', 'Thumbnail', '<img crossorigin="anonymous" src="'.$link.'" class="png mw-mmv-dialog-is-open" width="300" height="200">');
+            }
+        }
         $mform->addElement('text', 'link', "Link");
         $mform->setType('link', PARAM_TEXT);
         $mform->addElement('date_time_selector', 'public_at', "Ngày active");

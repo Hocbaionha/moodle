@@ -118,9 +118,6 @@ $l = optional_param('level', "", PARAM_TEXT);
             }else{
 
                 if($object->replay == 1){
-//                    print_object(date("H:i:s",strtotime($now)));echo "<br/>";
-//                    print_object(date("H:i:s",strtotime($object->expitime)));
-//                    die();
                     if(date("H:i:s",strtotime($object->public_at)) < date("H:i:s",strtotime($now)) && date("H:i:s",strtotime($now)) < date("H:i:s",strtotime($object->expitime))){
                         $object->expitime = null;
                         $popup = $object;
@@ -144,6 +141,7 @@ $l = optional_param('level', "", PARAM_TEXT);
     if($USER->id == 2){
         $popup = null;
     }
+
     $templatecontext = [
         'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
         'output' => $OUTPUT,
