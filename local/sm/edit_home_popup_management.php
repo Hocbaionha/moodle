@@ -80,6 +80,7 @@ if ($mform->is_cancelled()) {
 
     if ($id) {
         //edit if have $id
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $mformpage = $DB->get_record('hbon_popup_home', array('id' => $id));
         $mformpage->public_at = (new \DateTime($mformpage->public_at))->getTimestamp();
         $mformpage->expitime = (new \DateTime($mformpage->expitime))->getTimestamp();
