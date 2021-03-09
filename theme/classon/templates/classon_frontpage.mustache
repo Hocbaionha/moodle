@@ -248,6 +248,7 @@
 
     // Set the date we're counting down to
     // var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+    if(document.getElementById("expitime")){
     var countDownDate = parseInt(document.getElementById("expitime").value)*1000;
     if(typeof countDownDate !=="undefined"){
         // Update the count down every 1 second
@@ -293,7 +294,7 @@
                 document.getElementById("overlay").style.display = "none";
             }
         }, 1000);
-    }
+    }}
 
     function off() {
         document.getElementById("overlay").style.display = "none";
