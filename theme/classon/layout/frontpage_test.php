@@ -118,7 +118,7 @@ $l = optional_param('level', "", PARAM_TEXT);
             }else{
 
                 if($object->replay == 1){
-                    if(date("H:i:s",strtotime($object->public_at)) < date("H:i:s",strtotime($now)) && date("H:i:s",strtotime($now)) < date("H:i:s",strtotime($object->expitime))){
+                    if(date("H:i",strtotime($object->public_at)) < date("H:i",strtotime($now)) && date("H:i",strtotime($now)) < date("H:i",strtotime($object->expitime))){
                         $object->expitime = null;
                         $popup = $object;
 
