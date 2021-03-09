@@ -105,7 +105,7 @@ $l = optional_param('level', "", PARAM_TEXT);
 
     }
     $now =date("Y-m-d H:i:s");
-    $sql = "select * from mdl_hbon_popup_home where status=1 and public_at <= ? order by public_at DESC limit 1";
+    $sql = "select * from mdl_hbon_popup_home where status=1 and public_at <= ? order by created_at DESC limit 1";
     $popup_event = $DB->get_records_sql($sql,array("public_at"=>$now));
 
     if (count($popup_event)>0){

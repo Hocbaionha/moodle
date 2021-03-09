@@ -69,7 +69,7 @@ $table->attributes['class'] = 'admintable generaltable';
 $stredit = get_string('edit');
 $strdelete = get_string('delete');
 
-$sql = "SELECT * FROM {hbon_popup_home} ";
+$sql = "SELECT * FROM {hbon_popup_home} order by created_at DESC";
 $rs = $DB->get_recordset_sql($sql, array(), $page * $perpage, $perpage);
 $result = array();
 foreach ($rs as $s) {
