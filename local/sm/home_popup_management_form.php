@@ -20,10 +20,12 @@ class home_popup_management_form extends moodleform {
         $mform->addElement('filepicker', 'image', "Ảnh", null, array('maxbytes' => $maxbytes, 'accepted_types' => array('web_image')));
         if(isset($id) && $id !==0 && $id!==''){
             $hbon_popup_home = $DB->get_record('hbon_popup_home', array('id' => $id));
-            $image = $hbon_popup_home->image;
-            if($image && $image!==''){
-                $link = '/local/school/image.php?filename='.$image;
-                $mform->addElement('static', 'elementName', 'Thumbnail', '<img crossorigin="anonymous" src="'.$link.'" class="png mw-mmv-dialog-is-open" width="300" height="200">');
+            if($hbon_popup_home && $hbon_popup_home->image !=='' && $hbon_popup_home->image!==null){
+                $image = $hbon_popup_home->image;
+                if($image && $image!==''){
+                    $link = '/local/school/image.php?filename='.$image;
+                    $mform->addElement('static', 'elementName', 'Thumbnail', '<img crossorigin="anonymous" src="'.$link.'" class="png mw-mmv-dialog-is-open" width="300" height="200">');
+                }
             }
         }
         $mform->addElement('text', 'link', "Link");
