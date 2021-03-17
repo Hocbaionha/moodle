@@ -158,37 +158,29 @@ if ($book->navstyle) {
         $navprev = get_string('navprev', 'book');
         if ($book->navstyle == 1) {
             $chnavigation .= '<a title="' . $navprevtitle . '" class="bookprev" href="view.php?id=' .
-                $cm->id . '&amp;chapterid=' . $previd .  '">' .
-                $OUTPUT->pix_icon($navprevicon, $navprevtitle, 'mod_book') . '</a>';
+                $cm->id . '&amp;chapterid=' . $previd .  '"><img src="'.$CFG->wwwroot.'/theme/classon/pix/button1.svg" class="rounded" ></a>';
         } else {
             $chnavigation .= '<a title="' . $navprev . '" class="bookprev" href="view.php?id=' .
-                $cm->id . '&amp;chapterid=' . $previd . '">' .
-                '<span class="chaptername"><span class="arrow">' . $OUTPUT->larrow() . '&nbsp;</span></span>' .
-                $navprev . ':&nbsp;<span class="chaptername">' . $prevtitle . '</span></a>';
+                $cm->id . '&amp;chapterid=' . $previd . '"><img src="'.$CFG->wwwroot.'/theme/classon/pix/button1.svg" class="rounded" ></a>';
         }
     }
     if ($nextid) {
         $navnext = get_string('navnext', 'book');
         if ($book->navstyle == 1) {
             $chnavigation .= '<a title="' . $navnexttitle . '" class="booknext" href="view.php?id=' .
-                $cm->id . '&amp;chapterid='.$nextid.'">' .
-                $OUTPUT->pix_icon($navnexticon, $navnexttitle, 'mod_book') . '</a>';
+                $cm->id . '&amp;chapterid='.$nextid.'"><img src="'.$CFG->wwwroot.'/theme/classon/pix/button2.svg" class="rounded" ></a>';
         } else {
             $chnavigation .= ' <a title="' . $navnext . '" class="booknext" href="view.php?id=' .
-                $cm->id . '&amp;chapterid='.$nextid.'">' .
-                $navnext . ':<span class="chaptername">&nbsp;' . $nexttitle.
-                '<span class="arrow">&nbsp;' . $OUTPUT->rarrow() . '</span></span></a>';
+                $cm->id . '&amp;chapterid='.$nextid.'"><img src="'.$CFG->wwwroot.'/theme/classon/pix/button2.svg" class="rounded" ></a>';
         }
     } else {
         $navexit = get_string('navexit', 'book');
         $sec = $DB->get_field('course_sections', 'section', array('id' => $cm->section));
         $returnurl = course_get_url($course, $sec);
         if ($book->navstyle == 1) {
-            $chnavigation .= '<a title="' . $navexit . '" class="bookexit"  href="'.$returnurl.'">' .
-                $OUTPUT->pix_icon('nav_exit', $navexit, 'mod_book') . '</a>';
+            $chnavigation .= '<a title="' . $navexit . '" class="bookexit"  href="'.$returnurl.'"><img src="'.$CFG->wwwroot.'/theme/classon/pix/button3.svg" class="rounded" ></a>';
         } else {
-            $chnavigation .= ' <a title="' . $navexit . '" class="bookexit"  href="'.$returnurl.'">' .
-                '<span class="chaptername">' . $navexit . '&nbsp;' . $OUTPUT->uarrow() . '</span></a>';
+            $chnavigation .= ' <a title="' . $navexit . '" class="bookexit"  href="'.$returnurl.'"><img src="'.$CFG->wwwroot.'/theme/classon/pix/button3.svg" class="rounded" ></a>';
         }
     }
 }

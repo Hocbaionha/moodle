@@ -57,11 +57,11 @@ $authsequence = get_enabled_auth_plugins(); // auths, in sequence
 foreach($authsequence as $authname) {
     $authplugin = get_auth_plugin($authname);
     $authplugin->logoutpage_hook();
-    //anhnn start 
+    //anhnn start
     if($authname==$USER->auth){
        global $SESSION;
-       $redirect='https://id.hocbaionha.com/oauth2/sessions/logout?id_token_hint='.$SESSION->id_token.'&post_logout_redirect_uri='.$CFG->wwwroot.'/';
-    } 
+       $redirect='https://id-dev.hocbaionha.com/oauth2/sessions/logout?id_token_hint='.$SESSION->id_token.'&post_logout_redirect_uri='.$CFG->wwwroot.'/';
+    }
     //anhnn end
 }
 
