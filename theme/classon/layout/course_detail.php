@@ -118,7 +118,7 @@ $templatecontext = [
     'coursehref' => $coursehref,
     'coursehrefbutton' => $coursehrefbutton,
     'coursehref1' => $coursehref1,
-    'coursehrefbutton1' => $coursehrefbutton1,
+//    'coursehrefbutton1' => $coursehrefbutton1,
     'loginurl'=>$loginurl,
     'signupurl'=>$signupurl
 ];
