@@ -60,7 +60,7 @@ foreach($authsequence as $authname) {
     //anhnn start
     if($authname==$USER->auth){
        global $SESSION;
-       $redirect='https://id-dev.hocbaionha.com/oauth2/sessions/logout?id_token_hint='.$SESSION->id_token.'&post_logout_redirect_uri='.$CFG->wwwroot.'/';
+       $redirect='https://id.hocbaionha.com/oauth2/sessions/logout?id_token_hint='.$SESSION->id_token.'&post_logout_redirect_uri='.$CFG->wwwroot.'/';
     }
     //anhnn end
 }
