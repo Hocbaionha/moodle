@@ -35,12 +35,15 @@ $coursehref1=null;
 $coursehrefbutton1=null;
 $coursehref = "/local/hbon_payment/index.php?product_id=$productid";
 $coursehrefbutton = "Đăng ký";
-$sql = "select count(*) from mdl_cohort_members m join mdl_cohort c on m.cohortid=c.id
-where (c.idnumber='HBON-TVA' or c.idnumber='HBON-TVA6T') and m.userid=?;";
+$sql = "select count(*) from mdl_enrol e join mdl_cohort c on c.id=e.customint1
+	join mdl_user_enrolments ue on ue.enrolid=e.id
+	where e.courseid=?
+	and ue.userid=?
+	and c.idnumber like 'HBON%'";
         $coursehref = "/course/view.php?id=$course->id";
         $coursehrefbutton = "Vào học";
-$cohortids = $DB->count_records_sql($sql,array("userid"=>$USER->id));
-if($cohortids > 0){
+$cohortids = $DB->count_records_sql($sql,array("courseid"=>$course->id,"userid"=>$USER->id));
+if($cohortids > 0 || $productid==8){
     $coursehref = "/course/view.php?id=$course->id";
     $coursehrefbutton = "Vào học";
 } else {
