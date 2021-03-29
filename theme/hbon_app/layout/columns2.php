@@ -16,9 +16,10 @@ require_once($CFG->libdir . '/behat/lib.php');
 //anhnn login from app
 $idtokenfb = optional_param('idtokenfb', "", PARAM_TEXT);
 if($idtokenfb!=""){
-    if(empty($USER->id) || isguestuser()){
+ 
     login_from_app($idtokenfb);
-}}
+
+}
     
 
 /*Begin- add cohort */

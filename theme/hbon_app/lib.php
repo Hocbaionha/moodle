@@ -224,11 +224,12 @@ function theme_hbon_app_pluginfile($course, $cm, $context, $filearea, $args, $fo
 }
 
 function login_from_app($idtokenfb=""){
+	global $PAGE;
     //anhnn login from app
     $issuerid=1;// sso oauth2
     if($idtokenfb!=""){
         if(empty($USER->id) || isguestuser()){
-
+//var_dump($PAGE->url->get_query_string());die;
             $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
             $auth = $factory->createAuth();
             if (!isset($idtokenfb)) {
@@ -244,11 +245,20 @@ function login_from_app($idtokenfb=""){
                 $fbinfo = $stuSnapshot->data();
             }
             //do login TODO anhnn\
-            // var_dump($PAGE->url);
             global $SESSION;
             $SESSION->theme = "hbon_app";
             $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $actual_link = $actual_link;
+	    $query_string = parse_url($actual_link);
+            $scheme=$query_string['scheme'];
+            $host=$query_string['host'];
+            $path=$query_string['path'];
+            $query=$query_string['query'];
+	    parse_str($query, $array_params);
+
+            unset($array_params['idtokenfb']);
+            $redirect_link = $scheme."://".$host.$path."?".http_build_query($array_params);
+            
+	    
             $current = new moodle_url($actual_link);
             // var_dump($current);die;
             $issuer = new \core\oauth2\issuer($issuerid);
@@ -256,11 +266,12 @@ function login_from_app($idtokenfb=""){
             if ($client) {
                 $info =  ["email"=> $fbinfo['email'], "firstname"=> $fbinfo['firstname'], "lastname"=> $fbinfo["lastname"], "username"=> ["username"], "uid"=>  $uid ];
                 
-                $auth = new \auth_oauth2\auth();
-                $auth->complete_login($client, $current,$info);
-                
-                redirect($actual_link);
-            } else {
+		$auth = new \auth_oauth2\auth();
+                $auth->complete_login($client, $redirect_link,$info);
+		var_dump($redirect_link);die;                
+                redirect($redirect_link);
+	    } else {
+		    echo "error here;";die;
                 throw new moodle_exception('Could not get an OAuth client.');
             }
         } 
