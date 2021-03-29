@@ -263,12 +263,15 @@ function login_from_app($idtokenfb=""){
             // var_dump($current);die;
             $issuer = new \core\oauth2\issuer($issuerid);
             $client = \core\oauth2\api::get_user_oauth_client($issuer, $current);
-            if ($client) {
-                $info =  ["email"=> $fbinfo['email'], "firstname"=> $fbinfo['firstname'], "lastname"=> $fbinfo["lastname"], "username"=> ["username"], "uid"=>  $uid ];
+	    if ($client) {
+//var_dump($client);die;
+		    if($fbinfo["username"]==null){
+			    $fbinfo["username"]=$fbinfo["email"];
+		}
+                $info =  ["email"=> $fbinfo['email'], "firstname"=> $fbinfo['firstname'], "lastname"=> $fbinfo["lastname"], "username"=> $fbinfo["username"], "uid"=>  $uid ];
                 
 		$auth = new \auth_oauth2\auth();
-                $auth->complete_login($client, $redirect_link,$info);
-		var_dump($redirect_link);die;                
+                $auth->complete_login($client, $redirect_link,$info); 
                 redirect($redirect_link);
 	    } else {
 		    echo "error here;";die;
