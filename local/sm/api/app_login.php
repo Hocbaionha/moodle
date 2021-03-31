@@ -12,20 +12,21 @@ defined('MOODLE_INTERNAL') || die();
 //anhnn login from app
 $idtokenfb = optional_param('idtokenfb', "", PARAM_TEXT);
 $redirect_link = optional_param('callback', "", PARAM_TEXT);
+echo $idtokenfb."abc".$redirect_link;
 if($idtokenfb!=""){
  
-    login_from_app($idtokenfb);
+    login_from_app($idtokenfb,$redirect_link);
 
 }
 
-function login_from_app($idtokenfb=""){
+function login_from_app($idtokenfb="",$redirect_link){
 	global $PAGE;
     //anhnn login from app
     $issuerid=1;// sso oauth2
     if($idtokenfb!=""){
         if(empty($USER->id) || isguestuser()){
 //var_dump($PAGE->url->get_query_string());die;
-            $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
+            $factory = (new Factory)->withServiceAccount(dirname(dirname(dirname(__DIR__))) . '/firebasekey.json');
             $auth = $factory->createAuth();
             if (!isset($idtokenfb)) {
                 return;
