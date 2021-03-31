@@ -15,11 +15,11 @@ $redirect_link = optional_param('callback', "", PARAM_TEXT);
 echo $idtokenfb."abc".$redirect_link;
 if($idtokenfb!=""){
  
-    login_from_app($idtokenfb,$redirect_link);
+    login_from_flutterweb($idtokenfb,$redirect_link);
 
 }
 
-function login_from_app($idtokenfb="",$redirect_link){
+function login_from_flutterweb($idtokenfb="",$redirect_link){
 	global $PAGE;
     //anhnn login from app
     $issuerid=1;// sso oauth2
