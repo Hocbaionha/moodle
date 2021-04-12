@@ -149,9 +149,9 @@ function generate_student_code($uid, $moodleUserId, $codeField)
             return;
         }
         $user = array("moodleUserId" => $moodleUserId, "email" => $mdluser->email, "firstname" => $mdluser->firstname, "lastname" => $mdluser->lastname, "username" => $mdluser->username, "status" => 0);
-        
+
         $userSnapshot = $fdb->collection('users')->document($uid)->snapshot();
-        
+
         if ($userSnapshot->exists()) {
             $data=$userSnapshot->data();
 
@@ -174,10 +174,10 @@ function generate_student_code($uid, $moodleUserId, $codeField)
                     if (!array_key_exists("code", $student)) {
                         $student["code"] = generateStudentCode($fdb);
                         $batch = $fdb->batch();
-        
+
                         $batch->set($fdb->collection('student_code')->document($student["code"]["student_code"]), array("expired_time" => $student["code"]["expired_time"], "student_id" => $uid));
                         $batch->update($fdb->collection('students')->document($uid), [["path" => "code", "value" => $student["code"]]]);
-                        
+
                         if ($check && property_exists($check, "data") && $check->data == "") {
                             $DB->execute($updatesql, array('data' => $student["code"]["student_code"], 'userid' => $moodleUserId,
                                 'fieldid' => $codeField));
@@ -186,10 +186,10 @@ function generate_student_code($uid, $moodleUserId, $codeField)
                                 'fieldid' => $codeField, 'data' => $student["code"]["student_code"]));
                         }
                     }
-                }    
+                }
             }
         }
-        
+
     }
 
 }
@@ -304,13 +304,15 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         $send_data['quiz_id'] = (int)$quiz->id;
         $send_data['quiz_name'] = $quiz->name;
         $send_data['cmid'] = (int)$quiz->cmid;
+
         $send_data['quiz_attempt_id'] = (int)$quiz_attempt->id;
         $date = new DateTime();
         $send_data['timestart'] = new Timestamp($date->setTimestamp($quiz_attempt->timestart));
         $send_data['timefinish'] = new Timestamp($date->setTimestamp($quiz_attempt->timefinish));
         $send_data['timemodified'] = new Timestamp($date->setTimestamp($quiz_attempt->timemodified));
         $send_data['sumgrades'] = (int)$quiz_attempt->sumgrades;
-        $send_data['grade'] = (int)$quiz_attempt->sumgrades / (int)$quiz->sumgrades * (int)$quiz->grade;
+
+        $send_data['grade'] = (int)$quiz->sumgrades !== 0  && (int)$quiz->sumgrades !=='' ?(int)$quiz_attempt->sumgrades / (int)$quiz->sumgrades * (int)$quiz->grade: 0;
         $send_data['url'] = ((string)$event->get_url()) . "&cmid=" . $quiz->cmid;
 
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
@@ -391,7 +393,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
                     } else {
                         serviceErrorLog("not found uid:" . json_encode($USER));
                     }
-                    
+
                 }
 //                $userRef= $db->collection('users')->document($send_to)->snapshot();
 //                if($userRef->exists()){
@@ -526,6 +528,7 @@ function local_sm_course_update(core\event\course_updated $event)
             ];
             $newdata["shortname"] = $course_info->shortname;
             $newdata["summary"] = $course_info->summary;
+            $newdata["visible"] = $course_info->visible;
 //            $newdata["topic"] = $all_sections_of_course;
             $school_deputy_id = $CFG->school_deputy_id ? $CFG->school_deputy_id : 'hbon';
             $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
