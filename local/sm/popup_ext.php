@@ -23,6 +23,7 @@ if($type === 'get'){
         ];
         $checkexist = $DB->count_records('hbon_popup_home', array('id' => $popup_id));
         if ($checkexist !== 0) {
+            $now = date("Y-m-d H:i:s");
             $old = $DB->get_record('hbon_popup_home', array('id' =>  $popup_id));
             $newData = array(
                 'id' => (int)$old->id,
@@ -31,7 +32,7 @@ if($type === 'get'){
                 'link'=>$link_live,
                 'status'=>$old->status,
                 'created_at'=>$old->created_at,
-                'public_at'=>$old->public_at,
+                'public_at'=>$now,
                 'expitime'=>$old->expitime,
                 'is_countdown'=>$old->is_countdown,
                 'to_course'=>$old->to_course,
