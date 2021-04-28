@@ -40,8 +40,14 @@ $sql = "select count(*) from mdl_enrol e join mdl_cohort c on c.id=e.customint1
 	where e.courseid=?
 	and ue.userid=?
 	and c.idnumber like 'HBON%'";
-        $coursehref = "/course/view.php?id=$course->id";
-        $coursehrefbutton = "Vào học";
+    $check_edx = strpos($name, 'EDX');
+        if($check_edx){
+            $coursehref = $course->edx_url;
+            $coursehrefbutton = "Vào học";
+        }else{
+            $coursehref = "/course/view.php?id=$course->id";
+            $coursehrefbutton = "Vào học";
+        }
 $cohortids = $DB->count_records_sql($sql,array("courseid"=>$course->id,"userid"=>$USER->id));
 if($cohortids > 0 || $productid==8){
     $coursehref = "/course/view.php?id=$course->id";

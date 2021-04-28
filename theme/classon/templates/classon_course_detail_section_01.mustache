@@ -73,6 +73,9 @@
                             style="display: none;">
                             <div class="tab-pane fade bg-white p-lg-5 active show" id="tab-default-chuong-trinh-hoc">
                                 <div class="row">
+                                {{#course_desc.edx_desc}}
+                                   {{{course_desc.edx_desc}}}
+                                {{/course_desc.edx_desc}}
                                 {{#topic}}
                                     <div class="col-md-6  course-block">
                                         <a href="course/view.php?id={{{courseid}}}" data-tippy-content="{{name}}"  ><b>{{{sname}}}</b>{{# free}}<img src="{{{ config.wwwroot }}}/theme/classon/pix/mienphi.png" style="height:36px; width:auto;"/> {{/ free}}</a>
