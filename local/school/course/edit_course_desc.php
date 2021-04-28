@@ -44,7 +44,7 @@ if ($mform->is_cancelled()) {
     $teacher_img_name = $mform->get_new_filename('teacher_img');
     if ($teacher_img_name) {
         $teacher_img_path = $fullpath . $fromform->shortname."teacher";
-        
+
         $success = $mform->save_file('teacher_img', $teacher_img_path, true);
         if (!$success) {
             print_error('cant_upload', 'local_school');
@@ -59,12 +59,12 @@ if ($mform->is_cancelled()) {
     $thumb_img_name = $mform->get_new_filename('thumb_img');
     if ($thumb_img_name) {
         $thumb_img_path = $fullpath . $fromform->shortname."thumb";
-        
+
         $success = $mform->save_file('thumb_img', $thumb_img_path, true);
         if (!$success) {
             print_error('cant_upload', 'local_school');
         }
-        
+
         $fileinfo['filename'] = $fromform->shortname."thumb";
         $fromform->thumb_img = $fromform->shortname."thumb";
     } else {
@@ -85,7 +85,7 @@ if ($mform->is_cancelled()) {
     }
     $sample_img_name = $mform->get_new_filename('sample_img');
     if ($sample_img_name) {
-        
+
         $sample_img_path = $fullpath . $fromform->shortname."sample";
         $success = $mform->save_file('sample_img', $sample_img_path, true);
         if (!$success) {
@@ -93,23 +93,24 @@ if ($mform->is_cancelled()) {
         }
         $fileinfo['filename'] = $fromform->shortname."sample";
         $fromform->sample_img = $fromform->shortname."sample";
-        
+
     } else {
         unset($fromform->sample_img);
     }
     $fromform->teacher_desc = $fromform->teacher_desc['text'];
     $fromform->review = $fromform->review['text'];
+    $fromform->edx_desc = $fromform->edx_desc['text'];
     $fromform->introduce_desc = $fromform->introduce_desc['text'];
 
     $popupimg_name = $mform->get_new_filename('popupimg');
     if ($popupimg_name) {
         $popupimg_path = $fullpath . "popup-".$fromform->shortname;
-        
+
         $success = $mform->save_file('popupimg', $popupimg_path, true);
         if (!$success) {
             print_error('cant_upload', 'local_school');
         }
-        
+
         $fileinfo['filename'] = "popup-".$fromform->shortname;
         $fromform->popupimg = "popup-".$fromform->shortname;
     } else {
@@ -148,6 +149,11 @@ if ($mform->is_cancelled()) {
             $review = array('text' => $mformpage->review, 'format' => 1);
             $mformpage->review = $review;
         }
+        if (isset($mformpage->edx_desc)) {
+            $edx_desc = array('text' => $mformpage->edx_desc, 'format' => 1);
+            $mformpage->edx_desc = $edx_desc;
+        }
+
         if (isset($mformpage->introduce_desc)) {
             $introduce_desc = array('text' => $mformpage->introduce_desc, 'format' => 1);
             $mformpage->introduce_desc = $introduce_desc;

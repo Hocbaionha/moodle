@@ -40,21 +40,25 @@ $sql = "select count(*) from mdl_enrol e join mdl_cohort c on c.id=e.customint1
 	where e.courseid=?
 	and ue.userid=?
 	and c.idnumber like 'HBON%'";
-    $check_edx = strpos($name, 'EDX');
-        if($check_edx){
-            $coursehref = $course->edx_url;
-            $coursehrefbutton = "Vào học";
-        }else{
+    $check_edx = strstr($name, 'EDX');
+//    var_dump($name);die();
+    $coursedesc = (array) $DB->get_record("course_desc", array("courseid" => $course->id));
+
             $coursehref = "/course/view.php?id=$course->id";
             $coursehrefbutton = "Vào học";
-        }
+
 $cohortids = $DB->count_records_sql($sql,array("courseid"=>$course->id,"userid"=>$USER->id));
 if($cohortids > 0 || $productid==8){
     $coursehref = "/course/view.php?id=$course->id";
     $coursehrefbutton = "Vào học";
 } else {
-    $coursehref = "/course/view.php?id=$course->id";
-    $coursehrefbutton = "Vào học";   //"Học thử ";
+    if($check_edx){
+        $coursehref = $coursedesc['edx_url'];
+        $coursehrefbutton = "Vào học";
+    }else {
+        $coursehref = "/course/view.php?id=$course->id";
+        $coursehrefbutton = "Vào học";   //"Học thử ";
+    }
     $coursehref1 = "/local/hbon_payment/index.php?product_id=$productid";
     $coursehrefbutton1 = "Đăng ký";
 }
@@ -101,7 +105,7 @@ foreach ($parents as $p) {
     }
 
 }
-$coursedesc = (array) $DB->get_record("course_desc", array("courseid" => $course->id));
+
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
