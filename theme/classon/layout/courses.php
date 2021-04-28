@@ -25,7 +25,7 @@ if ($navdraweropen) {
     $extraclasses[] = 'drawer-open-left';
 }
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
-$thcs=array("lop6","lop7","lop8","lop9","ltv10","plt10","english");
+$thcs=array("lop6","lop7","lop8","lop9","ltv10","plt10","english","hbon_math");
 $course_categorie = $DB->get_records("course_categories",array("visible"=>1),'sortorder');
 $course_categories = array();
 $i=0;
