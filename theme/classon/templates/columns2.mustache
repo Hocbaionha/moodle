@@ -1109,7 +1109,15 @@ const shortname='{{{fb_course_id}}}';
     });
     }
     },
-    error: function (jqXHR, textStatus, errorThrown) {}
+    error: function (jqXHR, textStatus, errorThrown) {
+    swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: 'Cập nhật thất bại',
+    showConfirmButton: false,
+    timer: 2000
+    });
+    }
     });
     }
     });
