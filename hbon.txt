@@ -1,7 +1,7 @@
-1. Backup all database and moodle data 
-2. get new core version from moodle 
+1. Backup all database and moodle data
+2. get new core version from moodle
 3. copy file config.php, .htaccess.php
-4. upgrade all core plugin 
+4. upgrade all core plugin
 5. copy hbon plugin:
 	- local_payment
 	- local_school
@@ -76,6 +76,11 @@ foreach($authsequence as $authname) {
     if($authname==$USER->auth){
        global $SESSION;
        $redirect='https://id.hocbaionha.com/oauth2/sessions/logout?id_token_hint='.$SESSION->id_token.'&post_logout_redirect_uri='.$CFG->wwwroot.'/';
-    }  
+    }
 }
+------------------------------------------------------------------------------
+//add column table mdl_course_desc - issue add product hbon_math from EDX
+ALTER TABLE mdl_course_desc
+ADD edx_url  varchar(255) DEFAULT NULL,
+ADD edx_desc LONGTEXT;
 ------------------------------------------------------------------------------
