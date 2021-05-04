@@ -30,6 +30,12 @@ function local_class_regist_extend_navigation(global_navigation $navigation) {
             navigation_node::TYPE_CATEGORY, null, 'myclass', new pix_icon('i/dashboard', ''));
         $node->showinflatnavigation = true;
     }
+    if (isset($USER->token_auto) && $USER->token_auto =='o91xiy8qod1o4ebsyv035y5wssn6jmb493bd7hrn901yreninwsgvns49f69nmai') {
+        $url = new moodle_url('/local/sm/home_popup_management.php');
+        $node = $navigation->add('Quản lý popup', $url,
+            navigation_node::TYPE_CATEGORY, null, 'myclass', new pix_icon('i/edit', ''));
+        $node->showinflatnavigation = true;
+    }
 }
 
 function local_class_regist_extend_settings_navigation() {

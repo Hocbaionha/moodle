@@ -241,6 +241,11 @@
                                         <img src="local/homepage/upload/subject/Subject_Props_Luyentap_Van.png" />
                                     </a>
                                 </div>
+                                <div class="b-content__items">
+                                    <a href="/course/view.php?id=42" class="title_slide">
+                                        <img src="local/homepage/upload/subject/icon-luyenthi-Su.png" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <h3 style="text-align: center;">Chương trình trả phí</h3>
@@ -346,7 +351,7 @@
     </div>
 </div>
 <script src="local/homepage/css/c.js">
-  
+
 </script>
 
 
