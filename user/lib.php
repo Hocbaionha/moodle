@@ -840,7 +840,7 @@ function user_convert_text_to_menu_items($text, $page) {
  *          mnetidproviderwwwroot string URL of the MNet provider
  */
 function user_get_user_navigation_info($user, $page, $options = array()) {
-    global $OUTPUT, $DB, $SESSION, $CFG;
+    global $OUTPUT, $DB, $SESSION, $CFG,$USER;
 
     $returnobject = new stdClass();
     $returnobject->navitems = array();
@@ -894,9 +894,13 @@ function user_get_user_navigation_info($user, $page, $options = array()) {
     // Links: Dashboard.
     $myhome = new stdClass();
     $myhome->itemtype = 'link';
-    $myhome->url = new moodle_url('/my/');
+    // $myhome->url = new moodle_url('/my/');
+    $myhome->url = new moodle_url('https://my.hocbaionha.com/?fb_token='.$SESSION->fb_token);
+    
+    // $myhome->url = new moodle_url('http://localhost:55832/?fb_token='.$SESSION->fb_token);
+    
     $myhome->title = get_string('mymoodle', 'admin');
-    $myhome->titleidentifier = 'mymoodle,admin';
+    $myhome->titleidentifier = 'myapp';
     $myhome->pix = "i/dashboard";
     $returnobject->navitems[] = $myhome;
 
