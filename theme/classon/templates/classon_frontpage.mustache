@@ -245,7 +245,10 @@
   </div>
 </div>
 <script>
-
+    if (/Mobi/.test(navigator.userAgent)) {
+        // mobile!
+        document.getElementById("overlay").remove();
+    }
     // Set the date we're counting down to
     // var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
     if(document.getElementById("expitime")){
@@ -295,7 +298,6 @@
             }
         }, 1000);
     }}
-
     function off() {
         document.getElementById("overlay").style.display = "none";
         var d = new Date();
