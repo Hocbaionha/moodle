@@ -3,11 +3,15 @@ class theme_classon_core_renderer extends core_renderer {
 
 
     public function custom_menu_frontend($custommenuitems = '') {
-        global $CFG;
+        global $CFG,$SESSION;
 
         if (empty($custommenuitems) && !empty($CFG->custommenuitems)) {
             $custommenuitems = $CFG->custommenuitems;
         }
+        if(isset($SESSION->fb_token)){
+            $custommenuitems = "Nhà của tôi | https://my.hocbaionha.com?fb_token=".$SESSION->fb_token."\n".$custommenuitems;
+        }
+        
         $custommenu = new custom_menu($custommenuitems, current_language());
         return $this->render_custom_menu_frontend($custommenu);
     }
