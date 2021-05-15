@@ -508,6 +508,20 @@ $('#ltv10-land').click(function(){
     window.location.href = url;
 });
 
+ document.querySelectorAll('[aria-labelledby]').forEach(a =>{
+			if(a.getAttribute("aria-labelledby")=="actionmenuaction-1")
+				a.setAttribute("target","_blank")
+		
+	}) ;
+	var aTags = document.getElementsByTagName("a");
+var searchText = "Nhà của tôi";
+var found;
 
+for (var i = 0; i < aTags.length; i++) {
+    console.log(aTags[i].textContent);
+  if (aTags[i].textContent == searchText) {
+	aTags[i].setAttribute("target","_blank");
+  }
+}
 
 {{/js}}
