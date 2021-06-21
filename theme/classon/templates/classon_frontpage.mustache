@@ -245,7 +245,10 @@
   </div>
 </div>
 <script>
-
+    if (/Mobi/.test(navigator.userAgent)) {
+        // mobile!
+        document.getElementById("overlay").remove();
+    }
     // Set the date we're counting down to
     // var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
     if(document.getElementById("expitime")){
@@ -295,7 +298,6 @@
             }
         }, 1000);
     }}
-
     function off() {
         document.getElementById("overlay").style.display = "none";
         var d = new Date();
@@ -490,6 +492,12 @@ $('.signup-banner').click(function(){
         window.location.href = url;
     }
 });
+$('.summer-detail').click(function(){
+        window.location.href = "https://pages.hocbaionha.com/hoche2021";
+});
+$('.skillbuilder').click(function(){
+        window.location.href = "https://hocbaionha.com/?page=landing&lurl=https%3A%2F%2Fpages.hocbaionha.com%2Fskills-builder-ver3";
+});
 $('#hbonmath-land').click(function(){
     var url = "https://hocbaionha.com/hbon-math";
     window.location.href = url;
@@ -503,6 +511,20 @@ $('#ltv10-land').click(function(){
     window.location.href = url;
 });
 
+ document.querySelectorAll('[aria-labelledby]').forEach(a =>{
+			if(a.getAttribute("aria-labelledby")=="actionmenuaction-1")
+				a.setAttribute("target","_blank")
 
+	}) ;
+	var aTags = document.getElementsByTagName("a");
+var searchText = "Nhà của tôi";
+var found;
+
+for (var i = 0; i < aTags.length; i++) {
+    console.log(aTags[i].textContent);
+  if (aTags[i].textContent == searchText) {
+	aTags[i].setAttribute("target","_blank");
+  }
+}
 
 {{/js}}

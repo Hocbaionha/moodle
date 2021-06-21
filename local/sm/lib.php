@@ -312,7 +312,7 @@ function local_sm_attempt_submitted(mod_quiz\event\attempt_submitted $event)
         $send_data['timemodified'] = new Timestamp($date->setTimestamp($quiz_attempt->timemodified));
         $send_data['sumgrades'] = (int)$quiz_attempt->sumgrades;
 
-        $send_data['grade'] = (int)$quiz->sumgrades !== 0  && (int)$quiz->sumgrades !=='' ?(int)$quiz_attempt->sumgrades / (int)$quiz->sumgrades * (int)$quiz->grade: 0;
+        $send_data['grade'] = (float)$quiz->sumgrades !== 0  && (float)$quiz->sumgrades !=='' ?(float)$quiz_attempt->sumgrades / (float)$quiz->sumgrades * (float)$quiz->grade: 0;
         $send_data['url'] = ((string)$event->get_url()) . "&cmid=" . $quiz->cmid;
 
         $factory = (new Factory)->withServiceAccount(dirname(dirname(__DIR__)) . '/firebasekey.json');
