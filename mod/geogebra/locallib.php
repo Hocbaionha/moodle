@@ -175,7 +175,7 @@ function geogebra_view_applet($geogebra, $cm, $context, $attempt = null, $isprev
 
     $isopen = (empty($geogebra->timeavailable) || $geogebra->timeavailable < $timenow);
     if (!$isopen) {
-        $content .= $OUTPUT->notify(get_string('notopenyet', 'geogebra', userdate($geogebra->timeavailable)));
+        $content .= $OUTPUT->notification(get_string('notopenyet', 'geogebra', userdate($geogebra->timeavailable)));
         if (!$ispreview) {
             return $content;
         }
@@ -183,7 +183,7 @@ function geogebra_view_applet($geogebra, $cm, $context, $attempt = null, $isprev
 
     $isclosed = (!empty($geogebra->timedue) && $geogebra->timedue < $timenow);
     if ($isclosed) {
-        $content .= $OUTPUT->notify(get_string('expired', 'geogebra', userdate($geogebra->timedue)));
+        $content .= $OUTPUT->notification(get_string('expired', 'geogebra', userdate($geogebra->timedue)));
         if (!$ispreview) {
             return $content;
         }
@@ -309,7 +309,8 @@ function geogebra_print_content($geogebra, $context) {
         return false;
     }
 
-    echo '<script type="text/javascript" src="//www.geogebratube.org/scripts/deployggb.js"></script>';
+    echo '<script type="text/javascript" src="//unpkg.com/fflate"></script>';
+    echo '<script type="text/javascript" src="//www.geogebra.org/apps/deployggb.js"></script>';
     echo '<script>window.onload = function() {
         var applet = new GGBApplet({';
     foreach ($attribnames as $name) {
@@ -883,7 +884,8 @@ function geogebra_view_userid_results($geogebra, $userid, $cm, $context, $viewmo
             $picture = $OUTPUT->user_picture($user);
             $userlink = '<a href="' . $CFG->wwwroot . '/user/view.php?id=' . $user->id . '&amp;course=' . $geogebra->course . '">'
                 . fullname($user, has_capability('moodle/site:viewfullnames', $context)) . '</a>';
-            echo $picture.' '.$userlink.' ('.$user->email.')';
+            //echo $picture.' '.$userlink.' ('.$user->email.')';
+            echo $picture.' '.$userlink;
             // Print form
             $mform->display();
         } else {
